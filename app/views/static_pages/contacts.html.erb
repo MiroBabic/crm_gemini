@@ -16,7 +16,7 @@
 
           </ul>
           <div class="tab-content">
-            
+
             <div id="tab-1" class="tab-pane active">
               <br>
 
@@ -30,6 +30,7 @@
                       <th>Typ Subjektu</th>
                       <th>Detaily</th>
                       <th></th>
+                      <th></th>
                     </tr>
                   </thead>
 
@@ -41,7 +42,7 @@
             </div>
             <div id="tab-2" class="tab-pane">
               <br>
-              
+
               <div class="table-responsive">
                 <table class="table table-bordered" id="people" style="width:100%">
                   <thead>
@@ -60,7 +61,7 @@
                   </thead>
 
                   <tbody>
-                   
+
                   </tbody>
                 </table>
               </div>
@@ -76,7 +77,7 @@
 <br>
 
 
-
+<!-- add subject + person modal -->
 <div id="addSubjektModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -121,6 +122,8 @@
 </div>
 </div>
 </div>
+
+<!-- add person modal -->
 <div id="addContactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_contact" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -143,18 +146,56 @@
            <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'contactsubject' %>
          </br>
        </br>
-       
+
      </div>
      <label>Poznámka:</label><input type="text" name="contactnote_c" id="contactnote_c" class="form-control" placeholder="Poznámka" /><br>
-     
+
      <input type="submit" class="createperson btn btn-success" value="Vytvor" /> 
-     
+
    </form>
-   
+
  </div>
 </div>
 </div></div>
 </div>
+
+<!-- edit modal -->
+<div id="editSubjektModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav subjekt</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="edit_subjekt_form" accept-charset="utf-8">
+            <input style="visibility:hidden" type="text" name="editsubjektID" id="editsubjektID" value="" readonly>
+           <label>Názov:</label><input type="text" name="edit_subjname" id="edit_subjname" class="form-control" placeholder="Názov subjektu" required /><br>
+           <label>Okres:</label><%= select_tag 'edit_okres', options_from_collection_for_select(@districts, 'id', 'name'), class: 'form-control', id: 'edit_subjdistrict' %>
+         </br>
+         <label>Typ Subjektu:</label><%= select_tag 'edit_typ_subjektu', options_from_collection_for_select(@subjtypes, 'id', 'name'), class: 'form-control', id: 'edit_subjtype' %>
+       </br>
+     </div>
+     <label>Sídlo:</label><input type="text" name="edit_subjsite" id="edit_subjsite" class="form-control" placeholder="Sídlo subjektu" /><br>
+     <label>IČO:</label><input type="number" name="edit_subjico" id="edit_subjico" class="form-control" onkeyup="if(!this.checkValidity()){this.value=\'\';alert(\'Vložte číslo!\')};" placeholder="IČO ak má subjekt pridelené"/><br>
+     <label>Poznámka:</label><input type="text" name="edit_subjnote" id="edit_subjnote" class="form-control" placeholder="Poznámka"/><br>
+     <label>Počet obyvateľov ak je obec:</label><input type="text" name="edit_subjobyv" id="edit_subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
+
+    <input type="submit" class="editcontact btn btn-success" value="Uprav" /> 
+
+   </form>
+
+ </div>
+</div>
+</div>
+</div>
+</div>
+
 
 <script>
 var subjtable;
@@ -175,7 +216,13 @@ var tableready = function() {
     "className":   'details-control',
     "orderable":      false,
     "data":           null,
-    "defaultContent": '<center><i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i></center>'
+    "defaultContent": '<a><center><i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {
+    "className":   'subjedit-control',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
   },
   {data: 'delete_subject', orderable: false, searchable: false} 
 
@@ -206,9 +253,15 @@ var tableready = function() {
   ],
   initComplete: function() {
 
-    function formatSubjDetail(d) {
-      return '<p><b>Sídlo: </b>' +d.site+'</p><p><b>IČO: </b>'+d.ico+'</p><p><b>Poznámka: </b>'+d.note+'</p><p><b>Web: </b>'+d.web+'</p><p><b>Dátum vloženia: </b>'+prettyDate(d.created_at)+'</p><p><b>Popis typu subjektu: </b>'+d.subjtype_about+'</p>';
-    }
+    $('.subjedit-control').on('click',function(event){
+       var tr = $(this).closest('tr');
+      var row = subjtable.row( tr );
+
+      updateSubjEditModal(row.data());
+
+      $('#editSubjektModal').modal('show');
+});
+
 
     $('#subjects tbody').on('click', 'td.details-control', function () {
 
@@ -234,6 +287,7 @@ var tableready = function() {
 
 
 });
+
 
 $('.createcontact').on('click',function(event){
           //console.log(event.target.id);
@@ -293,6 +347,55 @@ $('.createcontact').on('click',function(event){
 
         });
 
+$('.editcontact').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $edit_subjectID = $('#editsubjektID').val();
+          $edit_subjname = $('#edit_subjname').val();
+          $edit_subjdistrict = $('#edit_subjdistrict').val();
+          $edit_subjtype = $('#edit_subjtype').val();
+          $edit_subjsite = $('#edit_subjsite').val(); 
+          $edit_subjico = $('#edit_subjico').val(); 
+          $edit_subjnote = $('#edit_subjnote').val(); 
+          $edit_subjobyv = $('#edit_subjobyv').val(); 
+          
+
+
+
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_edit_subj",
+            data: {
+              edit_subjectid: $edit_subjectID,
+              edit_subjname: $edit_subjname,
+              edit_subjdistrict: $edit_subjdistrict,
+              edit_subjtype: $edit_subjtype,
+              edit_subjsite: $edit_subjsite,
+              edit_subjico: $edit_subjico,
+              edit_subjnote: $edit_subjnote,
+              edit_subjobyv: $edit_subjobyv              
+
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Subjekt bol upravený" );
+                location.reload();
+                
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
 $('.createperson').on('click',function(event){
           //console.log(event.target.id);
           
@@ -303,7 +406,7 @@ $('.createperson').on('click',function(event){
           $contactcell_c = $('#contactcell_c').val(); 
           $contactsubject = $('#contactsubject').val(); 
           $contactnote_c = $('#contactnote_c').val(); 
-          
+
 
 
 
@@ -386,7 +489,7 @@ $('.createperson').on('click',function(event){
  //end
 
  $('a[href="#tab-2"]').on('shown.bs.tab', function (e) {
-  
+
   peopletable.columns.adjust().draw()
 });
 

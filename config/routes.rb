@@ -31,6 +31,7 @@ Rails.application.routes.draw do
 
   post '/modal_create_subj' => 'subjects#modal_create_subj', :as=> 'modal_create_subj'
   post '/modal_create_person' => 'people#modal_create_person', :as=> 'modal_create_person'
+  post '/modal_edit_subj' => 'subjects#modal_edit_subj', :as=> 'modal_edit_subj'
   
 
   

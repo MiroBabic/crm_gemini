@@ -75,6 +75,37 @@ class SubjectsController < ApplicationController
     end
   end
 
+  def modal_edit_subj
+     begin
+
+      @subject = Subject.find(params[:edit_subjectid])
+
+      @subject.name = params[:edit_subjname]
+      @subject.district_id = params[:edit_subjdistrict]
+      @subject.subjtype_id = params[:edit_subjtype]
+      @subject.site = params[:edit_subjsite]
+      @subject.ico = params[:edit_subjico]
+      @subject.note= params[:edit_subjnote]
+      #@subject.obyv= params[:edit_subjobyv]
+           
+
+      if (@subject.save)
+          respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+           end
+        else
+          respond_to do |format|
+              format.json { render :json => {"status":"nepodarilo sa vložiť záznam"}  }
+           end
+         end
+
+
+       
+    rescue => error
+      redirect_to contacts_path, alert: error.message
+    end
+  end
+
   # POST /subjects
   # POST /subjects.json
   def create
