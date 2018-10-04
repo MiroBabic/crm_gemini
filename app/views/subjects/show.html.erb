@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @subject.name %>
+</p>
+
+<p>
+  <strong>Site:</strong>
+  <%= @subject.site %>
+</p>
+
+<p>
+  <strong>Ico:</strong>
+  <%= @subject.ico %>
+</p>
+
+<p>
+  <strong>City:</strong>
+  <%= @subject.city %>
+</p>
+
+<p>
+  <strong>Subjtype:</strong>
+  <%= @subject.subjtype %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @subject.note %>
+</p>
+
+<p>
+  <strong>Web:</strong>
+  <%= @subject.web %>
+</p>
+
+<p>
+  <strong>Zaujimavost:</strong>
+  <%= @subject.zaujimavost %>
+</p>
+
+<%= link_to 'Edit', edit_subject_path(@subject) %> |
+<%= link_to 'Back', subjects_path %>

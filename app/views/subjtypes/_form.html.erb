@@ -1,0 +1,25 @@
+<%= form_for(@subjtype) do |f| %>
+  <% if @subjtype.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@subjtype.errors.count, "error") %> prohibited this subjtype from being saved:</h2>
+
+      <ul>
+      <% @subjtype.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :about %><br>
+    <%= f.text_field :about %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

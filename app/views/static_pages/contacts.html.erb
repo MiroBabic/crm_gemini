@@ -1,0 +1,404 @@
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_contact_button" data-toggle="modal" data-target="#addSubjektModal">Pridaj nový subjekt</button>
+        <button type="button" class="btn btn-success" id="add_contact_button" data-toggle="modal" data-target="#addContactModal">Pridaj novú osobu</button>
+        <hr>
+        <div class="tabs-container">
+          <ul class="nav nav-tabs">
+            <li class="active customtab"><a data-toggle="tab" href="#tab-1">Subjekty</a></li>
+            <li class="customtab"><a data-toggle="tab" href="#tab-2">Ľudia</a></li>
+
+
+          </ul>
+          <div class="tab-content">
+            
+            <div id="tab-1" class="tab-pane active">
+              <br>
+
+              <div class="table-responsive">
+                <table class="table table-bordered" id="subjects" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Meno</th>
+                      <th>Okres</th>
+                      <th>Kraj</th>
+                      <th>Typ Subjektu</th>
+                      <th>Detaily</th>
+                      <th></th>
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div id="tab-2" class="tab-pane">
+              <br>
+              
+              <div class="table-responsive">
+                <table class="table table-bordered" id="people" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Meno</th>
+                      <th>Priezvisko</th>
+                      <th>Email</th>
+                      <th>Email2</th>
+                      <th>Tel</th>
+                      <th>Mobil</th>
+                      <th>Subjekt</th>
+                      <th>Poznámka</th>
+                      
+                      
+                    </tr>
+                  </thead>
+
+                  <tbody>
+                   
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+
+
+<div id="addSubjektModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Pridaj nový subjekt</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="new_subjekt_form" accept-charset="utf-8">
+           <label>Názov:</label><input type="text" name="subjname" id="subjname" class="form-control" placeholder="Názov subjektu" required /><br>
+           <label>Okres:</label><%= select_tag 'okres', options_from_collection_for_select(@districts, 'id', 'name'), class: 'form-control', id: 'subjdistrict' %>
+         </br>
+         <label>Typ Subjektu:</label><%= select_tag 'typ_subjektu', options_from_collection_for_select(@subjtypes, 'id', 'name'), class: 'form-control', id: 'subjtype' %>
+       </br>
+     </div>
+     <label>Sídlo:</label><input type="text" name="subjsite" id="subjsite" class="form-control" placeholder="Sídlo subjektu" /><br>
+     <label>IČO:</label><input type="number" name="subjico" id="subjico" class="form-control" onkeyup="if(!this.checkValidity()){this.value=\'\';alert(\'Vložte číslo!\')};" placeholder="IČO ak má subjekt pridelené"/><br>
+     <label>Poznámka:</label><input type="text" name="subjnote" id="subjnote" class="form-control" placeholder="Poznámka"/><br>
+     <label>Počet obyvateľov ak je obec:</label><input type="text" name="subjobyv" id="subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
+
+     <h4 class="modal-title" id="myModalLabel2">Pridaj kontaktnú osobu</h4><br>    
+     <div class="form-group has-error">
+       <label>Meno:</label><input type="text"  name="contactname" id="contactname" class="form-control" placeholder="Meno" required /><br>
+       <label>Priezvisko:</label><input type="text" name="contactsurname" id="contactsurname" class="form-control" placeholder="Priezvisko" required /><br>
+       <label>Email:</label><input type="text" name="contactemail" id="contactemail" class="form-control" placeholder="Email" required /><br>
+       <label>Telefónne číslo:</label><input type="text" name="contactphone" id="contactphone" class="form-control" placeholder="Telefónne číslo" required /><br>
+       <label>Mobil:</label><input type="text" name="contactcell" id="contactcell" class="form-control" placeholder="Mobil" required /><br>
+     </div>
+     <label>Poznámka:</label><input type="text" name="contactnote" id="contactnote" class="form-control" placeholder="Poznámka ku kontaktnej osobe"/><br>
+
+     <input type="submit" class="createcontact btn btn-success" value="Vytvor" /> 
+
+   </form>
+
+ </div>
+</div>
+</div>
+</div>
+</div>
+<div id="addContactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_contact" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel_contact">Pridaj nový kontakt</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form   name="new_contact_form" accept-charset="utf-8">
+           <label>Meno:</label><input type="text" name="contactname_c" id="contactname_c" class="form-control" placeholder="Meno " required /><br>
+           <label>Priezvisko:</label><input type="text" name="contactsurname_c" id="contactsurname_c" class="form-control" placeholder="Priezvisko " required /><br>
+           <label>Email:</label><input type="text" name="contactemail_c" id="contactemail_c" class="form-control" placeholder="Email" required /><br>
+           <label>Telefónne číslo:</label><input type="text" name="contactphone_c" id="contactphone_c" class="form-control" placeholder="Telefónne číslo" required /><br>
+           <label>Mobil:</label><input type="text" name="contactcell_c" id="contactcell_c" class="form-control" placeholder="Mobil" required /><br>
+           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'contactsubject' %>
+         </br>
+       </br>
+       
+     </div>
+     <label>Poznámka:</label><input type="text" name="contactnote_c" id="contactnote_c" class="form-control" placeholder="Poznámka" /><br>
+     
+     <input type="submit" class="createperson btn btn-success" value="Vytvor" /> 
+     
+   </form>
+   
+ </div>
+</div>
+</div></div>
+</div>
+
+<script>
+var subjtable;
+var peopletable;
+var tableready = function() {
+
+ subjtable= $('#subjects').DataTable({
+  'order': [2, 'desc'],
+  'serverSide': true,
+  'stateSave' :true,
+  'ajax' : '/subjects.json',
+  columns: [
+  {data: 'name'},
+  {data: 'district_name' },
+  {data: 'county_name' },
+  {data: 'subjtype_name' },
+  {
+    "className":   'details-control',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<center><i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i></center>'
+  },
+  {data: 'delete_subject', orderable: false, searchable: false} 
+
+
+  ],
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+    'url': '/datatables_slovak.json'
+  },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ],
+  initComplete: function() {
+
+    function formatSubjDetail(d) {
+      return '<p><b>Sídlo: </b>' +d.site+'</p><p><b>IČO: </b>'+d.ico+'</p><p><b>Poznámka: </b>'+d.note+'</p><p><b>Web: </b>'+d.web+'</p><p><b>Dátum vloženia: </b>'+prettyDate(d.created_at)+'</p><p><b>Popis typu subjektu: </b>'+d.subjtype_about+'</p>';
+    }
+
+    $('#subjects tbody').on('click', 'td.details-control', function () {
+
+
+
+      var tr = $(this).closest('tr');
+      var row = subjtable.row( tr );
+
+      if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+
+          }
+          else {
+            // Open this row
+            row.child( formatSubjDetail(row.data())).show();
+            
+            tr.addClass('shown');
+          }
+        });
+  }
+
+
+});
+
+$('.createcontact').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $subjname = $('#subjname').val();
+          $subjdistrict = $('#subjdistrict').val();
+          $subjtype = $('#subjtype').val();
+          $subjsite = $('#subjsite').val(); 
+          $subjico = $('#subjico').val(); 
+          $subjnote = $('#subjnote').val(); 
+          $subjobyv = $('#subjobyv').val(); 
+          $contactname = $('#contactname').val(); 
+          $contactsurname = $('#contactsurname').val(); 
+          $contactemail = $('#contactemail').val(); 
+          $contactphone = $('#contactphone').val(); 
+          $contactcell = $('#contactcell').val(); 
+          $contactnote = $('#contactnote').val(); 
+
+
+
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_subj",
+            data: {
+              subjname: $subjname,
+              subjdistrict: $subjdistrict,
+              subjtype: $subjtype,
+              subjsite: $subjsite,
+              subjico: $subjico,
+              subjnote: $subjnote,
+              subjobyv: $subjobyv,
+              contactname: $contactname,
+              contactsurname: $contactsurname,
+              contactemail: $contactemail,
+              contactphone: $contactphone,
+              contactcell: $contactcell,
+              contactnote: $contactnote
+
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Subjekt bol vytvorený" );
+                location.reload();
+                
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+$('.createperson').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $contactname_c = $('#contactname_c').val();
+          $contactsurname_c = $('#contactsurname_c').val();
+          $contactemail_c = $('#contactemail_c').val();
+          $contactphone_c = $('#contactphone_c').val(); 
+          $contactcell_c = $('#contactcell_c').val(); 
+          $contactsubject = $('#contactsubject').val(); 
+          $contactnote_c = $('#contactnote_c').val(); 
+          
+
+
+
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_person",
+            data: {
+              contactname_c: $contactname_c,
+              contactsurname_c: $contactsurname_c,
+              contactemail_c: $contactemail_c,
+              contactphone_c: $contactphone_c,
+              contactcell_c: $contactcell_c,
+              contactsubject: $contactsubject,
+              contactnote_c: $contactnote_c
+
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Osoba bol vytvorená" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+ //people
+ peopletable= $('#people').DataTable({
+  'order': [2, 'desc'],
+  'serverSide': true,
+  'audoWidth': true,
+  'stateSave' :true,
+  'ajax' : '/people.json',
+  columns: [
+  {data: 'first_name'},
+  {data: 'last_name' },
+  {data: 'email' },
+  {data: 'email2' },
+  {data: 'phone' },
+  {data: 'cellphone' },
+  {data: 'note' },
+  {data: 'subject_name' }
+  
+  ],
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+    'url': '/datatables_slovak.json'
+  },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ]
+
+});
+ //end
+
+ $('a[href="#tab-2"]').on('shown.bs.tab', function (e) {
+  
+  peopletable.columns.adjust().draw()
+});
+
+};
+$(".static_pages.contacts").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#subjects_wrapper').length ==1) {subjtable.destroy() ;} 
+ if ($('#people_wrapper').length ==1) {peopletable.destroy() ;} 
+});
+
+
+$(".static_pages.contacts").on('turbolinks:load', tableready); 
+</script>

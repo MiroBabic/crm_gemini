@@ -1,0 +1,44 @@
+ <nav class="navbar-default navbar-static-side" role="navigation">
+            <div class="sidebar-collapse">
+                <ul class="nav metismenu" id="side-menu">
+                    <li class="nav-header">
+                        <div class="dropdown profile-element"> 
+                          <img class=" img-responsive " src="<%= asset_path( 'gemini_group_white.png' ) %>"  alt="logo">
+                          
+                          <hr>
+                          <span>
+                          <img class="center img-responsive img-circle" src="<%= asset_path( 'user-avatar.png' ) %>"  alt="profile_img">
+                            
+                            
+                             </span>
+                            
+                            <span class="clear"> <span class="block m-t-xs"> <center><strong class="font-bold">
+                               
+                                 <h4 ><%= current_user.email %></h4>
+                                
+                                 
+                             </strong></center>
+                           
+                        </div>
+                      </li>
+                    
+                            <li><%= link_to "Kontakty", contacts_path%></li>
+                            <li>
+                                <a href="#">Admin menu <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li><%= link_to "Užívatelia", users_path%></li>
+                                    <li><%= link_to "Typy subjektov", subjtypes_path%></li>
+                                    
+                                </ul>
+                            </li>
+                            
+                            
+              
+
+                       
+                    
+                   
+                </ul>
+
+            </div>
+        </nav>

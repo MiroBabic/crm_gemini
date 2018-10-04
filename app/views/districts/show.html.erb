@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @district.name %>
+</p>
+
+<p>
+  <strong>County:</strong>
+  <%= @district.county %>
+</p>
+
+<p>
+  <strong>Country:</strong>
+  <%= @district.country %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @district.note %>
+</p>
+
+<%= link_to 'Edit', edit_district_path(@district) %> |
+<%= link_to 'Back', districts_path %>

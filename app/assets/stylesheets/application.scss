@@ -1,0 +1,25 @@
+//$font-family-sans-serif: "Open Sans", Arial, sans-serif !default;
+$font-family-sans-serif: 'Roboto', sans-serif !default;
+
+//customize navbar
+$grid-float-breakpoint: 990px;
+
+@import "bootstrap-sprockets";
+@import "bootstrap";
+@import "font-awesome-sprockets";
+@import "font-awesome";
+
+@import "style";
+
+
+//Datatables css
+@import "dataTables/datatables.min.css";
+@import "dataTables/dataTables.checkboxes.css";
+
+
+//summernote
+@import "summernote/summernote.css";
+
+
+//datepicker
+@import "datepicker/datepicker.min.css"

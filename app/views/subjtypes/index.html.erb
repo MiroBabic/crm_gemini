@@ -1,0 +1,210 @@
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_subjtype_button" data-toggle="modal" data-target="#addsubjtypeModal">Pridaj typ subjektu</button>
+        
+        <hr>
+        <div class="table-responsive">
+
+          <table  class="table table-bordered" id="subjtypes" style="width:100%">
+            <thead>
+              <tr>
+                <th>Typ subjektu</th>
+                <th>Opis</th>
+                <th>Počet subjektov pre tento typ</th>
+                <% if current_user.admin? %>
+                <th></th>
+                <th></th>
+                <% end %>
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @subjtypes.each do |subjtype| %>
+              <tr>
+                <td><%= subjtype.name %></td>
+                <td><%= subjtype.about %></td>
+                <td><%= count_total_subject_for_subjtype(subjtype.id) %></td>
+                <% if current_user.admin? %>
+                <td><a  data-toggle="modal" data-target="#editsubjtypeModal<%=subjtype.id%>"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
+        <td><%= link_to subjtype, method: :delete, data: { confirm: 'Naozaj ho chceš zmazať?' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
+                <% end %></td>
+                <% end %>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div id="addsubjtypeModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Vytvor typ subjektu </h2>
+       
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+         <label>Typ:</label><input type="text" name="subjtype" id="subjtype" class="form-control" placeholder="Typ subjektu" /><br>
+          <label>Opis:</label><input type="text" name="about" id="about" class="form-control" placeholder="Opis typu subjektu" /><br>
+           
+           
+       </div>
+       <button id="addsubjtypeconfirm" type="button" class="addsubjtype btn btn-success">Vytvor</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+</div>
+
+<% @subjtypes.each do |subjtype| %>
+<div id="editsubjtypeModal<%=subjtype.id%>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav Typ subjektu <%=subjtype.name %></h2>
+       
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+         
+           <label>Typ:</label><input type="text" name="subjtype<%=subjtype.id%>" id="subjtype<%=subjtype.id%>" class="form-control" value="<%=subjtype.name%>" /><br>
+            <label>Opis:</label><input type="text" name="about<%=subjtype.id%>" id="about<%=subjtype.id%>" class="form-control" value="<%=subjtype.about%>" /><br>
+           
+       </div>
+       <button id="<%=subjtype.id%>" type="button" class="editsubjtype btn btn-success">Uprav</button>
+
+     
+
+   </div>
+ </div>
+</div>
+
+</div>
+<% end %>
+
+<script>
+var subjtable;
+
+var tableready = function() {
+
+
+
+ subjtable= $('#subjtypes').DataTable({
+  'order': [2, 'desc'],
+  'serverSide': false,
+  'stateSave' :true,
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ]
+
+});
+
+$('.editsubjtype').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $subjtype_id = event.target.id;
+          $subjtype_val = $('#subjtype'+$subjtype_id).val();
+          $subjtype_about = $('#about'+$subjtype_id).val();
+
+              $.ajax({
+            type: "POST",
+            url: "/modal_edit_subj_type",
+            data: {
+              subjtype_id: $subjtype_id,
+              subjtype: $subjtype_val,
+              about: $subjtype_about
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Typ subjektu bol upravený" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+$('.addsubjtype').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $subjtype = $('#subjtype').val();
+          $subjabout = $('#about').val();
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_subj_type",
+            data: {
+              subjtype: $subjtype,
+              about: $subjabout
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Typ subjektu bol vytvorený" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+};
+$(".subjtypes.index").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#subjtypes_wrapper').length ==1) {subjtable.destroy() ;} 
+
+});
+
+
+$(".subjtypes.index").on('turbolinks:load', tableready); 
+</script>

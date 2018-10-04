@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @subjtype.name %>
+</p>
+
+<p>
+  <strong>About:</strong>
+  <%= @subjtype.about %>
+</p>
+
+<%= link_to 'Edit', edit_subjtype_path(@subjtype) %> |
+<%= link_to 'Back', subjtypes_path %>
