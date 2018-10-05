@@ -14,13 +14,14 @@ class PersonDatatable < AjaxDatatablesRails::Base
        cellphone: {source: "Person.cellphone"},
        note: {source: "Person.note"},
        subject_name: {source: "Subject.name"},
+       subject_id: {source: "Subject.id"},
        created_at: { source: "Person.created_at" },
        updated_at: { source: "Person.updated_at" }
     }
   end
 
 
-def_delegators :@view, :link_to, :concat, :raw
+def_delegators :@view, :link_to, :concat, :raw, :content_tag
 
 
   def data
@@ -36,8 +37,10 @@ def_delegators :@view, :link_to, :concat, :raw
          cellphone: person.cellphone,
          note: person.note,
          subject_name: person.subject.name,
+         subject_id: person.subject.id,
          created_at: person.created_at,
          updated_at: person.updated_at,
+         delete_person: link_to(content_tag(:i,nil,class: 'fa fa-trash-o fa-2x') ,person, method: :delete, data: { confirm: 'Naozaj chceš zmazať túto osobu?' })
          
         }
     end

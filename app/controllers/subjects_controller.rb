@@ -95,7 +95,7 @@ class SubjectsController < ApplicationController
            end
         else
           respond_to do |format|
-              format.json { render :json => {"status":"nepodarilo sa vložiť záznam"}  }
+              format.json { render :json => {"status":"nepodarilo sa upraviť záznam"}  }
            end
          end
 

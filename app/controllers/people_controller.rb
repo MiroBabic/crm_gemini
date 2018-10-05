@@ -19,6 +19,19 @@ class PeopleController < ApplicationController
   def show
   end
 
+  def get_subject_contacts
+    begin
+      @subject = Subject.find(params[:id])
+      @people = Person.where(:subject_id=>@subject.id)
+        respond_to do |format|
+        format.json { render :json => {"status":"ok", "data":@people.as_json}  }
+      end
+
+    rescue=>error
+      redirect_to contacts_path, alert: error.message
+    end
+  end
+
   # GET /people/new
   def new
     @person = Person.new
@@ -60,6 +73,38 @@ class PeopleController < ApplicationController
   end
 end
 
+def modal_edit_person
+     begin
+
+      @person = Person.find(params[:edit_personID])
+
+      @person.first_name = params[:edit_personname]           
+      @person.last_name = params[:edit_personsurname]           
+      @person.email = params[:edit_email]           
+      @person.email2 = params[:edit_email2]           
+      @person.phone = params[:edit_tel]           
+      @person.cellphone = params[:edit_cell]           
+      @person.note = params[:edit_personnote]           
+      @person.subject_id = params[:edit_personsubject]           
+      
+
+      if (@person.save)
+          respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+           end
+        else
+          respond_to do |format|
+              format.json { render :json => {"status":"nepodarilo sa upraviť záznam"}  }
+           end
+         end
+
+
+       
+    rescue => error
+      redirect_to contacts_path, alert: error.message
+    end
+  end
+
   # POST /people
   # POST /people.json
   def create
@@ -67,7 +112,7 @@ end
 
     respond_to do |format|
       if @person.save
-        format.html { redirect_to @person, notice: 'Person was successfully created.' }
+        format.html { redirect_to @person, notice: 'Osoba bola úspešne vytvorená.' }
         format.json { render :show, status: :created, location: @person }
       else
         format.html { render :new }
@@ -81,7 +126,8 @@ end
   def update
     respond_to do |format|
       if @person.update(person_params)
-        format.html { redirect_to @person, notice: 'Person was successfully updated.' }
+        #format.html { redirect_to @person, notice: 'Osoba bola úspešne upravená.' }
+        format.html { redirect_to contacts_url, notice: 'Osoba bola úspešne upravená.' }
         format.json { render :show, status: :ok, location: @person }
       else
         format.html { render :edit }
@@ -95,7 +141,8 @@ end
   def destroy
     @person.destroy
     respond_to do |format|
-      format.html { redirect_to people_url, notice: 'Person was successfully destroyed.' }
+      #format.html { redirect_to people_url, notice: 'Osoba bola úspešne zmazaná.' }
+      format.html { redirect_to contacts_url, notice: 'Osoba bola úspešne zmazaná.' }
       format.json { head :no_content }
     end
   end

@@ -29,6 +29,7 @@
                       <th>Kraj</th>
                       <th>Typ Subjektu</th>
                       <th>Detaily</th>
+                      <th>Kontakty</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -53,10 +54,10 @@
                       <th>Email2</th>
                       <th>Tel</th>
                       <th>Mobil</th>
-                      <th>Subjekt</th>
                       <th>Poznámka</th>
-                      
-                      
+                      <th>Subjekt</th>
+                      <th></th>
+                      <th></th>
                     </tr>
                   </thead>
 
@@ -196,6 +197,43 @@
 </div>
 </div>
 
+<!-- edit modal -->
+<div id="editPersonModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav osobu</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="edit_person_form" accept-charset="utf-8">
+            <input style="visibility:hidden" type="text" name="editpersonID" id="editpersonID" value="" readonly>
+           <label>Meno:</label><input type="text" name="edit_personname" id="edit_personname" class="form-control" required /><br>
+           <label>Priezvisko:</label><input type="text" name="edit_personsurname" id="edit_personsurname" class="form-control" required /><br>
+          <label>Email:</label><input type="text" name="edit_email" id="edit_email" class="form-control" placeholder="Email" required /><br>
+          </div>
+         <label>Email2:</label><input type="text" name="edit_email2" id="edit_email2" class="form-control" placeholder="Email" required /><br>
+         <label>Tel:</label><input type="text" name="edit_tel" id="edit_tel" class="form-control" placeholder="Tel" required /><br>
+        <label>Mobil:</label><input type="text" name="edit_cell" id="edit_cell" class="form-control" placeholder="Mobil" required /><br>
+         <label>Poznámka:</label><input type="text" name="edit_personnote" id="edit_personnote" class="form-control" placeholder="Poznámka"/><br>
+         <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_personsubject' %>
+      
+             
+    <input type="submit" class="editperson btn btn-success" value="Uprav" /> 
+
+   </form>
+
+ </div>
+</div>
+</div>
+</div>
+</div>
+
 
 <script>
 var subjtable;
@@ -217,6 +255,12 @@ var tableready = function() {
     "orderable":      false,
     "data":           null,
     "defaultContent": '<a><center><i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {
+    "className":   'subjpeople-control',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i></center></a>'
   },
   {
     "className":   'subjedit-control',
@@ -262,10 +306,8 @@ var tableready = function() {
       $('#editSubjektModal').modal('show');
 });
 
-
+//childrow subject details
     $('#subjects tbody').on('click', 'td.details-control', function () {
-
-
 
       var tr = $(this).closest('tr');
       var row = subjtable.row( tr );
@@ -281,6 +323,40 @@ var tableready = function() {
             row.child( formatSubjDetail(row.data())).show();
             
             tr.addClass('shown');
+          }
+        });
+
+ //childrow subject contacts
+     $('#subjects tbody').on('click', 'td.subjpeople-control', function () {
+
+      var tr = $(this).closest('tr');
+      var row = subjtable.row( tr );
+
+      if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+
+          }
+          else {
+            // Open this row
+             $.ajax({
+            type: "GET",
+            url: "/get_subject_contacts/"+row.data().id,
+            
+            success:function(data){
+              if (data.status == "ok")
+              {
+                row.child( formatSubjContactsDetail(data.data)).show();
+            
+                tr.addClass('shown');
+
+              }
+              else { alert(data.status);}
+            }
+          });
+
+            
           }
         });
   }
@@ -430,6 +506,50 @@ $('.createperson').on('click',function(event){
               {
                 alert("Osoba bol vytvorená" );
                 location.reload();
+
+              }
+              else { alert(data.status);}
+            }
+          });
+  
+        });
+
+
+$('.editperson').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $edit_personID = $('#editpersonID').val();
+          $edit_personname = $('#edit_personname').val();
+          $edit_personsurname = $('#edit_personsurname').val();
+          $edit_email = $('#edit_email').val();
+          $edit_email2 = $('#edit_email2').val();
+          $edit_tel = $('#edit_tel').val();
+          $edit_cell = $('#edit_cell').val();
+          $edit_personnote = $('#edit_personnote').val();
+          $edit_personsubject = $('#edit_personsubject').val();
+       
+          $.ajax({
+            type: "POST",
+            url: "/modal_edit_person",
+            data: {
+              edit_personID: $edit_personID,
+              edit_personname: $edit_personname,
+              edit_personsurname: $edit_personsurname,
+              edit_email: $edit_email,
+              edit_email2: $edit_email2,
+              edit_tel: $edit_tel,
+              edit_cell: $edit_cell,
+              edit_personnote: $edit_personnote,              
+              edit_personsubject: $edit_personsubject
+
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Osoba bol upravená" );
+                location.reload();
+                
               }
               else { alert(data.status);}
 
@@ -443,7 +563,13 @@ $('.createperson').on('click',function(event){
         });
 
 
- //people
+
+ $('a[href="#tab-2"]').on('shown.bs.tab', function (e) {
+
+  if ($('#people_wrapper').length ==1) {peopletable.destroy() ;} 
+
+  
+   //people
  peopletable= $('#people').DataTable({
   'order': [2, 'desc'],
   'serverSide': true,
@@ -458,7 +584,14 @@ $('.createperson').on('click',function(event){
   {data: 'phone' },
   {data: 'cellphone' },
   {data: 'note' },
-  {data: 'subject_name' }
+  {data: 'subject_name' },
+   {
+    "className":   'personedit-control',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {data: 'delete_person', orderable: false, searchable: false} 
   
   ],
   'dom': 'lfr<"pull-right"B>tip',
@@ -483,14 +616,21 @@ $('.createperson').on('click',function(event){
   'lengthMenu': [
   [10, 50,100, -1],
   [10, 50,100, "All"]
-  ]
+  ],
+  initComplete: function() {
+     $('.personedit-control').on('click',function(event){
+      var tr = $(this).closest('tr');
+      var row = peopletable.row( tr );
+
+      updatePersonEditModal(row.data());
+
+      $('#editPersonModal').modal('show');
+});
+  }
 
 });
  //end
-
- $('a[href="#tab-2"]').on('shown.bs.tab', function (e) {
-
-  peopletable.columns.adjust().draw()
+  
 });
 
 };
