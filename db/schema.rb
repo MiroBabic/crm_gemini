@@ -11,10 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181001194512) do
+ActiveRecord::Schema.define(version: 20181006194851) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "communications", force: :cascade do |t|
+    t.integer  "subject_id"
+    t.integer  "person_id"
+    t.text     "about"
+    t.string   "keyword"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "communications", ["person_id"], name: "index_communications_on_person_id", using: :btree
+  add_index "communications", ["subject_id"], name: "index_communications_on_subject_id", using: :btree
+  add_index "communications", ["user_id"], name: "index_communications_on_user_id", using: :btree
 
   create_table "districts", force: :cascade do |t|
     t.string   "name"
@@ -24,6 +38,23 @@ ActiveRecord::Schema.define(version: 20181001194512) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "documents", force: :cascade do |t|
+    t.string   "file_name"
+    t.string   "file_type"
+    t.string   "file_size"
+    t.string   "file"
+    t.string   "file_url"
+    t.string   "file_path"
+    t.integer  "user_id"
+    t.integer  "subject_id"
+    t.string   "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "documents", ["subject_id"], name: "index_documents_on_subject_id", using: :btree
+  add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
   create_table "people", force: :cascade do |t|
     t.string   "first_name"
@@ -85,6 +116,11 @@ ActiveRecord::Schema.define(version: 20181001194512) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "communications", "people"
+  add_foreign_key "communications", "subjects"
+  add_foreign_key "communications", "users"
+  add_foreign_key "documents", "subjects"
+  add_foreign_key "documents", "users"
   add_foreign_key "people", "subjects"
   add_foreign_key "subjects", "districts"
   add_foreign_key "subjects", "subjtypes"

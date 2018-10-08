@@ -1,0 +1,368 @@
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_subjtype_button" data-toggle="modal" data-target="#addCommModal">Pridaj záznam</button>
+        
+        <hr>
+        <div class="table-responsive">
+
+          <table  class="table table-bordered" id="communication" style="width:100%">
+  <thead>
+    <tr>
+      <th>Subjekt</th>
+      <th>S osobou</th>
+      <th>Text</th>
+      <th>Kľúčové slovo</th>
+      <th>Vložené dňa</th>
+      <th>Autor</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+   
+  </tbody>
+ </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+<!-- add comm modal -->
+<div id="addCommModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Pridaj nový záznam</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="new_comm_form" accept-charset="utf-8">
+           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'commsubject', prompt: "--vyber subjekt--" %>
+         </br>
+         
+          <span id="addPersonToComm"></span>
+     
+     <label>Text:</label><textarea rows="6" type="text" name="commabout" id="commabout" class="form-control" required placeholder="Obsah komunikácie"></textarea><br>
+     <label>Kľúčové slovo:</label><input type="text" name="commkeyword" id="commkeyword" class="form-control" required placeholder="Kľúčové slovo pre zatriedenie"/><br>
+     </div>
+
+
+     <input type="submit" class="createcomm btn btn-success" value="Vytvor" /> 
+
+   </form>
+
+ </div>
+</div>
+
+</div>
+</div>
+
+<!-- edit modal -->
+<div id="editCommModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav záznam</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="edit_comm_form" accept-charset="utf-8">
+            <input style="visibility:hidden" type="text" name="editcommID" id="editcommID" value="" readonly>
+           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'editcommsubject' %>
+         </br>
+         
+          <span id="addEditPersonToComm"></span>
+     
+     <label>Text:</label><textarea rows="6" type="text" name="editcommabout" id="editcommabout" class="form-control" required placeholder="Obsah komunikácie"></textarea><br>
+     <label>Kľúčové slovo:</label><input type="text" name="editcommkeyword" id="editcommkeyword" class="form-control" required placeholder="Kľúčové slovo pre zatriedenie"/><br>
+     </div>
+
+
+     <input type="submit" class="updatecomm btn btn-success" value="Vytvor" /> 
+
+   </form>
+
+ </div>
+</div>
+</div>
+</div>
+
+
+<script>
+var commtable;
+
+var tableready = function() {
+
+
+
+ commtable= $('#communication').DataTable({
+  'order': [2, 'desc'],
+  'serverSide': true,
+  'ajax': '/communications.json',
+  'stateSave' :true,
+  columns: [
+  {data: 'subject_name'},
+  {data: 'person_first_name' },
+  {data: 'about' },
+  {data: 'keyword' },
+  {data: 'created_at','render' : function(data,type,row) {
+    return prettyDate(row.created_at);
+  } },
+  {data: 'user_name' },
+  {
+    "className":   'commedit-control',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {data: 'delete_communication', orderable: false, searchable: false} 
+
+
+  ],
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ],
+  initComplete: function() {
+     $('.commedit-control').on('click',function(event){
+
+      var tr = $(this).closest('tr');
+      var row = commtable.row( tr );
+
+      updateCommEditModal(row.data());
+      $editsubjID = $("#editcommsubject").val();
+      $.ajax({
+            type: "GET",
+            url: "/get_subject_contacts/"+$editsubjID,
+           
+            success:function(data){
+              if (data.status == "ok")
+              {
+               $html1 = '<label>Osoba:</label><select id="editcommperson" class="form-control">';
+               var $html2;
+                for ( var i = 0; i < data.data.length; i++) {
+                  $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
+                }
+                $html3 ='</select><br>';
+
+                var $res = $html1.concat($html2,$html3);
+
+                $('#addEditPersonToComm').empty();
+                $('#addEditPersonToComm').append($res);
+                
+
+                $('#editcommperson').val(row.data().person_id);
+                              
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+
+
+      
+
+
+      $('#editCommModal').modal('show');
+});
+  }
+
+});
+
+
+$("#commsubject").change(function(){
+  $subjID = $("#commsubject").val();
+
+  if ($subjID !== '') {
+    $.ajax({
+            type: "GET",
+            url: "/get_subject_contacts/"+$subjID,
+           
+            success:function(data){
+              if (data.status == "ok")
+              {
+               $html1 = '<label>Osoba:</label><select id="commperson" class="form-control">';
+               var $html2;
+                for ( var i = 0; i < data.data.length; i++) {
+                  $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
+                }
+                $html3 ='</select><br>';
+
+                var $res = $html1.concat($html2,$html3);
+
+                $('#addPersonToComm').empty();
+                $('#addPersonToComm').append($res);
+                              
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+  }
+  else {
+    $('#addPersonToComm').empty();
+  }
+  
+});
+
+$("#editcommsubject").change(function(){
+  $subjID = $("#editcommsubject").val();
+
+  if ($subjID !== '') {
+    $.ajax({
+            type: "GET",
+            url: "/get_subject_contacts/"+$subjID,
+           
+            success:function(data){
+              if (data.status == "ok")
+              {
+               $html1 = '<label>Osoba:</label><select id="editcommperson" class="form-control">';
+               var $html2;
+                for ( var i = 0; i < data.data.length; i++) {
+                  $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
+                }
+                $html3 ='</select><br>';
+
+                var $res = $html1.concat($html2,$html3);
+
+                $('#addEditPersonToComm').empty();
+                $('#addEditPersonToComm').append($res);
+                              
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+  }
+  else {
+    $('#addEditPersonToComm').empty();
+  }
+  
+});
+
+$('.createcomm').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $subjid = $('#commsubject').val();
+          $personid = $('#commperson').val();
+          $commabout = $('#commabout').val();
+          $commkeyword = $('#commkeyword').val();
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_comm",
+            data: {
+              subjid: $subjid,
+              personid: $personid,
+              commabout: $commabout,
+              commkeyword: $commkeyword
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Záznam bol vytvorený" );
+                location.reload();
+                
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+$('.updatecomm').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $commid = $('#editcommID').val();
+          $editsubjid = $('#editcommsubject').val();
+          $editpersonid = $('#editcommperson').val();
+          $editcommabout = $('#editcommabout').val();
+          $editcommkeyword = $('#editcommkeyword').val();
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_update_comm",
+            data: {
+              commid: $commid,
+              editsubjid: $editsubjid,
+              editpersonid: $editpersonid,
+              editcommabout: $editcommabout,
+              editcommkeyword: $editcommkeyword
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Záznam bol upravený" );
+                location.reload();
+                
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+};
+$(".communication.index").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#communication_wrapper').length ==1) {commtable.destroy() ;} 
+
+});
+
+
+$(".communication.index").on('turbolinks:load', tableready); 
+</script>

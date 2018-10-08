@@ -59,3 +59,7 @@ return(day + ' ' + monthNames[monthIndex] + ' ' + year +'  '+ hour+':'+minute);
 else return 'Neexistuje';
 
 }
+
+document.addEventListener("turbolinks:load", function() {
+  $('#side-menu').metisMenu({toggle: false });
+});

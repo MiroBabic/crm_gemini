@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
 
+  
   devise_for :users, :controllers => {:sessions => "users/sessions", :registrations => "users/registrations"}
   
   devise_scope :user do
@@ -14,7 +15,8 @@ Rails.application.routes.draw do
 
   resources :people
   resources :districts
-  
+  resources :documents
+  resources :communications
   resources :subjects
   resources :cities
   resources :subjtypes
@@ -35,7 +37,13 @@ Rails.application.routes.draw do
   post '/modal_edit_person' => 'people#modal_edit_person', :as=> 'modal_edit_person'
   get '/get_subject_contacts/:id' => 'people#get_subject_contacts', :as => 'get_subject_contacts'
   
+  #communication
+  post '/modal_create_comm' => 'communications#modal_create_comm', :as=> 'modal_create_comm'
+  post '/modal_update_comm' => 'communications#modal_update_comm', :as=> 'modal_update_comm'
 
+  #documents
+  post '/insertfile' => 'documents#insertfile', :as=> 'insertfile'
+  get '/download_doc/:id' => 'documents#download_doc', :as=> 'download_doc'
   
 
   root 'static_pages#home'

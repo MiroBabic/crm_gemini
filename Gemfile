@@ -29,6 +29,9 @@ gem 'font-awesome-sass', '~> 4.7.0'
 gem 'bootstrap-sass', '~> 3.3.6'
 gem 'ajax-datatables-rails', github: 'ajahongir/ajax-datatables-rails', branch: 'v-0-4-0'
 
+gem 'carrierwave', '~> 1.0'
+gem 'rmagick'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

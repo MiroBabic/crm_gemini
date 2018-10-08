@@ -1,0 +1,123 @@
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+       <div class="fileinput fileinput-new">
+                                    <%= form_tag({:action => :insertfile}, :multipart => true) do %>
+                                      <%= file_field_tag :file, :class => 'btn btn-default btn-file form-control' %>
+                                      <br/>
+                                       <div class="row">
+                                        <div class="col-md-4">
+                                      <input type='text' name='note' id='note' class="form-control" placeholder="Poznámka ku vloženému súboru" /></div>
+                                      <div class="col-md-4">
+                                      <%= select_tag 'docsubject', options_from_collection_for_select(Subject.all, 'id', 'name'), class: 'form-control', id: 'docsubject', prompt: "--Dokument patrí subjektu--" %>
+                                      </div>
+                            <div class="col-md-4">
+                                      <%= submit_tag( "Nahraj súbor" , :class=>'btn btn-outline btn-success') %> 
+                                    </div>
+                                    <% end %>
+                                 </div>
+
+                             
+
+
+        
+        <hr>
+        <div class="table-responsive">
+
+          <table  class="table table-bordered" id="documents" style="width:100%">
+  <thead>
+    <tr>
+      <th>Názov</th>
+      <th>Typ</th>
+      <th>Veľkosť</th>
+      <th>Vložil</th>
+      <th>Dátum uloženia</th>
+      <th>Patrí subjektu</th>
+      <th>Poznámka</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @documents.each do |document| %>
+      <tr>
+        <td><%= document.file_name %></td>
+        <td><%= document.file_type %></td>
+        <td><%= number_to_human_size(document.file_size) if document.file_size.present? %></td>
+        <td><%= document.user.name if document.user.present? %></td>
+        <td><%= document.created_at %></td>
+        <td><%= document.subject.name if document.subject.present? %></td>
+        <td><%= document.note %></td>
+      <td><%= link_to download_doc_path(document.id), data: {turbolinks: false} do %><i class="fa fa-cloud-download fa-2x" aria-hidden="true"></i><% end %>  </td>  
+      <td><%= link_to document, method: :delete, data: { confirm: 'Naozaj chceš zmazať súbor "'+ document.file_name.to_s+'"?' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i><% end %>  </td>
+       
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+    </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<br>
+
+<script>
+var doctable;
+
+var tableready = function() {
+
+
+
+ doctable= $('#documents').DataTable({
+  'order': [0,'asc'],
+  'serverSide': false,
+  'stateSave' :true,
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ]
+
+});
+
+
+
+
+
+};
+$(".documents.index").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#documents_wrapper').length ==1) {doctable.destroy() ;} 
+
+});
+
+
+$(".documents.index").on('turbolinks:load', tableready); 
+</script>
