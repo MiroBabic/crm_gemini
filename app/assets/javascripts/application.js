@@ -27,8 +27,12 @@
 //= require multiselect/multiselect.min.js
 
 //= require peity/jquery.peity.min.js
-//= require slimscroll/jquery.slimscroll.min.js
+
 //= require inspinia.js
+
+//= require fullcalendar/moment.min.js
+//= require fullcalendar/fullcalendar.min.js
+//= require fullcalendar/sk.js
 
 //= require_tree .
 

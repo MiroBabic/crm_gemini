@@ -2,6 +2,8 @@ Rails.application.routes.draw do
 
 
   
+  resources :mailtemplates
+  resources :calendars
   devise_for :users, :controllers => {:sessions => "users/sessions", :registrations => "users/registrations"}
   
   devise_scope :user do
@@ -44,6 +46,13 @@ Rails.application.routes.draw do
   #documents
   post '/insertfile' => 'documents#insertfile', :as=> 'insertfile'
   get '/download_doc/:id' => 'documents#download_doc', :as=> 'download_doc'
+
+  #calendar
+  get '/kalendar' => 'calendars#show_calendar', :as=> 'show_calendar'
+  get '/get_calendar_events' => 'calendars#get_calendar_events', :as=>'get_calendar_events'
+  post '/add_calendar_event' => 'calendars#add_calendar_event', :as=>'add_calendar_event'
+  post '/edit_calendar_event' => 'calendars#edit_calendar_event', :as=>'edit_calendar_event'
+  post '/remove_calendar_event' => 'calendars#remove_calendar_event', :as=>'remove_calendar_event'
   
 
   root 'static_pages#home'

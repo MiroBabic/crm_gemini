@@ -11,10 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181006194851) do
+ActiveRecord::Schema.define(version: 20181013180110) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "calendars", force: :cascade do |t|
+    t.string   "title"
+    t.datetime "start"
+    t.datetime "end"
+    t.string   "url"
+    t.integer  "user_id"
+    t.boolean  "all_day"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
 
   create_table "communications", force: :cascade do |t|
     t.integer  "subject_id"
@@ -55,6 +68,13 @@ ActiveRecord::Schema.define(version: 20181006194851) do
 
   add_index "documents", ["subject_id"], name: "index_documents_on_subject_id", using: :btree
   add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
+
+  create_table "mailtemplates", force: :cascade do |t|
+    t.string   "name"
+    t.text     "content"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "people", force: :cascade do |t|
     t.string   "first_name"
@@ -116,6 +136,7 @@ ActiveRecord::Schema.define(version: 20181006194851) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
+  add_foreign_key "calendars", "users"
   add_foreign_key "communications", "people"
   add_foreign_key "communications", "subjects"
   add_foreign_key "communications", "users"
