@@ -38,14 +38,17 @@ Rails.application.routes.draw do
   post '/modal_edit_subj' => 'subjects#modal_edit_subj', :as=> 'modal_edit_subj'
   post '/modal_edit_person' => 'people#modal_edit_person', :as=> 'modal_edit_person'
   get '/get_subject_contacts/:id' => 'people#get_subject_contacts', :as => 'get_subject_contacts'
+
   
   #communication
   post '/modal_create_comm' => 'communications#modal_create_comm', :as=> 'modal_create_comm'
   post '/modal_update_comm' => 'communications#modal_update_comm', :as=> 'modal_update_comm'
+  get '/komunikacia' => 'communications#index', :as=> 'komunikacia'
 
   #documents
   post '/insertfile' => 'documents#insertfile', :as=> 'insertfile'
   get '/download_doc/:id' => 'documents#download_doc', :as=> 'download_doc'
+  get '/dokumenty' => 'documents#index', :as=>'dokumenty'
 
   #calendar
   get '/kalendar' => 'calendars#show_calendar', :as=> 'show_calendar'
@@ -53,6 +56,10 @@ Rails.application.routes.draw do
   post '/add_calendar_event' => 'calendars#add_calendar_event', :as=>'add_calendar_event'
   post '/edit_calendar_event' => 'calendars#edit_calendar_event', :as=>'edit_calendar_event'
   post '/remove_calendar_event' => 'calendars#remove_calendar_event', :as=>'remove_calendar_event'
+
+  #emails
+  get '/sablony' => 'mailtemplates#index', :as=>'sablony'
+  post '/modal_create_mail_template' => 'mailtemplates#modal_create_mail_template', :as=>'modal_create_mail_template'
   
 
   root 'static_pages#home'

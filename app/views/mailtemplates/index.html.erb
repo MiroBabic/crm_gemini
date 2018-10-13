@@ -1,29 +1,198 @@
-<p id="notice"><%= notice %></p>
+<p id="notice"><%= render 'layouts/flash_message' %></p>
 
-<h1>Listing Mailtemplates</h1>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_mailtemplate_button" data-toggle="modal" data-target="#addmailtemplateModal">Pridaj novú šablónu</button>
+        
+        <hr>
+        <div class="table-responsive">
 
-<table>
+          <table  class="table table-bordered" id="mailtemplates" style="width:100%">
   <thead>
     <tr>
-      <th>Name</th>
-      <th>Content</th>
-      <th colspan="3"></th>
+      <th>Meno</th>
+      <th>Dátum vloženia</th>
+      <th></th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
-    <% @mailtemplates.each do |mailtemplate| %>
-      <tr>
-        <td><%= mailtemplate.name %></td>
-        <td><%= mailtemplate.content %></td>
-        <td><%= link_to 'Show', mailtemplate %></td>
-        <td><%= link_to 'Edit', edit_mailtemplate_path(mailtemplate) %></td>
-        <td><%= link_to 'Destroy', mailtemplate, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
+   
   </tbody>
 </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
 
 <br>
 
-<%= link_to 'New Mailtemplate', new_mailtemplate_path %>
+<div id="ShowTempModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h2 class="modal-title" id="myModalLabel">Náhľad</h2>
+                     </div>
+                
+                    <div class="modal-body">
+                    <div class="temp_preview" id="temp_preview"></div>
+                
+                
+                </div>
+                    
+                    </div>
+                  </div>
+              </div>
+
+
+<div id="addmailtemplateModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+              <div class="modal-content">
+                                        <div class="modal-header">
+                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                      <h2 class="modal-title" id="myModalLabel">Pridaj novú šablónu</h2>
+                     </div>
+                
+                    <div class="modal-body">
+              
+                    <form name="new_temp_form" accept-charset="utf-8">
+            <label>Názov: </label><input type="text" id="nazov_temp" name="nazov_temp" class="form-control" placeholder="Názov novej šablóny" /></br>
+            <label>Obsah: </label>
+          <textarea rows="35" style="height: 600px;" name="template_content_new" id="template_content_new" class="form-control summernote" required placeholder="Sem napíš email. Môžeš ho formátovať tlačidlami hore, alebo ho vložiť naformátovaný z Wordu..."></textarea></br>
+                    
+                                        <input type="submit" class="btn btn-success addmailtemplatebtn" value="Vytvor" /> </form>
+                
+                </div>
+                    
+                    </div>
+                  </div>
+              </div>
+
+
+
+  <script>
+
+var tableready = function() {
+  
+  templatetable= $('#mailtemplates').DataTable({
+  'order': [0, 'asc'],
+  'serverSide': true,
+  'ajax': '/mailtemplates.json',
+  'stateSave' :true,
+   columns: [
+  {data: 'name'},
+  {data: 'created_at','render' : function(data,type,row) {
+    return prettyDate(row.created_at);
+  } },
+  {
+    "className":   'templateshow-control',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-eye fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {
+    "className":   'templateedit-control',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {data: 'delete_template', orderable: false, searchable: false} 
+
+
+  ],
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ]
+
+});
+
+//view temp
+
+$('#mailtemplates tbody').on('click', 'td.templateshow-control', function () {
+        var tr = $(this).closest('tr');
+        var row = templatetable.row( tr );
+ 
+
+    $(".temp_preview").html(row.data().content);
+    $('#ShowTempModal').modal('show');
+    
+           } );
+
+// end view
+
+$('.addmailtemplatebtn').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $name = $('#nazov_temp').val();
+          $content = $('#template_content_new').val();
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_mail_template",
+            data: {
+              name: $name,
+              content: $content
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Šablóna bola vytvorená" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+
+  };
+
+$(".mailtemplates.index").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#mailtemplates_wrapper').length ==1) {templatetable.destroy() ;} 
+
+});
+
+$(".mailtemplates.index").on('turbolinks:load', $('.summernote').summernote()); 
+$(".mailtemplates.index").on('turbolinks:load', tableready); 
+
+  </script>

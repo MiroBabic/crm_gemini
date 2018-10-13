@@ -4,7 +4,14 @@ class MailtemplatesController < ApplicationController
   # GET /mailtemplates
   # GET /mailtemplates.json
   def index
-    @mailtemplates = Mailtemplate.all
+    #@mailtemplates = Mailtemplate.all
+     respond_to do |format|
+      format.html
+      format.json do
+        render json: ::MailtemplateDatatable.new(view_context)
+        
+      end
+    end
   end
 
   # GET /mailtemplates/1
@@ -19,6 +26,24 @@ class MailtemplatesController < ApplicationController
 
   # GET /mailtemplates/1/edit
   def edit
+  end
+
+  def modal_create_mail_template
+    begin
+    
+      @template = Mailtemplate.new(:name=>params[:name],:content=>params[:content])
+      if @template.save
+         respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+           end
+        else
+          respond_to do |format|
+              format.json { render :json => {"status":"Nepodarilo sa vložť záznam"}  }
+           end
+         end
+    rescue => error
+      redirect_to sablony_path, alert: error.message
+    end
   end
 
   # POST /mailtemplates
