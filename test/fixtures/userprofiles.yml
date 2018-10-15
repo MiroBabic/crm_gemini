@@ -1,0 +1,31 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 
+  smtp1: MyString
+  port1: 1
+  email_acc1: MyString
+  email_pass1: MyString
+  smtp2: MyString
+  port2: 1
+  email_acc2: MyString
+  email_pass2: MyString
+  smtp3: MyString
+  port3: 1
+  email_acc3: MyString
+  email_pass3: MyString
+
+two:
+  user_id: 
+  smtp1: MyString
+  port1: 1
+  email_acc1: MyString
+  email_pass1: MyString
+  smtp2: MyString
+  port2: 1
+  email_acc2: MyString
+  email_pass2: MyString
+  smtp3: MyString
+  port3: 1
+  email_acc3: MyString
+  email_pass3: MyString

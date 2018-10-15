@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
 
   
+  resources :userprofiles
   resources :mailtemplates
   resources :calendars
   devise_for :users, :controllers => {:sessions => "users/sessions", :registrations => "users/registrations"}
@@ -26,6 +27,7 @@ Rails.application.routes.draw do
   #static pages
   get '/kontakty' => 'static_pages#contacts', :as => 'contacts'
   get '/uzivatelia' => 'static_pages#users', :as => 'users'
+  get '/posli_email' => 'static_pages#create_email', :as=> 'posli_email'
 
   #subjtypes
   post '/modal_create_subj_type' => 'subjtypes#modal_create_subj_type', :as=> 'modal_create_subj_type'
@@ -60,6 +62,12 @@ Rails.application.routes.draw do
   #emails
   get '/sablony' => 'mailtemplates#index', :as=>'sablony'
   post '/modal_create_mail_template' => 'mailtemplates#modal_create_mail_template', :as=>'modal_create_mail_template'
+  post '/modal_update_mail_template' => 'mailtemplates#modal_update_mail_template', :as=>'modal_update_mail_template'
+  get '/get_template/:id' => 'mailtemplates#get_template', :as=> 'get_template'
+
+  #userprofile
+  get '/profil_uzivatela' => 'userprofiles#showprofile', :as=> 'showprofile'
+  post '/edit_user_profile' => 'userprofiles#edit_user_profile', :as=>'edit_user_profile'
   
 
   root 'static_pages#home'

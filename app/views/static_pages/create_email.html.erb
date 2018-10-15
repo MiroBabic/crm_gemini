@@ -1,0 +1,170 @@
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Email</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li>
+        Email
+      </li>
+      <li class="active">
+        <strong>Pošli Email</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
+
+<div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="col-lg-3">
+				<div class="ibox ">
+					<div class="ibox-content mailbox-content">
+						<div class="form-group">
+							<label class="font-normal">Okres</label>
+							<div>
+								<%= select_tag 'okres', options_from_collection_for_select(@districts, 'id', 'name'), class: 'chosen-select',multiple: true, id: 'district',"data-placeholder": "Vyber okres..." %>
+							</div>
+						</div>
+							
+						<div class="form-group">
+							<label class="font-normal">Kraj</label>
+							<div>
+								<%= select_tag 'kraj', options_for_select(@counties), class: 'chosen-select',multiple: true, id: 'counties',"data-placeholder": "Vyber kraj..." %>
+							</div>
+						</div>
+						
+						<div class="form-group">
+							<label class="font-normal">Typ Subjektu</label>
+							<div>
+								<%= select_tag 'subjtype', options_from_collection_for_select(@subject_types, 'id', 'name'), class: 'chosen-select',multiple: true, id: 'subjtype',"data-placeholder": "Vyber typ subjektu..." %>
+							</div>
+						</div>
+						<hr>
+						<div class="form-group">
+							<label class="font-normal">Spravuje</label>
+							<div>
+								<%= select_tag 'user', options_from_collection_for_select(@users, 'id', 'name'), class: 'chosen-select', id: 'user',"data-placeholder": "Bez filtra" %>
+							</div>
+						</div>
+						<hr>
+						<div class="form-group">
+							<label class="font-normal">Príloha</label>
+							<div>
+								<%= select_tag 'document', options_from_collection_for_select(@documents, 'id', 'file_name'), class: 'chosen-select',multiple: true, id: 'document',"data-placeholder": "Vyber prílohu..." %>
+							</div>
+						</div>
+						<div class="form-group">
+							<label class="font-normal">Šablóna</label>
+							<div>
+								<%= select_tag 'template', options_from_collection_for_select(@templates, 'id', 'name'), class: 'chosen-select', id: 'template',prompt: "Vyber šablónu ktorú chceš použiť" %>
+							</div>
+							<button class="btn btn-success" id="addtemplatebutton">Vlož šablónu</button>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-9 animated fadeInRight">
+				<div class="mail-box-header">
+					<div class="float-right tooltip-demo">
+						<%= link_to  posli_email_path, data: {turbolinks: false}, :class=>"btn btn-danger btn-sm" do %><i class="fa fa-times" aria-hidden="true"></i>Reset<% end %> 
+						<br><br>
+						
+					</div>
+					<h2>
+						Vytvor e-mail
+					</h2>
+				</div>
+				<div class="mail-box">
+
+
+					<div class="mail-body">
+
+						
+
+							<div class="form-group row"><label class="col-sm-2 col-form-label">Predmet:</label>
+
+								<div class="col-sm-10"><input class="form-control" value="" type="text" id="email_subject"></div>
+							</div>
+						
+
+					</div>
+					<div class="mail-body">
+						<div class="form-group row"><label class="col-sm-2 col-form-label">Obsah emailu:</label>
+
+								<div class="col-sm-10"><textarea rows="35" style="height: 600px;" name="email_content" id="email_content" class="form-control summernote" required></textarea></div>
+							</div>
+						 	
+
+						 
+
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+    var ready = function() {
+
+$('.chosen-select').chosen({width: "100%"});
+
+$('.summernote').summernote({
+ minHeight: 400,
+ focus: true
+});
+
+$('#addtemplatebutton').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $id = $('#template').val();
+          
+          if ($id == "") {
+          	$('#email_subject').val("");
+          	$('#email_content').summernote('code',"");
+          }
+          else {
+      	  $.ajax({
+            type: "GET",
+            url: "/get_template/"+$id,
+            
+            success:function(data){
+              if (data.status == "ok")
+              {
+                
+                $('#email_subject').val(data.data.name);
+				$('#email_content').summernote('code',data.data.content);
+
+              }
+              else { alert(data.status);}
+
+
+            }
+          });              
+        	}
+          
+
+
+
+        });
+
+
+
+};
+
+$(".static_pages.create_email").ready(ready);
+
+
+$(".static_pages.create_email").on('turbolinks:load', ready); 
+
+</script>

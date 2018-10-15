@@ -1,0 +1,51 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Userprofiles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>User</th>
+      <th>Smtp1</th>
+      <th>Port1</th>
+      <th>Email acc1</th>
+      <th>Email pass1</th>
+      <th>Smtp2</th>
+      <th>Port2</th>
+      <th>Email acc2</th>
+      <th>Email pass2</th>
+      <th>Smtp3</th>
+      <th>Port3</th>
+      <th>Email acc3</th>
+      <th>Email pass3</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @userprofiles.each do |userprofile| %>
+      <tr>
+        <td><%= userprofile.user %></td>
+        <td><%= userprofile.smtp1 %></td>
+        <td><%= userprofile.port1 %></td>
+        <td><%= userprofile.email_acc1 %></td>
+        <td><%= userprofile.email_pass1 %></td>
+        <td><%= userprofile.smtp2 %></td>
+        <td><%= userprofile.port2 %></td>
+        <td><%= userprofile.email_acc2 %></td>
+        <td><%= userprofile.email_pass2 %></td>
+        <td><%= userprofile.smtp3 %></td>
+        <td><%= userprofile.port3 %></td>
+        <td><%= userprofile.email_acc3 %></td>
+        <td><%= userprofile.email_pass3 %></td>
+        <td><%= link_to 'Show', userprofile %></td>
+        <td><%= link_to 'Edit', edit_userprofile_path(userprofile) %></td>
+        <td><%= link_to 'Destroy', userprofile, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Userprofile', new_userprofile_path %>

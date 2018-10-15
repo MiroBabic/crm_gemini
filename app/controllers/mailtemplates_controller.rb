@@ -28,6 +28,18 @@ class MailtemplatesController < ApplicationController
   def edit
   end
 
+  def get_template
+    begin
+      @template = Mailtemplate.find(params[:id])
+        respond_to do |format|
+              format.json { render :json => {"status":"ok", "data": @template}  }
+           end
+
+    rescue => error
+      redirect_to posli_email_path, alert: error.message
+    end
+  end
+
   def modal_create_mail_template
     begin
     
@@ -38,7 +50,28 @@ class MailtemplatesController < ApplicationController
            end
         else
           respond_to do |format|
-              format.json { render :json => {"status":"Nepodarilo sa vložť záznam"}  }
+              format.json { render :json => {"status":"Nepodarilo sa vložiť záznam"}  }
+           end
+         end
+    rescue => error
+      redirect_to sablony_path, alert: error.message
+    end
+  end
+
+  def modal_update_mail_template
+     begin
+    
+      @template = Mailtemplate.find(params[:id])
+      @template.name = params[:name]
+      @template.content = params[:content]
+
+      if @template.save
+         respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+           end
+        else
+          respond_to do |format|
+              format.json { render :json => {"status":"Nepodarilo sa upraviť záznam"}  }
            end
          end
     rescue => error
@@ -53,7 +86,7 @@ class MailtemplatesController < ApplicationController
 
     respond_to do |format|
       if @mailtemplate.save
-        format.html { redirect_to @mailtemplate, notice: 'Mailtemplate was successfully created.' }
+        format.html { redirect_to @mailtemplate, notice: 'Šablóna bola úspešne vytvorená.' }
         format.json { render :show, status: :created, location: @mailtemplate }
       else
         format.html { render :new }
@@ -67,7 +100,7 @@ class MailtemplatesController < ApplicationController
   def update
     respond_to do |format|
       if @mailtemplate.update(mailtemplate_params)
-        format.html { redirect_to @mailtemplate, notice: 'Mailtemplate was successfully updated.' }
+        format.html { redirect_to @mailtemplate, notice: 'Šablóna bola úspešne zmenená.' }
         format.json { render :show, status: :ok, location: @mailtemplate }
       else
         format.html { render :edit }
@@ -81,7 +114,7 @@ class MailtemplatesController < ApplicationController
   def destroy
     @mailtemplate.destroy
     respond_to do |format|
-      format.html { redirect_to mailtemplates_url, notice: 'Mailtemplate was successfully destroyed.' }
+      format.html { redirect_to mailtemplates_url, notice: 'Šablóna bola úspešne zmazaná.' }
       format.json { head :no_content }
     end
   end

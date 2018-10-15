@@ -1,5 +1,25 @@
 <p id="notice"><%= render 'layouts/flash_message' %></p>
 
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Šablóny</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+       <li>
+        Email
+      </li>
+      <li class="active">
+        <strong>Šablóny</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
    <div class="col-lg-12">
@@ -11,20 +31,21 @@
         <div class="table-responsive">
 
           <table  class="table table-bordered" id="mailtemplates" style="width:100%">
-  <thead>
-    <tr>
-      <th>Meno</th>
-      <th>Dátum vloženia</th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
+            <thead>
+              <tr>
+                <th>Meno</th>
+                <th>Dátum vloženia</th>
+                <th>Dátum poslednej zmeny</th>
+                <th></th>
+                <th></th>
+                <th></th>
+              </tr>
+            </thead>
 
-  <tbody>
-   
-  </tbody>
-</table>
+            <tbody>
+
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
@@ -36,116 +57,144 @@
 <br>
 
 <div id="ShowTempModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h2 class="modal-title" id="myModalLabel">Náhľad</h2>
-                     </div>
-                
-                    <div class="modal-body">
-                    <div class="temp_preview" id="temp_preview"></div>
-                
-                
-                </div>
-                    
-                    </div>
-                  </div>
-              </div>
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Náhľad</h2>
+      </div>
+
+      <div class="modal-body">
+        <div class="temp_preview" id="temp_preview"></div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
 
 
 <div id="addmailtemplateModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-                      <h2 class="modal-title" id="myModalLabel">Pridaj novú šablónu</h2>
-                     </div>
-                
-                    <div class="modal-body">
-              
-                    <form name="new_temp_form" accept-charset="utf-8">
-            <label>Názov: </label><input type="text" id="nazov_temp" name="nazov_temp" class="form-control" placeholder="Názov novej šablóny" /></br>
-            <label>Obsah: </label>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Pridaj novú šablónu</h2>
+      </div>
+
+      <div class="modal-body">
+
+        <form name="new_temp_form" accept-charset="utf-8">
+          <label>Názov: </label><input type="text" id="nazov_temp" name="nazov_temp" class="form-control" placeholder="Názov novej šablóny" /></br>
+          <label>Obsah: </label>
           <textarea rows="35" style="height: 600px;" name="template_content_new" id="template_content_new" class="form-control summernote" required placeholder="Sem napíš email. Môžeš ho formátovať tlačidlami hore, alebo ho vložiť naformátovaný z Wordu..."></textarea></br>
-                    
-                                        <input type="submit" class="btn btn-success addmailtemplatebtn" value="Vytvor" /> </form>
-                
-                </div>
-                    
-                    </div>
-                  </div>
-              </div>
+
+          <input type="submit" class="btn btn-success addmailtemplatebtn" value="Vytvor" /> </form>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+
+  <div id="editmailtemplateModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h2 class="modal-title" id="myModalLabel">Uprav šablónu</h2>
+        </div>
+
+        <div class="modal-body">
+
+          <form name="edit_temp_form" accept-charset="utf-8">
+            <input style="visibility:hidden" type="text" name="edittemplateID" id="edittemplateID" value="" readonly>
+            <label>Názov: </label><input type="text" id="nazov_temp_edit" name="nazov_temp_edit" class="form-control" placeholder="Názov novej šablóny" /></br>
+            <label>Obsah: </label>
+            <textarea rows="35" style="height: 600px;" name="template_content_edit" id="template_content_edit" class="form-control summernote" required></textarea></br>
+
+            <input type="submit" class="btn btn-success editmailtemplatebtn" value="Uprav" /> </form>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
 
 
 
-  <script>
+    <script>
 
-var tableready = function() {
-  
-  templatetable= $('#mailtemplates').DataTable({
-  'order': [0, 'asc'],
-  'serverSide': true,
-  'ajax': '/mailtemplates.json',
-  'stateSave' :true,
-   columns: [
-  {data: 'name'},
-  {data: 'created_at','render' : function(data,type,row) {
-    return prettyDate(row.created_at);
-  } },
-  {
-    "className":   'templateshow-control',
-    "orderable":      false,
-    "data":           null,
-    "defaultContent": '<a><center><i class="fa fa-eye fa-2x" aria-hidden="true"></i></center></a>'
-  },
-  {
-    "className":   'templateedit-control',
-    "orderable":      false,
-    "data":           null,
-    "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
-  },
-  {data: 'delete_template', orderable: false, searchable: false} 
+    var tableready = function() {
+
+      templatetable= $('#mailtemplates').DataTable({
+        'order': [0, 'asc'],
+        'serverSide': true,
+        'ajax': '/mailtemplates.json',
+        'stateSave' :true,
+        columns: [
+        {data: 'name'},
+        {data: 'created_at','render' : function(data,type,row) {
+          return prettyDate(row.created_at);
+        } },
+        {data: 'updated_at','render' : function(data,type,row) {
+          return prettyDate(row.updated_at);
+        } },
+        {
+          "className":   'templateshow-control',
+          "orderable":      false,
+          "data":           null,
+          "defaultContent": '<a><center><i class="fa fa-eye fa-2x" aria-hidden="true"></i></center></a>'
+        },
+        {
+          "className":   'templateedit-control',
+          "orderable":      false,
+          "data":           null,
+          "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
+        },
+        {data: 'delete_template', orderable: false, searchable: false} 
 
 
-  ],
-  'dom': 'lfr<"pull-right"B>tip',
-  'buttons': [
-  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
-  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
-  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+        ],
+        'dom': 'lfr<"pull-right"B>tip',
+        'buttons': [
+        {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+        {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+        {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
 
-  {
-    text: 'TXT',
-    extend: 'csvHtml5',
-    fieldSeparator: '\t',
-    extension: '.txt',
-    "className": 'btn btn-default btn-xs'
-  },
-  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+        {
+          text: 'TXT',
+          extend: 'csvHtml5',
+          fieldSeparator: '\t',
+          extension: '.txt',
+          "className": 'btn btn-default btn-xs'
+        },
+        {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
 
-  ],
-  'language': {
-        'url': '/datatables_slovak.json'
-      },
-  'lengthMenu': [
-  [10, 50,100, -1],
-  [10, 50,100, "All"]
-  ]
+        ],
+        'language': {
+          'url': '/datatables_slovak.json'
+        },
+        'lengthMenu': [
+        [10, 50,100, -1],
+        [10, 50,100, "All"]
+        ]
 
-});
+      });
 
 //view temp
 
 $('#mailtemplates tbody').on('click', 'td.templateshow-control', function () {
-        var tr = $(this).closest('tr');
-        var row = templatetable.row( tr );
- 
+  var tr = $(this).closest('tr');
+  var row = templatetable.row( tr );
 
-    $(".temp_preview").html(row.data().content);
-    $('#ShowTempModal').modal('show');
-    
-           } );
+
+  $(".temp_preview").html(row.data().content);
+  $('#ShowTempModal').modal('show');
+
+} );
 
 // end view
 
@@ -161,7 +210,7 @@ $('.addmailtemplatebtn').on('click',function(event){
             data: {
               name: $name,
               content: $content
-              },
+            },
 
             success:function(data){
               if (data.status == "ok")
@@ -180,9 +229,59 @@ $('.addmailtemplatebtn').on('click',function(event){
 
         });
 
+//edit modal
+
+$('#mailtemplates tbody').on('click', 'td.templateedit-control', function () {
+  var tr = $(this).closest('tr');
+  var row = templatetable.row( tr );
 
 
-  };
+
+  updateTemplateEditModal(row.data());
+
+  $('#editmailtemplateModal').modal('show');
+});
+
+
+
+//end
+
+$('.editmailtemplatebtn').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $tempid = $('#edittemplateID').val();
+          $name = $('#nazov_temp_edit').val();
+          $content = $('#template_content_edit').val();
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_update_mail_template",
+            data: {
+              id: $tempid,
+              name: $name,
+              content: $content
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Šablóna bola upravená" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+
+};
 
 $(".mailtemplates.index").ready(tableready);
 
@@ -192,7 +291,10 @@ document.addEventListener('turbolinks:before-cache', function() {
 
 });
 
-$(".mailtemplates.index").on('turbolinks:load', $('.summernote').summernote()); 
+$(".mailtemplates.index").on('turbolinks:load', $('.summernote').summernote({
+ minHeight: 300,
+ focus: true
+})); 
 $(".mailtemplates.index").on('turbolinks:load', tableready); 
 
-  </script>
+</script>

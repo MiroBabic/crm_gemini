@@ -14,7 +14,7 @@
                             
                             <span class="clear"> <span class="block m-t-xs"> <center><strong class="font-bold">
                                
-                                 <h4 ><%= current_user.email %></h4>
+                                 <h4 ><%=link_to current_user.email, showprofile_path %></h4>
                                 
                                  
                              </strong></center>
@@ -29,7 +29,7 @@
                             <li>
                                 <a href="#">E-mail <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
-                                    <li><%= link_to "Pošli e-mail", users_path%></li>
+                                    <li><%= link_to "Pošli e-mail", posli_email_path%></li>
                                     <li><%= link_to "Šablóny", sablony_path%></li>
                                     
                                 </ul>

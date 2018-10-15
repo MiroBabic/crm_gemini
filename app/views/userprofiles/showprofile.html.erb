@@ -1,0 +1,324 @@
+
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Profil užívateľa</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+
+      <li class="active">
+        <strong>Profil užívateľa</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+<div class="row m-b-lg m-t-lg">
+
+  <div class="col-md-6">
+    <div class="profile-image">
+      <img class="rounded-circle circle-border m-b-md" src="<%= asset_path( 'user-avatar.png' ) %>"  alt="profile_img">
+
+    </div>
+    <div class="profile-info">
+      <div class="">
+        <div>
+          <h2 class="no-margins">
+            <%= @user.name %>
+          </h2>
+          <h4><% if @user.admin? %> Správca <% else %>Bežný užívateľ <%end %></h4>
+          
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-3">
+    <table class="table small m-b-xs">
+      <tbody>
+        <tr>
+          <td>
+            <strong><%= @subjects.count %></strong> Subjektov
+          </td>
+          <td>
+            <strong><%= @documents.count %></strong> Dokumentov
+          </td>
+
+        </tr>
+        <tr>
+          <td>
+            <strong><%= @calendar.count %></strong> Záznamov v kalendári
+          </td>
+          <td>
+            <strong><%= @comms.count %></strong> Záznamov komunikácie
+          </td>
+        </tr>
+        
+      </tbody>
+    </table>
+  </div>
+  
+</div>
+
+<div class="row">
+
+
+              
+            
+      <div class="col-lg-4">
+       
+  <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Email profil 1</h5>
+                        <div class="ibox-tools">
+                            
+                            <a data-toggle="modal" data-target="#edit_profile_modal1"  aria-expanded="false">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                           
+                           
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                       <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>Email účet:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.email_acc1 if @profile.present? %></dd> </div>
+      </dl>
+        <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>Heslo:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><% if @profile.present? && @profile.email_pass1.present? %>Heslo je nastavené<% end %></dd> </div>
+      </dl>
+      <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>SMTP server:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.smtp1 if @profile.present?%></dd> </div>
+      </dl>
+      <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>SMTP Port:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.port1 if @profile.present?%></dd> </div>
+      </dl>
+                    </div>
+                </div>
+
+    </div>
+    <div class="col-lg-4">
+      <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>Email profil 2</h5>
+                        <div class="ibox-tools">
+                            
+                            <a  data-toggle="modal" data-target="#edit_profile_modal2"  aria-expanded="false">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                            
+                           
+                        </div>
+                    </div>
+                    <div class="ibox-content">
+
+                       <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>Email účet:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.email_acc2 if @profile.present? %></dd> </div>
+      </dl>
+      <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>Heslo:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><% if @profile.present? && @profile.email_pass2.present? %>Heslo je nastavené<% end %></dd> </div>
+      </dl>
+      <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>SMTP server:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.smtp2 if @profile.present?%></dd> </div>
+      </dl>
+      <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>SMTP Port:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.port2 if @profile.present?%></dd> </div>
+      </dl>
+                    </div>
+                </div>
+
+  </div>
+  <div class="col-lg-4">
+    <div class="ibox ">
+                    <div class="ibox-title">
+                        <h5>Email profil 3</h5>
+                        <div class="ibox-tools">
+                           
+                            <a data-toggle="modal" data-target="#edit_profile_modal3"  aria-expanded="false">
+                                <i class="fa fa-wrench"></i>
+                            </a>
+                           
+                           
+                        </div>
+                    </div>
+                    <div class="ibox-content" >
+
+                       <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>Email účet:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.email_acc3 if @profile.present? %></dd> </div>
+      </dl>
+      <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>Heslo:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><% if @profile.present? && @profile.email_pass3.present? %>Heslo je nastavené<% end %></dd> </div>
+      </dl>
+      <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>SMTP server:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.smtp3 if @profile.present?%></dd> </div>
+      </dl>
+      <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>SMTP Port:</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.port3 if @profile.present?%></dd> </div>
+      </dl>
+                    </div>
+                </div>
+
+</div>
+
+</div>
+
+
+<!-- modal -->
+
+<div id="edit_profile_modal1" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav profil 1</h2>
+        
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="edit_email_profile" accept-charset="utf-8">
+            <label>Email účet:</label><input type="text" name="edit_email1" id="edit_email1" class="form-control" value="<%= @profile.email_acc1 if @profile.present? %>" required /><br>
+           <label>Heslo:</label><input type="password" name="edit_emailpass1" id="edit_emailpass1" class="form-control" placeholder="Ak je heslo nastavené, pri editovaní ho treba znova zadať!" required /><br>
+          <label>SMTP server:</label><input type="text" name="edit_smtp1" id="edit_smtp1" class="form-control" value="<%= @profile.smtp1 if @profile.present? %>" required /><br>
+         
+         <label>SMTP Port:</label><input type="number" name="edit_port1" id="edit_port1" class="form-control" value="<%= @profile.port1 if @profile.present? %>" required /><br>
+           </div>  
+    <input class="editprofilebtn btn btn-success" value="Uprav" /> 
+
+   </form>
+
+
+</div>
+</div>
+</div>
+</div>
+
+<div id="edit_profile_modal2" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav profil 2</h2>
+        
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="edit_email_profile2" accept-charset="utf-8">
+            <label>Email účet:</label><input type="text" name="edit_email2" id="edit_email2" class="form-control" value="<%= @profile.email_acc2 if @profile.present? %>" required /><br>
+           <label>Heslo:</label><input type="password" name="edit_emailpass2" id="edit_emailpass2" class="form-control" placeholder="Ak je heslo nastavené, pri editovaní ho treba znova zadať!" required /><br>
+          <label>SMTP server:</label><input type="text" name="edit_smtp2" id="edit_smtp2" class="form-control" value="<%= @profile.smtp2 if @profile.present? %>" required /><br>
+          
+         <label>SMTP Port:</label><input type="number" name="edit_port2" id="edit_port2" class="form-control" value="<%= @profile.port2 if @profile.present? %>" required /><br>
+         </div>    
+    <input  class="editprofilebtn btn btn-success" value="Uprav" /> 
+
+   </form>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+<div id="edit_profile_modal3" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav profil 3</h2>
+        
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="edit_email_profile" accept-charset="utf-8">
+            <label>Email účet:</label><input type="text" name="edit_email3" id="edit_email3" class="form-control" value="<%= @profile.email_acc3 if @profile.present? %>" required /><br>
+           <label>Heslo:</label><input type="password" name="edit_emailpass3" id="edit_emailpass3" class="form-control" placeholder="Ak je heslo nastavené, pri editovaní ho treba znova zadať!" required /><br>
+          <label>SMTP server:</label><input type="text" name="edit_smtp3" id="edit_smtp3" class="form-control" value="<%= @profile.smtp3 if @profile.present? %>" required /><br>
+          
+         <label>SMTP Port:</label><input type="number" name="edit_port3" id="edit_port3" class="form-control" value="<%= @profile.port3 if @profile.present? %>" required /><br>
+          </div>   
+    <input class="editprofilebtn btn btn-success" value="Uprav" /> 
+
+   </form>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+<script>
+
+    var ready = function() {
+
+      $user_id = <%= current_user.id %>;
+
+$('.editprofilebtn').on('click',function(event){
+          //console.log(event.target.id);
+          
+          
+          $.ajax({
+            type: "POST",
+            url: "/edit_user_profile",
+            data: {
+              user_id: $user_id,
+              email1: $('#edit_email1').val(),
+              email2: $('#edit_email2').val(),
+              email3: $('#edit_email3').val(),
+              pass1: $('#edit_emailpass1').val(),
+              pass2: $('#edit_emailpass2').val(),
+              pass3: $('#edit_emailpass3').val(),
+              smtp1: $('#edit_smtp1').val(),
+              smtp2: $('#edit_smtp2').val(),
+              smtp3: $('#edit_smtp3').val(),
+              port1: $('#edit_port1').val(),
+              port2: $('#edit_port2').val(),
+              port3: $('#edit_port3').val()
+            },
+            
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Profil bol upravený");
+                location.reload();
+
+              }
+              else { alert(data.status);}
+
+
+            }
+          });              
+          
+          
+
+
+
+        });
+
+
+
+};
+
+$(".userprofiles.showprofile").ready(ready);
+
+
+$(".userprofiles.showprofile").on('turbolinks:load', ready); 
+
+</script>

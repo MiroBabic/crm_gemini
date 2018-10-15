@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181013180110) do
+ActiveRecord::Schema.define(version: 20181014195032) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -116,6 +116,26 @@ ActiveRecord::Schema.define(version: 20181013180110) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "userprofiles", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "smtp1"
+    t.integer  "port1"
+    t.string   "email_acc1"
+    t.string   "email_pass1"
+    t.string   "smtp2"
+    t.integer  "port2"
+    t.string   "email_acc2"
+    t.string   "email_pass2"
+    t.string   "smtp3"
+    t.integer  "port3"
+    t.string   "email_acc3"
+    t.string   "email_pass3"
+    t.datetime "created_at",  null: false
+    t.datetime "updated_at",  null: false
+  end
+
+  add_index "userprofiles", ["user_id"], name: "index_userprofiles_on_user_id", using: :btree
+
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
     t.string   "encrypted_password",     default: "",    null: false
@@ -146,4 +166,5 @@ ActiveRecord::Schema.define(version: 20181013180110) do
   add_foreign_key "subjects", "districts"
   add_foreign_key "subjects", "subjtypes"
   add_foreign_key "subjects", "users"
+  add_foreign_key "userprofiles", "users"
 end

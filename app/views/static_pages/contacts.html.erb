@@ -1,5 +1,22 @@
 <p id="notice"><%= render 'layouts/flash_message' %></p>
 
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Kontakty</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Kontakty</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
 <div class="wrapper wrapper-content animated fadeInRight">
   <div class="row">
    <div class="col-lg-12">
@@ -114,7 +131,7 @@
      </div>
      <label>Poznámka:</label><input type="text" name="contactnote" id="contactnote" class="form-control" placeholder="Poznámka ku kontaktnej osobe"/><br>
 
-     <input type="submit" class="createcontact btn btn-success" value="Vytvor" /> 
+     <input  class="createcontact btn btn-success" value="Vytvor" /> 
 
    </form>
 
@@ -151,7 +168,7 @@
      </div>
      <label>Poznámka:</label><input type="text" name="contactnote_c" id="contactnote_c" class="form-control" placeholder="Poznámka" /><br>
 
-     <input type="submit" class="createperson btn btn-success" value="Vytvor" /> 
+     <input  class="createperson btn btn-success" value="Vytvor" /> 
 
    </form>
 
@@ -187,7 +204,7 @@
      <label>Poznámka:</label><input type="text" name="edit_subjnote" id="edit_subjnote" class="form-control" placeholder="Poznámka"/><br>
      <label>Počet obyvateľov ak je obec:</label><input type="text" name="edit_subjobyv" id="edit_subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
 
-    <input type="submit" class="editcontact btn btn-success" value="Uprav" /> 
+    <input  class="editcontact btn btn-success" value="Uprav" /> 
 
    </form>
 
@@ -224,7 +241,7 @@
          <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_personsubject' %>
       
              
-    <input type="submit" class="editperson btn btn-success" value="Uprav" /> 
+    <input class="editperson btn btn-success" value="Uprav" /> 
 
    </form>
 
