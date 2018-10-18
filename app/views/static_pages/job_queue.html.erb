@@ -1,0 +1,147 @@
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Procesy na spracovanie</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Procesy</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_subjtype_button" data-toggle="modal" data-target="#addsubjtypeModal">Pridaj typ subjektu</button>
+        
+        <hr>
+        <div class="table-responsive">
+
+          <table  class="table table-bordered" id="jobs" style="width:100%">
+            <thead>
+              <tr>
+                <th>Typ</th>
+                <th>Vytvorené v</th>
+                <th>Sprocesované v</th>
+                <th>Chyba</th>
+                <th>Komu</th>
+                <th>Od</th>
+                <th>Meno procesu</th>
+                <th></th>
+                
+              </tr>
+            </thead>
+
+            <tbody>
+              <% @list.each do |job| %>
+              <tr>
+                <td><%= get_args_from_delayed_job(job.handler)[1] %></td>
+                <td><%= job.created_at %></td>
+                <td><%= job.run_at %></td>
+                <td><%= job.last_error %></td>
+                <td><%= get_args_from_delayed_job(job.handler)[3] %></td>
+                <td><%= get_args_from_delayed_job(job.handler)[5] %></td>
+                <td><%= get_args_from_delayed_job(job.handler)[6] %></td>
+                <td><a id="<%= job.id %>" class="delete_job"><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i></a></td>
+              </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+
+<script>
+var subjtable;
+
+var tableready = function() {
+
+
+
+ jobtable= $('#jobs').DataTable({
+  'order': [0, 'asc'],
+  'serverSide': false,
+  'stateSave' :true,
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ]
+
+});
+
+$('.delete_job').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $job_id = event.currentTarget.id;
+          
+          $.ajax({
+            type: "POST",
+            url: "/delete_delayed_job",
+            data: {
+              id: $job_id
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Proces bol vymazaný" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+};
+$(".static_pages.job_queue").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#jobs_wrapper').length ==1) {jobtable.destroy() ;} 
+
+});
+
+
+$(".static_pages.job_queue").on('turbolinks:load', tableready); 
+</script>

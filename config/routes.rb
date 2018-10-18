@@ -2,9 +2,7 @@ Rails.application.routes.draw do
 
 
   
-  resources :userprofiles
-  resources :mailtemplates
-  resources :calendars
+ 
   devise_for :users, :controllers => {:sessions => "users/sessions", :registrations => "users/registrations"}
   
   devise_scope :user do
@@ -23,11 +21,18 @@ Rails.application.routes.draw do
   resources :subjects
   resources :cities
   resources :subjtypes
+   resources :userprofiles
+  resources :mailtemplates
+  resources :calendars
 
   #static pages
   get '/kontakty' => 'static_pages#contacts', :as => 'contacts'
   get '/uzivatelia' => 'static_pages#users', :as => 'users'
-  get '/posli_email' => 'static_pages#create_email', :as=> 'posli_email'
+  get '/posli_email' => 'static_pages#create_email', :as=> 'create_email'
+  get '/procesy' => 'static_pages#job_queue', :as=> 'job_queue'
+  post '/send_mail_to_subjects' => 'static_pages#send_mail_to_subjects', :as=> 'send_mail_to_subjects'
+  post 'delete_delayed_job'=>'static_pages#delete_delayed_job', :as=>'delete_delayed_job'
+
 
   #subjtypes
   post '/modal_create_subj_type' => 'subjtypes#modal_create_subj_type', :as=> 'modal_create_subj_type'

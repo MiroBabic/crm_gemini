@@ -258,7 +258,7 @@ var peopletable;
 var tableready = function() {
 
  subjtable= $('#subjects').DataTable({
-  'order': [2, 'desc'],
+  'order': [0, 'asc'],
   'serverSide': true,
   'stateSave' :true,
   'ajax' : '/subjects.json',
@@ -588,7 +588,7 @@ $('.editperson').on('click',function(event){
   
    //people
  peopletable= $('#people').DataTable({
-  'order': [2, 'desc'],
+  'order': [0, 'asc'],
   'serverSide': true,
   'audoWidth': true,
   'stateSave' :true,

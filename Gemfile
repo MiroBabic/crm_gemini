@@ -32,6 +32,9 @@ gem 'ajax-datatables-rails', github: 'ajahongir/ajax-datatables-rails', branch: 
 gem 'carrierwave', '~> 1.0'
 gem 'rmagick'
 
+gem 'delayed_job_active_record'
+gem "daemons"
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

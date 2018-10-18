@@ -24,5 +24,8 @@ module CrmGemini
     config.assets.paths << Rails.root.join('vendor', 'assets', 'stylesheets', 'custom')
     config.assets.paths << Rails.root.join('assets', 'images', 'patterns')
     config.active_record.raise_in_transactional_callbacks = true
+
+    config.active_job.queue_adapter = :delayed_job
+    
   end
 end
