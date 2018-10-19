@@ -31,6 +31,7 @@ function updateSubjEditModal(d) {
 	$('#edit_subjnote').val(d.note);
 	$('#edit_subjdistrict').val(d.district_id);
 	$('#edit_subjtype').val(d.subjtype_id);
+	$('#edit_subjobyv').val(d.citizen_count);
 	
 }
 

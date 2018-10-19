@@ -137,6 +137,28 @@
 	</div>
 </div>
 
+<div id="ShowSendEmailModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Email bol zaradený na odoslanie</h2>
+        <%= link_to "Tu si môžeš pozrieť ich stav", job_queue_path%>
+      </div>
+
+      <div class="modal-body">
+      	 <h3 class="modal-title" >Obsah</h3>
+        <div class="temp_preview" id="temp_preview"></div>
+        <h3 class="modal-title" >Na adresy</h3>
+        <div class="sent_addresses" id="sent_addresses"></div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
 <script>
 
     var ready = function() {
@@ -241,8 +263,12 @@ $('#sendemailbtn').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Mail odoslaný" );
-                
+                $("#temp_preview").html(data.content);
+                $("#sent_addresses").html(data.addresses);
+                $('#ShowSendEmailModal').modal('show');
+                $('#ShowSendEmailModal').on('hidden.bs.modal', function (e) {
+  				location.reload();
+					})
               }
               else { alert(data.status);}
 

@@ -34,14 +34,14 @@
                                     
                                 </ul>
                             </li>
-                            
+                            <li><%= link_to "Procesy", job_queue_path%></li>
                             <% if current_user.admin? %>
                             <li>
                                 <a href="#">Admin menu <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
                                     <li><%= link_to "Užívatelia", users_path%></li>
                                     <li><%= link_to "Typy subjektov", subjtypes_path%></li>
-                                    <li><%= link_to "Procesy", job_queue_path%></li>
+                                    
                                     
                                 </ul>
                             </li>

@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>File name:</strong>
+  <%= @medium.file_name %>
+</p>
+
+<p>
+  <strong>File type:</strong>
+  <%= @medium.file_type %>
+</p>
+
+<p>
+  <strong>File size:</strong>
+  <%= @medium.file_size %>
+</p>
+
+<p>
+  <strong>File:</strong>
+  <%= @medium.file %>
+</p>
+
+<p>
+  <strong>File url:</strong>
+  <%= @medium.file_url %>
+</p>
+
+<p>
+  <strong>File path:</strong>
+  <%= @medium.file_path %>
+</p>
+
+<p>
+  <strong>Subject:</strong>
+  <%= @medium.subject %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @medium.note %>
+</p>
+
+<%= link_to 'Edit', edit_medium_path(@medium) %> |
+<%= link_to 'Back', media_path %>

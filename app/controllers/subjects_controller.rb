@@ -45,9 +45,10 @@ class SubjectsController < ApplicationController
       contactphone= params[:contactphone]
       contactcell= params[:contactcell]
       contactnote= params[:contactnote]
+
       
 
-        s=Subject.new(:name=>subjname,:site=>subjsite,:ico=>subjico,:district_id=>subjdistrict,:subjtype_id=>subjtype,:user_id=>current_user.id,:note=>subjnote)
+        s=Subject.new(:name=>subjname,:site=>subjsite,:ico=>subjico,:district_id=>subjdistrict,:subjtype_id=>subjtype,:user_id=>current_user.id,:note=>subjnote, :citizen_count=>subjobyv)
         s.save
 
         p=Person.new(:first_name=>contactname, :last_name=>contactsurname, :email=>contactemail,:phone=>contactphone,:cellphone=>contactcell,:note=>contactnote)
@@ -86,6 +87,7 @@ class SubjectsController < ApplicationController
       @subject.site = params[:edit_subjsite]
       @subject.ico = params[:edit_subjico]
       @subject.note= params[:edit_subjnote]
+      @subject.citizen_count = params[:edit_subjobyv]
       #@subject.obyv= params[:edit_subjobyv]
            
 
@@ -155,6 +157,6 @@ class SubjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def subject_params
-      params.require(:subject).permit(:name, :site, :ico, :district_id, :subjtype_id, :note, :web, :zaujimavost)
+      params.require(:subject).permit(:name, :site, :ico, :district_id, :subjtype_id, :note, :web, :zaujimavost, :citizen_count)
     end
 end

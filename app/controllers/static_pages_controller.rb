@@ -72,9 +72,23 @@ class StaticPagesController < ApplicationController
 			@subjects_by_owner = Subject.where(:user_id=>@user)
 			@subjects_by_type = Subject.where(:subjtype_id => @subjtype)
 
+
+
+
 			@total_subjects = (@subjects_by_district + @subjects_by_county + @subjects_by_owner +@subjects_by_type).uniq
 
-			#@documents = Document.where(:id=>@docs).
+			unless @total_subjects.present?
+				@total_subjects = Subject.all.to_a
+			end
+
+			if (@obyv_count_from.present?)
+				@total_subjects = (@total_subjects.select{|x| x["citizen_count"].to_i >= @obyv_count_from.to_i}).reject{|x| x["citizen_count"].nil?}
+			end
+
+			if (@obyv_count_to.present?)
+				#@total_subjects = @total_subjects.where("citizen_count <= ?", @obyv_count_to)
+				@total_subjects = (@total_subjects.select{|x| x["citizen_count"].to_i <= @obyv_count_to.to_i}).reject{|x| x["citizen_count"].nil?}
+			end
 
 			@email_from = Userprofile.where(:user_id=>current_user.id).first.send("email_acc"+@email_acc.to_s)
 			@pass = Userprofile.where(:user_id=>current_user.id).first.send("email_pass"+@email_acc.to_s)
@@ -85,7 +99,7 @@ class StaticPagesController < ApplicationController
 			@addresses1 = (@total_subjects.map {|a| a.people.map {|b| b.email}}).flatten.uniq
 			@addresses2 = (@total_subjects.map {|a| a.people.map {|b| b.email2}}).flatten.uniq
 
-			@res_addresses = @addresses1 + @addresses2
+			@res_addresses = @addresses1.compact + @addresses2.compact
 
 			@res_addresses.each do |email_address|
 				begin
@@ -97,8 +111,10 @@ class StaticPagesController < ApplicationController
 				end
 			end
 
+			@addresses_to_show = @res_addresses.join('; ')
+			
 			respond_to do |format|
-              format.json { render :json => {"status":"ok"}  }
+              format.json { render :json => {"status":"ok", "content":@content, "addresses":@addresses_to_show}  }
            end
 			
 

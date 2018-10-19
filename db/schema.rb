@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181016201733) do
+ActiveRecord::Schema.define(version: 20181019212601) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -92,6 +92,21 @@ ActiveRecord::Schema.define(version: 20181016201733) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "media", force: :cascade do |t|
+    t.string   "file_name"
+    t.string   "file_type"
+    t.string   "file_size"
+    t.string   "file"
+    t.string   "file_url"
+    t.string   "file_path"
+    t.integer  "subject_id"
+    t.string   "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "media", ["subject_id"], name: "index_media_on_subject_id", using: :btree
+
   create_table "people", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -117,8 +132,9 @@ ActiveRecord::Schema.define(version: 20181016201733) do
     t.string   "note"
     t.string   "web"
     t.string   "zaujimavost"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",    null: false
+    t.datetime "updated_at",    null: false
+    t.integer  "citizen_count"
   end
 
   add_index "subjects", ["district_id"], name: "index_subjects_on_district_id", using: :btree
@@ -178,6 +194,7 @@ ActiveRecord::Schema.define(version: 20181016201733) do
   add_foreign_key "communications", "users"
   add_foreign_key "documents", "subjects"
   add_foreign_key "documents", "users"
+  add_foreign_key "media", "subjects"
   add_foreign_key "people", "subjects"
   add_foreign_key "subjects", "districts"
   add_foreign_key "subjects", "subjtypes"
