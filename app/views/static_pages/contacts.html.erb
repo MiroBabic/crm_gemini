@@ -45,9 +45,11 @@
                       <th>Okres</th>
                       <th>Kraj</th>
                       <th>Typ Subjektu</th>
+                      <th>Spravuje</th>
                       <th>Počet obyvateľov</th>
                       <th>Detaily</th>
                       <th>Kontakty</th>
+                      <th>Komunikácia</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -268,6 +270,7 @@ var tableready = function() {
   {data: 'district_name' },
   {data: 'county_name' },
   {data: 'subjtype_name' },
+  {data: 'user_name' },
   {data: 'citizen_count' },
   {
     "className":   'details-control',
@@ -280,6 +283,12 @@ var tableready = function() {
     "orderable":      false,
     "data":           null,
     "defaultContent": '<a><center><i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {
+    "className":   'subjcomm-control',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-comments-o fa-2x" aria-hidden="true"></i></center></a>'
   },
   {
     "className":   'subjedit-control',
@@ -378,6 +387,43 @@ var tableready = function() {
             
           }
         });
+
+   //childrow subject communication
+   
+    $('#subjects tbody').on('click', 'td.subjcomm-control', function () {
+
+      var tr = $(this).closest('tr');
+      var row = subjtable.row( tr );
+
+      if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+
+          }
+          else {
+            // Open this row
+             $.ajax({
+            type: "GET",
+            url: "/get_subject_communication/"+row.data().id,
+            
+            success:function(data){
+              if (data.status == "ok")
+              {
+                row.child( formatSubjCommunicationsDetail(data.data)).show();
+            
+                tr.addClass('shown');
+
+              }
+              else { alert(data.status);}
+            }
+          });
+
+            
+          }
+        });
+
+      //    
   }
 
 

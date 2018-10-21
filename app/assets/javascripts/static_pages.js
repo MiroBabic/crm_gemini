@@ -23,6 +23,24 @@ function formatSubjContactsDetail(d) {
      
     }
 
+ function formatSubjCommunicationsDetail(d) {
+
+	var $part2 ='';
+	var $part1 = '<h3>Zoznam komunikácie so subjektom</h3>';
+
+	 for ( var i = 0; i < d.length; i++) {
+	 	$part2+= '<p><b>S osobou: </b>' +d[i].first_name+' '+d[i].last_name+'</p><p><b>Vytvoril: </b>'+d[i].email+'</p><p><b>Kľúčové slovo: </b>'+d[i].keyword+
+      '</p><p><b>Obash: </b>'+d[i].about+'</p><p><b>Dátum vloženia: </b>'+prettyDate(d[i].created_at)+
+      '</p><p><b>Dátum poslednej zmeny: </b>'+prettyDate(d[i].updated_at)+'</p><hr>';
+	 }
+
+	 
+	 var $return = $part1.concat($part2);
+
+	 return $return;
+     
+    }
+
 function updateSubjEditModal(d) {
 	$('#editsubjektID').val(d.id);
 	$('#edit_subjname').val(d.name);

@@ -4,12 +4,14 @@ Rails.application.routes.draw do
   
  
   resources :media
-  devise_for :users, :controllers => {:sessions => "users/sessions", :registrations => "users/registrations"}
+  devise_for :users, :controllers => {:sessions => "users/sessions", :registrations => "users/registrations"}, :skip => [:registrations]
   
   devise_scope :user do
     match 'users/:id' => 'users/registrations#destroy', :via => :delete, :as => :admin_destroy_user
     post 'modal_edit_user' => 'users/registrations#modal_edit_user', :as => 'modal_edit_user'
     post 'modal_create_user' => 'users/registrations#modal_create_user', :as => 'modal_create_user'
+    get 'users/edit' => 'users/registrations#edit', :as => 'edit_user_registration'    
+    patch 'users' => 'users/registrations#update', :as => 'user_registration'
   end
 
   
@@ -52,6 +54,7 @@ Rails.application.routes.draw do
   post '/modal_create_comm' => 'communications#modal_create_comm', :as=> 'modal_create_comm'
   post '/modal_update_comm' => 'communications#modal_update_comm', :as=> 'modal_update_comm'
   get '/komunikacia' => 'communications#index', :as=> 'komunikacia'
+  get '/get_subject_communication/:id' => 'communications#get_subject_communication', :as=> 'get_subject_communication'
 
   #documents
   post '/insertfile' => 'documents#insertfile', :as=> 'insertfile'

@@ -21,6 +21,21 @@ class CommunicationsController < ApplicationController
   def show
   end
 
+  def get_subject_communication
+    begin
+      @subject = Subject.find(params[:id])
+      #@communication = Communication.where(:subject_id=>@subject.id)
+      @communication=Communication.joins(:subject).joins(:person).joins(:user).where(:subject_id=>@subject.id)
+      .select("communications.id,about,keyword,communications.created_at,communications.updated_at,subjects.name as subject_name, people.first_name,people.last_name,users.email")
+        respond_to do |format|
+        format.json { render :json => {"status":"ok", "data":@communication.as_json}  }
+      end
+
+    rescue=>error
+      redirect_to contacts_path, alert: error.message
+    end
+  end
+
   # GET /communications/new
   def new
     @communication = Communication.new

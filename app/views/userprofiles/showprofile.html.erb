@@ -34,6 +34,7 @@
           <h4><% if @user.admin? %> Správca <% else %>Bežný užívateľ <%end %></h4>
           
         </div>
+        <%= link_to "Zmena hesla", edit_user_registration_path, :class=>"btn btn-danger" %>
       </div>
     </div>
   </div>
