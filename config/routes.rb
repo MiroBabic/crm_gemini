@@ -74,6 +74,9 @@ Rails.application.routes.draw do
   #userprofile
   get '/profil_uzivatela' => 'userprofiles#showprofile', :as=> 'showprofile'
   post '/edit_user_profile' => 'userprofiles#edit_user_profile', :as=>'edit_user_profile'
+
+  #media
+  get '/download_media/:id' => 'media#download_media', :as=> 'download_media'
   
 
   root 'static_pages#home'

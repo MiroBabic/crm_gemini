@@ -5,6 +5,17 @@ class Medium < ActiveRecord::Base
   mount_uploader :file, DocUploader
 
   after_save :update_file_attributes
+
+  def to_jq_upload
+    {
+      "name" => read_attribute(:file),
+      "size" => file.size,
+      "url" => file.url,
+      "delete_url" => "/medium/#{id}",
+      "delete_type" => "DELETE"
+    }
+  end
+
   
   private
   
@@ -24,5 +35,5 @@ class Medium < ActiveRecord::Base
     end
 
   end
-  
+
 end

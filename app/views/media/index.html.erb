@@ -1,41 +1,275 @@
-<p id="notice"><%= notice %></p>
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Média</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Média</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
 
-<h1>Listing Media</h1>
+  </div>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>File name</th>
-      <th>File type</th>
-      <th>File size</th>
-      <th>File</th>
-      <th>File url</th>
-      <th>File path</th>
-      <th>Subject</th>
-      <th>Note</th>
-      <th colspan="3"></th>
-    </tr>
-  </thead>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-title">
 
-  <tbody>
-    <% @media.each do |medium| %>
-      <tr>
-        <td><%= medium.file_name %></td>
-        <td><%= medium.file_type %></td>
-        <td><%= medium.file_size %></td>
-        <td><%= medium.file %></td>
-        <td><%= medium.file_url %></td>
-        <td><%= medium.file_path %></td>
-        <td><%= medium.subject %></td>
-        <td><%= medium.note %></td>
-        <td><%= link_to 'Show', medium %></td>
-        <td><%= link_to 'Edit', edit_medium_path(medium) %></td>
-        <td><%= link_to 'Destroy', medium, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+
+       
+       
+
+        <div class="row">
+          <div class="col-lg-12">
+           <div class="alert alert-danger alert-dismissable noborders">
+                          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                         <p>Skôr než nahráš súbory musíš zvoliť subjekt, ktorému budú priradené!</p>
+                         <p>Ak vložíš súbor s rovnakým menom aký už existuje ku rovnakému subjektu, tento súbor bude prepísaný.</p>
+                        </div>
+            </div>
+
+          <form id="fileupload" method="post" action="/media" enctype="multipart/form-data">
+
+
+            <div class="col-md-4">
+             <%= select_tag 'subject_media', options_from_collection_for_select(Subject.all, 'id', 'name'), class: 'form-control', id: 'subject_media', prompt: "--Dokument patrí subjektu--" %>
+           </div>
+           <div class="col-md-2">
+
+            <span class="btn fileinput-button" style="margin-top: -7px";>
+              <input id="foto_file_selector" type="file" name="files[]" multiple class="filestyle" data-classButton="btn btn-success" data-input="false" data-classIcon="icon-plus" data-buttonText="Pridaj Súbor" >
+            </span>
+             <input style="visibility:hidden" type="text" name="filetotalsize" id="filetotalsize" value="" readonly>
+          </div>
+
+        </form>
+        <div class="col-md-4">
+         <button id="subory" class="btn btn-success start">
+          <i class="glyphicon glyphicon-upload"></i>
+          <span>Nahraj</span>
+        </button>
+      </div>
+
+
+    </div>
+    <div id="progress" class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
+      aria-valuemin="0" aria-valuemax="100" style="width:0%; text-align:center"></div></div>
+      <div id="speed"></div>
+
+      <div id="status" >
+        <div class="col-md-6" id="loading_files" style="padding-top:25px"></div>
+        <div class="col-md-6" id="finished_files" style="padding-top:25px"></div>
+      </div>
+
+    </div>
+    <div class="ibox-content">
+
+
+
+      <div class="table-responsive">
+
+        <table  class="table table-bordered" id="media" style="width:100%">
+          <thead>
+            <tr>
+              <th>Názov</th>
+              <th>Typ</th>
+              <th>Veľkosť</th>
+              
+              <th>Dátum uloženia</th>
+              <th>Patrí subjektu</th>
+              
+              <th></th>
+              <th></th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <% @media.each do |medium| %>
+            <tr>
+              <td><%= medium.file_name %></td>
+              <td><%= medium.file_type %></td>
+              <td><%= number_to_human_size(medium.file_size) if medium.file_size.present? %></td>
+            
+              <td><%= medium.created_at %></td>
+              <td><%= medium.subject.name if medium.subject.present? %></td>
+              
+              <td><%= link_to download_media_path(medium.id), data: {turbolinks: false} do %><i class="fa fa-cloud-download fa-2x" aria-hidden="true"></i><% end %>  </td>  
+              <td><%= link_to medium, method: :delete, data: { confirm: 'Naozaj chceš zmazať súbor "'+ medium.file_name.to_s+'"?' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i><% end %>  </td>
+
+            </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+</div>
 
 <br>
 
-<%= link_to 'New Medium', new_medium_path %>
+<script>
+var mediatable;
+
+var tableready = function() {
+
+
+
+ mediatable= $('#media').DataTable({
+  'order': [0,'asc'],
+  'serverSide': false,
+  'stateSave' :true,
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+    'url': '/datatables_slovak.json'
+  },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ]
+
+});
+
+
+
+
+
+};
+
+
+var fuploadready = function() {
+
+  $subjektID = "null";
+
+  $('#subject_media').change( function () {
+
+    $subjektID = $('#subject_media').find(":selected").val();
+
+  });
+
+  var filesToProcess = 0;
+
+  $('#fileupload').fileupload({
+
+    dataType: 'json',
+    maxChunkSize: 5000000,
+    add: function (e, data) {
+
+
+      var goUpload = true;
+
+      var uploadFile = data.files[0];
+      if (!(/\.(gif|jpg|jpeg|tiff|png|bmp|mov|mkv|mp4|avi|mp3)$/i).test(uploadFile.name)) {
+        alert("Povolené sú len fotky a videá");
+        goUpload = false;
+        return false;
+      }
+
+
+      filesToProcess++;
+      $("#subory").on('click', function () {
+
+        if($subjektID == "null") {
+         $("#alarmsubjekt").removeAttr('hidden');
+
+       }
+       else {
+
+        if (goUpload == true) {
+
+         
+
+          data.context = $('<p/>').text('Nahrávam...' + data.files[0].name).appendTo($("#loading_files"));
+          data.submit();
+        }
+
+      }
+
+    });
+    },
+    done: function (e, data) {
+
+
+        console.log(data);
+
+      //$.each(data.result.files, function (index, file) {
+        $.each(data.result, function (index, file) {
+        $('<p/>').text("Nahratý súbor: " + file.name).appendTo($("#finished_files"));
+          filesToProcess--;
+    
+              });
+
+        if (filesToProcess === 0){
+           window.setTimeout(1000);
+          location.reload();
+        }
+
+    },
+    progressall: function (e, data) {
+        //console.log(data);
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $("#progress .progress-bar").css(
+          "width",
+          progress + "%"
+          );
+        $("#progress .progress-bar").text(progress+"%");
+        
+      },
+
+
+    });
+
+
+$('#fileupload').bind('fileuploadprogress', function (e, data) {
+    // Log the current bitrate for this upload:
+    //console.log(data.bitrate);
+    $speed = (data.bitrate / 1000).toFixed(2)
+    $("#speed").empty();
+    $("#speed").text($speed + " kB/s");
+  });
+
+$('#fileupload').bind('fileuploadsubmit', function (e, data) {
+  console.log(data);
+  $subject = $("#subject_media").val();
+  data.formData = {filetotalsize: data.files[0].size, subject_media: $subject};
+  
+});
+
+};
+
+$(".media.index").ready(tableready);
+$(".media.index").ready(fuploadready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#media_wrapper').length ==1) {mediatable.destroy() ;} 
+
+});
+
+
+$(".media.index").on('turbolinks:load', tableready); 
+$(".media.index").on('turbolinks:load', fuploadready);
+</script>
