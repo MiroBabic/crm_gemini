@@ -9,6 +9,7 @@ class CommunicationDatatable < AjaxDatatablesRails::Base
        about: {source: "Communication.about"},
        keyword: {source: "Communication.keyword"},
        subject_name: {source: "Subject.name"},
+       subject_name_show: {source: "Subject.name"},
        subject_id: {source: "Subject.id"},
        person_first_name: {source: "Person.first_name"},
        person_last_name: {source: "Person.last_name"},
@@ -21,17 +22,19 @@ class CommunicationDatatable < AjaxDatatablesRails::Base
   end
 
 
-def_delegators :@view, :link_to, :concat, :raw, :content_tag
+def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_profile_path
 
 
   def data
     records.map do |communication|
       {
         # example:
+        
          id: communication.id,
          about: communication.about,
          keyword: communication.keyword,
          subject_name: communication.subject.name,
+         subject_name_show: link_to(communication.subject.name, show_subject_profile_path(communication.subject.id)),
          subject_id: communication.subject.id,
          person_first_name: communication.person.first_name,
          person_last_name: communication.person.last_name,

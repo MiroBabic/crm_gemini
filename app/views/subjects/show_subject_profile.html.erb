@@ -1,0 +1,221 @@
+
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Profil Kontaktu</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+
+      <li class="active">
+        <strong>Profil Kontaktu</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+<div class="row m-b-lg m-t-lg">
+
+  <div class="col-md-6">
+    <div class="profile-image">
+      <i class="fa fa-building-o fa-5x" aria-hidden="true"></i>
+
+    </div>
+    <div class="profile-info">
+      <div class="">
+        <div>
+          <h2 class="no-margins">
+            <%= @subject.name %>
+          </h2>
+          <br>
+          <p>Sídlo: <b><%= @subject.site %></b></p>
+          <p>IČO: <b><%= @subject.ico %></b></p>
+          <p>Okres: <b><%= @subject.district.name if @subject.district.present? %></b></p>
+
+          
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<div class="row">
+
+    <div class="col-lg-3">
+
+        <div class="ibox">
+            <div class="ibox-title">
+            <h5>Osoby</h5>
+           </div>
+         <div class="ibox-content">
+<% @people.each do |person|%>
+                
+                    <div class="row">
+                      <div class="col-lg-12">
+                 
+                 
+                        <h3><strong><%= person.first_name + ' ' + person.last_name %></strong></h3>
+                        <p><i class="fa fa-map-marker"></i> <%= @subject.site %></p>
+                        
+                            <strong><%= @subject.name %></strong><br>
+                            @ <%= person.email %><br>
+                            @ <%= person.email2 %><br>
+                            <i class="fa fa-mobile" aria-hidden="true"></i> <%= person.cellphone %><br>
+                            <i class="fa fa-phone" aria-hidden="true"></i></i> <%= person.phone %><br>
+                            
+                        
+                     
+                    </div>
+                    </div>    
+          <% if @people.count > 1 %><hr> <%end %>  
+           <% end %> 
+         </div>
+</div>
+
+</div>
+
+
+
+<div class="col-lg-3">
+ <div class="ibox">
+   
+                                    <div class="ibox-title">
+                                        <h5>Dokumenty</h5>
+                                      
+                                    </div>
+                                    <div class="ibox-content table-responsive">
+                                        <table class="table table-hover no-margins">
+                                            <thead>
+                                            <tr>
+                                                <th>Súbor</th>
+                                                <th>Veľkosť</th>
+                                                
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                           <% @documents.each do |document| %>
+                                            <tr>
+                                                <td><small><%= link_to document.file_name, download_doc_path(document.id), data: {turbolinks: false} %></small></td>
+                                                <td><%= number_to_human_size(document.file_size) if document.file_size.present? %></td>
+                                            </tr>
+                                           <% end %>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                
+</div>
+
+</div>
+
+<div class="col-lg-6">
+ <div class="ibox">
+    <div class="ibox-title">
+    <h5>Komunikácia</h5>
+   </div>
+   <div class="ibox-content ">
+
+                                <div class="feed-activity-list">
+                                  <% @communications.each do |comm| %>
+                                    <div class="feed-element">
+                                        <div>
+                                            <small class="float-right text-navy">Pred <%= time_ago_in_words(comm.created_at) %></small>
+                                            <strong><%= comm.user.name if comm.user.present? %></strong>
+                                            <div><strong>Kľúčové slovo: </strong><%= comm.keyword %></div>
+                                            <div><%= comm.about %></div>
+                                            <small class="text-muted"><%= (I18n.localize comm.created_at) %></small>
+                                        </div>
+                                    </div>
+                                    <% end %>
+                                   
+
+                                </div>
+                            
+</div>
+</div>
+
+</div>
+
+
+
+
+
+
+</div>
+<div class="row">
+  <h4><center>Média</center></h4>
+  <div class="col-lg-3">
+     <div class="ibox">
+    <div class="ibox-title">
+    <h5>Súbory</h5>
+   </div>
+   <div class="ibox-content table-responsive">
+     <table class="table table-hover no-margins">
+                                            <thead>
+                                            <tr>
+                                                <th>Názov</th>
+                                                <th>Veľkosť</th>
+                                                
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                           <% @media.each do |medium| %>
+                                            <tr>
+                                                <td><small><%= link_to medium.file_name, download_media_path(medium.id), data: {turbolinks: false} %></small></td>
+                                                <td><%= number_to_human_size(medium.file_size) if medium.file_size.present? %></td>
+                                            </tr>
+                                           <% end %>
+                                            </tbody>
+                                        </table>
+   </div>
+ </div>
+</div>
+<div class="col-lg-9">
+  <div class="ibox">
+    <div class="ibox-title">
+    <h5>Galéria</h5>
+   </div>
+   <div class="ibox-content ">
+    <div class="lightBoxGallery">
+      <% @media.each do |medium| %>
+      
+      <a href="<%= medium.file_url.remove("/public") if medium.file_url.present? %>" title="<%= medium.file_name%>" data-gallery="" class="mediumshow"><img src="<%= medium.file_url.remove("/public") if medium.file_url.present? %>" height="42" >
+        </a>
+      <% end %>
+      <div id="blueimp-gallery" class="blueimp-gallery">
+                                <div class="slides"></div>
+                                <h3 class="title"></h3>
+                                <a class="prev">‹</a>
+                                <a class="next">›</a>
+                                <a class="close">×</a>
+                                <a class="play-pause"></a>
+                                <ol class="indicator"></ol>
+                            </div>
+    </div>
+   </div>
+ </div>
+  </div>
+  </div>
+
+<script>
+
+var ready = function() {
+
+$(".mediumshow").onclick = function (event) {
+    event = event || window.event;
+    var target = event.target || event.srcElement,
+        link = target.src ? target.parentNode : target,
+        options = {index: link, event: event},
+        links = this.getElementsByTagName('a');
+    blueimp.Gallery(links, options);
+};
+
+};
+$(".subjects.show_subject_profile").ready(ready);
+$(".subjects.show_subject_profile").on('turbolinks:load', ready);
+</script>

@@ -5,7 +5,7 @@ class MediaController < ApplicationController
   # GET /media.json
   def index
     @media = Medium.all
-    #render :json => @media.collect { |m| m.to_jq_upload }.to_json
+    
   end
 
   # GET /media/1

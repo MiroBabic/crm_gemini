@@ -48,6 +48,7 @@ Rails.application.routes.draw do
   post '/modal_edit_subj' => 'subjects#modal_edit_subj', :as=> 'modal_edit_subj'
   post '/modal_edit_person' => 'people#modal_edit_person', :as=> 'modal_edit_person'
   get '/get_subject_contacts/:id' => 'people#get_subject_contacts', :as => 'get_subject_contacts'
+  get '/profil_kontaktu/:id' => 'subjects#show_subject_profile', :as=>'show_subject_profile'
 
   
   #communication

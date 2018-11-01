@@ -2,7 +2,7 @@ class Medium < ActiveRecord::Base
   belongs_to :subject
 
 
-  mount_uploader :file, DocUploader
+  mount_uploader :file, MediaUploader
 
   after_save :update_file_attributes
 

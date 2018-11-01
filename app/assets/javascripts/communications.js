@@ -5,3 +5,5 @@ function updateCommEditModal(d) {
 	$('#editcommkeyword').val(d.keyword);
 	
 }
+
+

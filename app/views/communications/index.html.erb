@@ -1,5 +1,6 @@
 <p id="notice"><%= render 'layouts/flash_message' %></p>
 
+
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
     <h2>Komunikácia</h2>
@@ -132,12 +133,13 @@ var tableready = function() {
 
 
  commtable= $('#communication').DataTable({
-  'order': [2, 'desc'],
+  'order': [4, 'desc'],
   'serverSide': true,
   'ajax': '/communications.json',
   'stateSave' :true,
+  
   columns: [
-  {data: 'subject_name'},
+  {data: 'subject_name_show'},
   {data: 'person_first_name' },
   {data: 'about' },
   {data: 'keyword' },
@@ -145,12 +147,13 @@ var tableready = function() {
     return prettyDate(row.created_at);
   } },
   {data: 'user_name' },
-  {
-    "className":   'commedit-control',
-    "orderable":      false,
-    "data":           null,
-    "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
-  },
+   {
+     "className":   'commedit-control',
+     "orderable":      false,
+     "data":           null,
+     "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
+   },
+  
   {data: 'delete_communication', orderable: false, searchable: false} 
 
 
@@ -178,9 +181,11 @@ var tableready = function() {
   [10, 50,100, -1],
   [10, 50,100, "All"]
   ],
-  initComplete: function() {
-     $('.commedit-control').on('click',function(event){
+  //initComplete: function() {
+drawCallback: function(settings) {
+        $('.commedit-control').on('click',function(event){
 
+    
       var tr = $(this).closest('tr');
       var row = commtable.row( tr );
 
@@ -221,9 +226,17 @@ var tableready = function() {
 
       $('#editCommModal').modal('show');
 });
-  }
+
+   }
 
 });
+
+
+
+
+
+
+
 
 
 $("#commsubject").change(function(){
@@ -372,8 +385,15 @@ $('.updatecomm').on('click',function(event){
 
         });
 
+commtable.on( 'search.dt', function () {
+    console.log("halo");
+    tableready;
+} );
+
 };
 $(".communication.index").ready(tableready);
+
+
 
 
 document.addEventListener('turbolinks:before-cache', function() {

@@ -6,6 +6,8 @@ class SubjectDatatable < AjaxDatatablesRails::Base
     # or in aliased_join_table.column_name format
     @view_columns ||= {
        id: { source: "Subject.id", cond: :eq },
+       subject_name: {source: "Subject.name"},
+       subject_name_show: {source: "Subject.name"},
        name: {source: "Subject.name"},
        site: {source: "Subject.site"},
        ico: {source: "Subject.ico"},
@@ -26,7 +28,7 @@ class SubjectDatatable < AjaxDatatablesRails::Base
   end
 
 
-def_delegators :@view, :link_to, :concat, :raw, :content_tag
+def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_profile_path
 
 
   def data
@@ -35,6 +37,8 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag
         # example:
          id: subject.id,
          name: subject.name,
+         subject_name: subject.subject_name,
+         subject_name_show: link_to(subject.subject_name, show_subject_profile_path(subject.subject_id)),
          site: subject.site,
          ico: subject.ico,
          district_name: subject.district.name,
@@ -47,9 +51,10 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag
          user_name: subject.user.name,
          note: subject.note,
          web: subject.web,
+         subject_id: subject.subject_id,
          zaujimavost: subject.zaujimavost,
-         created_at: subject.created_at,
-         updated_at: subject.updated_at,
+         created_at: subject.created_at_modif,
+         updated_at: subject.updated_at_modif,
          delete_subject: link_to(content_tag(:i,nil,class: 'fa fa-trash-o fa-2x') ,subject, method: :delete, data: { confirm: 'Naozaj chceš zmazať tento subjekt? Ak ho zmažeš, zmažú sa aj všetky naviazané osoby.' })
         }
     end
@@ -59,7 +64,10 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag
 
 
 def get_raw_records
-  Subject.joins(:district).joins(:subjtype).all
+  #Subject.joins(:district).joins(:subjtype).joins(:user).select("subjects.id as id, subjects.name as name, subjects.site as site, subjects.ico as ico, districts.name as district_name,     districts.id as district_id,districts.county as county, subjtypes.name as subjtype_name, subjtypes.id as subjtype_id,     subjtypes.about as subjtype_about, subjects.citizen_count as citizen_count, users.name as user_name, subjects.note as note, subjects.web as web, subjects.zaujimavost as zaujimavost,    subjects.created_at as created_at, subjects.updated_at as updated_at").all
+  Subject.joins(:district).joins(:subjtype).joins(:user).select("subjects.*,subjects.id as subject_id,subjects.name as subject_name,to_char(subjects.created_at,'YYYY-MM-DD HH24:MI:SS') as created_at_modif,
+    to_char(subjects.updated_at,'YYYY-MM-DD HH24:MI:SS') as updated_at_modif, districts.*,subjtypes.*,users.*").all
+  #Subject.joins(:district).joins(:subjtype).joins(:user).all
 end
 
 

@@ -1,3 +1,6 @@
+<% content_for(:head_attributes) do %>
+<meta name="turbolinks-cache-control" content="no-cache">
+  <% end %>
 <p id="notice"><%= render 'layouts/flash_message' %></p>
 
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -47,6 +50,8 @@
                       <th>Typ Subjektu</th>
                       <th>Spravuje</th>
                       <th>Počet obyvateľov</th>
+                      <th>Vložené</th>
+                      <th>Upravené</th>
                       <th>Detaily</th>
                       <th>Kontakty</th>
                       <th>Komunikácia</th>
@@ -266,12 +271,14 @@ var tableready = function() {
   'stateSave' :true,
   'ajax' : '/subjects.json',
   columns: [
-  {data: 'name'},
+  {data: 'subject_name_show'},
   {data: 'district_name' },
   {data: 'county_name' },
   {data: 'subjtype_name' },
   {data: 'user_name' },
   {data: 'citizen_count' },
+  {data: 'created_at' },
+  {data: 'updated_at' },
   {
     "className":   'details-control',
     "orderable":      false,
@@ -323,11 +330,13 @@ var tableready = function() {
   [10, 50,100, -1],
   [10, 50,100, "All"]
   ],
-  initComplete: function() {
+  //initComplete: function() {
+    drawCallback: function(settings) {
 
     $('.subjedit-control').on('click',function(event){
        var tr = $(this).closest('tr');
       var row = subjtable.row( tr );
+
 
       updateSubjEditModal(row.data());
 
@@ -370,7 +379,7 @@ var tableready = function() {
             // Open this row
              $.ajax({
             type: "GET",
-            url: "/get_subject_contacts/"+row.data().id,
+            url: "/get_subject_contacts/"+row.data().subject_id,
             
             success:function(data){
               if (data.status == "ok")
@@ -405,7 +414,7 @@ var tableready = function() {
             // Open this row
              $.ajax({
             type: "GET",
-            url: "/get_subject_communication/"+row.data().id,
+            url: "/get_subject_communication/"+row.data().subject_id,
             
             success:function(data){
               if (data.status == "ok")

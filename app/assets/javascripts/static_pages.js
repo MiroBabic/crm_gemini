@@ -42,8 +42,9 @@ function formatSubjContactsDetail(d) {
     }
 
 function updateSubjEditModal(d) {
-	$('#editsubjektID').val(d.id);
-	$('#edit_subjname').val(d.name);
+	
+	$('#editsubjektID').val(d.subject_id);
+	$('#edit_subjname').val(d.subject_name);
 	$('#edit_subjsite').val(d.site);
 	$('#edit_subjico').val(d.ico);
 	$('#edit_subjnote').val(d.note);

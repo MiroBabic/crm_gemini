@@ -1,2 +1,20 @@
+ <div class="row  border-bottom white-bg dashboard-header">
 
-<h1>Gemini Group CRM</h1>
+                    <div class="col-md-3">
+                        <h2>Vitaj <%= current_user.name %></h2>
+                        <small>Máš <%= @calendar.count %> záznamov v kalendári na najbližší mesiac</small>
+                        <ul class="list-group clear-list m-t">
+                        	<% @calendar.each_with_index do |cal,index| %>
+                        	<li class="list-group-item">
+                                <span class="float-right">
+                                    <%= cal.start.to_formatted_s(:short) %>
+                                </span>
+                                <span class="label label-success"><%= index + 1 %></span> <%= cal.title %>
+                            </li>
+                            <% end %>
+                           
+                        </ul>
+                    </div>
+                   
+
+            </div>

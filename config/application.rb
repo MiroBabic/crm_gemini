@@ -23,9 +23,13 @@ module CrmGemini
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.assets.paths << Rails.root.join('vendor', 'assets', 'stylesheets', 'custom')
     config.assets.paths << Rails.root.join('assets', 'images', 'patterns')
+    config.assets.paths << Rails.root.join('public')
+    
     config.active_record.raise_in_transactional_callbacks = true
 
     config.active_job.queue_adapter = :delayed_job
+
+    config.i18n.default_locale = :'sk'
     
   end
 end

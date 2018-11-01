@@ -15,6 +15,14 @@ class SubjectsController < ApplicationController
     end
   end
 
+  def show_subject_profile
+    @subject = Subject.find(params[:id])
+    @communications = Communication.where(:subject_id=>@subject.id).order("created_at desc").limit(6)
+    @documents = Document.where(:subject_id=>@subject.id)
+    @people = Person.where(:subject_id=>@subject.id)
+    @media = Medium.where(:subject_id=>@subject.id)
+  end
+
   # GET /subjects/1
   # GET /subjects/1.json
   def show

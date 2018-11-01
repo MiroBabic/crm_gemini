@@ -10,6 +10,10 @@ class StaticPagesController < ApplicationController
 		@users = User.all
 	end
 
+	def home
+		@calendar = Calendar.where(:user_id=>current_user.id)
+	end
+
 	def job_queue
 	   @list = Delayed::Job.all
 	end
