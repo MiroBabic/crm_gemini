@@ -42,12 +42,13 @@ function formatSubjContactsDetail(d) {
     }
 
 function updateSubjEditModal(d) {
-	
+
 	$('#editsubjektID').val(d.subject_id);
 	$('#edit_subjname').val(d.subject_name);
 	$('#edit_subjsite').val(d.site);
 	$('#edit_subjico').val(d.ico);
 	$('#edit_subjnote').val(d.note);
+	if (d.vip==true) { $('#edit_isvip').prop('checked', true);} else {$('#edit_isvip').prop('checked', false);}
 	$('#edit_subjdistrict').val(d.district_id);
 	$('#edit_subjtype').val(d.subjtype_id);
 	$('#edit_subjobyv').val(d.citizen_count);

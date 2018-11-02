@@ -50,6 +50,7 @@
                       <th>Typ Subjektu</th>
                       <th>Spravuje</th>
                       <th>Počet obyvateľov</th>
+                      <th>VIP</th>
                       <th>Vložené</th>
                       <th>Upravené</th>
                       <th>Detaily</th>
@@ -126,6 +127,7 @@
      </div>
      <label>Sídlo:</label><input type="text" name="subjsite" id="subjsite" class="form-control" placeholder="Sídlo subjektu" /><br>
      <label>IČO:</label><input type="number" name="subjico" id="subjico" class="form-control" onkeyup="if(!this.checkValidity()){this.value=\'\';alert(\'Vložte číslo!\')};" placeholder="IČO ak má subjekt pridelené"/><br>
+     <label class="">VIP <input id="isvip" type="checkbox" class="icheckbox_square-green" /></label><br>
      <label>Poznámka:</label><input type="text" name="subjnote" id="subjnote" class="form-control" placeholder="Poznámka"/><br>
      <label>Počet obyvateľov ak je obec:</label><input type="text" name="subjobyv" id="subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
 
@@ -209,6 +211,7 @@
      </div>
      <label>Sídlo:</label><input type="text" name="edit_subjsite" id="edit_subjsite" class="form-control" placeholder="Sídlo subjektu" /><br>
      <label>IČO:</label><input type="number" name="edit_subjico" id="edit_subjico" class="form-control" onkeyup="if(!this.checkValidity()){this.value=\'\';alert(\'Vložte číslo!\')};" placeholder="IČO ak má subjekt pridelené"/><br>
+     <label class="">VIP <input id="edit_isvip" type="checkbox" class="icheckbox_square-green" /></label><br>
      <label>Poznámka:</label><input type="text" name="edit_subjnote" id="edit_subjnote" class="form-control" placeholder="Poznámka"/><br>
      <label>Počet obyvateľov ak je obec:</label><input type="text" name="edit_subjobyv" id="edit_subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
 
@@ -277,6 +280,13 @@ var tableready = function() {
   {data: 'subjtype_name' },
   {data: 'user_name' },
   {data: 'citizen_count' },
+  //{data: 'vip' },
+  {data: 'vip','render' : function(data,type,row) {
+    $res = '';
+    if (row.vip == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
+      else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
+    return $res;
+  } },
   {data: 'created_at' },
   {data: 'updated_at' },
   {
@@ -448,6 +458,9 @@ $('.createcontact').on('click',function(event){
           $subjsite = $('#subjsite').val(); 
           $subjico = $('#subjico').val(); 
           $subjnote = $('#subjnote').val(); 
+          if ($('#isvip').is(":checked")) {$isvip = true;}
+
+          
           $subjobyv = $('#subjobyv').val(); 
           $contactname = $('#contactname').val(); 
           $contactsurname = $('#contactsurname').val(); 
@@ -469,6 +482,7 @@ $('.createcontact').on('click',function(event){
               subjsite: $subjsite,
               subjico: $subjico,
               subjnote: $subjnote,
+              isvip: $isvip,
               subjobyv: $subjobyv,
               contactname: $contactname,
               contactsurname: $contactsurname,
@@ -507,6 +521,7 @@ $('.editcontact').on('click',function(event){
           $edit_subjsite = $('#edit_subjsite').val(); 
           $edit_subjico = $('#edit_subjico').val(); 
           $edit_subjnote = $('#edit_subjnote').val(); 
+          if ($('#edit_isvip').is(":checked")) {$edit_isvip = true;}
           $edit_subjobyv = $('#edit_subjobyv').val(); 
           
 
@@ -524,6 +539,7 @@ $('.editcontact').on('click',function(event){
               edit_subjsite: $edit_subjsite,
               edit_subjico: $edit_subjico,
               edit_subjnote: $edit_subjnote,
+              edit_isvip: $edit_isvip,
               edit_subjobyv: $edit_subjobyv              
 
             },
