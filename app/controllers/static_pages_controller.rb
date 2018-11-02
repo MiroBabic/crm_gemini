@@ -36,7 +36,7 @@ class StaticPagesController < ApplicationController
 		@districts = District.all.order(:name)
 		@counties =  District.all.pluck(:county).uniq.sort
 		@users = User.all
-		@templates = Mailtemplate.all
+		@templates = Mailtemplate.all.order("updated_at desc")
 		@documents = Document.all
 		@profiles = Userprofile.where(:user_id=>current_user.id)
 		@emails_arr = Array.new
