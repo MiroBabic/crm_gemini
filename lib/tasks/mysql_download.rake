@@ -48,9 +48,20 @@ namespace :mysql_download do
 		begin
 			client = Mysql2::Client.new(:host => "mysql51.websupport.sk", :username => "48kqipf6",:port=>'3309', :database=>"48kqipf6", :password=>ENV['CRM_PHP_DBPASS'], :socket =>'/tmp/mysql51.sock')
 
-			result = client.query("SELECT * FROM dokumenty")
+			result = client.query("SELECT a.id,a.name,a.type,a.size,a.content,a.entry_timestamp,a.subjekt,a.poznamka,u.email FROM dokumenty a, members u where a.autor = u.id")
+
+			owners = User.all
+			admin = User.where(:email=>'admin@geminigroup.sk').first
 
 			result.each do |res|
+
+				owner = owners.where(:email => res["email"]).first
+				if owner.present?
+					owner_id = owner.id
+				else
+					owner_id = admin.id
+				end
+
 				#puts res["content"].unpack('b*')
 				document = Document.where(:file_name=>res["name"], :file_size=> res["size"]).first_or_create
 				#doc = Base64.decode64(res["content"])
@@ -61,6 +72,8 @@ namespace :mysql_download do
 				end 
 
 				file = File.open(Rails.root+'/tmp/'+filename, "rb") 
+				document.note = res["poznamka"]
+				document.user_id = owner_id
 				document.file = file
 				document.save
 				
