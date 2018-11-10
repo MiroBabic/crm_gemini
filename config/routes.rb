@@ -1,9 +1,6 @@
 Rails.application.routes.draw do
 
 
-  
- 
-  resources :media
   devise_for :users, :controllers => {:sessions => "users/sessions", :registrations => "users/registrations"}, :skip => [:registrations]
   
   devise_scope :user do
@@ -27,6 +24,7 @@ Rails.application.routes.draw do
    resources :userprofiles
   resources :mailtemplates
   resources :calendars
+  resources :media
 
   #static pages
   get '/kontakty' => 'static_pages#contacts', :as => 'contacts'
@@ -81,6 +79,8 @@ Rails.application.routes.draw do
 
   #media
   get '/download_media/:id' => 'media#download_media', :as=> 'download_media'
+  get '/subory' => 'static_pages#subory', :as=>'subory'
+  #get '/subory' => 'media#subory', :as=>'subory'
   
 
   root 'static_pages#home'

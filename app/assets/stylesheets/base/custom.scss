@@ -1,9 +1,3 @@
-/* Only demo */
-@media (max-width: 1000px) {
-  .welcome-message {
-    display: none;
-  }
-}
 
 .nav-header {
 	background-image: none !important;
@@ -20,6 +14,10 @@
 .modal-dialog-upload{
     height: auto;
     min-height: 500px;   
+}
+
+.enlarge-down-80 {
+  padding-bottom: 80px !important;
 }
 
 @media (min-width: 992px) {

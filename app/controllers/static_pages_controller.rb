@@ -10,6 +10,18 @@ class StaticPagesController < ApplicationController
 		@users = User.all
 	end
 
+	def subory
+		#@media = Medium.all
+		respond_to do |format|
+          format.html
+          format.json do
+        
+        	render json: ::MediaDatatable.new(view_context)
+        
+      	  end
+    	end
+	end
+
 	def home
 		@calendar = Calendar.where(:user_id=>current_user.id)
 	end

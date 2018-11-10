@@ -81,20 +81,7 @@
           </thead>
 
           <tbody>
-            <% @media.each do |medium| %>
-            <tr>
-              <td><%= medium.file_name %></td>
-              <td><%= medium.file_type %></td>
-              <td><%= number_to_human_size(medium.file_size) if medium.file_size.present? %></td>
-            
-              <td><%= medium.created_at %></td>
-              <td><%= medium.subject.name if medium.subject.present? %></td>
-              
-              <td><%= link_to download_media_path(medium.id), data: {turbolinks: false} do %><i class="fa fa-cloud-download fa-2x" aria-hidden="true"></i><% end %>  </td>  
-              <td><%= link_to medium, method: :delete, data: { confirm: 'Naozaj chceš zmazať súbor "'+ medium.file_name.to_s+'"?' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i><% end %>  </td>
-
-            </tr>
-            <% end %>
+           
           </tbody>
         </table>
       </div>
@@ -142,8 +129,20 @@ var tableready = function() {
 
  mediatable= $('#media').DataTable({
   'order': [0,'asc'],
-  'serverSide': false,
+  'serverSide': true,
   'stateSave' :true,
+  'ajax' : '/subory.json',
+  columns: [
+  {data: 'file_name'},
+  {data: 'file_type' },
+  {data: 'file_size' },
+  {data: 'created_at' },
+  {data: 'subject_name_show' },
+ {data: 'download_medium', orderable: false, searchable: false}, 
+  {data: 'delete_medium', orderable: false, searchable: false} 
+
+
+  ],
   'dom': 'lfr<"pull-right"B>tip',
   'buttons': [
   {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},

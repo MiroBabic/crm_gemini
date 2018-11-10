@@ -4,9 +4,10 @@ class MediaController < ApplicationController
   # GET /media
   # GET /media.json
   def index
-    @media = Medium.all
+   @media = Medium.all
     
   end
+
 
   # GET /media/1
   # GET /media/1.json
@@ -120,7 +121,8 @@ class MediaController < ApplicationController
   def destroy
     @medium.destroy
     respond_to do |format|
-      format.html { redirect_to media_url, notice: 'Súbor bol úspešne zmazaný.' }
+      #format.html { redirect_to media_url, notice: 'Súbor bol úspešne zmazaný.' }
+      format.html { redirect_to subory_url, notice: 'Súbor bol úspešne zmazaný.' }
       format.json { head :no_content }
     end
   end
