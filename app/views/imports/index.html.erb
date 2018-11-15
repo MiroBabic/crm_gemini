@@ -1,0 +1,71 @@
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Import</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Import</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+<div class="row">
+  <div class="col-lg-12" style="padding-top:50px">
+
+    <div class="ibox float-e-margins">
+      <div class="ibox-title">
+        <p>Táto časť slúži na hromadný import dát. Vždy je nutné použiť presne určenú štruktúru.</p>
+      </div>
+      <div class="ibox-content">
+        <div class="row">
+          <div class="col-lg-6">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+               Import Subjektov
+             </div>
+             <div class="panel-body">
+              <p><strong>Formát</strong> CSV oddelené bodkočiarkou, len UTF8! Súbor musí obsahovať hlavičku presne ako je v ukážke.
+              </p>
+              <p><strong>Ukážka:</strong></p>
+              <pre style="font-size:10px">
+subjekt;sidlo;okres;typ_subjektu;ico;web;poznamka;meno;priezvisko;email;mobil;
+EUROPERSONAL;Mlynské nivy 1485/70, 821 05 Bratislava;Bratislava;HR_managers;;;;Robert;Oszi ;lozorno2@e-personal.eu;903462631;
+VV SERVIS;;;HR_managers;;;;Vladislav; Vlček;vladislavvlcek@gmail.com;903 179 749;
+INDEX NOSLUŠ;Prešovská 38, 821 02 Bratislava;Bratislava;HR_managers;;;;Alexandra; Riganová;a.riganova@indexnoslus.sk;918574999;
+              </pre><br/>                            
+              <div class="fileinput fileinput-new">
+                <%= form_tag({:action => :importsubjects}, :multipart => true) do %>
+                <%= file_field_tag :file, :class => 'btn btn-default btn-file' %>
+                <br/>
+                <%= submit_tag( "Importuj subjekty" , :class=>'btn btn-block btn-outline btn-primary') %> 
+                <% end %>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-6">
+        
+      </div>
+    </div>
+
+    
+
+    <hr>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
+
+
+

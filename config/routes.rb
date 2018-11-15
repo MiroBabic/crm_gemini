@@ -82,6 +82,9 @@ Rails.application.routes.draw do
   get '/subory' => 'static_pages#subory', :as=>'subory'
   #get '/subory' => 'media#subory', :as=>'subory'
   
+  #imports
+  get '/imports' => 'imports#index'
+  post '/importsubjects' => 'imports#importsubjects', :as => 'importsubjects'
 
   root 'static_pages#home'
   # The priority is based upon order of creation: first created -> highest priority.
