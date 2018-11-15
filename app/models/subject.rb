@@ -13,7 +13,7 @@ require 'csv'
 		success=0
 		failed=0
 
-		CSV.foreach(file.path, encoding: "bom|utf-8", headers: true, :col_sep=>';') do |row|
+		CSV.foreach(file.path, encoding: "utf-8", headers: true, :col_sep=>';') do |row|
 			total = total +1
 			
 			row["email"].downcase!
