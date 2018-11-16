@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
 
+    
+  mount LetsencryptPlugin::Engine, at: '/'  # It must be at root level
+
 
   devise_for :users, :controllers => {:sessions => "users/sessions", :registrations => "users/registrations"}, :skip => [:registrations]
   

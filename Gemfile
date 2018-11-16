@@ -36,6 +36,10 @@ gem 'rmagick'
 gem 'delayed_job_active_record'
 gem "daemons"
 
+#lets encrypt
+#gem 'letsencrypt_plugin'
+gem 'letsencrypt_plugin', github: 'lgromanowski/letsencrypt-plugin'
+
 gem 'rails-i18n'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
