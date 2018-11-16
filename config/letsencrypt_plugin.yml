@@ -1,7 +1,7 @@
 default: &default
   endpoint: 'https://acme-v01.api.letsencrypt.org/'
   email: 'miro@mirobabic.com'
-  domain: "<%= ['crm.geminigroup.sk', 'www.crm.geminigroup.sk'].join(' ') %>"
+  domain: 'crm.geminigroup.sk'
 
   # in Rails.root, path to private key
   private_key: 'key/keyfile.pem'
