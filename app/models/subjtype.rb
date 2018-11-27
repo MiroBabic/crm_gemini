@@ -1,3 +1,3 @@
 class Subjtype < ActiveRecord::Base
-	has_many :subjtypes, :dependent => :destroy
+	has_many :subjects, :dependent => :destroy
 end

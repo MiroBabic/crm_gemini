@@ -48,7 +48,7 @@
                 <td><%= count_total_subject_for_subjtype(subjtype.id) %></td>
                 <% if current_user.admin? %>
                 <td><a  data-toggle="modal" data-target="#editsubjtypeModal<%=subjtype.id%>"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
-        <td><%= link_to subjtype, method: :delete, data: { confirm: 'Naozaj ho chceš zmazať?' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
+        <td><%= link_to subjtype, method: :delete, data: { confirm: 'Naozaj ho chceš zmazať? Všetky naviazané subjekty a ich dáta budú nenávratne zmazané!' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
                 <% end %></td>
                 <% end %>
               </tr>

@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
     
+  
   mount LetsencryptPlugin::Engine, at: '/'  # It must be at root level
 
 
@@ -16,7 +17,7 @@ Rails.application.routes.draw do
 
   
 
-
+  resources :projecttargets
   resources :people
   resources :districts
   resources :documents
@@ -88,6 +89,10 @@ Rails.application.routes.draw do
   #imports
   get '/imports' => 'imports#index'
   post '/importsubjects' => 'imports#importsubjects', :as => 'importsubjects'
+
+  #project targets
+  post '/modal_create_project_target' => 'projecttargets#modal_create_project_target', :as=> 'modal_create_project_target'
+  post '/modal_edit_project_target' => 'projecttargets#modal_edit_project_target', :as=> 'modal_edit_project_target'
 
   root 'static_pages#home'
   # The priority is based upon order of creation: first created -> highest priority.

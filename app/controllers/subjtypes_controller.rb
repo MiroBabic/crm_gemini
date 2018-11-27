@@ -113,11 +113,16 @@ class SubjtypesController < ApplicationController
   # DELETE /subjtypes/1
   # DELETE /subjtypes/1.json
   def destroy
+    begin
     @subjtype.destroy
     respond_to do |format|
       format.html { redirect_to subjtypes_url, notice: 'Subjtype was successfully destroyed.' }
       format.json { head :no_content }
     end
+  rescue=>error
+    redirect_to subjtypes_url, :alert=>error.message
+  end
+  
   end
 
   private
