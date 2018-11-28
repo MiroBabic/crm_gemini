@@ -49,7 +49,17 @@ class StaticPagesController < ApplicationController
 		@counties =  District.all.pluck(:county).uniq.sort
 		@users = User.all
 		@templates = Mailtemplate.all.order("updated_at desc")
-		@documents = Document.all
+		#@documents = Document.all
+		@docs = Document.all
+
+		@documents= Array.new
+		@docs.each do |doc|
+			hh=Hash.new
+			hh["id"] = doc.id
+			hh["file_name"]=doc.file_name.gsub("_"," ").gsub("-"," ")
+		@documents.push(hh)
+		end
+
 		@profiles = Userprofile.where(:user_id=>current_user.id)
 		@emails_arr = Array.new
 
@@ -120,6 +130,8 @@ class StaticPagesController < ApplicationController
 			@res_addresses.each do |email_address|
 				begin
 				NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs).deliver_later
+
+				
 				rescue => error
 					c=Communication.new
 					c.about = error.message
