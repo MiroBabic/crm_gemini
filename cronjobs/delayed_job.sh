@@ -1,4 +1,6 @@
 #!/bin/bash
-source $HOME/.profile
-#cd /home/rails/uvo && RAILS_ENV=production bin/delayed_job restart
+#source $HOME/.profile
+export PATH=$HOME/.rbenv/bin:$PATH
+export PATH=$HOME/.rbenv/shims:$PATH
+
 cd /home/miro/crm_gemini && RAILS_ENV=production bin/delayed_job restart
