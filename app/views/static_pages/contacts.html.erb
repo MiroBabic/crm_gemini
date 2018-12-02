@@ -51,6 +51,8 @@
                       <th>Spravuje</th>
                       <th>Počet obyvateľov</th>
                       <th>VIP</th>
+                      <th style="visibility:hidden">Projektový zámer_arr</th>
+                      <th>Projektový zámer</th>
                       <th>Vložené</th>
                       <th>Upravené</th>
                       <th>Detaily</th>
@@ -214,6 +216,9 @@
      <label class="">VIP <input id="edit_isvip" type="checkbox" class="icheckbox_square-green" /></label><br>
      <label>Poznámka:</label><input type="text" name="edit_subjnote" id="edit_subjnote" class="form-control" placeholder="Poznámka"/><br>
      <label>Počet obyvateľov ak je obec:</label><input type="text" name="edit_subjobyv" id="edit_subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
+     <hr>
+     <label>Projektový zámer</label><%= select_tag 'project_targets_edit', options_from_collection_for_select(@projecttargets, 'id', 'name'), class: 'form-control chosen-select',multiple: true, id: 'project_targets_edit', "data-placeholder": "Vyber projektový zámer..." %>
+       <br><br>       
 
     <input  class="editcontact btn btn-success" value="Uprav" /> 
 
@@ -268,6 +273,14 @@ var subjtable;
 var peopletable;
 var tableready = function() {
 
+  $('.chosen-select').chosen({width: "100%"});
+
+  $("#project_targets_edit").chosen().change(function(e, params){
+ $project_targets  = $("#project_targets_edit").chosen().val();
+
+ console.log($project_targets)
+});
+
  subjtable= $('#subjects').DataTable({
   'order': [0, 'asc'],
   'serverSide': true,
@@ -280,13 +293,15 @@ var tableready = function() {
   {data: 'subjtype_name' },
   {data: 'user_name' },
   {data: 'citizen_count' },
-  //{data: 'vip' },
+   //{data: 'vip' },
   {data: 'vip','render' : function(data,type,row) {
     $res = '';
     if (row.vip == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
       else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
     return $res;
   } },
+  {data: 'project_targets', "visible":false},
+  {data: 'project_targets_string'},
   {data: 'created_at' },
   {data: 'updated_at' },
   {
@@ -521,8 +536,15 @@ $('.editcontact').on('click',function(event){
           $edit_subjsite = $('#edit_subjsite').val(); 
           $edit_subjico = $('#edit_subjico').val(); 
           $edit_subjnote = $('#edit_subjnote').val(); 
-          if ($('#edit_isvip').is(":checked")) {$edit_isvip = true;}
+          if ($('#edit_isvip').is(":checked")) {$edit_isvip = true;} else {$edit_isvip = false;}
           $edit_subjobyv = $('#edit_subjobyv').val(); 
+          
+          var $targets = 0;
+
+          if (typeof $project_targets !== 'undefined') {
+          $targets = $project_targets;
+            }
+
           
 
 
@@ -540,7 +562,8 @@ $('.editcontact').on('click',function(event){
               edit_subjico: $edit_subjico,
               edit_subjnote: $edit_subjnote,
               edit_isvip: $edit_isvip,
-              edit_subjobyv: $edit_subjobyv              
+              edit_subjobyv: $edit_subjobyv,
+              edit_project_targets: $targets              
 
             },
 

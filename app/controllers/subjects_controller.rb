@@ -98,7 +98,15 @@ class SubjectsController < ApplicationController
       @subject.note= params[:edit_subjnote]
       @subject.vip = params[:edit_isvip]
       @subject.citizen_count = params[:edit_subjobyv]
-      #@subject.obyv= params[:edit_subjobyv]
+      if params[:edit_project_targets ] != 0
+        @subject.project_targets = params[:edit_project_targets ]
+
+        @targets = Projecttarget.where(:id=>params[:edit_project_targets])
+        @subject.project_targets_string = @targets.pluck(:name).join(",")
+
+      end
+      
+
            
 
       if (@subject.save)

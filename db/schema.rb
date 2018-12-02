@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181128222932) do
+ActiveRecord::Schema.define(version: 20181202220352) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -141,12 +141,13 @@ ActiveRecord::Schema.define(version: 20181128222932) do
     t.string   "note"
     t.string   "web"
     t.string   "zaujimavost"
-    t.datetime "created_at",                        null: false
-    t.datetime "updated_at",                        null: false
+    t.datetime "created_at",                             null: false
+    t.datetime "updated_at",                             null: false
     t.integer  "citizen_count"
-    t.boolean  "vip",               default: false
+    t.boolean  "vip",                    default: false
     t.integer  "oldcrm_subject_id"
     t.json     "project_targets"
+    t.text     "project_targets_string"
   end
 
   add_index "subjects", ["district_id"], name: "index_subjects_on_district_id", using: :btree

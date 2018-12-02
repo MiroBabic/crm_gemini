@@ -22,6 +22,7 @@ class SubjectDatatable < AjaxDatatablesRails::Base
        user_name: {source: "User.name"},
        note: {source: "Subject.note"},
        web: {source: "Subject.web"},
+       project_targets_string: {source: "Subject.project_targets_string"},
        zaujimavost: {source: "Subject.zaujimavost"},
        created_at: { source: "Subject.created_at" },
        updated_at: { source: "Subject.updated_at" }
@@ -29,7 +30,7 @@ class SubjectDatatable < AjaxDatatablesRails::Base
   end
 
 
-def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_profile_path
+def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_profile_path, :get_project_targets
 
 
   def data
@@ -43,6 +44,8 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
          site: subject.site,
          ico: subject.ico,
          vip: subject.vip,
+         project_targets: subject.project_targets,
+         project_targets_string: subject.project_targets_string,
          district_name: subject.district.name,
          district_id: subject.district.id,
          county_name: subject.district.county,
@@ -68,12 +71,20 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
 def get_raw_records
   #Subject.joins(:district).joins(:subjtype).joins(:user).select("subjects.id as id, subjects.name as name, subjects.site as site, subjects.ico as ico, districts.name as district_name,     districts.id as district_id,districts.county as county, subjtypes.name as subjtype_name, subjtypes.id as subjtype_id,     subjtypes.about as subjtype_about, subjects.citizen_count as citizen_count, users.name as user_name, subjects.note as note, subjects.web as web, subjects.zaujimavost as zaujimavost,    subjects.created_at as created_at, subjects.updated_at as updated_at").all
   Subject.joins(:district).joins(:subjtype).joins(:user).select("subjects.*,subjects.id as subject_id,subjects.name as subject_name,to_char(subjects.created_at,'YYYY-MM-DD HH24:MI:SS') as created_at_modif,
-    to_char(subjects.updated_at,'YYYY-MM-DD HH24:MI:SS') as updated_at_modif, districts.*,subjtypes.*,users.*").all
+    to_char(subjects.updated_at,'YYYY-MM-DD HH24:MI:SS') as updated_at_modif,subjects.project_targets_string, districts.*,subjtypes.*,users.*").all
   #Subject.joins(:district).joins(:subjtype).joins(:user).all
 end
 
+def get_project_targets(arr)
+  @targets= Projecttarget.where(:id=>arr)
 
+  @names = Array.new
+  if @targets.present?
+    @names = @targets.map {|t| t.name}
+  end
 
+  return @names
+end
 
 
   # ==== These methods represent the basic operations to perform on records
