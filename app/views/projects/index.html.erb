@@ -1,0 +1,544 @@
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Projekty</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Projekty</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_project_button" data-toggle="modal" data-target="#addProjectModal">Pridaj projekt</button>
+        
+        <hr>
+        <div class="table-responsive">
+
+          <table  class="table table-bordered" id="projects" style="width:100%">
+
+            <thead>
+              <tr>
+                <th>Projekt</th>
+                <th>Žiadateľ</th>
+                <th>Projektový manažér</th>
+                <th>Kontaktná osoba/Žiadateľ</th>
+                <th>Zmluva</th>
+                <th>Objednávka</th>
+                <th>Kontrola ŽoNFP</th>
+                <th>Poznámka</th>
+                <th>Dodávateľ</th>
+                <th>Poslané na podpis</th>
+                <th>Odovzdané-online</th>
+                <th>Odovzdané-print</th>
+                <th>Financie</th>
+                <th></th>
+                <th></th>
+               <!-- <th>Dohodnuté odmeny</th>
+                <th>Fakturovaná odmena</th>
+                <th>Splatnosť</th>
+                <th>Uhradené</th>-->
+                
+              </tr>
+            </thead>
+
+            <tbody>
+             
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div id="addProjectModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Vytvor Projekt </h2>
+       
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger noborders">
+   Polia vyznačené na červeno sú povinné
+  </div>
+        <div class="form-group has-error">
+         <label>Meno:</label><input type="text" name="project_name" id="project_name" class="form-control" placeholder="Meno projektu" /><br>
+          <label>Projektový manažér:</label><%= select_tag 'project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
+          <label>Žiadateľ: </label><%= select_tag 'subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'subject_new', prompt: "--vyber subjekt--" %>
+         </br>
+         
+          <span id="addPersonToComm"></span><br>
+          </div>
+          <label>Zmluva:</label><%= select_tag 'contract', options_for_select(['Áno','Nie','Zaslaná na podpis']), class: 'form-control', id: 'contract',"data-placeholder": "Zmluva",prompt: "--vyber či zmluva existuje--" %><br>
+          <label>Objednávka:</label><%= select_tag 'order', options_for_select(['Áno','Nie','Zaslaná na podpis']), class: 'form-control', id: 'order',"data-placeholder": "Zmluva",prompt: "--vyber či objednávka existuje--" %><br>
+          <label>Kontrola ŽoNFP:</label><input type="text" name="control_zonfp" id="control_zonfp" class="form-control" placeholder="Kontrola ŽoNFP s prílohami (meno+výsledok)" /><br>
+          <label>Poznámka:</label><input type="text" name="project_note" id="project_note" class="form-control" placeholder="Poznámka ku projektu..." /><br>
+          <label>Dodávateľ:</label><input type="text" name="project_contractor" id="project_contractor" class="form-control" placeholder="Dodávateľ projektu..." /><br>
+          <div class="row">
+            <div class="col-md-4">
+          <label>Poslané na podpis <input id="sent_sign" type="checkbox" class="icheckbox_square-green" /></label><br>
+        </div>
+        <div class="col-md-4">
+          <label>Odovzdané-online <input id="submitonline" type="checkbox" class="icheckbox_square-green" /></label><br>
+        </div>
+          <div class="col-md-4">
+          <label>Odovzdané-print <input id="submitprint" type="checkbox" class="icheckbox_square-green" /></label><br>
+          </div>
+        </div>
+        <label>Dohodnuté odmeny:</label><input type="number" name="agreed_pay" id="agreed_pay" class="form-control" placeholder="Dohodnuté odmeny za ŽoNFP, SF a iné služby.." /><br>
+        <label>Fakturovaná odmena:</label><input type="number" name="pay" id="pay" class="form-control" placeholder="Fakturovaná odmena.." /><br>
+        <label>Splatnosť:</label><div class="input-group date">
+          <span id="duedatecalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input id="duedate" name="duedate" class="form-control" placeholder="1990-12-31" >
+        </div><br>
+        <label>Uhradené <input id="payed" type="checkbox" class="icheckbox_square-green" /></label><br>
+           
+       
+       <button id="addprojectbtn" type="button" class="addproject btn btn-success">Vytvor</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+
+
+<div id="editProjectModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav Projekt </h2>
+       
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger noborders">
+   Polia vyznačené na červeno sú povinné
+  </div>
+        <div class="form-group has-error">
+          <input style="visibility:hidden" type="text" name="editprojectID" id="editprojectID" value="" readonly>
+         <label>Meno:</label><input type="text" name="project_name_edit" id="project_name_edit" class="form-control" placeholder="Meno projektu" /><br>
+          <label>Projektový manažér:</label><%= select_tag 'project_manager_edit', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager_edit',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
+          <label>Žiadateľ: </label><%= select_tag 'subject_edit', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'subject_edit', prompt: "--vyber subjekt--" %>
+         </br>
+         
+          <span id="addPersonToProjectEdit"></span><br>
+          </div>
+          <label>Zmluva:</label><%= select_tag 'contract_edit', options_for_select(['Áno','Nie','Zaslaná na podpis']), class: 'form-control', id: 'contract_edit',"data-placeholder": "Zmluva",prompt: "--vyber či zmluva existuje--" %><br>
+          <label>Objednávka:</label><%= select_tag 'order_edit', options_for_select(['Áno','Nie','Zaslaná na podpis']), class: 'form-control', id: 'order_edit',"data-placeholder": "Zmluva",prompt: "--vyber či objednávka existuje--" %><br>
+          <label>Kontrola ŽoNFP:</label><input type="text" name="control_zonfp_edit" id="control_zonfp_edit" class="form-control" placeholder="Kontrola ŽoNFP s prílohami (meno+výsledok)" /><br>
+          <label>Poznámka:</label><input type="text" name="project_note_edit" id="project_note_edit" class="form-control" placeholder="Poznámka ku projektu..." /><br>
+          <label>Dodávateľ:</label><input type="text" name="project_contractor_edit" id="project_contractor_edit" class="form-control" placeholder="Dodávateľ projektu..." /><br>
+          <div class="row">
+            <div class="col-md-4">
+          <label>Poslané na podpis <input id="sent_sign_edit" type="checkbox" class="icheckbox_square-green" /></label><br>
+        </div>
+        <div class="col-md-4">
+          <label>Odovzdané-online <input id="submitonline_edit" type="checkbox" class="icheckbox_square-green" /></label><br>
+        </div>
+          <div class="col-md-4">
+          <label>Odovzdané-print <input id="submitprint_edit" type="checkbox" class="icheckbox_square-green" /></label><br>
+          </div>
+        </div>
+        <label>Dohodnuté odmeny:</label><input type="number" name="agreed_pay_edit" id="agreed_pay_edit" class="form-control" placeholder="Dohodnuté odmeny za ŽoNFP, SF a iné služby.." /><br>
+        <label>Fakturovaná odmena:</label><input type="number" name="pay_edit" id="pay_edit" class="form-control" placeholder="Fakturovaná odmena.." /><br>
+        <label>Splatnosť:</label><div class="input-group date">
+          <span id="duedatecalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input id="duedate_edit" name="duedate_edit" class="form-control" placeholder="1990-12-31" >
+        </div><br>
+        <label>Uhradené <input id="payed_edit" type="checkbox" class="icheckbox_square-green" /></label><br>
+           
+       
+       <button id="editprojectbtn" type="button" class="editproject btn btn-success">Uprav</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+
+<script>
+var projecttable;
+
+var tableready = function() {
+
+$('#duedate').datepicker({
+       trigger: $('#duedatecalendar'),
+        autoHide: true,
+        format: 'yyyy-mm-dd'
+          });
+
+ projecttable= $('#projects').DataTable({
+  'order': [2, 'desc'],
+  'serverSide': true,
+  'stateSave' :true,
+  'ajax' : '/projects.json',
+  columns: [
+  {data: 'name'},
+  {data: 'subject' },
+  {data: 'user' },
+  {data: 'person' },
+  {data: 'contract' },
+  {data: 'order' },
+  {data: 'control_zonfp' },
+  {data: 'note' },
+  {data: 'contractor' },
+  //{data: 'sent_to_sign' },
+   {data: 'sent_to_sign','render' : function(data,type,row) {
+    $res = '';
+    if (row.sent_to_sign == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
+      else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
+    return $res;
+  } },
+  {data: 'submit_online','render' : function(data,type,row) {
+    $res = '';
+    if (row.submit_online == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
+      else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
+    return $res;
+  } },
+  {data: 'submit_print','render' : function(data,type,row) {
+    $res = '';
+    if (row.submit_print == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
+      else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
+    return $res;
+  } },
+  //{data: 'submit_online' },
+  //{data: 'submit_print' },
+  {
+    "className":   'details-finance',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-eur fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {
+    "className":   'projectedit-control',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {data: 'delete_project', orderable: false, searchable: false} 
+  //{data: 'agreed_payment' },
+  //{data: 'payment' },
+  //{data: 'due_date' },
+  //{data: 'payed' }
+
+  ],
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ],
+  drawCallback: function(settings) {
+     
+     $('.projectedit-control').on('click',function(event){
+       var tr = $(this).closest('tr');
+      var row = projecttable.row( tr );
+
+
+      updateProjectEditModal(row.data());
+      $editsubjID = $("#subject_edit").val();
+      $.ajax({
+            type: "GET",
+            url: "/get_subject_contacts/"+$editsubjID,
+           
+            success:function(data){
+              if (data.status == "ok")
+              {
+               $html1 = '<label>Osoba:</label><select id="project_person_edit" class="form-control">';
+               var $html2;
+                for ( var i = 0; i < data.data.length; i++) {
+                  $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
+                }
+                $html3 ='</select><br>';
+
+                var $res = $html1.concat($html2,$html3);
+
+                $('#addPersonToProjectEdit').empty();
+                $('#addPersonToProjectEdit').append($res);
+                
+
+                $('#project_person_edit').val(row.data().person_id);
+                              
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+
+      $('#editProjectModal').modal('show');
+});
+
+     $('#projects tbody').on('click', 'td.details-finance', function () {
+
+      var tr = $(this).closest('tr');
+      var row = projecttable.row( tr );
+
+      if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+
+          }
+          else {
+            // Open this row
+            row.child( formatProjectfinance(row.data())).show();
+            
+            tr.addClass('shown');
+          }
+        });
+  }
+
+});
+
+$("#subject_new").change(function(){
+  $subjID = $("#subject_new").val();
+
+  if ($subjID !== '') {
+    $.ajax({
+            type: "GET",
+            url: "/get_subject_contacts/"+$subjID,
+           
+            success:function(data){
+              if (data.status == "ok")
+              {
+               $html1 = '<label>Osoba:</label><select id="project_person" class="form-control">';
+               var $html2;
+                for ( var i = 0; i < data.data.length; i++) {
+                  $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
+                }
+                $html3 ='</select><br>';
+
+                var $res = $html1.concat($html2,$html3);
+
+                $('#addPersonToComm').empty();
+                $('#addPersonToComm').append($res);
+                              
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+  }
+  else {
+    $('#addPersonToComm').empty();
+  }
+  
+});
+
+$("#subject_edit").change(function(){
+  $subjID = $("#subject_edit").val();
+
+  if ($subjID !== '') {
+    $.ajax({
+            type: "GET",
+            url: "/get_subject_contacts/"+$subjID,
+           
+            success:function(data){
+              if (data.status == "ok")
+              {
+               $html1 = '<label>Osoba:</label><select id="project_person_edit" class="form-control">';
+               var $html2;
+                for ( var i = 0; i < data.data.length; i++) {
+                  $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
+                }
+                $html3 ='</select><br>';
+
+                var $res = $html1.concat($html2,$html3);
+
+                $('#addPersonToProjectEdit').empty();
+                $('#addPersonToProjectEdit').append($res);
+                              
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+  }
+  else {
+    $('#addPersonToProjectEdit').empty();
+  }
+  
+});
+
+$('.addproject').on('click',function(event){
+          //console.log(event.target.id);
+          $sent_sign = false;
+          $submitonline = false;
+          $submitprint = false;
+          $payed = false;
+
+          $name = $('#project_name').val();
+          $subject = $('#subject_new').val();
+          $projectmanager = $('#project_manager').val();
+          $projectperson = $('#project_person').val();
+          $contract = $('#contract').val();
+          $order = $('#order').val();
+          $control_zonfp = $('#control_zonfp').val();
+          $note = $('#project_note').val();
+          $contractor = $('#project_contractor').val();
+          if ($('#sent_sign').is(":checked")) {$sent_sign = true;}
+          if ($('#submitonline').is(":checked")) {$submitonline = true;}
+          if ($('#submitprint').is(":checked")) {$submitprint = true;}
+          $agreed_pay = $('#agreed_pay').val();
+          $pay = $('#pay').val();
+          $duedate = $('#duedate').val();
+          if ($('#payed').is(":checked")) {$payed = true;}
+        
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_project",
+            data: {
+              name: $name,
+              subject: $subject,
+              projectmanager: $projectmanager,
+              projectperson: $projectperson,
+              contract: $contract,
+              order: $order,
+              control_zonfp: $control_zonfp,
+              note: $note,
+              contractor: $contractor,
+              sent_sign: $sent_sign,
+              submitonline: $submitonline,
+              submitprint: $submitprint,
+              agreed_pay: $agreed_pay,
+              pay: $pay,
+              duedate: $duedate,
+              payed: $payed
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Projekt bol vytvorený" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+$('.editproject').on('click',function(event){
+          //console.log(event.target.id);
+          $sent_sign = false;
+          $submitonline = false;
+          $submitprint = false;
+          $payed = false;
+          
+          $id = $('#editprojectID').val();
+          $name = $('#project_name_edit').val();
+          $subject = $('#subject_edit').val();
+          $projectmanager = $('#project_manager_edit').val();
+          $projectperson = $('#project_person_edit').val();
+          $contract = $('#contract_edit').val();
+          $order = $('#order_edit').val();
+          $control_zonfp = $('#control_zonfp_edit').val();
+          $note = $('#project_note_edit').val();
+          $contractor = $('#project_contractor_edit').val();
+          if ($('#sent_sign_edit').is(":checked")) {$sent_sign = true;}
+          if ($('#submitonline_edit').is(":checked")) {$submitonline = true;}
+          if ($('#submitprint_edit').is(":checked")) {$submitprint = true;}
+          $agreed_pay = $('#agreed_pay_edit').val();
+          $pay = $('#pay_edit').val();
+          $duedate = $('#duedate_edit').val();
+          if ($('#payed_edit').is(":checked")) {$payed = true;}
+        
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_edit_project",
+            data: {
+              id: $id,
+              name: $name,
+              subject: $subject,
+              projectmanager: $projectmanager,
+              projectperson: $projectperson,
+              contract: $contract,
+              order: $order,
+              control_zonfp: $control_zonfp,
+              note: $note,
+              contractor: $contractor,
+              sent_sign: $sent_sign,
+              submitonline: $submitonline,
+              submitprint: $submitprint,
+              agreed_pay: $agreed_pay,
+              pay: $pay,
+              duedate: $duedate,
+              payed: $payed
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Projekt bol upravený" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+
+
+};
+$(".projects.index").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#projects_wrapper').length ==1) {projecttable.destroy() ;} 
+
+});
+
+
+$(".projects.index").on('turbolinks:load', tableready); 
+</script>

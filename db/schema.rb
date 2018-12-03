@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181202220352) do
+ActiveRecord::Schema.define(version: 20181202231627) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -124,6 +124,31 @@ ActiveRecord::Schema.define(version: 20181202220352) do
 
   add_index "people", ["subject_id"], name: "index_people_on_subject_id", using: :btree
 
+  create_table "projects", force: :cascade do |t|
+    t.integer  "person_id"
+    t.integer  "subject_id"
+    t.string   "name"
+    t.string   "contract"
+    t.string   "order"
+    t.string   "control_zonfp"
+    t.string   "note"
+    t.string   "contractor"
+    t.boolean  "sent_to_sign"
+    t.boolean  "submit_online"
+    t.boolean  "submit_print"
+    t.integer  "user_id"
+    t.float    "agreed_payment"
+    t.float    "payment"
+    t.datetime "due_date"
+    t.boolean  "payed"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
+
+  add_index "projects", ["person_id"], name: "index_projects_on_person_id", using: :btree
+  add_index "projects", ["subject_id"], name: "index_projects_on_subject_id", using: :btree
+  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
+
   create_table "projecttargets", force: :cascade do |t|
     t.string   "name"
     t.text     "about"
@@ -209,6 +234,9 @@ ActiveRecord::Schema.define(version: 20181202220352) do
   add_foreign_key "documents", "users"
   add_foreign_key "media", "subjects"
   add_foreign_key "people", "subjects"
+  add_foreign_key "projects", "people"
+  add_foreign_key "projects", "subjects"
+  add_foreign_key "projects", "users"
   add_foreign_key "subjects", "districts"
   add_foreign_key "subjects", "subjtypes"
   add_foreign_key "subjects", "users"

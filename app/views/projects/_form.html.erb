@@ -1,0 +1,69 @@
+<%= form_for(@project) do |f| %>
+  <% if @project.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@project.errors.count, "error") %> prohibited this project from being saved:</h2>
+
+      <ul>
+      <% @project.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :person_id %><br>
+    <%= f.text_field :person_id %>
+  </div>
+  <div class="field">
+    <%= f.label :contract %><br>
+    <%= f.text_field :contract %>
+  </div>
+  <div class="field">
+    <%= f.label :order %><br>
+    <%= f.text_field :order %>
+  </div>
+  <div class="field">
+    <%= f.label :control_zonfp %><br>
+    <%= f.text_field :control_zonfp %>
+  </div>
+  <div class="field">
+    <%= f.label :note %><br>
+    <%= f.text_field :note %>
+  </div>
+  <div class="field">
+    <%= f.label :contractor %><br>
+    <%= f.text_field :contractor %>
+  </div>
+  <div class="field">
+    <%= f.label :sent_to_sign %><br>
+    <%= f.check_box :sent_to_sign %>
+  </div>
+  <div class="field">
+    <%= f.label :submit_online %><br>
+    <%= f.check_box :submit_online %>
+  </div>
+  <div class="field">
+    <%= f.label :submit_print %><br>
+    <%= f.check_box :submit_print %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :payment %><br>
+    <%= f.text_field :payment %>
+  </div>
+  <div class="field">
+    <%= f.label :due_date %><br>
+    <%= f.datetime_select :due_date %>
+  </div>
+  <div class="field">
+    <%= f.label :payed %><br>
+    <%= f.check_box :payed %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

@@ -6,6 +6,7 @@ class Subject < ActiveRecord::Base
   has_many :people, :dependent => :destroy
   has_many :communications, :dependent => :destroy
   has_many :media,  :dependent => :destroy
+  has_many :projects, :dependent => :destroy
 
 
 require 'csv'

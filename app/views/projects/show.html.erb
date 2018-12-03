@@ -1,0 +1,69 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Person:</strong>
+  <%= @project.person %>
+</p>
+
+<p>
+  <strong>Contract:</strong>
+  <%= @project.contract %>
+</p>
+
+<p>
+  <strong>Order:</strong>
+  <%= @project.order %>
+</p>
+
+<p>
+  <strong>Control zonfp:</strong>
+  <%= @project.control_zonfp %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @project.note %>
+</p>
+
+<p>
+  <strong>Contractor:</strong>
+  <%= @project.contractor %>
+</p>
+
+<p>
+  <strong>Sent to sign:</strong>
+  <%= @project.sent_to_sign %>
+</p>
+
+<p>
+  <strong>Submit online:</strong>
+  <%= @project.submit_online %>
+</p>
+
+<p>
+  <strong>Submit print:</strong>
+  <%= @project.submit_print %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @project.user %>
+</p>
+
+<p>
+  <strong>Payment:</strong>
+  <%= @project.payment %>
+</p>
+
+<p>
+  <strong>Due date:</strong>
+  <%= @project.due_date %>
+</p>
+
+<p>
+  <strong>Payed:</strong>
+  <%= @project.payed %>
+</p>
+
+<%= link_to 'Edit', edit_project_path(@project) %> |
+<%= link_to 'Back', projects_path %>
