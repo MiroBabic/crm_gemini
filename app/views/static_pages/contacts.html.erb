@@ -171,13 +171,16 @@
            <label>Meno:</label><input type="text" name="contactname_c" id="contactname_c" class="form-control" placeholder="Meno " required /><br>
            <label>Priezvisko:</label><input type="text" name="contactsurname_c" id="contactsurname_c" class="form-control" placeholder="Priezvisko " required /><br>
            <label>Email:</label><input type="text" name="contactemail_c" id="contactemail_c" class="form-control" placeholder="Email" required /><br>
-           <label>Telefónne číslo:</label><input type="text" name="contactphone_c" id="contactphone_c" class="form-control" placeholder="Telefónne číslo" required /><br>
-           <label>Mobil:</label><input type="text" name="contactcell_c" id="contactcell_c" class="form-control" placeholder="Mobil" required /><br>
+           </div>
+           <label>Telefónne číslo:</label><input type="text" name="contactphone_c" id="contactphone_c" class="form-control" placeholder="Telefónne číslo"  /><br>
+           <label>Mobil:</label><input type="text" name="contactcell_c" id="contactcell_c" class="form-control" placeholder="Mobil"  /><br>
+           <div class="form-group has-error">
            <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'contactsubject' %>
+         </div>
          </br>
        </br>
 
-     </div>
+     
      <label>Poznámka:</label><input type="text" name="contactnote_c" id="contactnote_c" class="form-control" placeholder="Poznámka" /><br>
 
      <input  class="createperson btn btn-success" value="Vytvor" /> 
@@ -250,9 +253,9 @@
            <label>Priezvisko:</label><input type="text" name="edit_personsurname" id="edit_personsurname" class="form-control" required /><br>
           <label>Email:</label><input type="text" name="edit_email" id="edit_email" class="form-control" placeholder="Email" required /><br>
           </div>
-         <label>Email2:</label><input type="text" name="edit_email2" id="edit_email2" class="form-control" placeholder="Email" required /><br>
-         <label>Tel:</label><input type="text" name="edit_tel" id="edit_tel" class="form-control" placeholder="Tel" required /><br>
-        <label>Mobil:</label><input type="text" name="edit_cell" id="edit_cell" class="form-control" placeholder="Mobil" required /><br>
+         <label>Email2:</label><input type="text" name="edit_email2" id="edit_email2" class="form-control" placeholder="Email"  /><br>
+         <label>Tel:</label><input type="text" name="edit_tel" id="edit_tel" class="form-control" placeholder="Tel"  /><br>
+        <label>Mobil:</label><input type="text" name="edit_cell" id="edit_cell" class="form-control" placeholder="Mobil"  /><br>
          <label>Poznámka:</label><input type="text" name="edit_personnote" id="edit_personnote" class="form-control" placeholder="Poznámka"/><br>
          <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_personsubject' %>
       

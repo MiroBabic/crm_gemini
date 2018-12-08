@@ -32,14 +32,9 @@
 
           <h2 class="no-margins">
             <%= @subject.name %>
-
-                            
                             <a data-toggle="modal" data-target="#editSubjektModal"  aria-expanded="false">
                                 <i class="fa fa-pencil-square-o"></i>
                             </a>
-                           
-                           
-                        
           </h2>
           <br>
           <p>Sídlo: <b><%= @subject.site %></b></p>
@@ -63,7 +58,10 @@
 
         <div class="ibox">
             <div class="ibox-title">
-            <h5>Osoby</h5>
+            <h5>Osoby </h5> 
+            <a class="pull-right" data-toggle="modal" data-target="#addContactModal"  aria-expanded="false">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
            </div>
          <div class="ibox-content">
 <% @people.each do |person|%>
@@ -72,7 +70,9 @@
                       <div class="col-lg-12">
                  
                  
-                        <h3><strong><%= person.first_name + ' ' + person.last_name %></strong></h3>
+                        <h3><strong><%= person.first_name + ' ' + person.last_name %></strong> <a data-toggle="modal" data-target="#editPersonModal<%=person.id%>"   aria-expanded="false">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </a></h3>
                         <p><i class="fa fa-map-marker"></i> <%= @subject.site %></p>
                         
                             <strong><%= @subject.name %></strong><br>
@@ -86,6 +86,45 @@
                     </div>
                     </div>    
           <% if @people.count > 1 %><hr> <%end %>  
+
+          <!-- edit modal -->
+<div id="editPersonModal<%=person.id%>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav osobu</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="edit_person_form" accept-charset="utf-8">
+            <input style="visibility:hidden" type="text" name="editpersonID-<%=person.id%>" id="editpersonID-<%=person.id%>" value="<%=person.id%>" readonly>
+           <label>Meno:</label><input type="text" name="edit_personname-<%=person.id%>" id="edit_personname-<%=person.id%>" class="form-control" value="<%=person.first_name%>" required /><br>
+           <label>Priezvisko:</label><input type="text" name="edit_personsurname-<%=person.id%>" id="edit_personsurname-<%=person.id%>" class="form-control" value="<%=person.last_name%>" required /><br>
+          <label>Email:</label><input type="text" name="edit_email-<%=person.id%>" id="edit_email-<%=person.id%>" class="form-control" placeholder="Email" value="<%=person.email%>" required /><br>
+          </div>
+         <label>Email2:</label><input type="text" name="edit_email2-<%=person.id%>" id="edit_email2-<%=person.id%>" class="form-control" placeholder="Email" value="<%=person.email2%>" /><br>
+         <label>Tel:</label><input type="text" name="edit_tel-<%=person.id%>" id="edit_tel-<%=person.id%>" class="form-control" placeholder="Tel" value="<%=person.phone%>" /><br>
+        <label>Mobil:</label><input type="text" name="edit_cell-<%=person.id%>" id="edit_cell-<%=person.id%>" class="form-control" placeholder="Mobil" value="<%=person.cellphone%>" /><br>
+         <label>Poznámka:</label><input type="text" name="edit_personnote-<%=person.id%>" id="edit_personnote-<%=person.id%>" class="form-control" placeholder="Poznámka" value="<%=person.note%>"/><br>
+         <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name', person.subject_id), class: 'form-control', id: 'edit_personsubject-'+person.id.to_s %>
+      
+             
+    <input class="editperson btn btn-success" id="<%=person.id%>" value="Uprav" /> 
+
+   </form>
+
+
+</div>
+</div>
+</div>
+</div>
+
+
            <% end %> 
          </div>
 </div>
@@ -255,6 +294,43 @@
 </div>
 </div>
 
+<!-- add person modal -->
+<div id="addContactModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel_contact" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel_contact">Pridaj nový kontakt</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form   name="new_contact_form" accept-charset="utf-8">
+           <label>Meno:</label><input type="text" name="contactname_c" id="contactname_c" class="form-control" placeholder="Meno " required /><br>
+           <label>Priezvisko:</label><input type="text" name="contactsurname_c" id="contactsurname_c" class="form-control" placeholder="Priezvisko " required /><br>
+           <label>Email:</label><input type="text" name="contactemail_c" id="contactemail_c" class="form-control" placeholder="Email" required /><br>
+           </div>
+           <label>Telefónne číslo:</label><input type="text" name="contactphone_c" id="contactphone_c" class="form-control" placeholder="Telefónne číslo"  /><br>
+           <label>Mobil:</label><input type="text" name="contactcell_c" id="contactcell_c" class="form-control" placeholder="Mobil"  /><br>
+           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name',@subject.id), class: 'form-control', id: 'contactsubject' %>
+         </br>
+       </br>
+
+     
+     <label>Poznámka:</label><input type="text" name="contactnote_c" id="contactnote_c" class="form-control" placeholder="Poznámka" /><br>
+
+     <input  class="createperson btn btn-success" value="Vytvor" /> 
+
+   </form>
+
+ </div>
+</div>
+</div>
+</div>
+
 
 <script>
 
@@ -276,6 +352,8 @@ $("#project_targets_edit").chosen().change(function(e, params){
 
  //console.log($project_targets)
 });
+
+
 
 $('.editcontact').on('click',function(event){
           //console.log(event.target.id);
@@ -334,6 +412,96 @@ $('.editcontact').on('click',function(event){
 
 
 
+        });
+
+$('.editperson').on('click',function(event){
+          //console.log(event.target.id);
+          $contact_id = event.target.id;
+          
+          $edit_personID = $('#editpersonID-'+$contact_id).val();
+          $edit_personname = $('#edit_personname-'+$contact_id).val();
+          $edit_personsurname = $('#edit_personsurname-'+$contact_id).val();
+          $edit_email = $('#edit_email-'+$contact_id).val();
+          $edit_email2 = $('#edit_email2-'+$contact_id).val();
+          $edit_tel = $('#edit_tel-'+$contact_id).val();
+          $edit_cell = $('#edit_cell-'+$contact_id).val();
+          $edit_personnote = $('#edit_personnote-'+$contact_id).val();
+          $edit_personsubject = $('#edit_personsubject-'+$contact_id).val();
+       
+          $.ajax({
+            type: "POST",
+            url: "/modal_edit_person",
+            data: {
+              edit_personID: $edit_personID,
+              edit_personname: $edit_personname,
+              edit_personsurname: $edit_personsurname,
+              edit_email: $edit_email,
+              edit_email2: $edit_email2,
+              edit_tel: $edit_tel,
+              edit_cell: $edit_cell,
+              edit_personnote: $edit_personnote,              
+              edit_personsubject: $edit_personsubject
+
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Osoba bol upravená" );
+                location.reload();
+                
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+$('.createperson').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $contactname_c = $('#contactname_c').val();
+          $contactsurname_c = $('#contactsurname_c').val();
+          $contactemail_c = $('#contactemail_c').val();
+          $contactphone_c = $('#contactphone_c').val(); 
+          $contactcell_c = $('#contactcell_c').val(); 
+          $contactsubject = $('#contactsubject').val(); 
+          $contactnote_c = $('#contactnote_c').val(); 
+
+
+
+
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_person",
+            data: {
+              contactname_c: $contactname_c,
+              contactsurname_c: $contactsurname_c,
+              contactemail_c: $contactemail_c,
+              contactphone_c: $contactphone_c,
+              contactcell_c: $contactcell_c,
+              contactsubject: $contactsubject,
+              contactnote_c: $contactnote_c
+
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Osoba bol vytvorená" );
+                location.reload();
+
+              }
+              else { alert(data.status);}
+            }
+          });
+  
         });
 
 };
