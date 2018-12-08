@@ -168,6 +168,9 @@
  <div class="ibox">
     <div class="ibox-title">
     <h5>Komunikácia</h5>
+    <a class="pull-right" data-toggle="modal" data-target="#addCommModal"  aria-expanded="false">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
    </div>
    <div class="ibox-content ">
 
@@ -177,6 +180,7 @@
                                         <div>
                                             <small class="float-right text-navy">Pred <%= time_ago_in_words(comm.created_at) %></small>
                                             <strong><%= comm.user.name if comm.user.present? %></strong>
+                                            <div><strong>S osobou: </strong><%= comm.person.name if comm.person.present? %></div>
                                             <div><strong>Kľúčové slovo: </strong><%= comm.keyword %></div>
                                             <div><%= comm.about %></div>
                                             <small class="text-muted"><%= (I18n.localize comm.created_at) %></small>
@@ -332,6 +336,43 @@
 </div>
 
 
+<!-- add comm modal -->
+<div id="addCommModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Pridaj nový záznam</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="new_comm_form" accept-charset="utf-8">
+           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name', @subject.id), class: 'form-control', id: 'commsubject', :disabled => true %>
+         </br>
+         <label>Osoba: </label><%= select_tag 'commperson', options_from_collection_for_select(@people, 'id', 'name'), class: 'form-control', id: 'commperson', prompt: "--vyber subjekt--" %>
+         </br>
+          
+     
+     <label>Text:</label><textarea rows="6" type="text" name="commabout" id="commabout" class="form-control" required placeholder="Obsah komunikácie"></textarea><br>
+     <label>Kľúčové slovo:</label><input type="text" name="commkeyword" id="commkeyword" class="form-control" required placeholder="Kľúčové slovo pre zatriedenie"/><br>
+     </div>
+
+
+     <input type="submit" class="createcomm btn btn-success" value="Vytvor" /> 
+
+   </form>
+
+ </div>
+</div>
+
+</div>
+</div>
+
+
 <script>
 
 var ready = function() {
@@ -352,6 +393,78 @@ $("#project_targets_edit").chosen().change(function(e, params){
 
  //console.log($project_targets)
 });
+
+$("#commsubject").change(function(){
+  $subjID = $("#commsubject").val();
+
+  if ($subjID !== '') {
+    $.ajax({
+            type: "GET",
+            url: "/get_subject_contacts/"+$subjID,
+           
+            success:function(data){
+              if (data.status == "ok")
+              {
+               $html1 = '<label>Osoba:</label><select id="commperson" class="form-control">';
+               var $html2;
+                for ( var i = 0; i < data.data.length; i++) {
+                  $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
+                }
+                $html3 ='</select><br>';
+
+                var $res = $html1.concat($html2,$html3);
+
+                $('#addPersonToComm').empty();
+                $('#addPersonToComm').append($res);
+                              
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+  }
+  else {
+    $('#addPersonToComm').empty();
+  }
+  
+});
+
+$('.createcomm').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $subjid = $('#commsubject').val();
+          $personid = $('#commperson').val();
+          $commabout = $('#commabout').val();
+          $commkeyword = $('#commkeyword').val();
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_comm",
+            data: {
+              subjid: $subjid,
+              personid: $personid,
+              commabout: $commabout,
+              commkeyword: $commkeyword
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Záznam bol vytvorený" );
+                location.reload();
+                
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
 
 
 
