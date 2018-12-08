@@ -25,11 +25,21 @@
       <i class="fa fa-building-o fa-5x" aria-hidden="true"></i>
 
     </div>
+
     <div class="profile-info">
       <div class="">
         <div>
+
           <h2 class="no-margins">
             <%= @subject.name %>
+
+                            
+                            <a data-toggle="modal" data-target="#editSubjektModal"  aria-expanded="false">
+                                <i class="fa fa-pencil-square-o"></i>
+                            </a>
+                           
+                           
+                        
           </h2>
           <br>
           <p>Sídlo: <b><%= @subject.site %></b></p>
@@ -202,6 +212,48 @@
   </div>
   </div>
 
+
+<!-- edit modal -->
+<div id="editSubjektModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav subjekt</h2>
+        <div class="alert alert-danger alert-dismissable">
+          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+          Polia vysvietené na červeno sú povinné
+        </div>
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="edit_subjekt_form" accept-charset="utf-8">
+            <input style="visibility:hidden" type="text" name="editsubjektID" id="editsubjektID" value="<%= @subject.id %>" readonly>
+           <label>Názov:</label><input type="text" name="edit_subjname" id="edit_subjname" class="form-control" placeholder="Názov subjektu" value="<%= @subject.name %>" required /><br>
+           <label>Okres:</label><%= select_tag 'edit_okres', options_from_collection_for_select(@districts, 'id', 'name',@subject.district_id), class: 'form-control', id: 'edit_subjdistrict' %>
+         </br>
+         <label>Typ Subjektu:</label><%= select_tag 'edit_typ_subjektu', options_from_collection_for_select(@subjtypes, 'id', 'name',@subject.subjtype_id), class: 'form-control', id: 'edit_subjtype' %>
+       </br>
+     </div>
+     <label>Sídlo:</label><input type="text" name="edit_subjsite" id="edit_subjsite" class="form-control" placeholder="Sídlo subjektu" value="<%= @subject.site %>" /><br>
+     <label>IČO:</label><input type="number" name="edit_subjico" id="edit_subjico" class="form-control" onkeyup="if(!this.checkValidity()){this.value=\'\';alert(\'Vložte číslo!\')};" placeholder="IČO ak má subjekt pridelené" value="<%= @subject.ico %>"/><br>
+     <label class="">VIP <input id="edit_isvip" type="checkbox" class="icheckbox_square-green" <% if @subject.vip? %>checked<% end %>/></label><br>
+     <label>Poznámka:</label><input type="text" name="edit_subjnote" id="edit_subjnote" class="form-control" placeholder="Poznámka" value="<%= @subject.note %>" /><br>
+     <label>Počet obyvateľov ak je obec:</label><input type="text" name="edit_subjobyv" id="edit_subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec" value="<%= @subject.citizen_count %>" /><br>
+     <hr>
+     <label>Projektový zámer</label><%= select_tag 'project_targets_edit', options_from_collection_for_select(@projecttargets, 'id', 'name', @subject.project_targets), class: 'form-control chosen-select',multiple: true, id: 'project_targets_edit', "data-placeholder": "Vyber projektový zámer..." %>
+       <br><br>       
+
+    <input  class="editcontact btn btn-success" value="Uprav" /> 
+
+   </form>
+
+ </div>
+</div>
+</div>
+</div>
+
+
 <script>
 
 var ready = function() {
@@ -214,6 +266,65 @@ $(".mediumshow").onclick = function (event) {
         links = this.getElementsByTagName('a');
     blueimp.Gallery(links, options);
 };
+
+$('.editcontact').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $edit_subjectID = $('#editsubjektID').val();
+          $edit_subjname = $('#edit_subjname').val();
+          $edit_subjdistrict = $('#edit_subjdistrict').val();
+          $edit_subjtype = $('#edit_subjtype').val();
+          $edit_subjsite = $('#edit_subjsite').val(); 
+          $edit_subjico = $('#edit_subjico').val(); 
+          $edit_subjnote = $('#edit_subjnote').val(); 
+          if ($('#edit_isvip').is(":checked")) {$edit_isvip = true;} else {$edit_isvip = false;}
+          $edit_subjobyv = $('#edit_subjobyv').val(); 
+          
+          var $targets = 0;
+
+          if (typeof $project_targets !== 'undefined') {
+          $targets = $project_targets;
+            }
+
+          
+
+
+
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_edit_subj",
+            data: {
+              edit_subjectid: $edit_subjectID,
+              edit_subjname: $edit_subjname,
+              edit_subjdistrict: $edit_subjdistrict,
+              edit_subjtype: $edit_subjtype,
+              edit_subjsite: $edit_subjsite,
+              edit_subjico: $edit_subjico,
+              edit_subjnote: $edit_subjnote,
+              edit_isvip: $edit_isvip,
+              edit_subjobyv: $edit_subjobyv,
+              edit_project_targets: $targets              
+
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Subjekt bol upravený" );
+                location.reload();
+                
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
 
 };
 $(".subjects.show_subject_profile").ready(ready);

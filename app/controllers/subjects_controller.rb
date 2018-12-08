@@ -21,6 +21,11 @@ class SubjectsController < ApplicationController
     @documents = Document.where(:subject_id=>@subject.id)
     @people = Person.where(:subject_id=>@subject.id)
     @media = Medium.where(:subject_id=>@subject.id)
+
+    @districts = District.all.order(:name)
+    @subjtypes = Subjtype.all.order(:name)
+    @subjects = Subject.all.order(:name)
+    @projecttargets = Projecttarget.all.order(:name)
   end
 
   # GET /subjects/1
