@@ -43,7 +43,16 @@ class DocumentsController < ApplicationController
 
       if (@doc.save)
       
-        redirect_to documents_path, notice: "Súbor #{@doc.file_name} bol úspešne nahratý"
+        #redirect_to documents_path, notice: "Súbor #{@doc.file_name} bol úspešne nahratý"
+
+        ###redirect_back method  works in rails 5
+       # redirect_back fallback_location: documents_path, notice: "Súbor #{@doc.file_name} bol úspešne nahratý"
+        begin
+          redirect_to :back, notice: "Súbor #{@doc.file_name} bol úspešne nahratý"
+        rescue ActionController::RedirectBackError
+          redirect_to documents_path, notice: "Súbor #{@doc.file_name} bol úspešne nahratý"
+        end
+
       else
         redirect_to documents_path, alert: "Upload zlyhal."
       end

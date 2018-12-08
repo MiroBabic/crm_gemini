@@ -138,7 +138,9 @@
    
                                     <div class="ibox-title">
                                         <h5>Dokumenty</h5>
-                                      
+                                      <a class="pull-right" data-toggle="modal" data-target="#addDocModal"  aria-expanded="false">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
                                     </div>
                                     <div class="ibox-content table-responsive">
                                         <table class="table table-hover no-margins">
@@ -203,11 +205,55 @@
 
 </div>
 <div class="row">
-  <h4><center>Média</center></h4>
+ <h4><center>Média</center></h4>
+  
+
+   <div class="col-lg-12" style="display:none" id="upload_media_files">
+
+        
+           <div class="alert alert-danger alert-dismissable noborders">
+                          <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                         <p>Ak vložíš súbor s rovnakým menom aký už existuje ku rovnakému subjektu, tento súbor bude prepísaný.</p>
+                        </div>
+          
+          <div class="col-lg-12">
+          <form id="fileupload" method="post" action="/media" enctype="multipart/form-data">
+
+
+            <div class="col-md-4">
+             <%= select_tag 'subject_media', options_from_collection_for_select(Subject.all, 'id', 'name',@subject.id), class: 'form-control', id: 'subject_media' %>
+           </div>
+           <div class="col-md-2">
+
+            <span class="btn fileinput-button" style="margin-top: -7px";>
+              <input id="foto_file_selector" type="file" name="files[]" multiple class="filestyle" data-classButton="btn btn-success" data-input="false" data-classIcon="icon-plus" data-buttonText="Pridaj Súbor" >
+            </span>
+             <input style="visibility:hidden" type="text" name="filetotalsize" id="filetotalsize" value="" readonly>
+          </div>
+
+        </form>
+        <div class="col-md-4">
+         <button id="subory" class="btn btn-success start">
+          <i class="glyphicon glyphicon-upload"></i>
+          <span>Nahraj</span>
+        </button>
+      </div>
+    </div>
+      
+
+
+    
+   
+
+    </div>
+
   <div class="col-lg-3">
      <div class="ibox">
     <div class="ibox-title">
     <h5>Súbory</h5>
+    <a class="pull-right" data-toggle="modal" id="show_file_upload"  aria-expanded="false">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
    </div>
    <div class="ibox-content table-responsive">
      <table class="table table-hover no-margins">
@@ -372,10 +418,77 @@
 </div>
 </div>
 
+<!-- add comm modal -->
+<div id="addDocModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Pridaj nový súbor</h2>
+       
+      </div>
+      <div class="modal-body">
+     
+       <div class="fileinput fileinput-new">
+                                    <%= form_tag({:controller => 'documents',:action => :insertfile}, :multipart => true) do %>
+                                      <%= file_field_tag :file, :class => 'btn btn-default btn-file form-control' %>
+                                      <br/>
+                                       <div class="row">
+                                        <div class="col-md-4">
+                                      <input type='text' name='note' id='note' class="form-control" placeholder="Poznámka ku vloženému súboru" /></div>
+                                      <div class="col-md-4">
+                                      <%= select_tag 'docsubject', options_from_collection_for_select(Subject.all, 'id', 'name', @subject.id), class: 'form-control', id: 'docsubject'%>
+                                      </div>
+                            <div class="col-md-4">
+                                      <%= submit_tag( "Nahraj súbor" , :class=>'btn btn-outline btn-success') %> 
+                                    </div>
+                                    <% end %>
+                                 </div>
+                        </div>
+
+ </div>
+</div>
+
+</div>
+</div>
+
+
+<!-- file upload modal -->
+<div id="ShowUploadStatusModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-upload modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Upload status</h2>
+        
+      </div>
+
+      <div class="modal-body">
+          <div id="progress" class="progress"><div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="0"
+      aria-valuemin="0" aria-valuemax="100" style="width:0%; text-align:center"></div></div>
+      <div id="speed"></div>
+
+      <div id="status" class="row" >
+        <div class="col-md-6" id="loading_files" ></div>
+        <div class="col-md-6" id="finished_files"></div>
+      </div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
 
 <script>
 
 var ready = function() {
+
+  $('#show_file_upload').on('click',function(event){
+    document.getElementById("upload_media_files").style.display='';
+  }
+    );
 
 $(".mediumshow").onclick = function (event) {
     event = event || window.event;
@@ -618,6 +731,116 @@ $('.createperson').on('click',function(event){
         });
 
 };
+
+var fuploadready = function() {
+
+  $subjektID = "null";
+
+   $subjektID = $('#subject_media').find(":selected").val();
+
+  $('#subject_media').change( function () {
+
+    $subjektID = $('#subject_media').find(":selected").val();
+
+  });
+
+  var filesToProcess = 0;
+
+  $('#fileupload').fileupload({
+
+    dataType: 'json',
+    maxChunkSize: 5000000,
+    add: function (e, data) {
+
+
+      var goUpload = true;
+
+      var uploadFile = data.files[0];
+      if (!(/\.(gif|jpg|jpeg|tiff|png|bmp|mov|mkv|mp4|avi|mp3)$/i).test(uploadFile.name)) {
+        alert("Povolené sú len fotky a videá");
+        goUpload = false;
+        return false;
+      }
+
+
+      filesToProcess++;
+      $("#subory").on('click', function () {
+
+
+        if($subjektID == "null") {
+         $("#alarmsubjekt").removeAttr('hidden');
+
+       }
+       else {
+
+        if (goUpload == true) {
+
+          $('#ShowUploadStatusModal').modal('show');
+
+          data.context = $('<p/>').text('Nahrávam...' + data.files[0].name).appendTo($("#loading_files"));
+          data.submit();
+        }
+
+      }
+
+    });
+    },
+    done: function (e, data) {
+
+
+        console.log(data);
+
+      //$.each(data.result.files, function (index, file) {
+        $.each(data.result, function (index, file) {
+        $('<p/>').text("Nahratý súbor: " + file.name).appendTo($("#finished_files"));
+          filesToProcess--;
+    
+              });
+
+        if (filesToProcess === 0){
+           window.setTimeout(2000);
+           $('#ShowUploadStatusModal').modal('hide');
+
+          location.reload();
+        }
+
+    },
+    progressall: function (e, data) {
+        //console.log(data);
+        var progress = parseInt(data.loaded / data.total * 100, 10);
+        $("#progress .progress-bar").css(
+          "width",
+          progress + "%"
+          );
+        $("#progress .progress-bar").text(progress+"%");
+        
+      },
+
+
+    });
+
+
+$('#fileupload').bind('fileuploadprogress', function (e, data) {
+    // Log the current bitrate for this upload:
+    //console.log(data.bitrate);
+    $speed = (data.bitrate / 1000).toFixed(2)
+    $("#speed").empty();
+    $("#speed").text($speed + " kB/s");
+  });
+
+$('#fileupload').bind('fileuploadsubmit', function (e, data) {
+  console.log(data);
+  $subject = $("#subject_media").val();
+  data.formData = {filetotalsize: data.files[0].size, subject_media: $subject};
+  
+});
+
+};
+
+
 $(".subjects.show_subject_profile").ready(ready);
+$(".subjects.show_subject_profile").ready(fuploadready);
+
 $(".subjects.show_subject_profile").on('turbolinks:load', ready);
+$(".subjects.show_subject_profile").on('turbolinks:load', fuploadready);
 </script>
