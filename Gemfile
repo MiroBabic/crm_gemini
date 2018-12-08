@@ -36,6 +36,9 @@ gem 'rmagick'
 gem 'delayed_job_active_record'
 gem "daemons"
 
+#import to sql
+gem 'activerecord-import'
+
 #lets encrypt
 gem 'letsencrypt_plugin'
 #gem 'letsencrypt_plugin', github: 'lgromanowski/letsencrypt-plugin'

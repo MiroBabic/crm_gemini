@@ -1,5 +1,6 @@
 class StaticPagesController < ApplicationController
 
+
 	def contacts
 		@districts = District.all.order(:name)
 		@subjtypes = Subjtype.all.order(:name)
@@ -80,6 +81,8 @@ class StaticPagesController < ApplicationController
 	end
 
 	def send_mail_to_subjects
+		require 'activerecord-import/base'
+
 		begin
 			@email_subject= params[:email_subject]
 			@content= params[:content]
@@ -122,6 +125,19 @@ class StaticPagesController < ApplicationController
 			@smtp = Userprofile.where(:user_id=>current_user.id).first.send("smtp"+@email_acc.to_s)
 			@port = Userprofile.where(:user_id=>current_user.id).first.send("port"+@email_acc.to_s)
 
+			@comm_arr = Array.new
+
+			@total_subjects.each do |subj|
+				subj.people.each do |person|
+					c=Communication.new(:subject_id=>subj.id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
+					@comm_arr.push(c)
+				end
+
+			end
+
+			if @comm_arr.present?
+				Communication.import @comm_arr
+			end
 			
 			@addresses1 = (@total_subjects.map {|a| a.people.map {|b| b.email}}).flatten.uniq
 			@addresses2 = (@total_subjects.map {|a| a.people.map {|b| b.email2}}).flatten.uniq
@@ -132,6 +148,7 @@ class StaticPagesController < ApplicationController
 				begin
 				NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs).deliver_later
 
+				
 				
 				rescue => error
 					c=Communication.new
