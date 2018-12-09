@@ -96,7 +96,14 @@ class DocumentsController < ApplicationController
   def destroy
     @document.destroy
     respond_to do |format|
-      format.html { redirect_to documents_url, notice: 'Súbor bol úspešne zmazaný.' }
+
+      #format.html { redirect_to documents_url, notice: 'Súbor bol úspešne zmazaný.' }
+       begin
+          format.html {redirect_to :back, notice: "Súbor bol úspešne zmazaný."}
+        rescue ActionController::RedirectBackError
+          redirect_to documents_path, notice: "Súbor bol úspešne zmazaný."
+        end
+
       format.json { head :no_content }
     end
   end

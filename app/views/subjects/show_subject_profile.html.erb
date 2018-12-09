@@ -148,6 +148,7 @@
                                             <tr>
                                                 <th>Súbor</th>
                                                 <th>Veľkosť</th>
+                                                <th></th>
                                                 
                                             </tr>
                                             </thead>
@@ -156,6 +157,7 @@
                                             <tr>
                                                 <td><small><%= link_to document.file_name, download_doc_path(document.id), data: {turbolinks: false} %></small></td>
                                                 <td><%= number_to_human_size(document.file_size) if document.file_size.present? %></td>
+                                                <td><%= link_to document, method: :delete, data: { confirm: 'Naozaj chceš zmazať súbor "'+ document.file_name.to_s+'"?' } do %><i class="fa fa-trash-o" aria-hidden="true" ></i><% end %>  </td>
                                             </tr>
                                            <% end %>
                                             </tbody>
@@ -221,7 +223,7 @@
 
 
             <div class="col-md-4">
-             <%= select_tag 'subject_media', options_from_collection_for_select(Subject.all, 'id', 'name',@subject.id), class: 'form-control', id: 'subject_media' %>
+             <%= select_tag 'subject_media', options_from_collection_for_select(@subjects, 'id', 'name',@subject.id), class: 'form-control', id: 'subject_media' %>
            </div>
            <div class="col-md-2">
 
@@ -261,6 +263,7 @@
                                             <tr>
                                                 <th>Názov</th>
                                                 <th>Veľkosť</th>
+                                                <th></th>
                                                 
                                             </tr>
                                             </thead>
@@ -269,6 +272,7 @@
                                             <tr>
                                                 <td><small><%= link_to medium.file_name, download_media_path(medium.id), data: {turbolinks: false} %></small></td>
                                                 <td><%= number_to_human_size(medium.file_size) if medium.file_size.present? %></td>
+                                                <td><%= link_to(content_tag(:i,nil,class: 'fa fa-trash-o') ,medium, method: :delete, data: { confirm: 'Naozaj chceš zmazať tento súbor?' }) %></td>
                                             </tr>
                                            <% end %>
                                             </tbody>
@@ -437,7 +441,7 @@
                                         <div class="col-md-4">
                                       <input type='text' name='note' id='note' class="form-control" placeholder="Poznámka ku vloženému súboru" /></div>
                                       <div class="col-md-4">
-                                      <%= select_tag 'docsubject', options_from_collection_for_select(Subject.all, 'id', 'name', @subject.id), class: 'form-control', id: 'docsubject'%>
+                                      <%= select_tag 'docsubject', options_from_collection_for_select(@subjects, 'id', 'name', @subject.id), class: 'form-control', id: 'docsubject'%>
                                       </div>
                             <div class="col-md-4">
                                       <%= submit_tag( "Nahraj súbor" , :class=>'btn btn-outline btn-success') %> 
