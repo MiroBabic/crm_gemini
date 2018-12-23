@@ -1,5 +1,6 @@
 <p id="notice"><%= render 'layouts/flash_message' %></p>
 
+
 <div class="row wrapper border-bottom white-bg page-heading">
   <div class="col-lg-10">
     <h2>Projekty</h2>
@@ -184,12 +185,12 @@ $('#duedate').datepicker({
           });
 
  projecttable= $('#projects').DataTable({
-  'order': [2, 'desc'],
+  'order': [0, 'desc'],
   'serverSide': true,
   'stateSave' :true,
   'ajax' : '/projects.json',
   columns: [
-  {data: 'name'},
+  {data: 'project_detail'},
   {data: 'subject' },
   {data: 'user' },
   {data: 'person' },

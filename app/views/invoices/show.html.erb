@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Implementation:</strong>
+  <%= @invoice.implementation %>
+</p>
+
+<p>
+  <strong>Processed date:</strong>
+  <%= @invoice.processed_date %>
+</p>
+
+<p>
+  <strong>Contracted amount:</strong>
+  <%= @invoice.contracted_amount %>
+</p>
+
+<p>
+  <strong>Contracted hours:</strong>
+  <%= @invoice.contracted_hours %>
+</p>
+
+<p>
+  <strong>Document:</strong>
+  <%= @invoice.document %>
+</p>
+
+<p>
+  <strong>Done hours:</strong>
+  <%= @invoice.done_hours %>
+</p>
+
+<%= link_to 'Edit', edit_invoice_path(@invoice) %> |
+<%= link_to 'Back', invoices_path %>

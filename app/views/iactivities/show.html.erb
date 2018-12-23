@@ -1,0 +1,24 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Implementation:</strong>
+  <%= @iactivity.implementation %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @iactivity.user %>
+</p>
+
+<p>
+  <strong>Action:</strong>
+  <%= @iactivity.action %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @iactivity.note %>
+</p>
+
+<%= link_to 'Edit', edit_iactivity_path(@iactivity) %> |
+<%= link_to 'Back', iactivities_path %>

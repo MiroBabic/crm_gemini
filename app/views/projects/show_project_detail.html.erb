@@ -1,0 +1,217 @@
+
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Detaily Projektu</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+
+      <li class="active">
+        <strong>Detaily Projektu</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+<div class="row m-b-lg m-t-lg">
+
+  <div class="col-md-6">
+    <div class="profile-image">
+      <i class="fa fa-tasks fa-5x" aria-hidden="true"></i>
+
+    </div>
+
+    <div class="profile-info">
+      <div class="">
+        <div>
+
+          <h2 class="no-margins">
+            <%= @project.name %>
+                            
+          </h2>
+          <br>
+          <p>Žiadateľ: <b><%= @project.subject.name if @project.subject.present? %></b></p>
+          <p>Kontaktná osoba: <b><%= @project.person.email if @project.person.present? %></b></p>
+          <p>Projektový manažér: <b><%= @project.user.email if @project.user.present? %></b></p>
+          
+
+          
+        </div>
+       
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+<div class="row">
+
+    <div class="col-lg-3">
+
+        <div class="ibox">
+            <div class="ibox-title">
+            <h5>Detaily </h5> 
+            
+           </div>
+         <div class="ibox-content">
+           <p>Zmluva: <b><%= @project.contract %></b></p>
+           <p>Objednávka: <b><%= @project.order %></b></p>
+           <p>Kontrola ŽoNFP: <b><%= @project.control_zonfp %></b></p>
+           <p>Poznámka: <b><%= @project.note %></b></p>
+           <p>Dodávateľ: <b><%= @project.contractor %></b></p>
+           <hr>
+           <h5>Stav</h5>
+           <hr>
+           <p>Poslané na podpis: <b><%= get_true_false_icon(@project.sent_to_sign) %></b></p>
+           <p>Odovzdané-online: <b><%= get_true_false_icon(@project.submit_online) %></b></p>
+           <p>Odovzdané-print: <b><%= get_true_false_icon(@project.submit_print) %></b></p>
+           <hr>
+           <h5>Financie</h5>
+           <hr>
+           <p>Dohodnuté odmeny: <b><%= @project.agreed_payment %></b></p>
+           <p>Fakturovaná odmena: <b><%= @project.payment %></b></p>
+           <p>Splatnosť: <b><%= @project.due_date %></b></p>
+           <p>Uhradené: <b><%= get_true_false_icon(@project.payed) %></b></p>
+           
+           
+
+         </div>
+</div>
+
+</div>
+
+
+
+<div class="col-lg-5">
+ <div class="ibox">
+   
+                                    <div class="ibox-title">
+                                        <h5>Implementácia</h5>
+                                     
+                                    </div>
+                                    <div class="ibox-content table-responsive">
+                                        <table class="table table-hover no-margins">
+                                            <thead>
+                                            
+                                            </thead>
+                                            <tbody>
+                                          
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                
+</div>
+
+</div>
+
+<div class="col-lg-4">
+ <div class="ibox">
+    <div class="ibox-title">
+    <h5>Progres</h5>
+       </div>
+   <div class="ibox-content ">
+
+                    <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-briefcase"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Meeting</h2>
+                                <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
+                                </p>
+                                <a href="#" class="btn btn-sm btn-primary"> More info</a>
+                                    <span class="vertical-date">
+                                        Today <br>
+                                        <small>Dec 24</small>
+                                    </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon blue-bg">
+                                <i class="fa fa-file-text"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Send documents to Mike</h2>
+                                <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>
+                                <a href="#" class="btn btn-sm btn-success"> Download document </a>
+                                    <span class="vertical-date">
+                                        Today <br>
+                                        <small>Dec 24</small>
+                                    </span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon lazur-bg">
+                                <i class="fa fa-coffee"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Coffee Break</h2>
+                                <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>
+                                <a href="#" class="btn btn-sm btn-info">Read more</a>
+                                <span class="vertical-date"> Yesterday <br><small>Dec 23</small></span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon yellow-bg">
+                                <i class="fa fa-phone"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Phone with Jeronimo</h2>
+                                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>
+                                <span class="vertical-date">Yesterday <br><small>Dec 23</small></span>
+                            </div>
+                        </div>
+
+                        <div class="vertical-timeline-block">
+                            <div class="vertical-timeline-icon navy-bg">
+                                <i class="fa fa-comments"></i>
+                            </div>
+
+                            <div class="vertical-timeline-content">
+                                <h2>Chat with Monica and Sandra</h2>
+                                <p>Web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). </p>
+                                <span class="vertical-date">Yesterday <br><small>Dec 23</small></span>
+                            </div>
+                        </div>
+                    </div>
+
+                
+                               
+                            
+</div>
+</div>
+
+</div>
+
+
+
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+var ready = function() {
+
+};
+ 
+</script>

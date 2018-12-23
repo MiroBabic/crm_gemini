@@ -26,7 +26,15 @@
                             <li><%= link_to "Kontakty", contacts_path%></li>
                             <li><%= link_to "Kalendár", show_calendar_path%></li>
                             <li><%= link_to "Komunikácia", komunikacia_path%></li>
-                            <li><%= link_to "Projekty", projekty_path%></li>
+                             <li>
+                                <a href="#">Projekty <span class="fa arrow"></span></a>
+                                <ul class="nav nav-second-level">
+                                    <li><%= link_to "Zoznam projektov", projekty_path%></li>
+                                    <li><%= link_to "Implementácia", implementacie_path%></li>
+                                    
+                                </ul>
+                            </li>
+                            
                             <li><%= link_to "Dokumenty", dokumenty_path%></li>
                             <li><%= link_to "Média", subory_path%></li>
                             <li>

@@ -22,5 +22,17 @@ module ApplicationHelper
 		end
 	end
 
+	def get_true_false_icon(param)
+		begin
+			if param == true
+				res = '<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'
+			else
+				res = '<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'
+			end
+			return res.html_safe
+		rescue
+			return 'Nezistené'
+		end
+	end
 	
 end

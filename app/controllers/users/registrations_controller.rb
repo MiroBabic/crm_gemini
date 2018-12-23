@@ -92,6 +92,14 @@ class Users::RegistrationsController < Devise::RegistrationsController
     end
   end
 
+  def destroy
+    begin
+    super
+  rescue=>error
+    redirect_to users_path, alert: error.message
+  end
+  end
+
   # GET /resource/cancel
   # Forces the session data which is usually expired after sign
   # in to be expired now. This is useful if the user wants to

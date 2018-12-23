@@ -1,0 +1,87 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  project_id: 
+  user_id: 
+  oprogram: MyString
+  subject_id: 
+  contact_helper: MyString
+  contact_client: MyString
+  projektant: MyString
+  procurer_name: MyString
+  auditor: MyString
+  other_contacts: MyString
+  itms_access_name: MyString
+  itms_access_pass: MyString
+  nfp_contract_signed: 2018-12-20 21:43:02
+  project_startdate: 2018-12-20 21:43:02
+  project_start_about: MyString
+  project_start_note_sentdate: 2018-12-20 21:43:02
+  project_start_note_sent: false
+  project_enddate_by_nfp_contract: 2018-12-20 21:43:02
+  project_schedule_change_need: false
+  zop_showdate: 2018-12-20 21:43:02
+  zop_last_term_end: 2018-12-20 21:43:02
+  zop_last_term_start: 2018-12-20 21:43:02
+  zop_note: MyString
+  zop_last_showdate: 2018-12-20 21:43:02
+  zop_request_type: MyString
+  zop_paycond_fulfil: false
+  zop_cond_fulfil: false
+  zop_data_to_itms: false
+  zop_data_to_itms_state: MyString
+  next_monitor_date: 2018-12-20 21:43:02
+  finish_monitor_date: 2018-12-20 21:43:02
+  control_date: 2018-12-20 21:43:02
+  approved: false
+  publicity_subject: MyString
+  publicity_last_term: 2018-12-20 21:43:02
+  publicity_showdate: 2018-12-20 21:43:02
+  project_end_type: MyString
+  project_end_sooner: false
+  project_end_sooner_date: 2018-12-20 21:43:02
+  note_project_sonner_sent: false
+  note_project_sooner_sent_date: 2018-12-20 21:43:02
+
+two:
+  project_id: 
+  user_id: 
+  oprogram: MyString
+  subject_id: 
+  contact_helper: MyString
+  contact_client: MyString
+  projektant: MyString
+  procurer_name: MyString
+  auditor: MyString
+  other_contacts: MyString
+  itms_access_name: MyString
+  itms_access_pass: MyString
+  nfp_contract_signed: 2018-12-20 21:43:02
+  project_startdate: 2018-12-20 21:43:02
+  project_start_about: MyString
+  project_start_note_sentdate: 2018-12-20 21:43:02
+  project_start_note_sent: false
+  project_enddate_by_nfp_contract: 2018-12-20 21:43:02
+  project_schedule_change_need: false
+  zop_showdate: 2018-12-20 21:43:02
+  zop_last_term_end: 2018-12-20 21:43:02
+  zop_last_term_start: 2018-12-20 21:43:02
+  zop_note: MyString
+  zop_last_showdate: 2018-12-20 21:43:02
+  zop_request_type: MyString
+  zop_paycond_fulfil: false
+  zop_cond_fulfil: false
+  zop_data_to_itms: false
+  zop_data_to_itms_state: MyString
+  next_monitor_date: 2018-12-20 21:43:02
+  finish_monitor_date: 2018-12-20 21:43:02
+  control_date: 2018-12-20 21:43:02
+  approved: false
+  publicity_subject: MyString
+  publicity_last_term: 2018-12-20 21:43:02
+  publicity_showdate: 2018-12-20 21:43:02
+  project_end_type: MyString
+  project_end_sooner: false
+  project_end_sooner_date: 2018-12-20 21:43:02
+  note_project_sonner_sent: false
+  note_project_sooner_sent_date: 2018-12-20 21:43:02

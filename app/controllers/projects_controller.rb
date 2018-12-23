@@ -35,6 +35,15 @@ class ProjectsController < ApplicationController
   def edit
   end
 
+  def show_project_detail
+    begin
+    @project = Project.find(params[:id])
+    @implementation = Implementation.find_by_project_id(@project.id)
+    rescue=>error
+      redirect_to projekty_path, :alert=>error.message
+    end
+  end
+
   # POST /projects
   # POST /projects.json
   def modal_create_project

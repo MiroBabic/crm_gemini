@@ -1,0 +1,33 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Iactivities</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Implementation</th>
+      <th>User</th>
+      <th>Action</th>
+      <th>Note</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @iactivities.each do |iactivity| %>
+      <tr>
+        <td><%= iactivity.implementation %></td>
+        <td><%= iactivity.user %></td>
+        <td><%= iactivity.action %></td>
+        <td><%= iactivity.note %></td>
+        <td><%= link_to 'Show', iactivity %></td>
+        <td><%= link_to 'Edit', edit_iactivity_path(iactivity) %></td>
+        <td><%= link_to 'Destroy', iactivity, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Iactivity', new_iactivity_path %>

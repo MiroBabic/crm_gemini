@@ -1,0 +1,107 @@
+<p id="notice"><%= notice %></p>
+
+<h1>Listing Implementations</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Project</th>
+      <th>User</th>
+      <th>Oprogram</th>
+      <th>Subject</th>
+      <th>Contact helper</th>
+      <th>Contact client</th>
+      <th>Projektant</th>
+      <th>Procurer name</th>
+      <th>Auditor</th>
+      <th>Other contacts</th>
+      <th>Itms access name</th>
+      <th>Itms access pass</th>
+      <th>Nfp contract signed</th>
+      <th>Project startdate</th>
+      <th>Project start about</th>
+      <th>Project start note sentdate</th>
+      <th>Project start note sent</th>
+      <th>Project enddate by nfp contract</th>
+      <th>Project schedule change need</th>
+      <th>Zop showdate</th>
+      <th>Zop last term end</th>
+      <th>Zop last term start</th>
+      <th>Zop note</th>
+      <th>Zop last showdate</th>
+      <th>Zop request type</th>
+      <th>Zop paycond fulfil</th>
+      <th>Zop cond fulfil</th>
+      <th>Zop data to itms</th>
+      <th>Zop data to itms state</th>
+      <th>Next monitor date</th>
+      <th>Finish monitor date</th>
+      <th>Control date</th>
+      <th>Approved</th>
+      <th>Publicity subject</th>
+      <th>Publicity last term</th>
+      <th>Publicity showdate</th>
+      <th>Project end type</th>
+      <th>Project end sooner</th>
+      <th>Project end sooner date</th>
+      <th>Note project sonner sent</th>
+      <th>Note project sooner sent date</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @implementations.each do |implementation| %>
+      <tr>
+        <td><%= implementation.project %></td>
+        <td><%= implementation.user %></td>
+        <td><%= implementation.oprogram %></td>
+        <td><%= implementation.subject %></td>
+        <td><%= implementation.contact_helper %></td>
+        <td><%= implementation.contact_client %></td>
+        <td><%= implementation.projektant %></td>
+        <td><%= implementation.procurer_name %></td>
+        <td><%= implementation.auditor %></td>
+        <td><%= implementation.other_contacts %></td>
+        <td><%= implementation.itms_access_name %></td>
+        <td><%= implementation.itms_access_pass %></td>
+        <td><%= implementation.nfp_contract_signed %></td>
+        <td><%= implementation.project_startdate %></td>
+        <td><%= implementation.project_start_about %></td>
+        <td><%= implementation.project_start_note_sentdate %></td>
+        <td><%= implementation.project_start_note_sent %></td>
+        <td><%= implementation.project_enddate_by_nfp_contract %></td>
+        <td><%= implementation.project_schedule_change_need %></td>
+        <td><%= implementation.zop_showdate %></td>
+        <td><%= implementation.zop_last_term_end %></td>
+        <td><%= implementation.zop_last_term_start %></td>
+        <td><%= implementation.zop_note %></td>
+        <td><%= implementation.zop_last_showdate %></td>
+        <td><%= implementation.zop_request_type %></td>
+        <td><%= implementation.zop_paycond_fulfil %></td>
+        <td><%= implementation.zop_cond_fulfil %></td>
+        <td><%= implementation.zop_data_to_itms %></td>
+        <td><%= implementation.zop_data_to_itms_state %></td>
+        <td><%= implementation.next_monitor_date %></td>
+        <td><%= implementation.finish_monitor_date %></td>
+        <td><%= implementation.control_date %></td>
+        <td><%= implementation.approved %></td>
+        <td><%= implementation.publicity_subject %></td>
+        <td><%= implementation.publicity_last_term %></td>
+        <td><%= implementation.publicity_showdate %></td>
+        <td><%= implementation.project_end_type %></td>
+        <td><%= implementation.project_end_sooner %></td>
+        <td><%= implementation.project_end_sooner_date %></td>
+        <td><%= implementation.note_project_sonner_sent %></td>
+        <td><%= implementation.note_project_sooner_sent_date %></td>
+        <td><%= link_to 'Show', implementation %></td>
+        <td><%= link_to 'Edit', edit_implementation_path(implementation) %></td>
+        <td><%= link_to 'Destroy', implementation, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Implementation', new_implementation_path %>

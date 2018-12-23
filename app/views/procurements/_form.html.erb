@@ -1,0 +1,49 @@
+<%= form_for(@procurement) do |f| %>
+  <% if @procurement.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@procurement.errors.count, "error") %> prohibited this procurement from being saved:</h2>
+
+      <ul>
+      <% @procurement.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :subject %><br>
+    <%= f.text_field :subject %>
+  </div>
+  <div class="field">
+    <%= f.label :anounced_date %><br>
+    <%= f.datetime_select :anounced_date %>
+  </div>
+  <div class="field">
+    <%= f.label :close_date %><br>
+    <%= f.datetime_select :close_date %>
+  </div>
+  <div class="field">
+    <%= f.label :control_date %><br>
+    <%= f.datetime_select :control_date %>
+  </div>
+  <div class="field">
+    <%= f.label :confirmed %><br>
+    <%= f.check_box :confirmed %>
+  </div>
+  <div class="field">
+    <%= f.label :confirmed_date %><br>
+    <%= f.datetime_select :confirmed_date %>
+  </div>
+  <div class="field">
+    <%= f.label :effective_date %><br>
+    <%= f.datetime_select :effective_date %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

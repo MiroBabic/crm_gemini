@@ -1,0 +1,394 @@
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Implementácie</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Implementácie</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_implementation_button" data-toggle="modal" data-target="#addImplementationModal">Začni implementáciu projektu</button>
+        
+        <hr>
+        <div class="table-responsive">
+
+          <table  class="table table-bordered" id="implementations" style="width:100%">
+  <thead>
+    <tr>
+      <th>Projekt</th>
+      <th>Projektový manažér</th>
+      <th>Operačný program</th>
+      <th>Subjekt</th>
+      <th>Dátum začatia projektu</th>
+      <th>Termín ukončenia projektu podľa zmluvy o NFP</th>
+      <th>Zaslanie hlásenia o začatí projektu</th>
+      <th>Dátum predloženia ŽOP</th>
+      <th>Posledný termín na predloženie ŽOP záverečná</th>
+      <th>Posledný termín na predloženie prvej ŽOP </th>
+      <th>Typ žiadosti</th>
+      <th>Termín najbližšej monitorovačky</th>
+      <!--<th>Termín záverečnej monitorovačky</th>-->
+      <th>Dátum predloženia na kontrolu</th>
+      <th>Schválenie</th>
+      <th></th>
+     
+     
+    </tr>
+  </thead>
+
+  <tbody>
+    
+  </tbody>
+</table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div id="addImplementationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Vytvor Implementáciu </h2>
+       
+      </div>
+      <div class="modal-body">
+        <div class="alert alert-danger noborders">
+   Polia vyznačené na červeno sú povinné
+  </div>
+        <div class="form-group has-error">
+          <h3 class="center">Projekt</h3>
+         <label>Projekt:</label><%= select_tag 'project', options_from_collection_for_select(@projects, 'id', 'name'), class: 'form-control', id: 'project',"data-placeholder": "Projekt",prompt: "--vyber projekt--" %><br>
+          <label>Projektový manažér:</label><%= select_tag 'project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
+          <label>Žiadateľ: </label><%= select_tag 'subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'subject_new', prompt: "--vyber subjekt--" %></br>
+         <label>Operačný program:</label><input type="text" name="oprogram" id="oprogram" class="form-control" placeholder="Operačný program..." /><br>
+         <label>Kontaktná osoba - Poskytovateľ pomoci:</label><input type="text" name="contact_helper" id="contact_helper" class="form-control" placeholder="Kontaktná osoba - Poskytovateľ pomoci..." /><br>
+         <label>Kontaktná osoba - Klient:</label><input type="text" name="contact_client" id="contact_client" class="form-control" placeholder="Kontaktná osoba - Klient..." /><br>
+          </div>
+          <label>Projektant:</label><input type="text" name="projektant" id="projektant" class="form-control" placeholder="Projektant..." /><br>
+          <label>Verejný obstarávateľ:</label><input type="text" name="procurer_name" id="procurer_name" class="form-control" placeholder="Verejný obstarávateľ..." /><br>
+          <label>Auditor:</label><input type="text" name="auditor" id="auditor" class="form-control" placeholder="Auditor..." /><br>
+          <label>Iné kontaktné osoby:</label><input type="text" name="other_contacts" id="other_contacts" class="form-control" placeholder="Iné kontaktné osoby..." /><br>
+           <h3 class="center">Začatie projektu</h3>
+          <label>Prístup do ITMS - Meno:</label><input type="text" name="itms_access_name" id="itms_access_name" class="form-control" placeholder="Prístup do ITMS - Meno..." /><br>
+          <label>Prístup do ITMS - Heslo:</label><input type="text" name="itms_access_pass" id="itms_access_pass" class="form-control" placeholder="Prístup do ITMS - Heslo..." /><br>
+          <label>Dátum podpisu a účinnosti zmluvy o NFP:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="nfp_contract_signed" id="nfp_contract_signed" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+           <label>Dátum začatia projektu:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input  name="project_startdate" id="project_startdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+          <label>Čím sa projekt začína:</label><input type="text" name="project_start_about" id="project_start_about" class="form-control" placeholder="Čím sa projekt začína..." /><br>
+          <label>Čím sa projekt končí:</label><input type="text" name="project_end_about" id="project_end_about" class="form-control" placeholder="Čím sa projekt končí..." /><br>
+          <label>Zaslanie hlásenia o začatí projektu: <input id="project_start_note_sent" type="checkbox" class="icheckbox_square-green" />          
+        </label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+        <input type="text" name="project_start_note_sentdate" id="project_start_note_sentdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+         <label>Termín ukončenia projektu podľa zmluvy o NFP:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="project_enddate_by_nfp_contract" id="project_enddate_by_nfp_contract" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+       <label>Potreba zmeny harmonogramu projektu: <input id="project_schedule_change_need" type="checkbox" class="icheckbox_square-green" />          
+        </label><br>
+        <label>Termín na predloženie žiadostí o zmenu harmonogramu:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="schedule_change_need_date" id="schedule_change_need_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+         <h3 class="center">ŽOP</h3>
+         <label>Dátum predloženia ŽOP:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="zop_showdate" id="zop_showdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+       <label>Posledný termín na predloženie ŽOP záverečná:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="zop_last_term_end" id="zop_last_term_end" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+       <label>Posledný termín na predloženie prvej ŽOP:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="zop_last_term_start" id="zop_last_term_start" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+       <label>Poznámka k ŽOP:</label><input type="text" name="zop_note" id="zop_note" class="form-control" placeholder="Poznámka k ŽOP..." /><br>
+       <label>Dátum predloženia poslednej ŽOP:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="zop_last_showdate" id="zop_last_showdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+       <label>Typ žiadosti:</label><input type="text" name="zop_request_type" id="zop_request_type" class="form-control" placeholder="Typ žiadosti..." /><br>
+       <label>Stav ŽOP:</label><input type="text" name="zop_state" id="zop_state" class="form-control" placeholder="Stav ŽOP..." /><br>
+       <div class="row">
+        <div class="col-md-4">
+          <label>Splnené podmienky na úhradu ŽOP: <input id="zop_paycond_fulfil" type="checkbox" class="icheckbox_square-green" />          
+        </label>
+        </div>
+        <div class="col-md-4">
+          <label>Splnené náležitosti ŽOP: <input id="zop_cond_fulfil" type="checkbox" class="icheckbox_square-green" />          
+        </label>
+        </div>
+        <div class="col-md-4">
+          <label>Nahratie predkladov do ITMS: <input id="zop_data_to_itms" type="checkbox" class="icheckbox_square-green" />          
+        </label>
+        </div>
+       </div>
+       <br>
+
+       <label>Nahratie predkladov do ITMS - Stav:</label><input type="text" name="zop_data_to_itms_state" id="zop_data_to_itms_state" class="form-control" placeholder="Nahratie predkladov do ITMS - Stav..." /><br>
+       <h3 class="center">Monitorovanie</h3>
+        <label>Termín najbližšej monitorovačky:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+          <input type="text" name="next_monitor_date" id="next_monitor_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+      <label>Termín záverečnej monitorovačky:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+          <input type="text" name="finish_monitor_date" id="finish_monitor_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+      <label>Dátum predloženia na kontrolu:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+          <input type="text" name="control_date" id="control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+        <label>Schválenie: <input id="approved" type="checkbox" class="icheckbox_square-green" /> </label>
+       <h3 class="center">Povinná publicita</h3>   
+       <label>Predmet publicity:</label><input type="text" name="publicity_subject" id="publicity_subject" class="form-control" placeholder="Predmet publicity..." /><br>
+      <label>Posledný termín na predloženie publicity projektu:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+          <input type="text" name="publicity_last_term" id="publicity_last_term" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+      <label>Dátum predloženia:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+          <input type="text" name="publicity_showdate" id="publicity_showdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+
+        <h3 class="center">Ukončenie projektu</h3>
+        <label>Spôsob ukončenia projektu:</label><input type="text" name="project_end_type" id="project_end_type" class="form-control" placeholder="Spôsob ukončenia projektu..." /><br>
+         <label>Predčasné ukončenie projektu: <input id="project_end_sooner" type="checkbox" class="icheckbox_square-green" />          
+        </label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+        <input type="text" name="project_end_sooner_date" id="project_end_sooner_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+
+        <label>Zaslanie hlásenia o predčasnom ukončení projektu: <input id="note_project_sooner_sent" type="checkbox" class="icheckbox_square-green" />          
+        </label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+        <input type="text" name="note_project_sooner_sent_date" id="note_project_sooner_sent_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+
+       <button id="addimplbutton" type="button" class="addimplem btn btn-success">Vytvor</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+
+<script>
+var implementationtable;
+
+var tableready = function() {
+
+  $('.datepick').datepicker({
+       trigger: $('#inputcalendar'),
+        autoHide: true,
+        format: 'yyyy-mm-dd'
+          });
+
+
+ implementationtable= $('#implementations').DataTable({
+  'order': [0, 'desc'],
+  'serverSide': true,
+  'stateSave' :true,
+  'ajax' : '/implementacie.json',
+  columns: [
+  //{data: 'project_name'},
+  {data: 'project_detail'},
+  {data: 'project_manager' },
+  {data: 'oprogram' },
+  {data: 'subject_name' },
+  {data: 'project_startdate' },
+  {data: 'project_enddate_by_nfp_contract' },
+  {data: 'project_start_note_sentdate' },
+  {data: 'zop_showdate' },
+  {data: 'zop_last_term_end' },
+  {data: 'zop_last_term_start' },
+  {data: 'zop_request_type' },
+  {data: 'next_monitor_date' },
+  //{data: 'finish_monitor_date' },
+  {data: 'control_date' },
+  {data: 'approved' },
+  
+  {data: 'delete_implementation', orderable: false, searchable: false} 
+  //{data: 'agreed_payment' },
+  //{data: 'payment' },
+  //{data: 'due_date' },
+  //{data: 'payed' }
+
+  ],
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+
+  {
+    text: 'TXT',
+    extend: 'csvHtml5',
+    fieldSeparator: '\t',
+    extension: '.txt',
+    "className": 'btn btn-default btn-xs'
+  },
+  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ]
+});
+
+
+
+// add implementation 
+
+$('.addimplem').on('click',function(event){
+          //console.log(event.target.id);
+          $project_start_note_sent = false;
+          $project_schedule_change_need = false;
+          $zop_paycond_fulfil = false;
+          $zop_cond_fulfil = false;
+          $zop_data_to_itms = false;
+          $approved = false;
+          $project_end_sooner = false;
+          $note_project_sooner_sent = false;
+
+
+          $project_id = $('#project').val();
+          $subject = $('#subject_new').val();
+          $projectmanager = $('#project_manager').val();
+          $oprogram = $('#oprogram').val();
+          $contact_helper=$('#contact_helper').val();
+          $contact_client=$('#contact_client').val();
+          $projektant=$('#projektant').val();
+          $procurer_name=$('#procurer_name').val();
+          $auditor=$('#auditor').val();
+          $other_contacts=$('#other_contacts').val();
+          $itms_access_name=$('#itms_access_name').val();
+          $itms_access_pass=$('#itms_access_pass').val();
+          $nfp_contract_signed=$('#nfp_contract_signed').val();
+          $project_startdate=$('#project_startdate').val();
+          $project_start_about=$('#project_start_about').val();
+          $project_end_about=$('#project_end_about').val();
+          if ($('#project_start_note_sent').is(":checked")) {$project_start_note_sent = true;}
+          $project_start_note_sentdate=$('#project_start_note_sentdate').val();
+          $project_enddate_by_nfp_contract=$('#project_enddate_by_nfp_contract').val();
+          if ($('#project_schedule_change_need').is(":checked")) {$project_schedule_change_need = true;}
+          $schedule_change_need_date=$('#schedule_change_need_date').val();
+          $zop_showdate=$('#zop_showdate').val();
+          $zop_last_term_end=$('#zop_last_term_end').val();
+          $zop_last_term_start=$('#zop_last_term_start').val();
+          $zop_note=$('#zop_note').val();
+          $zop_last_showdate=$('#zop_last_showdate').val();
+          $zop_request_type=$('#zop_request_type').val();
+          if ($('#zop_paycond_fulfil').is(":checked")) {$zop_paycond_fulfil = true;}
+          if ($('#zop_cond_fulfil').is(":checked")) {$zop_cond_fulfil = true;}
+          if ($('#zop_data_to_itms').is(":checked")) {$zop_data_to_itms = true;}
+          $zop_data_to_itms_state=$('#zop_data_to_itms_state').val();
+          $zop_state=$('#zop_state').val();
+          $next_monitor_date=$('#next_monitor_date').val();
+          $finish_monitor_date=$('#finish_monitor_date').val();
+          $control_date=$('#control_date').val();
+          if ($('#approved').is(":checked")) {$approved = true;}
+          $publicity_subject=$('#publicity_subject').val();
+          $publicity_last_term=$('#publicity_last_term').val();
+          $publicity_showdate=$('#publicity_showdate').val();
+          $project_end_type=$('#project_end_type').val();
+          if ($('#project_end_sooner').is(":checked")) {$project_end_sooner = true;}
+          $project_end_sooner_date=$('#project_end_sooner_date').val();
+          if ($('#note_project_sooner_sent').is(":checked")) {$note_project_sooner_sent = true;}
+          $note_project_sooner_sent_date=$('#note_project_sooner_sent_date').val();
+
+
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_implementation",
+            data: {
+              project_id: $project_id,
+              subject: $subject,
+              projectmanager: $projectmanager,
+              oprogram: $oprogram,
+              contact_helper: $contact_helper,
+              contact_client: $contact_client,
+              projektant: $projektant,
+              procurer_name: $procurer_name,
+              auditor: $auditor,
+              other_contacts: $other_contacts,
+              itms_access_name: $itms_access_name,
+              itms_access_pass: $itms_access_pass,
+              nfp_contract_signed: $nfp_contract_signed,
+              project_startdate: $project_startdate,
+              project_start_about: $project_start_about,
+              project_end_about: $project_end_about,
+              project_start_note_sent: $project_start_note_sent,
+              project_start_note_sentdate: $project_start_note_sentdate,
+              project_enddate_by_nfp_contract: $project_enddate_by_nfp_contract,
+              project_schedule_change_need: $project_schedule_change_need,
+              schedule_change_need_date: $schedule_change_need_date,
+              zop_showdate: $zop_showdate,
+              zop_last_term_end: $zop_last_term_end,
+              zop_last_term_start: $zop_last_term_start,
+              zop_note: $zop_note,
+              zop_last_showdate: $zop_last_showdate,
+              zop_request_type: $zop_request_type,
+              zop_paycond_fulfil: $zop_paycond_fulfil,
+              zop_cond_fulfil: $zop_cond_fulfil,
+              zop_data_to_itms: $zop_data_to_itms,
+              zop_data_to_itms_state: $zop_data_to_itms_state,
+              zop_state: $zop_state,
+              next_monitor_date: $next_monitor_date,
+              finish_monitor_date: $finish_monitor_date,
+              control_date: $control_date,
+              approved: $approved,
+              publicity_subject: $publicity_subject,
+              publicity_last_term: $publicity_last_term,
+              publicity_showdate: $publicity_showdate,
+              project_end_type: $project_end_type,
+              project_end_sooner: $project_end_sooner,
+              project_end_sooner_date: $project_end_sooner_date,
+              note_project_sooner_sent: $note_project_sooner_sent,
+              note_project_sooner_sent_date: $note_project_sooner_sent_date
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Implementácia bola vytvorená" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+//end add implementation
+};
+
+
+
+
+
+$(".implementations.index").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#implementations_wrapper').length ==1) {implementationtable.destroy() ;} 
+
+});
+
+
+$(".implementations.index").on('turbolinks:load', tableready); 
+
+</script>

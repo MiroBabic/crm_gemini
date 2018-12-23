@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Implementation:</strong>
+  <%= @impchange.implementation %>
+</p>
+
+<p>
+  <strong>User:</strong>
+  <%= @impchange.user %>
+</p>
+
+<p>
+  <strong>Change last term:</strong>
+  <%= @impchange.change_last_term %>
+</p>
+
+<p>
+  <strong>Change about:</strong>
+  <%= @impchange.change_about %>
+</p>
+
+<p>
+  <strong>Change status:</strong>
+  <%= @impchange.change_status %>
+</p>
+
+<p>
+  <strong>Change date:</strong>
+  <%= @impchange.change_date %>
+</p>
+
+<%= link_to 'Edit', edit_impchange_path(@impchange) %> |
+<%= link_to 'Back', impchanges_path %>

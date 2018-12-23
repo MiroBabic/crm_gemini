@@ -1,0 +1,12 @@
+class CreateIactivities < ActiveRecord::Migration
+  def change
+    create_table :iactivities do |t|
+      t.references :implementation, index: true, foreign_key: true
+      t.references :user, index: true, foreign_key: true
+      t.json :action
+      t.string :note
+
+      t.timestamps null: false
+    end
+  end
+end

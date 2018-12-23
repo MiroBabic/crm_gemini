@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181202231627) do
+ActiveRecord::Schema.define(version: 20181222222929) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -86,6 +86,99 @@ ActiveRecord::Schema.define(version: 20181202231627) do
   add_index "documents", ["subject_id"], name: "index_documents_on_subject_id", using: :btree
   add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
+  create_table "iactivities", force: :cascade do |t|
+    t.integer  "implementation_id"
+    t.integer  "user_id"
+    t.json     "action"
+    t.string   "note"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "iactivities", ["implementation_id"], name: "index_iactivities_on_implementation_id", using: :btree
+  add_index "iactivities", ["user_id"], name: "index_iactivities_on_user_id", using: :btree
+
+  create_table "impchanges", force: :cascade do |t|
+    t.integer  "implementation_id"
+    t.integer  "user_id"
+    t.datetime "change_last_term"
+    t.string   "change_about"
+    t.string   "change_status"
+    t.datetime "change_date"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "impchanges", ["implementation_id"], name: "index_impchanges_on_implementation_id", using: :btree
+  add_index "impchanges", ["user_id"], name: "index_impchanges_on_user_id", using: :btree
+
+  create_table "implementations", force: :cascade do |t|
+    t.integer  "project_id"
+    t.integer  "user_id"
+    t.string   "oprogram"
+    t.integer  "subject_id"
+    t.string   "contact_helper"
+    t.string   "contact_client"
+    t.string   "projektant"
+    t.string   "procurer_name"
+    t.string   "auditor"
+    t.string   "other_contacts"
+    t.string   "itms_access_name"
+    t.string   "itms_access_pass"
+    t.datetime "nfp_contract_signed"
+    t.datetime "project_startdate"
+    t.string   "project_start_about"
+    t.string   "project_end_about"
+    t.datetime "project_start_note_sentdate"
+    t.boolean  "project_start_note_sent"
+    t.datetime "project_enddate_by_nfp_contract"
+    t.boolean  "project_schedule_change_need"
+    t.datetime "schedule_change_need_date"
+    t.datetime "zop_showdate"
+    t.datetime "zop_last_term_end"
+    t.datetime "zop_last_term_start"
+    t.string   "zop_note"
+    t.datetime "zop_last_showdate"
+    t.string   "zop_request_type"
+    t.boolean  "zop_paycond_fulfil"
+    t.boolean  "zop_cond_fulfil"
+    t.boolean  "zop_data_to_itms"
+    t.string   "zop_data_to_itms_state"
+    t.string   "zop_state"
+    t.datetime "next_monitor_date"
+    t.datetime "finish_monitor_date"
+    t.datetime "control_date"
+    t.boolean  "approved"
+    t.string   "publicity_subject"
+    t.datetime "publicity_last_term"
+    t.datetime "publicity_showdate"
+    t.string   "project_end_type"
+    t.boolean  "project_end_sooner"
+    t.datetime "project_end_sooner_date"
+    t.boolean  "note_project_sooner_sent"
+    t.datetime "note_project_sooner_sent_date"
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+  end
+
+  add_index "implementations", ["project_id"], name: "index_implementations_on_project_id", using: :btree
+  add_index "implementations", ["subject_id"], name: "index_implementations_on_subject_id", using: :btree
+  add_index "implementations", ["user_id"], name: "index_implementations_on_user_id", using: :btree
+
+  create_table "invoices", force: :cascade do |t|
+    t.integer  "implementation_id"
+    t.datetime "processed_date"
+    t.decimal  "contracted_amount"
+    t.float    "contracted_hours"
+    t.integer  "document_id"
+    t.float    "done_hours"
+    t.datetime "created_at",        null: false
+    t.datetime "updated_at",        null: false
+  end
+
+  add_index "invoices", ["document_id"], name: "index_invoices_on_document_id", using: :btree
+  add_index "invoices", ["implementation_id"], name: "index_invoices_on_implementation_id", using: :btree
+
   create_table "mailtemplates", force: :cascade do |t|
     t.string   "name"
     t.text     "content"
@@ -123,6 +216,19 @@ ActiveRecord::Schema.define(version: 20181202231627) do
   end
 
   add_index "people", ["subject_id"], name: "index_people_on_subject_id", using: :btree
+
+  create_table "procurements", force: :cascade do |t|
+    t.string   "name"
+    t.string   "subject"
+    t.datetime "anounced_date"
+    t.datetime "close_date"
+    t.datetime "control_date"
+    t.boolean  "confirmed"
+    t.datetime "confirmed_date"
+    t.datetime "effective_date"
+    t.datetime "created_at",     null: false
+    t.datetime "updated_at",     null: false
+  end
 
   create_table "projects", force: :cascade do |t|
     t.integer  "person_id"
@@ -232,6 +338,15 @@ ActiveRecord::Schema.define(version: 20181202231627) do
   add_foreign_key "communications", "users"
   add_foreign_key "documents", "subjects"
   add_foreign_key "documents", "users"
+  add_foreign_key "iactivities", "implementations"
+  add_foreign_key "iactivities", "users"
+  add_foreign_key "impchanges", "implementations"
+  add_foreign_key "impchanges", "users"
+  add_foreign_key "implementations", "projects"
+  add_foreign_key "implementations", "subjects"
+  add_foreign_key "implementations", "users"
+  add_foreign_key "invoices", "documents"
+  add_foreign_key "invoices", "implementations"
   add_foreign_key "media", "subjects"
   add_foreign_key "people", "subjects"
   add_foreign_key "projects", "people"

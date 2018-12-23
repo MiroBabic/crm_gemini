@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  implementation_id: 
+  processed_date: 2018-12-20 21:52:41
+  contracted_amount: 9.99
+  contracted_hours: 1.5
+  document_id: 
+  done_hours: 1.5
+
+two:
+  implementation_id: 
+  processed_date: 2018-12-20 21:52:41
+  contracted_amount: 9.99
+  contracted_hours: 1.5
+  document_id: 
+  done_hours: 1.5

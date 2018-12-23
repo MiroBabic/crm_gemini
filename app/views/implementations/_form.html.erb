@@ -1,0 +1,181 @@
+<%= form_for(@implementation) do |f| %>
+  <% if @implementation.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@implementation.errors.count, "error") %> prohibited this implementation from being saved:</h2>
+
+      <ul>
+      <% @implementation.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :project_id %><br>
+    <%= f.text_field :project_id %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :oprogram %><br>
+    <%= f.text_field :oprogram %>
+  </div>
+  <div class="field">
+    <%= f.label :subject_id %><br>
+    <%= f.text_field :subject_id %>
+  </div>
+  <div class="field">
+    <%= f.label :contact_helper %><br>
+    <%= f.text_field :contact_helper %>
+  </div>
+  <div class="field">
+    <%= f.label :contact_client %><br>
+    <%= f.text_field :contact_client %>
+  </div>
+  <div class="field">
+    <%= f.label :projektant %><br>
+    <%= f.text_field :projektant %>
+  </div>
+  <div class="field">
+    <%= f.label :procurer_name %><br>
+    <%= f.text_field :procurer_name %>
+  </div>
+  <div class="field">
+    <%= f.label :auditor %><br>
+    <%= f.text_field :auditor %>
+  </div>
+  <div class="field">
+    <%= f.label :other_contacts %><br>
+    <%= f.text_field :other_contacts %>
+  </div>
+  <div class="field">
+    <%= f.label :itms_access_name %><br>
+    <%= f.text_field :itms_access_name %>
+  </div>
+  <div class="field">
+    <%= f.label :itms_access_pass %><br>
+    <%= f.text_field :itms_access_pass %>
+  </div>
+  <div class="field">
+    <%= f.label :nfp_contract_signed %><br>
+    <%= f.datetime_select :nfp_contract_signed %>
+  </div>
+  <div class="field">
+    <%= f.label :project_startdate %><br>
+    <%= f.datetime_select :project_startdate %>
+  </div>
+  <div class="field">
+    <%= f.label :project_start_about %><br>
+    <%= f.text_field :project_start_about %>
+  </div>
+  <div class="field">
+    <%= f.label :project_start_note_sentdate %><br>
+    <%= f.datetime_select :project_start_note_sentdate %>
+  </div>
+  <div class="field">
+    <%= f.label :project_start_note_sent %><br>
+    <%= f.check_box :project_start_note_sent %>
+  </div>
+  <div class="field">
+    <%= f.label :project_enddate_by_nfp_contract %><br>
+    <%= f.datetime_select :project_enddate_by_nfp_contract %>
+  </div>
+  <div class="field">
+    <%= f.label :project_schedule_change_need %><br>
+    <%= f.check_box :project_schedule_change_need %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_showdate %><br>
+    <%= f.datetime_select :zop_showdate %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_last_term_end %><br>
+    <%= f.datetime_select :zop_last_term_end %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_last_term_start %><br>
+    <%= f.datetime_select :zop_last_term_start %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_note %><br>
+    <%= f.text_field :zop_note %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_last_showdate %><br>
+    <%= f.datetime_select :zop_last_showdate %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_request_type %><br>
+    <%= f.text_field :zop_request_type %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_paycond_fulfil %><br>
+    <%= f.check_box :zop_paycond_fulfil %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_cond_fulfil %><br>
+    <%= f.check_box :zop_cond_fulfil %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_data_to_itms %><br>
+    <%= f.check_box :zop_data_to_itms %>
+  </div>
+  <div class="field">
+    <%= f.label :zop_data_to_itms_state %><br>
+    <%= f.text_field :zop_data_to_itms_state %>
+  </div>
+  <div class="field">
+    <%= f.label :next_monitor_date %><br>
+    <%= f.datetime_select :next_monitor_date %>
+  </div>
+  <div class="field">
+    <%= f.label :finish_monitor_date %><br>
+    <%= f.datetime_select :finish_monitor_date %>
+  </div>
+  <div class="field">
+    <%= f.label :control_date %><br>
+    <%= f.datetime_select :control_date %>
+  </div>
+  <div class="field">
+    <%= f.label :approved %><br>
+    <%= f.check_box :approved %>
+  </div>
+  <div class="field">
+    <%= f.label :publicity_subject %><br>
+    <%= f.text_field :publicity_subject %>
+  </div>
+  <div class="field">
+    <%= f.label :publicity_last_term %><br>
+    <%= f.datetime_select :publicity_last_term %>
+  </div>
+  <div class="field">
+    <%= f.label :publicity_showdate %><br>
+    <%= f.datetime_select :publicity_showdate %>
+  </div>
+  <div class="field">
+    <%= f.label :project_end_type %><br>
+    <%= f.text_field :project_end_type %>
+  </div>
+  <div class="field">
+    <%= f.label :project_end_sooner %><br>
+    <%= f.check_box :project_end_sooner %>
+  </div>
+  <div class="field">
+    <%= f.label :project_end_sooner_date %><br>
+    <%= f.datetime_select :project_end_sooner_date %>
+  </div>
+  <div class="field">
+    <%= f.label :note_project_sonner_sent %><br>
+    <%= f.check_box :note_project_sonner_sent %>
+  </div>
+  <div class="field">
+    <%= f.label :note_project_sooner_sent_date %><br>
+    <%= f.datetime_select :note_project_sooner_sent_date %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

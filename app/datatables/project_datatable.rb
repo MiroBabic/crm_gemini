@@ -7,6 +7,7 @@ class ProjectDatatable < AjaxDatatablesRails::Base
     @view_columns ||= {
        id: { source: "Project.id", cond: :eq },
        name: {source: "Project.name"},
+       project_detail: {source: "Project.name"},
        person: {source: "Person.email"},
        subject: {source: "Subject.name"},
        contract: {source: "Project.contract"},
@@ -28,7 +29,7 @@ class ProjectDatatable < AjaxDatatablesRails::Base
   end
 
 
-def_delegators :@view, :link_to, :concat, :raw, :content_tag
+def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_detail_path
 
 
   def data
@@ -37,6 +38,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag
         # example:
          id: project.id,
          name: project.name,
+         project_detail: link_to(project.name, show_project_detail_path(project.id)),
          person: project.person.email,
          person_id: project.person.id,
          subject_id: project.subject.id,
@@ -67,7 +69,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag
 
 
 def get_raw_records
-  Project.includes(:subject).includes(:person).includes(:user)
+  Project.joins(:subject).joins(:person).joins(:user)
 end
 
 

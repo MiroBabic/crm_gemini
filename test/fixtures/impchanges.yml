@@ -1,0 +1,17 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  implementation_id: 
+  user_id: 
+  change_last_term: 2018-12-20 21:49:20
+  change_about: MyString
+  change_status: MyString
+  change_date: 2018-12-20 21:49:20
+
+two:
+  implementation_id: 
+  user_id: 
+  change_last_term: 2018-12-20 21:49:20
+  change_about: MyString
+  change_status: MyString
+  change_date: 2018-12-20 21:49:20

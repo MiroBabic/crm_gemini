@@ -1,3 +1,5 @@
+
+
 function formatProjectfinance(d) {
 
 	 if (d.payed == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}

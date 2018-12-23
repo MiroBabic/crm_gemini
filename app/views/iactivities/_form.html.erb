@@ -1,0 +1,33 @@
+<%= form_for(@iactivity) do |f| %>
+  <% if @iactivity.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@iactivity.errors.count, "error") %> prohibited this iactivity from being saved:</h2>
+
+      <ul>
+      <% @iactivity.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :implementation_id %><br>
+    <%= f.text_field :implementation_id %>
+  </div>
+  <div class="field">
+    <%= f.label :user_id %><br>
+    <%= f.text_field :user_id %>
+  </div>
+  <div class="field">
+    <%= f.label :action %><br>
+    <%= f.text_field :action %>
+  </div>
+  <div class="field">
+    <%= f.label :note %><br>
+    <%= f.text_field :note %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>
