@@ -9,6 +9,7 @@ class ImplementationDatatable < AjaxDatatablesRails::Base
        project_name: {source: "Project.name"},
        project_detail: {source: "Project.name"},
        project_manager: {source: "User.email"},
+       subject_path: {source: "Subject.name"},
        subject_name: {source: "Subject.name"},
        oprogram: {source: "Implementation.oprogram"},
        project_startdate: {source: "Implementation.project_startdate"},
@@ -28,7 +29,7 @@ class ImplementationDatatable < AjaxDatatablesRails::Base
   end
 
 
-def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_detail_path
+def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_detail_path, :show_subject_profile_path
 
 
   def data
@@ -39,7 +40,8 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
          project_name: implementation.project.name,
          project_detail: link_to(implementation.project.name, show_project_detail_path(implementation.project_id)),
          project_manager: implementation.user.email,
-         subject_name: implementation.subject.id,
+         subject_name: implementation.subject.name,
+         subject_path: link_to(implementation.subject.name, show_subject_profile_path(implementation.subject_id)),
          subject_id: implementation.subject.id,
          oprogram: implementation.oprogram,
          project_startdate: implementation.project_startdate,

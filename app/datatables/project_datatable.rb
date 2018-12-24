@@ -10,6 +10,7 @@ class ProjectDatatable < AjaxDatatablesRails::Base
        project_detail: {source: "Project.name"},
        person: {source: "Person.email"},
        subject: {source: "Subject.name"},
+       subject_path: {source: "Subject.name"},
        contract: {source: "Project.contract"},
        order: {source: "Project.order"},
        control_zonfp: {source: "Project.control_zonfp"},
@@ -29,7 +30,7 @@ class ProjectDatatable < AjaxDatatablesRails::Base
   end
 
 
-def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_detail_path
+def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_detail_path, :show_subject_profile_path
 
 
   def data
@@ -42,6 +43,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
          person: project.person.email,
          person_id: project.person.id,
          subject_id: project.subject.id,
+         subject_path: link_to(project.subject.name, show_subject_profile_path(project.subject_id)),
          subject: project.subject.name,
          contract: project.contract,
          order: project.order,

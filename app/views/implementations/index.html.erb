@@ -198,7 +198,7 @@ var tableready = function() {
   {data: 'project_detail'},
   {data: 'project_manager' },
   {data: 'oprogram' },
-  {data: 'subject_name' },
+  {data: 'subject_path' },
   {data: 'project_startdate' },
   {data: 'project_enddate_by_nfp_contract' },
   {data: 'project_start_note_sentdate' },
@@ -209,7 +209,13 @@ var tableready = function() {
   {data: 'next_monitor_date' },
   //{data: 'finish_monitor_date' },
   {data: 'control_date' },
-  {data: 'approved' },
+  {data: 'approved','render' : function(data,type,row) {
+    $res = '';
+    if (row.approved == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
+      else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
+    return $res;
+  } },
+  
   
   {data: 'delete_implementation', orderable: false, searchable: false} 
   //{data: 'agreed_payment' },
