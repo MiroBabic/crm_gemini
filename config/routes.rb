@@ -108,6 +108,7 @@ Rails.application.routes.draw do
 
   get '/implementacie' => 'implementations#index', :as=>'implementacie'
   post '/modal_create_implementation' => 'implementations#modal_create_implementation', :as=>'modal_create_implementation'
+  post '/modal_edit_implementation' => 'implementations#modal_edit_implementation', :as=>'modal_edit_implementation'
 
   root 'static_pages#home'
   # The priority is based upon order of creation: first created -> highest priority.
