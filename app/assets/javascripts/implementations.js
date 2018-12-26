@@ -47,3 +47,60 @@ function updateImplementationEditModal(d) {
 
 }
 
+function formatImplementationDetails(d) {
+
+	$html = '<h3 ">Projekt</h3><hr>'+
+'<p><b>Projekt: </b>'+d.project_name+'</p>'+
+'<p><b>Projektový manažér: </b>'+d.project_manager+'</p>'+
+'<p><b>Žiadateľ:  </b>'+d.subject_name+'</p>'+
+'<p><b>Operačný program: </b>'+d.oprogram+'</p>'+
+'<p><b>Kontaktná osoba - Poskytovateľ pomoci: </b>'+d.contact_helper+'</p>'+
+'<p><b>Kontaktná osoba - Klient: </b>'+d.contact_client+'</p>'+
+'<p><b>Projektant: </b>'+d.projektant+'</p>'+
+'<p><b>Verejný obstarávateľ: </b>'+d.procurer_name+'</p>'+
+'<p><b>Auditor: </b>'+d.auditor+'</p>'+
+'<p><b>Iné kontaktné osoby: </b>'+d.other_contacts+'</p>'+
+'<hr><h3 ">Začatie projektu</h3><hr>'+
+'<p><b>Prístup do ITMS - Meno: </b>'+d.itms_access_name+'</p>'+
+'<p><b>Prístup do ITMS - Heslo: </b>'+d.itms_access_pass+'</p>'+
+'<p><b>Dátum podpisu a účinnosti zmluvy o NFP: </b>'+prettyDate(d.nfp_contract_signed)+'</p>'+
+'<p><b>Dátum začatia projektu: </b>'+prettyDate(d.project_startdate)+'</p>'+
+'<p><b>Čím sa projekt začína: </b>'+d.project_start_about+'</p>'+
+'<p><b>Čím sa projekt končí: </b>'+d.project_end_about+'</p>'+
+'<p><b>Zaslanie hlásenia o začatí projektu:  </b>'+getTrueFalseIcon(d.project_start_note_sent)+'</p>'+
+'<p><b>Zaslanie hlásenia o začatí projektu - Termín:  </b>'+prettyDate(d.project_start_note_sentdate)+'</p>'+
+'<p><b>Termín ukončenia projektu podľa zmluvy o NFP: </b>'+prettyDate(d.project_enddate_by_nfp_contract)+'</p>'+
+'<p><b>Potreba zmeny harmonogramu projektu:  </b>'+getTrueFalseIcon(d.schedule_change_need)+'</p>'+
+'<p><b>Potreba zmeny harmonogramu projektu - Termín:  </b>'+prettyDate(d.schedule_change_need_date)+'</p>'+
+'<hr><h3 ">ŽOP</h3><hr>'+
+'<p><b>Dátum predloženia ŽOP: </b>'+prettyDate(d.zop_showdate)+'</p>'+
+'<p><b>Posledný termín na predloženie ŽOP záverečná: </b>'+prettyDate(d.zop_last_term_end)+'</p>'+
+'<p><b>Posledný termín na predloženie prvej ŽOP: </b>'+prettyDate(d.zop_last_term_start)+'</p>'+
+'<p><b>Poznámka k ŽOP: </b>'+d.zop_note+'</p>'+
+'<p><b>Dátum predloženia poslednej ŽOP: </b>'+prettyDate(d.zop_last_showdate)+'</p>'+
+'<p><b>Typ žiadosti: </b>'+d.zop_request_type+'</p>'+
+'<p><b>Stav ŽOP: </b>'+d.zop_state+'</p>'+
+'<p><b>Splnené podmienky na úhradu ŽOP: </b>'+getTrueFalseIcon(d.zop_paycond_fulfil)+'</p>'+
+'<p><b>Splnené náležitosti ŽOP: </b>'+getTrueFalseIcon(d.zop_cond_fulfil)+'</p>'+
+'<p><b>Nahratie predkladov do ITMS: </b>'+getTrueFalseIcon(d.zop_data_to_itms)+'</p>'+
+'<p><b>Nahratie predkladov do ITMS - Stav: </b>'+d.zop_data_to_itms_state+'</p>'+
+'<hr><h3 ">Monitorovanie</h3><hr>'+
+'<p><b>Termín najbližšej monitorovačky: </b>'+prettyDate(d.next_monitor_date)+'</p>'+
+'<p><b>Termín záverečnej monitorovačky: </b>'+prettyDate(d.finish_monitor_date)+'</p>'+
+'<p><b>Dátum predloženia na kontrolu: </b>'+prettyDate(d.control_date)+'</p>'+
+'<p><b>Schválenie:  </b>'+getTrueFalseIcon(d.approved)+'</p>'+
+'<hr><h3 ">Povinná publicita</h3><hr>'+
+'<p><b>Predmet publicity: </b>'+d.publicity_subject+'</p>'+
+'<p><b>Posledný termín na predloženie publicity projektu: </b>'+prettyDate(d.publicity_last_term)+'</p>'+
+'<p><b>Dátum predloženia: </b>'+prettyDate(d.publicity_showdate)+'</p>'+
+'<hr><h3 ">Ukončenie projektu</h3><hr>'+
+'<p><b>Spôsob ukončenia projektu: </b>'+d.project_end_type+'</p>'+
+'<p><b>Predčasné ukončenie projektu: </b>'+getTrueFalseIcon(d.project_end_sooner)+'</p>'+
+'<p><b>Predčasné ukončenie projektu - Termín: </b>'+prettyDate(d.project_end_sooner_date)+'</p>'+
+'<p><b>Zaslanie hlásenia o predčasnom ukončení projektu: </b>'+getTrueFalseIcon(d.note_project_sooner_sent)+'</p>'+
+'<p><b>Zaslanie hlásenia o predčasnom ukončení projektu - Termín: </b>'+prettyDate(d.note_project_sooner_sent_date)+'</p>';
+
+	 
+	 return $html;
+     
+    }

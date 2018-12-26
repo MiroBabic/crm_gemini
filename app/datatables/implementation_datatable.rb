@@ -78,10 +78,13 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
         publicity_last_term: implementation.publicity_last_term,
         publicity_showdate: implementation.publicity_showdate,
         project_end_type: implementation.project_end_type,
+        project_end_about: implementation.project_end_about,
         project_end_sooner: implementation.project_end_sooner,
         project_end_sooner_date: implementation.project_end_sooner_date,
         note_project_sooner_sent: implementation.note_project_sooner_sent,
         note_project_sooner_sent_date: implementation.note_project_sooner_sent_date,
+        schedule_change_need_date: implementation.schedule_change_need_date,
+        zop_state: implementation.zop_state,
          created_at: implementation.created_at,
          updated_at: implementation.updated_at,
          delete_implementation: link_to(content_tag(:i,nil,class: 'fa fa-trash-o fa-2x') ,implementation, method: :delete, data: { confirm: 'Naozaj chceš zmazať tento projekt?' })

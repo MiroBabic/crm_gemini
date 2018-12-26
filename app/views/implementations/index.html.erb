@@ -38,13 +38,13 @@
       <th>Termín ukončenia projektu podľa zmluvy o NFP</th>
       <th>Zaslanie hlásenia o začatí projektu</th>
       <th>Dátum predloženia ŽOP</th>
-      <th>Posledný termín na predloženie ŽOP záverečná</th>
-      <th>Posledný termín na predloženie prvej ŽOP </th>
+      
       <th>Typ žiadosti</th>
       <th>Termín najbližšej monitorovačky</th>
       <!--<th>Termín záverečnej monitorovačky</th>-->
       <th>Dátum predloženia na kontrolu</th>
       <th>Schválenie</th>
+      <th>Detaily</th>
       <th></th>
       <th></th>
      
@@ -319,8 +319,6 @@ var tableready = function() {
   {data: 'project_enddate_by_nfp_contract' },
   {data: 'project_start_note_sentdate' },
   {data: 'zop_showdate' },
-  {data: 'zop_last_term_end' },
-  {data: 'zop_last_term_start' },
   {data: 'zop_request_type' },
   {data: 'next_monitor_date' },
   //{data: 'finish_monitor_date' },
@@ -331,7 +329,12 @@ var tableready = function() {
       else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
     return $res;
   } },
-  
+  {
+    "className":   'details-implementation',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i></center></a>'
+  },
    {
     "className":   'implementationedit-control',
     "orderable":      false,
@@ -379,6 +382,25 @@ var tableready = function() {
       updateImplementationEditModal(row.data());
       $('#edit_editImplementationModal').modal('show');
 });
+
+      $('#implementations tbody').on('click', 'td.details-implementation', function () {
+
+      var tr = $(this).closest('tr');
+      var row = implementationtable.row( tr );
+
+      if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+
+          }
+          else {
+            // Open this row
+            row.child( formatImplementationDetails(row.data())).show();
+            
+            tr.addClass('shown');
+          }
+        });
 
 }
 //koniec datatable

@@ -64,6 +64,14 @@ else return 'Neexistuje';
 
 }
 
+function getTrueFalseIcon(data) {
+	if (data==true) {$res = '<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>';}
+	else if(data==false)	{$res = '<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>';}
+	else {$res = 'Nezistené';}
+
+	return $res;
+}
+
 document.addEventListener("turbolinks:load", function() {
   $('#side-menu').metisMenu({toggle: false });
 });
