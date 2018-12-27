@@ -4,8 +4,12 @@ class User < ActiveRecord::Base
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
-    has_many :communications, :dependent => :destroy
-    has_many :calendars, :dependent => :destroy
-    has_many :subjects, :dependent => :destroy
-    has_many :userprofiles, :dependent => :destroy
+    has_many :communications
+    has_many :calendars
+    has_many :subjects
+    has_many :userprofiles
+    has_many :documents
+    has_many :projects
+    has_many :implementations
+    has_many :iactivities
 end
