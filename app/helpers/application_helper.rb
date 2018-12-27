@@ -34,5 +34,24 @@ module ApplicationHelper
 			return 'Nezistené'
 		end
 	end
+
+	def prettyDate(date)
+
+  	monthNames = [
+		  "Január", "Február", "Marec",
+		  "Apríl", "Máj", "Jún", "Júl",
+		  "August", "September", "Október",
+		  "November", "December"
+		];
+
+    if date.present?
+  	 @res= (date.day.to_s + '. ' + monthNames[date.month-1].to_s + ' ' + date.year.to_s )
+    else
+      @res = 'Dátum neuvedený'
+    end
+
+    return @res
+
+  end
 	
 end
