@@ -95,6 +95,7 @@
                                      
                                     </div>
                                     <div class="ibox-content">
+                        <% if @implementation.present? %>
                                       <h3>Projekt</h3><hr>
 
 <p><b>Projektový manažér: </b><%=@implementation.user.email if @implementation.user.present? %></p>
@@ -145,7 +146,9 @@
 <p><b>Predčasné ukončenie projektu - Termín: </b><%=prettyDate(@implementation.project_end_sooner_date)%></p>
 <p><b>Zaslanie hlásenia o predčasnom ukončení projektu: </b><%=get_true_false_icon(@implementation.note_project_sooner_sent)%></p>
 <p><b>Zaslanie hlásenia o predčasnom ukončení projektu - Termín: </b><%=prettyDate(@implementation.note_project_sooner_sent_date)%></p>
-                                        
+            <% else %>
+            <p>Implementácia ešte nezačala</p>
+            <% end %>                            
                                     </div>
                                 
 </div>
