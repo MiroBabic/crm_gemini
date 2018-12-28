@@ -39,6 +39,8 @@ class ProjectsController < ApplicationController
     begin
     @project = Project.find(params[:id])
     @implementation = Implementation.find_by_project_id(@project.id)
+    @users=User.all.order(:name)
+    @subjects=Subject.all.order(:name)
     rescue=>error
       redirect_to projekty_path, :alert=>error.message
     end
