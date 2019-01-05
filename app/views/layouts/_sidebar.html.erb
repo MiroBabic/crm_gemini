@@ -22,38 +22,40 @@
                         </div>
                       </li>
                     
-                            <li><%= link_to "Prehľad", root_path%></li>
-                            <li><%= link_to "Kontakty", contacts_path%></li>
-                            <li><%= link_to "Kalendár", show_calendar_path%></li>
-                            <li><%= link_to "Komunikácia", komunikacia_path%></li>
+                            <li><%= link_to root_path do%><i class="fa fa-bar-chart" aria-hidden="true"></i> <span class="nav-label"> Prehľad</span><%end%></li>
+                            <li><%= link_to contacts_path do%><i class="fa fa-id-card-o" aria-hidden="true"></i> <span class="nav-label"> Kontakty</span><%end%></li>
+                            <li><%= link_to show_calendar_path do%><i class="fa fa-calendar" aria-hidden="true"></i><span class="nav-label"> Kalendár</span><%end%></li>
+                            <li><%= link_to komunikacia_path do%><i class="fa fa-weixin" aria-hidden="true"></i><span class="nav-label"> Komunikácia</span><%end%></li>
                              <li>
-                                <a href="#">Projekty <span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-rocket" aria-hidden="true"></i><span class="nav-label"> Projekty</span> <span class="fa arrow"></span></a>
                                 <ul class="nav nav-second-level">
-                                    <li><%= link_to "Zoznam projektov", projekty_path%></li>
-                                    <li><%= link_to "Implementácia", implementacie_path%></li>
+                                    <li><%= link_to projekty_path do%><i class="fa fa-tasks" aria-hidden="true"></i><span class="nav-label"> Zoznam projektov</span><%end%></li>
+                                    <li><%= link_to implementacie_path do%><i class="fa fa-puzzle-piece" aria-hidden="true"></i><span class="nav-label"> Implementácia</span><%end%></li>
                                     
                                 </ul>
                             </li>
                             
-                            <li><%= link_to "Dokumenty", dokumenty_path%></li>
-                            <li><%= link_to "Média", subory_path%></li>
+                            <li><%= link_to dokumenty_path do%><i class="fa fa-files-o" aria-hidden="true"></i><span class="nav-label"> Dokumenty</span><%end%></li>
+                            <li><%= link_to subory_path do%><i class="fa fa-video-camera" aria-hidden="true"></i><span class="nav-label"> Média</span><%end%></li>
                             <li>
-                                <a href="#">E-mail <span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i><span class="nav-label"> E-mail</span> <span class="fa arrow"></span></a>
+                                
                                 <ul class="nav nav-second-level">
-                                    <li><%= link_to "Pošli e-mail", create_email_path%></li>
-                                    <li><%= link_to "Šablóny", sablony_path%></li>
+                                    <li><%= link_to create_email_path do%><i class="fa fa-share" aria-hidden="true"></i><span class="nav-label"> Pošli e-mail</span><%end%></li>
+                                    <li><%= link_to sablony_path do%><i class="fa fa-file-text-o" aria-hidden="true"></i><span class="nav-label"> Šablóny</span><%end%></li>
                                     
                                 </ul>
                             </li>
-                            <li><%= link_to "Procesy", job_queue_path%></li>
+                            <li><%= link_to job_queue_path do%><i class="fa fa-spinner" aria-hidden="true"></i><span class="nav-label"> Procesy</span><%end%></li>
                             <% if current_user.admin? %>
                             <li>
-                                <a href="#">Admin menu <span class="fa arrow"></span></a>
+                                <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><span class="nav-label"> Admin menu</span> <span class="fa arrow"></span></a>
+                                
                                 <ul class="nav nav-second-level">
-                                    <li><%= link_to "Užívatelia", users_path%></li>
-                                    <li><%= link_to "Typy subjektov", subjtypes_path%></li>
-                                    <li><%= link_to "Projektový zámer", projecttargets_path%></li>
-                                    <li><%= link_to "Import Dát", imports_path%></li>
+                                    <li><%= link_to  users_path do%><i class="fa fa-users" aria-hidden="true"></i><span class="nav-label"> Užívatelia</span><%end%></li>
+                                    <li><%= link_to  subjtypes_path do%><i class="fa fa-building-o" aria-hidden="true"></i><span class="nav-label"> Typy subjektov</span><%end%></li>
+                                    <li><%= link_to projecttargets_path do%><i class="fa fa-bullseye" aria-hidden="true"></i><span class="nav-label"> Projektový zámer</span><%end%></li>
+                                    <li><%= link_to imports_path do%><i class="fa fa-upload" aria-hidden="true"></i><span class="nav-label"> Import Dát</span><%end%></li>
                                     
                                     
                                 </ul>

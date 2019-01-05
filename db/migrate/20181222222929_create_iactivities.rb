@@ -4,6 +4,7 @@ class CreateIactivities < ActiveRecord::Migration
       t.references :implementation, index: true, foreign_key: true
       t.references :user, index: true, foreign_key: true
       t.json :action
+      t.integer :action_type
       t.string :note
 
       t.timestamps null: false

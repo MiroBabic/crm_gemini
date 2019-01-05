@@ -32,7 +32,14 @@
                                       <%= select_tag 'docsubject', options_from_collection_for_select(Subject.all, 'id', 'name'), class: 'form-control', id: 'docsubject', prompt: "--Dokument patrí subjektu--" %>
                                       </div>
                             <div class="col-md-4">
-                                      <%= submit_tag( "Nahraj súbor" , :class=>'btn btn-outline btn-success') %> 
+                              <%= select_tag 'docproject', options_from_collection_for_select(@projects, 'id', 'name'), class: 'form-control', id: 'docproject', prompt: "--Dokument patrí projektu--" %>
+                                      
+                                    </div>
+                                  </div>
+                                  <br><br>
+                                  <div class="row">
+                                    <div class="col-md-2 col-md-offset-5">
+                                      <%= submit_tag( "Nahraj súbor" , :class=>'btn btn-outline btn-block btn-success') %> 
                                     </div>
                                     <% end %>
                                  </div>

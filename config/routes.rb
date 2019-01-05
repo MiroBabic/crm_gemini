@@ -1,13 +1,6 @@
 Rails.application.routes.draw do
 
     
-  
-  
-  resources :iactivities
-  resources :invoices
-  resources :impchanges
-  resources :implementations
-  resources :procurements
   mount LetsencryptPlugin::Engine, at: '/'  # It must be at root level
 
 
@@ -21,7 +14,12 @@ Rails.application.routes.draw do
     patch 'users' => 'users/registrations#update', :as => 'user_registration'
   end
 
-  
+ 
+   resources :iactivities
+  resources :invoices
+  resources :impchanges
+  resources :implementations
+  resources :procurements 
   resources :projects
   resources :projecttargets
   resources :people

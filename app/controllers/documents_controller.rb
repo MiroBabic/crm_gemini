@@ -5,6 +5,7 @@ class DocumentsController < ApplicationController
   # GET /documents.json
   def index
     @documents = Document.all
+    @projects = Project.joins(:implementation).all.order(:name)
   end
 
   # GET /documents/1
@@ -36,6 +37,13 @@ class DocumentsController < ApplicationController
 
       if params[:docsubject].present?
         @doc.subject_id = params[:docsubject]
+      end
+
+      if params[:docproject].present?
+        @doc.project_id = params[:docproject]
+        @implementation = Implementation.find_by_project_id(params[:docproject])
+        @activity = Iactivity.new(:user_id=>current_user.id, :implementation_id=> @implementation.id, :action_type=>"document_upload",:action=>{:file_name=>@doc.file_name,:file_size=>@doc.file.size, :file_type=>@doc.file.content_type},:note=>"Dokument nahratý")
+        @activity.save
       end
 
       @doc.note = params[:note]
