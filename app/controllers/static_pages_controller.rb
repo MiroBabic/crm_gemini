@@ -146,7 +146,7 @@ class StaticPagesController < ApplicationController
 
 			@res_addresses.each do |email_address|
 				begin
-				NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs).deliver_later
+				NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs).deliver_now
 
 				
 				
