@@ -9,7 +9,7 @@ class ProjectsController < ApplicationController
     params["length"]  ||= -1
 
     @users = User.all
-    @subjects = Subject.all.order("name asc")
+    @subjects = Subject.select(:name,:id).order("name asc")
 
     respond_to do |format|
           format.html
@@ -41,6 +41,9 @@ class ProjectsController < ApplicationController
     @implementation = Implementation.find_by_project_id(@project.id)
     @users=User.all.order(:name)
     @subjects=Subject.all.order(:name)
+    if @implementation.present?
+      @activities = Iactivity.where(:implementation_id=>@implementation.id).order("created_at desc")
+    end
     rescue=>error
       redirect_to projekty_path, :alert=>error.message
     end

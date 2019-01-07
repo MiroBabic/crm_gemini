@@ -221,7 +221,13 @@
      <label>Počet obyvateľov ak je obec:</label><input type="text" name="edit_subjobyv" id="edit_subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
      <hr>
      <label>Projektový zámer</label><%= select_tag 'project_targets_edit', options_from_collection_for_select(@projecttargets, 'id', 'name'), class: 'form-control chosen-select',multiple: true, id: 'project_targets_edit', "data-placeholder": "Vyber projektový zámer..." %>
-       <br><br>       
+       <br><br> 
+       <hr>
+       <label>Osoby</label>
+       <div id="editpersoninsubject">
+
+       </div>
+       <hr>      
 
     <input  class="editcontact btn btn-success" value="Uprav" /> 
 
@@ -371,6 +377,9 @@ var tableready = function() {
       $('#editSubjektModal').modal('show');
 });
 
+
+
+
 //childrow subject details
     $('#subjects tbody').on('click', 'td.details-control', function () {
 
@@ -415,6 +424,27 @@ var tableready = function() {
                 row.child( formatSubjContactsDetail(data.data)).show();
             
                 tr.addClass('shown');
+
+                //
+                     $('.editsubjectcontactbtn').on('click',function(event){
+                      $btnid = event.target.id;
+                      $personID = $btnid.replace("editsubjectcontactbtn","");
+                      console.log($personID);
+
+                         $.ajax({
+                            type: "GET",
+                            url: "/people/"+$personID+".json",
+                            
+                            success:function(data){
+                             //console.log(data)
+                             updatePersonEditModal(data);
+
+                            $('#editPersonModal').modal('show');
+                            }
+                          });
+                     });
+                //
+
 
               }
               else { alert(data.status);}
@@ -466,6 +496,7 @@ var tableready = function() {
 
 });
 
+  
 
 $('.createcontact').on('click',function(event){
           //console.log(event.target.id);

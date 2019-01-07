@@ -399,83 +399,33 @@
     <h5>Progres</h5>
   </div>
   <div class="ibox-content ">
-
+<% if @activities.present? %>
     <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+      <% @activities.each do |activity|%>
+
       <div class="vertical-timeline-block">
-        <div class="vertical-timeline-icon navy-bg">
-          <i class="fa fa-briefcase"></i>
+        <div class="vertical-timeline-icon <%=get_activity_color(activity.action_type).to_s %>">
+          <%= get_activity_icon(activity.action_type.to_s) %>
         </div>
 
         <div class="vertical-timeline-content">
-          <h2>Meeting</h2>
-          <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products. Below please find the current status of the sale.
-          </p>
-          <a href="#" class="btn btn-sm btn-primary"> More info</a>
+          <h2><%= activity.note %></h2>
+          
+          
+          
           <span class="vertical-date">
-            Today <br>
-            <small>Dec 24</small>
+            Pred <%= time_ago_in_words(activity.created_at) %> <br>
+            <small><%= prettyDate(activity.created_at)%></small>
           </span>
         </div>
       </div>
 
-      <div class="vertical-timeline-block">
-        <div class="vertical-timeline-icon blue-bg">
-          <i class="fa fa-file-text"></i>
-        </div>
-
-        <div class="vertical-timeline-content">
-          <h2>Send documents to Mike</h2>
-          <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since.</p>
-          <a href="#" class="btn btn-sm btn-success"> Download document </a>
-          <span class="vertical-date">
-            Today <br>
-            <small>Dec 24</small>
-          </span>
-        </div>
-      </div>
-
-      <div class="vertical-timeline-block">
-        <div class="vertical-timeline-icon lazur-bg">
-          <i class="fa fa-coffee"></i>
-        </div>
-
-        <div class="vertical-timeline-content">
-          <h2>Coffee Break</h2>
-          <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's. </p>
-          <a href="#" class="btn btn-sm btn-info">Read more</a>
-          <span class="vertical-date"> Yesterday <br><small>Dec 23</small></span>
-        </div>
-      </div>
-
-      <div class="vertical-timeline-block">
-        <div class="vertical-timeline-icon yellow-bg">
-          <i class="fa fa-phone"></i>
-        </div>
-
-        <div class="vertical-timeline-content">
-          <h2>Phone with Jeronimo</h2>
-          <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Iusto, optio, dolorum provident rerum aut hic quasi placeat iure tempora laudantium ipsa ad debitis unde? Iste voluptatibus minus veritatis qui ut.</p>
-          <span class="vertical-date">Yesterday <br><small>Dec 23</small></span>
-        </div>
-      </div>
-
-      <div class="vertical-timeline-block">
-        <div class="vertical-timeline-icon navy-bg">
-          <i class="fa fa-comments"></i>
-        </div>
-
-        <div class="vertical-timeline-content">
-          <h2>Chat with Monica and Sandra</h2>
-          <p>Web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like). </p>
-          <span class="vertical-date">Yesterday <br><small>Dec 23</small></span>
-        </div>
-      </div>
-    </div>
 
 
-
+      <% end %>
 
   </div>
+  <% end %>
 </div>
 
 </div>
@@ -496,7 +446,9 @@
 
 var ready = function() {
 
+<% if @implementation.present? %>
   updateImplementationEditModal(<%= @implementation.to_json.html_safe %>);
+  <% end %>
 
 //console.log()
 
@@ -631,6 +583,127 @@ var ready = function() {
 
 
         });
+
+//edit implementation
+$('.editimplem').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $implementation_id = $('#editimplementationID').val();
+         $subject = $('#edit_subject_new').val();
+          $projectmanager = $('#edit_project_manager').val();
+          $oprogram = $('#edit_oprogram').val();
+          $contact_helper=$('#edit_contact_helper').val();
+          $contact_client=$('#edit_contact_client').val();
+          $projektant=$('#edit_projektant').val();
+          $procurer_name=$('#edit_procurer_name').val();
+          $auditor=$('#edit_auditor').val();
+          $other_contacts=$('#edit_other_contacts').val();
+          $itms_access_name=$('#edit_itms_access_name').val();
+          $itms_access_pass=$('#edit_itms_access_pass').val();
+          $nfp_contract_signed=$('#edit_nfp_contract_signed').val();
+          $project_startdate=$('#edit_project_startdate').val();
+          $project_start_about=$('#edit_project_start_about').val();
+          $project_end_about=$('#edit_project_end_about').val();
+          if ($('#edit_project_start_note_sent').is(":checked")) {$project_start_note_sent = true;} else {$project_start_note_sent = false;}
+          $project_start_note_sentdate=$('#edit_project_start_note_sentdate').val();
+          $project_enddate_by_nfp_contract=$('#edit_project_enddate_by_nfp_contract').val();
+          if ($('#edit_project_schedule_change_need').is(":checked")) {$project_schedule_change_need = true;} else {$project_schedule_change_need = false;}
+          $schedule_change_need_date=$('#edit_schedule_change_need_date').val();
+          $zop_showdate=$('#edit_zop_showdate').val();
+          $zop_last_term_end=$('#edit_zop_last_term_end').val();
+          $zop_last_term_start=$('#edit_zop_last_term_start').val();
+          $zop_note=$('#edit_zop_note').val();
+          $zop_last_showdate=$('#edit_zop_last_showdate').val();
+          $zop_request_type=$('#edit_zop_request_type').val();
+          if ($('#edit_zop_paycond_fulfil').is(":checked")) {$zop_paycond_fulfil = true;} else {$zop_paycond_fulfil = false;}
+          if ($('#edit_zop_cond_fulfil').is(":checked")) {$zop_cond_fulfil = true;} else {$zop_cond_fulfil = false;}
+          if ($('#edit_zop_data_to_itms').is(":checked")) {$zop_data_to_itms = true;} else {$zop_data_to_itms = false;}
+          $zop_data_to_itms_state=$('#edit_zop_data_to_itms_state').val();
+          $zop_state=$('#edit_zop_state').val();
+          $next_monitor_date=$('#edit_next_monitor_date').val();
+          $finish_monitor_date=$('#edit_finish_monitor_date').val();
+          $control_date=$('#edit_control_date').val();
+          if ($('#edit_approved').is(":checked")) {$approved = true;} else {$approved = false;}
+          $publicity_subject=$('#edit_publicity_subject').val();
+          $publicity_last_term=$('#edit_publicity_last_term').val();
+          $publicity_showdate=$('#edit_publicity_showdate').val();
+          $project_end_type=$('#edit_project_end_type').val();
+          if ($('#edit_project_end_sooner').is(":checked")) {$project_end_sooner = true;} else {$project_end_sooner = false;}
+          $project_end_sooner_date=$('#edit_project_end_sooner_date').val();
+          if ($('#edit_note_project_sooner_sent').is(":checked")) {$note_project_sooner_sent = true;} else {$note_project_sooner_sent = false;}
+          $note_project_sooner_sent_date=$('#edit_note_project_sooner_sent_date').val();
+
+
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_edit_implementation",
+            data: {
+              implementation_id: $implementation_id,
+              subject: $subject,
+              projectmanager: $projectmanager,
+              oprogram: $oprogram,
+              contact_helper: $contact_helper,
+              contact_client: $contact_client,
+              projektant: $projektant,
+              procurer_name: $procurer_name,
+              auditor: $auditor,
+              other_contacts: $other_contacts,
+              itms_access_name: $itms_access_name,
+              itms_access_pass: $itms_access_pass,
+              nfp_contract_signed: $nfp_contract_signed,
+              project_startdate: $project_startdate,
+              project_start_about: $project_start_about,
+              project_end_about: $project_end_about,
+              project_start_note_sent: $project_start_note_sent,
+              project_start_note_sentdate: $project_start_note_sentdate,
+              project_enddate_by_nfp_contract: $project_enddate_by_nfp_contract,
+              project_schedule_change_need: $project_schedule_change_need,
+              schedule_change_need_date: $schedule_change_need_date,
+              zop_showdate: $zop_showdate,
+              zop_last_term_end: $zop_last_term_end,
+              zop_last_term_start: $zop_last_term_start,
+              zop_note: $zop_note,
+              zop_last_showdate: $zop_last_showdate,
+              zop_request_type: $zop_request_type,
+              zop_paycond_fulfil: $zop_paycond_fulfil,
+              zop_cond_fulfil: $zop_cond_fulfil,
+              zop_data_to_itms: $zop_data_to_itms,
+              zop_data_to_itms_state: $zop_data_to_itms_state,
+              zop_state: $zop_state,
+              next_monitor_date: $next_monitor_date,
+              finish_monitor_date: $finish_monitor_date,
+              control_date: $control_date,
+              approved: $approved,
+              publicity_subject: $publicity_subject,
+              publicity_last_term: $publicity_last_term,
+              publicity_showdate: $publicity_showdate,
+              project_end_type: $project_end_type,
+              project_end_sooner: $project_end_sooner,
+              project_end_sooner_date: $project_end_sooner_date,
+              note_project_sooner_sent: $note_project_sooner_sent,
+              note_project_sooner_sent_date: $note_project_sooner_sent_date
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                alert("Implementácia bola upravená" );
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+// end of edit implementation
+
 
 };
 

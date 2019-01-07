@@ -80,9 +80,9 @@
    Polia vyznačené na červeno sú povinné
   </div>
         <div class="form-group has-error">
-         <label>Meno:</label><input type="text" name="project_name" id="project_name" class="form-control" placeholder="Meno projektu" /><br>
+         <label>Názov:</label><input type="text" name="project_name" id="project_name" class="form-control" placeholder="Názov projektu" /><br>
           <label>Projektový manažér:</label><%= select_tag 'project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
-          <label>Žiadateľ: </label><%= select_tag 'subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'subject_new', prompt: "--vyber subjekt--" %>
+          <label>Žiadateľ: </label><%= select_tag 'subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'chosen-select', id: 'subject_new', prompt: "--vyber subjekt--" %>
          </br>
          
           <span id="addPersonToComm"></span><br>
@@ -134,9 +134,9 @@
   </div>
         <div class="form-group has-error">
           <input style="visibility:hidden" type="text" name="editprojectID" id="editprojectID" value="" readonly>
-         <label>Meno:</label><input type="text" name="project_name_edit" id="project_name_edit" class="form-control" placeholder="Meno projektu" /><br>
+         <label>Názov:</label><input type="text" name="project_name_edit" id="project_name_edit" class="form-control" placeholder="Názov projektu" /><br>
           <label>Projektový manažér:</label><%= select_tag 'project_manager_edit', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager_edit',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
-          <label>Žiadateľ: </label><%= select_tag 'subject_edit', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'subject_edit', prompt: "--vyber subjekt--" %>
+          <label>Žiadateľ: </label><%= select_tag 'subject_edit', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'chosen-select', id: 'subject_edit', prompt: "--vyber subjekt--" %>
          </br>
          
           <span id="addPersonToProjectEdit"></span><br>
@@ -177,6 +177,8 @@
 var projecttable;
 
 var tableready = function() {
+
+$('.chosen-select').chosen({width: "100%"});
 
 $('#duedate').datepicker({
        trigger: $('#duedatecalendar'),

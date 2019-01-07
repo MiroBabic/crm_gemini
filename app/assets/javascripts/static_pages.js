@@ -18,7 +18,9 @@ function formatSubjContactsDetail(d) {
 	 	$part2+= '<p><b>Meno: </b>' +d[i].first_name+'</p><p><b>Priezvisko: </b>'+d[i].last_name+'</p><p><b>Email: </b>'+d[i].email+
       '</p><p><b>Email2: </b>'+d[i].email2+'</p><p><b>Telefón: </b>'+d[i].phone+'</p><p><b>Mobil: </b>'+d[i].cellphone+
       '</p><p><b>Poznámka: </b>'+d[i].personnote+'</p><p><b>Dátum vloženia: </b>'+prettyDate(d[i].created_at)+
-      '</p><p><b>Dátum poslednej zmeny: </b>'+prettyDate(d[i].updated_at)+'</p><hr>';
+      '</p><p><b>Dátum poslednej zmeny: </b>'+prettyDate(d[i].updated_at)+'</p>'+
+      '<button class="editsubjectcontactbtn btn btn-success" id="editsubjectcontactbtn'+d[i].id+'" type="button" >Uprav tento kontakt</button><hr>';
+     
 	 }
 
 	 
@@ -62,6 +64,8 @@ function updateSubjEditModal(d) {
 	$('#project_targets_edit').trigger("chosen:updated");
 	
 }
+
+
 
 function updatePersonEditModal(d) {
 	$('#editpersonID').val(d.id);

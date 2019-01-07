@@ -8,8 +8,8 @@ class ImplementationsController < ApplicationController
     params["length"]  ||= -1
 
     @users = User.all
-    @subjects = Subject.all.order("name asc")
-    @projects = Project.where("id not in (select distinct(project_id) from implementations)").order("name asc")
+    @subjects = Subject.select(:name,:id).order("name asc")
+    @projects = Project.where("id not in (select distinct(project_id) from implementations where project_id is not null)").order("name asc")
 
     respond_to do |format|
           format.html
@@ -165,7 +165,7 @@ class ImplementationsController < ApplicationController
 
     if (@orig_implementation.update_attributes(:subject_id=>@subject,:user_id=>@projectmanager, :oprogram=>@oprogram, :contact_helper=>@contact_helper, :contact_client=>@contact_client, :projektant=>@projektant, :procurer_name=>@procurer_name, :auditor=>@auditor, :other_contacts=>@other_contacts, :itms_access_name=>@itms_access_name, :itms_access_pass=>@itms_access_pass, :nfp_contract_signed=>@nfp_contract_signed, :project_startdate=>@project_startdate, :project_start_about=>@project_start_about, :project_start_note_sentdate=>@project_start_note_sentdate, :project_start_note_sent=>@project_start_note_sent, :project_enddate_by_nfp_contract=>@project_enddate_by_nfp_contract, :project_schedule_change_need=>@project_schedule_change_need, :zop_showdate=>@zop_showdate, :zop_last_term_end=>@zop_last_term_end, :zop_last_term_start=>@zop_last_term_start, :zop_note=>@zop_note, :zop_last_showdate=>@zop_last_showdate, :zop_request_type=>@zop_request_type, :zop_paycond_fulfil=>@zop_paycond_fulfil, :zop_cond_fulfil=>@zop_cond_fulfil, :zop_data_to_itms=>@zop_data_to_itms, :zop_data_to_itms_state=>@zop_data_to_itms_state, :next_monitor_date=>@next_monitor_date, :finish_monitor_date=>@finish_monitor_date, :control_date=>@control_date, :approved=>@approved, :publicity_subject=>@publicity_subject, :publicity_last_term=>@publicity_last_term, :publicity_showdate=>@publicity_showdate, :project_end_type=>@project_end_type, :project_end_sooner=>@project_end_sooner, :project_end_sooner_date=>@project_end_sooner_date, :note_project_sooner_sent=>@note_project_sooner_sent, :note_project_sooner_sent_date=>@note_project_sooner_sent_date, :zop_state=>@zop_state, :schedule_change_need_date=>@schedule_change_need_date, :project_end_about=>@project_end_about))
 
-        @activity = Iactivity.new(:implementation_id=>@orig_implementation.id, :user_id=>current_user.id, :action=>@orig_implementation.previous_changes, :note=>'Implementácia upravená')
+        @activity = Iactivity.new(:implementation_id=>@orig_implementation.id, :user_id=>current_user.id, :action=>@orig_implementation.previous_changes, :action_type=>'implemenation_update', :note=>'Implementácia upravená')
         @activity.save
 
           respond_to do |format|

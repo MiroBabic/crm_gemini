@@ -29,6 +29,8 @@ function updateProjectEditModal(d) {
 	$('#pay_edit').val(d.payment);
 	$('#duedate_edit').val(d.due_date);
 	if (d.payed==true) { $('#payed_edit').prop('checked', true);} else {$('#payed_edit').prop('checked', false);}
+
+	$('#subject_edit').trigger('chosen:updated');
 	
 }
 
