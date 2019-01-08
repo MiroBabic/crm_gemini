@@ -198,7 +198,7 @@
           <label>Projektový manažér:</label><%= select_tag 'edit_project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'edit_project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
           <label>Žiadateľ: </label><%= select_tag 'edit_subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_subject_new', prompt: "--vyber subjekt--" %></br>
          
-         <label>Operačný program: </label><%= select_tag 'edit_oprogram', options_from_collection_for_select(@oprograms, 'id', 'name'), class: 'form-control', id: 'edit_oprogram', prompt: "--vyber operačný program--" %></br>
+         <label>Operačný program: </label><%= select_tag 'edit_oprogram_new', options_from_collection_for_select(@oprograms, 'id', 'name'), class: 'form-control', id: 'edit_oprogram_new', prompt: "--vyber operačný program--" %></br>
          <label>Kontaktná osoba - Poskytovateľ pomoci:</label><input type="text" name="edit_contact_helper" id="edit_contact_helper" class="form-control" placeholder="Kontaktná osoba - Poskytovateľ pomoci..." /><br>
          <label>Kontaktná osoba - Klient:</label><input type="text" name="edit_contact_client" id="edit_contact_client" class="form-control" placeholder="Kontaktná osoba - Klient..." /><br>
           </div>
@@ -382,6 +382,7 @@ var tableready = function() {
       var row = implementationtable.row( tr );
 
 
+      console.log(row.data())
       updateImplementationEditModal(row.data());
       $('#edit_editImplementationModal').modal('show');
 });
@@ -551,7 +552,7 @@ $('.editimplem').on('click',function(event){
           $implementation_id = $('#editimplementationID').val();
          $subject = $('#edit_subject_new').val();
           $projectmanager = $('#edit_project_manager').val();
-          $oprogram = $('#edit_oprogram').val();
+          $oprogram = $('#edit_oprogram_new').val();
           $contact_helper=$('#edit_contact_helper').val();
           $contact_client=$('#edit_contact_client').val();
           $projektant=$('#edit_projektant').val();

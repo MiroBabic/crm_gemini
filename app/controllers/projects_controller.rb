@@ -40,7 +40,9 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @implementation = Implementation.find_by_project_id(@project.id)
     @users=User.all.order(:name)
-    @subjects=Subject.all.order(:name)
+    @subjects = Subject.select(:name,:id).order("name asc")
+    
+    @oprograms = Oprogram.select(:name, :id).order("name asc")
     if @implementation.present?
       @activities = Iactivity.where(:implementation_id=>@implementation.id).order("created_at desc")
     end

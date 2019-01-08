@@ -4,7 +4,7 @@ class Implementation < ActiveRecord::Base
   belongs_to :subject
   belongs_to :oprogram
 
-  has_many :iactivities
+  has_many :iactivities, :dependent => :destroy
 
   validates :project_id, uniqueness: true
 

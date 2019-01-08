@@ -1,10 +1,10 @@
 function updateImplementationEditModal(d) {
-	
+
 
 	$('#editimplementationID').val(d.id);
 	$('#edit_subject_new').val(d.subject_id);
 	$('#edit_project_manager').val(d.user_id);
-	$('#edit_oprogram').val(d.oprogram_id);
+	$('#edit_oprogram_new').val(d.oprogram_id);
 	$('#edit_contact_helper').val(d.contact_helper);
 	$('#edit_contact_client').val(d.contact_client);
 	$('#edit_projektant').val(d.projektant);
@@ -45,6 +45,8 @@ function updateImplementationEditModal(d) {
 	$('#edit_project_end_sooner_date').val(d.project_end_sooner_date);
 	if (d.note_project_sooner_sent==true) { $('#edit_note_project_sooner_sent').prop('checked', true);} else {$('#edit_note_project_sooner_sent').prop('checked', false);}
 	$('#edit_note_project_sooner_sent_date').val(d.note_project_sooner_sent_date);
+
+	return false;
 
 }
 
