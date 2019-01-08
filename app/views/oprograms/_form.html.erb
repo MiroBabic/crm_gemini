@@ -1,0 +1,25 @@
+<%= form_for(@oprogram) do |f| %>
+  <% if @oprogram.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(@oprogram.errors.count, "error") %> prohibited this oprogram from being saved:</h2>
+
+      <ul>
+      <% @oprogram.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= f.label :name %><br>
+    <%= f.text_field :name %>
+  </div>
+  <div class="field">
+    <%= f.label :note %><br>
+    <%= f.text_field :note %>
+  </div>
+  <div class="actions">
+    <%= f.submit %>
+  </div>
+<% end %>

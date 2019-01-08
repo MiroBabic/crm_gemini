@@ -81,7 +81,8 @@
          <label>Projekt:</label><%= select_tag 'project', options_from_collection_for_select(@projects, 'id', 'name'), class: 'form-control', id: 'project',"data-placeholder": "Projekt",prompt: "--vyber projekt--" %><br>
           <label>Projektový manažér:</label><%= select_tag 'project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
           <label>Žiadateľ: </label><%= select_tag 'subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'subject_new', prompt: "--vyber subjekt--" %></br>
-         <label>Operačný program:</label><input type="text" name="oprogram" id="oprogram" class="form-control" placeholder="Operačný program..." /><br>
+         <!--<label>Operačný program:</label><input type="text" name="oprogram" id="oprogram" class="form-control" placeholder="Operačný program..." /><br>-->
+         <label>Operačný program: </label><%= select_tag 'oprogram', options_from_collection_for_select(@oprograms, 'id', 'name'), class: 'form-control', id: 'oprogram', prompt: "--vyber operačný program--" %></br>
          <label>Kontaktná osoba - Poskytovateľ pomoci:</label><input type="text" name="contact_helper" id="contact_helper" class="form-control" placeholder="Kontaktná osoba - Poskytovateľ pomoci..." /><br>
          <label>Kontaktná osoba - Klient:</label><input type="text" name="contact_client" id="contact_client" class="form-control" placeholder="Kontaktná osoba - Klient..." /><br>
           </div>
@@ -196,7 +197,8 @@
 
           <label>Projektový manažér:</label><%= select_tag 'edit_project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'edit_project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
           <label>Žiadateľ: </label><%= select_tag 'edit_subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_subject_new', prompt: "--vyber subjekt--" %></br>
-         <label>Operačný program:</label><input type="text" name="edit_oprogram" id="edit_oprogram" class="form-control" placeholder="Operačný program..." /><br>
+         
+         <label>Operačný program: </label><%= select_tag 'edit_oprogram', options_from_collection_for_select(@oprograms, 'id', 'name'), class: 'form-control', id: 'edit_oprogram', prompt: "--vyber operačný program--" %></br>
          <label>Kontaktná osoba - Poskytovateľ pomoci:</label><input type="text" name="edit_contact_helper" id="edit_contact_helper" class="form-control" placeholder="Kontaktná osoba - Poskytovateľ pomoci..." /><br>
          <label>Kontaktná osoba - Klient:</label><input type="text" name="edit_contact_client" id="edit_contact_client" class="form-control" placeholder="Kontaktná osoba - Klient..." /><br>
           </div>
@@ -375,6 +377,7 @@ var tableready = function() {
   drawCallback: function(settings) {
      
      $('.implementationedit-control').on('click',function(event){
+
        var tr = $(this).closest('tr');
       var row = implementationtable.row( tr );
 

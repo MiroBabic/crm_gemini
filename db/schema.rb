@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20181230194612) do
+ActiveRecord::Schema.define(version: 20190108213057) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -162,8 +162,10 @@ ActiveRecord::Schema.define(version: 20181230194612) do
     t.datetime "note_project_sooner_sent_date"
     t.datetime "created_at",                      null: false
     t.datetime "updated_at",                      null: false
+    t.integer  "oprogram_id"
   end
 
+  add_index "implementations", ["oprogram_id"], name: "index_implementations_on_oprogram_id", using: :btree
   add_index "implementations", ["project_id"], name: "index_implementations_on_project_id", using: :btree
   add_index "implementations", ["subject_id"], name: "index_implementations_on_subject_id", using: :btree
   add_index "implementations", ["user_id"], name: "index_implementations_on_user_id", using: :btree
@@ -203,6 +205,13 @@ ActiveRecord::Schema.define(version: 20181230194612) do
   end
 
   add_index "media", ["subject_id"], name: "index_media_on_subject_id", using: :btree
+
+  create_table "oprograms", force: :cascade do |t|
+    t.string   "name"
+    t.string   "note"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
 
   create_table "people", force: :cascade do |t|
     t.string   "first_name"
@@ -345,6 +354,7 @@ ActiveRecord::Schema.define(version: 20181230194612) do
   add_foreign_key "iactivities", "users"
   add_foreign_key "impchanges", "implementations"
   add_foreign_key "impchanges", "users"
+  add_foreign_key "implementations", "oprograms"
   add_foreign_key "implementations", "projects"
   add_foreign_key "implementations", "subjects"
   add_foreign_key "implementations", "users"

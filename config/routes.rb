@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
     
+  resources :oprograms
   mount LetsencryptPlugin::Engine, at: '/'  # It must be at root level
 
 
@@ -108,6 +109,11 @@ Rails.application.routes.draw do
   get '/implementacie' => 'implementations#index', :as=>'implementacie'
   post '/modal_create_implementation' => 'implementations#modal_create_implementation', :as=>'modal_create_implementation'
   post '/modal_edit_implementation' => 'implementations#modal_edit_implementation', :as=>'modal_edit_implementation'
+
+  #oprograms
+  post '/modal_create_oprogram' => 'oprograms#modal_create_oprogram', :as=> 'modal_create_oprogram'
+  post '/modal_edit_oprogram' => 'oprograms#modal_edit_oprogram', :as=> 'modal_edit_oprogram'
+  get '/operacneprogramy' => 'oprograms#index', :as=>'operacneprogramy'
 
   root 'static_pages#home'
   # The priority is based upon order of creation: first created -> highest priority.

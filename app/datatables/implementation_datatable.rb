@@ -11,7 +11,7 @@ class ImplementationDatatable < AjaxDatatablesRails::Base
        project_manager: {source: "User.email"},
        subject_path: {source: "Subject.name"},
        subject_name: {source: "Subject.name"},
-       oprogram: {source: "Implementation.oprogram"},
+       oprogram: {source: "Oprogram.name"},
        project_startdate: {source: "Implementation.project_startdate"},
        project_enddate_by_nfp_contract: {source: "Implementation.project_enddate_by_nfp_contract"},
        project_start_note_sentdate: {source: "Implementation.project_start_note_sentdate"},
@@ -44,7 +44,8 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
          subject_name: implementation.subject.name,
          subject_path: link_to(implementation.subject.name, show_subject_profile_path(implementation.subject_id)),
          subject_id: implementation.subject.id,
-         oprogram: implementation.oprogram,
+         oprogram: implementation.oprogram.name,
+         oprogram_id: implementation.oprogram_id,
          project_startdate: implementation.project_startdate,
          project_enddate_by_nfp_contract: implementation.project_enddate_by_nfp_contract,
          project_start_note_sentdate: implementation.project_start_note_sentdate,
@@ -97,7 +98,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
 
 
 def get_raw_records
-  Implementation.joins(:project).joins(:subject).joins(:user)
+  Implementation.joins(:project).joins(:subject).joins(:user).joins(:oprogram)
 end
 
 

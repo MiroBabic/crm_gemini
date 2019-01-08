@@ -1,0 +1,14 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @oprogram.name %>
+</p>
+
+<p>
+  <strong>Note:</strong>
+  <%= @oprogram.note %>
+</p>
+
+<%= link_to 'Edit', edit_oprogram_path(@oprogram) %> |
+<%= link_to 'Back', oprograms_path %>
