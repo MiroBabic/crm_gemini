@@ -299,6 +299,8 @@ var implementationtable;
 
 var tableready = function() {
 
+
+
   $('.datepick').datepicker({
        trigger: $('#inputcalendar'),
         autoHide: true,
@@ -382,7 +384,7 @@ var tableready = function() {
       var row = implementationtable.row( tr );
 
 
-      console.log(row.data())
+      
       updateImplementationEditModal(row.data());
       $('#edit_editImplementationModal').modal('show');
 });

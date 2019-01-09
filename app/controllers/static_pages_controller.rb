@@ -2,9 +2,9 @@ class StaticPagesController < ApplicationController
 
 
 	def contacts
-		@districts = District.all.order(:name)
-		@subjtypes = Subjtype.all.order(:name)
-		@subjects = Subject.all.order(:name)
+		@districts = District.select(:name,:id).order(:name)
+		@subjtypes = Subjtype.select(:name,:id).order(:name)
+		@subjects = Subject.select(:name,:id).order(:name)
 		@projecttargets = Projecttarget.all.order(:name)
 	end
 

@@ -60,7 +60,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
          zaujimavost: subject.zaujimavost,
          created_at: subject.created_at_modif,
          updated_at: subject.updated_at_modif,
-         delete_subject: link_to(content_tag(:i,nil,class: 'fa fa-trash-o fa-2x') ,subject, method: :delete, data: { confirm: 'Naozaj chceš zmazať tento subjekt? Ak ho zmažeš, zmažú sa aj všetky naviazané osoby.' })
+         delete_subject: link_to(content_tag(:i,nil,class: 'fa fa-trash-o fa-2x') ,("subjects/"+subject.subject_id.to_s), method: :delete, data: { confirm: 'Naozaj chceš zmazať tento subjekt? Ak ho zmažeš, zmažú sa aj všetky naviazané osoby.' })
         }
     end
   end

@@ -1,5 +1,4 @@
 
-
 function formatProjectfinance(d) {
 
 	 if (d.payed == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
@@ -35,12 +34,13 @@ function updateProjectEditModal(d) {
 }
 
 
-function updateImplementationEditModal(d) {
+function updateImplementationEditModalProject(d) {
 
+	
 	$('#editimplementationID').val(d.id);
 	$('#edit_subject_new').val(d.subject_id);
 	$('#edit_project_manager').val(d.user_id);
-	$('#edit_oprogram').val(d.oprogram);
+	$('#edit_oprogram_new').val(d.oprogram_id);
 	$('#edit_contact_helper').val(d.contact_helper);
 	$('#edit_contact_client').val(d.contact_client);
 	$('#edit_projektant').val(d.projektant);
@@ -83,3 +83,4 @@ function updateImplementationEditModal(d) {
 	$('#edit_note_project_sooner_sent_date').val(d.note_project_sooner_sent_date);
 
 }
+

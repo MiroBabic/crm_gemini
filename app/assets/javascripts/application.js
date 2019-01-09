@@ -72,6 +72,8 @@ function getTrueFalseIcon(data) {
 	return $res;
 }
 
+
+
 document.addEventListener("turbolinks:load", function() {
   $('#side-menu').metisMenu({toggle: false });
 });

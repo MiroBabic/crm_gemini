@@ -175,7 +175,7 @@
 
           <label>Projektový manažér:</label><%= select_tag 'edit_project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'edit_project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
           <label>Žiadateľ: </label><%= select_tag 'edit_subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_subject_new', prompt: "--vyber subjekt--" %></br>
-         <label>Operačný program: </label><%= select_tag 'edit_oprogram_new_new', options_from_collection_for_select(@oprograms, 'id', 'name'), class: 'form-control', id: 'edit_oprogram_new_new', prompt: "--vyber operačný program--" %></br>
+         <label>Operačný program: </label><%= select_tag 'edit_oprogram_new', options_from_collection_for_select(@oprograms, 'id', 'name'), class: 'form-control', id: 'edit_oprogram_new', prompt: "--vyber operačný program--" %></br>
          <label>Kontaktná osoba - Poskytovateľ pomoci:</label><input type="text" name="edit_contact_helper" id="edit_contact_helper" class="form-control" placeholder="Kontaktná osoba - Poskytovateľ pomoci..." /><br>
          <label>Kontaktná osoba - Klient:</label><input type="text" name="edit_contact_client" id="edit_contact_client" class="form-control" placeholder="Kontaktná osoba - Klient..." /><br>
           </div>
@@ -447,7 +447,8 @@
 var ready = function() {
 
 <% if @implementation.present? %>
-  updateImplementationEditModal(<%= @implementation.to_json.html_safe %>);
+console.log(<%= @implementation.to_json.html_safe %>);
+  updateImplementationEditModalProject(<%= @implementation.to_json.html_safe %>);
   <% end %>
 
 //console.log()

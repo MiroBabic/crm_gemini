@@ -5,6 +5,9 @@ class SubjectsController < ApplicationController
   # GET /subjects.json
   def index
     #@subjects = Subject.all
+     params["columns"] ||= { "0" => {"data" => "" } }
+    params["length"]  ||= -1
+    
      respond_to do |format|
       format.html
       format.json do
