@@ -447,7 +447,7 @@
 var ready = function() {
 
 <% if @implementation.present? %>
-console.log(<%= @implementation.to_json.html_safe %>);
+
   updateImplementationEditModalProject(<%= @implementation.to_json.html_safe %>);
   <% end %>
 

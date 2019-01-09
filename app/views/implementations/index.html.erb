@@ -319,12 +319,32 @@ var tableready = function() {
   {data: 'project_manager' },
   {data: 'oprogram' },
   {data: 'subject_path' },
-  {data: 'project_startdate' },
-  {data: 'project_enddate_by_nfp_contract' },
-  {data: 'project_start_note_sentdate' },
-  {data: 'zop_showdate' },
+  //{data: 'project_startdate' },
+  {data: 'project_startdate', 'render' : function(data,type,row) {
+    return prettyDateToInput(row.project_startdate);
+  }
+},
+  //{data: 'project_enddate_by_nfp_contract' },
+   {data: 'project_enddate_by_nfp_contract', 'render' : function(data,type,row) {
+    return prettyDateToInput(row.project_enddate_by_nfp_contract);
+  }
+},
+  //{data: 'project_start_note_sentdate' },
+   {data: 'project_start_note_sentdate', 'render' : function(data,type,row) {
+    return prettyDateToInput(row.project_start_note_sentdate);
+  }
+},
+  //{data: 'zop_showdate' },
+    {data: 'zop_showdate', 'render' : function(data,type,row) {
+    return prettyDateToInput(row.zop_showdate);
+  }
+},
   {data: 'zop_request_type' },
-  {data: 'next_monitor_date' },
+//  {data: 'next_monitor_date' },
+    {data: 'next_monitor_date', 'render' : function(data,type,row) {
+    return prettyDateToInput(row.next_monitor_date);
+  }
+},
   //{data: 'finish_monitor_date' },
   {data: 'control_date' },
   {data: 'approved','render' : function(data,type,row) {
