@@ -88,8 +88,8 @@ function formatImplementationDetails(d) {
 '<p><b>Stav ŽOP: </b>'+d.zop_state+'</p>'+
 '<p><b>Splnené podmienky na úhradu ŽOP: </b>'+getTrueFalseIcon(d.zop_paycond_fulfil)+'</p>'+
 '<p><b>Splnené náležitosti ŽOP: </b>'+getTrueFalseIcon(d.zop_cond_fulfil)+'</p>'+
-'<p><b>Nahratie predkladov do ITMS: </b>'+getTrueFalseIcon(d.zop_data_to_itms)+'</p>'+
-'<p><b>Nahratie predkladov do ITMS - Stav: </b>'+d.zop_data_to_itms_state+'</p>'+
+'<p><b>Nahratie podkladov do ITMS: </b>'+getTrueFalseIcon(d.zop_data_to_itms)+'</p>'+
+'<p><b>Nahratie podkladov do ITMS - Stav: </b>'+d.zop_data_to_itms_state+'</p>'+
 '<hr><h3>Monitorovanie</h3><hr>'+
 '<p><b>Termín najbližšej monitorovačky: </b>'+prettyDate(d.next_monitor_date)+'</p>'+
 '<p><b>Termín záverečnej monitorovačky: </b>'+prettyDate(d.finish_monitor_date)+'</p>'+
