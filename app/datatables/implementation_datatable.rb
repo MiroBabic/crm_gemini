@@ -86,6 +86,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
         note_project_sooner_sent_date: implementation.note_project_sooner_sent_date,
         schedule_change_need_date: implementation.schedule_change_need_date,
         zop_state: implementation.zop_state,
+        project_real_enddate: implementation.project_real_enddate,
          created_at: implementation.created_at,
          updated_at: implementation.updated_at,
          delete_implementation: link_to(content_tag(:i,nil,class: 'fa fa-trash-o fa-2x') ,implementation, method: :delete, data: { confirm: 'Naozaj chceš zmazať tento projekt?' })

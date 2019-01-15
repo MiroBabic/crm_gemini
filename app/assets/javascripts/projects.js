@@ -81,6 +81,7 @@ function updateImplementationEditModalProject(d) {
 	$('#edit_project_end_sooner_date').val(prettyDateToInput(d.project_end_sooner_date));
 	if (d.note_project_sooner_sent==true) { $('#edit_note_project_sooner_sent').prop('checked', true);} else {$('#edit_note_project_sooner_sent').prop('checked', false);}
 	$('#edit_note_project_sooner_sent_date').val(prettyDateToInput(d.note_project_sooner_sent_date));
+	$('#edit_project_real_enddate').val(prettyDateToInput(d.project_real_enddate));
 
 }
 

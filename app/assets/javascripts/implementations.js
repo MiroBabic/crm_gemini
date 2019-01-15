@@ -47,6 +47,7 @@ function updateImplementationEditModal(d) {
 	$('#edit_project_end_sooner_date').val(prettyDateToInput(d.project_end_sooner_date));
 	if (d.note_project_sooner_sent==true) { $('#edit_note_project_sooner_sent').prop('checked', true);} else {$('#edit_note_project_sooner_sent').prop('checked', false);}
 	$('#edit_note_project_sooner_sent_date').val(prettyDateToInput(d.note_project_sooner_sent_date));
+	$('#edit_project_real_enddate').val(prettyDateToInput(d.project_real_enddate));
 
 
 	return false;
@@ -100,6 +101,7 @@ function formatImplementationDetails(d) {
 '<p><b>Posledný termín na predloženie publicity projektu: </b>'+prettyDate(d.publicity_last_term)+'</p>'+
 '<p><b>Dátum predloženia: </b>'+prettyDate(d.publicity_showdate)+'</p>'+
 '<hr><h3>Ukončenie projektu</h3><hr>'+
+'<p><b>Dátum skutočného ukončenia projektu: </b>'+prettyDate(d.project_real_enddate)+'</p>'+
 '<p><b>Spôsob ukončenia projektu: </b>'+d.project_end_type+'</p>'+
 '<p><b>Predčasné ukončenie projektu: </b>'+getTrueFalseIcon(d.project_end_sooner)+'</p>'+
 '<p><b>Predčasné ukončenie projektu - Termín: </b>'+prettyDate(d.project_end_sooner_date)+'</p>'+

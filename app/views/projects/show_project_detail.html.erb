@@ -150,6 +150,7 @@
       <p><b>Posledný termín na predloženie publicity projektu: </b><%=prettyDate(@implementation.publicity_last_term)%></p>
       <p><b>Dátum predloženia: </b><%=prettyDate(@implementation.publicity_showdate)%></p>
       <hr><h3>Ukončenie projektu</h3><hr>
+      <p><b>Dátum skutočného ukončenia projektu: </b><%=prettyDate(@implementation.project_real_enddate)%></p>
       <p><b>Spôsob ukončenia projektu: </b><%=@implementation.project_end_type%></p>
       <p><b>Predčasné ukončenie projektu: </b><%=get_true_false_icon(@implementation.project_end_sooner)%></p>
       <p><b>Predčasné ukončenie projektu - Termín: </b><%=prettyDate(@implementation.project_end_sooner_date)%></p>
@@ -252,6 +253,9 @@
           <input type="text" name="edit_publicity_showdate" id="edit_publicity_showdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
 
         <h3 class="center">Ukončenie projektu</h3>
+        <label>Dátum skutočného ukončenia projektu:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+          <input type="text" name="edit_project_real_enddate" id="edit_project_real_enddate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
         <label>Spôsob ukončenia projektu:</label><input type="text" name="edit_project_end_type" id="edit_project_end_type" class="form-control" placeholder="Spôsob ukončenia projektu..." /><br>
          <label>Predčasné ukončenie projektu: <input id="edit_project_end_sooner" type="checkbox" class="icheckbox_square-green" />          
         </label><div class="input-group date">
@@ -369,6 +373,10 @@
           <input type="text" name="publicity_showdate" id="publicity_showdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
 
         <h3 class="center">Ukončenie projektu</h3>
+        <label>Dátum skutočného ukončenia projektu:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+          <input type="text" name="project_real_enddate" id="project_real_enddate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+        
         <label>Spôsob ukončenia projektu:</label><input type="text" name="project_end_type" id="project_end_type" class="form-control" placeholder="Spôsob ukončenia projektu..." /><br>
          <label>Predčasné ukončenie projektu: <input id="project_end_sooner" type="checkbox" class="icheckbox_square-green" />          
         </label><div class="input-group date">
@@ -515,7 +523,7 @@ var ready = function() {
           $project_end_sooner_date=$('#project_end_sooner_date').val();
           if ($('#note_project_sooner_sent').is(":checked")) {$note_project_sooner_sent = true;}
           $note_project_sooner_sent_date=$('#note_project_sooner_sent_date').val();
-
+          $project_real_enddate = $('#project_real_enddate').val();
 
         
           $.ajax({
@@ -565,7 +573,8 @@ var ready = function() {
               project_end_sooner: $project_end_sooner,
               project_end_sooner_date: $project_end_sooner_date,
               note_project_sooner_sent: $note_project_sooner_sent,
-              note_project_sooner_sent_date: $note_project_sooner_sent_date
+              note_project_sooner_sent_date: $note_project_sooner_sent_date,
+              project_real_enddate: $project_real_enddate
               },
 
             success:function(data){
@@ -633,6 +642,7 @@ $('.editimplem').on('click',function(event){
           $project_end_sooner_date=$('#edit_project_end_sooner_date').val();
           if ($('#edit_note_project_sooner_sent').is(":checked")) {$note_project_sooner_sent = true;} else {$note_project_sooner_sent = false;}
           $note_project_sooner_sent_date=$('#edit_note_project_sooner_sent_date').val();
+          $project_real_enddate = $('#edit_project_real_enddate').val();
 
 
         
@@ -683,7 +693,8 @@ $('.editimplem').on('click',function(event){
               project_end_sooner: $project_end_sooner,
               project_end_sooner_date: $project_end_sooner_date,
               note_project_sooner_sent: $note_project_sooner_sent,
-              note_project_sooner_sent_date: $note_project_sooner_sent_date
+              note_project_sooner_sent_date: $note_project_sooner_sent_date,
+              project_real_enddate: $project_real_enddate
               },
 
             success:function(data){
