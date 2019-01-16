@@ -7,7 +7,7 @@ class SubjectsController < ApplicationController
     #@subjects = Subject.all
      params["columns"] ||= { "0" => {"data" => "" } }
     params["length"]  ||= -1
-    
+
      respond_to do |format|
       format.html
       format.json do
@@ -106,7 +106,8 @@ class SubjectsController < ApplicationController
       @subject.note= params[:edit_subjnote]
       @subject.vip = params[:edit_isvip]
       @subject.citizen_count = params[:edit_subjobyv]
-      if params[:edit_project_targets ] != 0
+
+      if params[:edit_project_targets ] != "0"
         @subject.project_targets = params[:edit_project_targets ]
 
         @targets = Projecttarget.where(:id=>params[:edit_project_targets])
