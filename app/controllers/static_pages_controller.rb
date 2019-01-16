@@ -46,8 +46,8 @@ class StaticPagesController < ApplicationController
 	end
 
 	def create_email
-		@subject_types = Subjtype.all.order(:name)
-		#@subject_types = Subjtype.where("id in (select distinct(subjtype_id) from subjects)")
+		#@subject_types = Subjtype.all.order(:name)
+		@subject_types = Subjtype.where("id in (select distinct(subjtype_id) from subjects)")
 		@districts = District.all.order(:name)
 		@counties =  District.all.pluck(:county).uniq.sort
 		@users = User.all
