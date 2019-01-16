@@ -64,7 +64,7 @@
 						<div class="form-group">
 							<label class="font-normal">Typ Subjektu</label>
 							<div>
-								<%= select_tag 'subjtype', options_from_collection_for_select(@subject_types, 'id', 'name'), class: 'chosen-select',multiple: true, id: 'subjtype',"data-placeholder": "Vyber typ subjektu..." %>
+								<%= select_tag 'subjtype', options_from_collection_for_select(@subject_types, 'id', 'name'), class: 'chosen-select',multiple: true, id: 'subjtype',"data-placeholder": "Dostupné len typy s aspoň jedným subjektom..." %>
 							</div>
 						</div>
 						<div class="form-group">
@@ -294,7 +294,9 @@ $("#main_box").addClass('ibox-content sk-loading');
   				location.reload();
 					})
               }
-              else { alert(data.status);}
+              else { alert("Chyba!");
+              //location.reload();
+          		}
 
 
             }

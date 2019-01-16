@@ -47,12 +47,13 @@ class StaticPagesController < ApplicationController
 
 	def create_email
 		@subject_types = Subjtype.all.order(:name)
+		#@subject_types = Subjtype.where("id in (select distinct(subjtype_id) from subjects)")
 		@districts = District.all.order(:name)
 		@counties =  District.all.pluck(:county).uniq.sort
 		@users = User.all
 		@templates = Mailtemplate.all.order("updated_at desc")
 		#@documents = Document.all
-		@docs = Document.all
+		@docs = Document.all.order("updated_at desc")
 
 		@documents= Array.new
 		@docs.each do |doc|
@@ -108,7 +109,12 @@ class StaticPagesController < ApplicationController
 			@total_subjects = (@subjects_by_district + @subjects_by_county + @subjects_by_owner +@subjects_by_type).uniq
 
 			unless @total_subjects.present?
-				@total_subjects = Subject.all.to_a
+				if (@obyv_count_from.present? || @obyv_count_to.present?)
+					@total_subjects = Subject.all.to_a
+				else
+					redirect_to create_email_path, alert: "Nenašiel sa ani jeden subjekt pre zadané kritéria" and return
+      				throw :halt
+				end
 			end
 
 			if (@obyv_count_from.present?)
@@ -144,17 +150,22 @@ class StaticPagesController < ApplicationController
 
 			@res_addresses = @addresses1.compact + @addresses2.compact
 
-			@res_addresses.each do |email_address|
-				begin
-				NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs).deliver_later
+			if @res_addresses.length > 0
+				@res_addresses.each do |email_address|
+					begin
+					NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs).deliver_later
 
-				
-				
-				rescue => error
-					c=Communication.new
-					c.about = error.message
-					c.save
+					
+					
+					rescue => error
+						c=Communication.new
+						c.about = error.message
+						c.save
+					end
 				end
+			else
+				redirect_to create_email_path, alert: "Nenašiel sa ani jeden email pre zadané kritéria" and return
+      				throw :halt
 			end
 
 			@addresses_to_show = @res_addresses.join('; ')
