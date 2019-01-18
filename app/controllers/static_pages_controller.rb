@@ -1,4 +1,5 @@
 class StaticPagesController < ApplicationController
+	before_action :authenticate_user!, :except=>[:unsubscribe]
 
 
 	def contacts
@@ -42,6 +43,33 @@ class StaticPagesController < ApplicationController
       		end
 		rescue=>error
 			redirect_to job_queue_path, alert: error.message
+		end
+	end
+
+	def unsubscribe
+		begin
+			require 'base64'
+			@hashmail = params[:id]
+
+			crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base)
+			@mail = Base64.urlsafe_decode64(@hashmail)
+
+			@person = Person.where("email = ? or email2 = ?",@mail,@mail)
+
+			if @person.present?
+				@person.each do |p|
+					p.unsubscribe = true
+					p.save
+				end
+			end
+
+			@message = "Boli ste úspešne odhlásený"
+			render :layout => false
+
+		rescue
+			@message = "Nepodarilo sa váš email odhlásiť, kontaktujte prosím odosielateľa"
+			render :layout => false
+
 		end
 	end
 
@@ -145,10 +173,13 @@ class StaticPagesController < ApplicationController
 				Communication.import @comm_arr
 			end
 			
-			@addresses1 = (@total_subjects.map {|a| a.people.map {|b| b.email}}).flatten.uniq
-			@addresses2 = (@total_subjects.map {|a| a.people.map {|b| b.email2}}).flatten.uniq
+			#@addresses1 = (@total_subjects.map {|a| a.people.map {|b| b.email}}).flatten.uniq
+			#@addresses2 = (@total_subjects.map {|a| a.people.map {|b| b.email2}}).flatten.uniq
+			@subjids = @total_subjects.map {|a| a.id}.flatten.uniq
+			@res_addresses = Person.where(:subject_id=>@subjids,:unsubscribe=>false).pluck(:email,:email2).flatten.uniq
 
-			@res_addresses = @addresses1.compact + @addresses2.compact
+
+			#@res_addresses = @addresses1.compact + @addresses2.compact
 
 			if @res_addresses.length > 0
 				@res_addresses.each do |email_address|

@@ -1,9 +1,9 @@
 Rails.application.routes.draw do
 
     
-  resources :oprograms
+  
   mount LetsencryptPlugin::Engine, at: '/'  # It must be at root level
-
+  
 
   devise_for :users, :controllers => {:sessions => "users/sessions", :registrations => "users/registrations"}, :skip => [:registrations]
   
@@ -15,7 +15,7 @@ Rails.application.routes.draw do
     patch 'users' => 'users/registrations#update', :as => 'user_registration'
   end
 
- 
+ resources :oprograms
    resources :iactivities
   resources :invoices
   resources :impchanges
@@ -42,6 +42,7 @@ Rails.application.routes.draw do
   get '/procesy' => 'static_pages#job_queue', :as=> 'job_queue'
   post '/send_mail_to_subjects' => 'static_pages#send_mail_to_subjects', :as=> 'send_mail_to_subjects'
   post 'delete_delayed_job'=>'static_pages#delete_delayed_job', :as=>'delete_delayed_job'
+  get '/unsubscribe/:id' => 'static_pages#unsubscribe', :as=>'unsubscribe'
 
 
   #subjtypes

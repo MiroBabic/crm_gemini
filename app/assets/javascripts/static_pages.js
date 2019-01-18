@@ -60,6 +60,7 @@ function updateSubjEditModal(d) {
 	$('#edit_subjtype').val(d.subjtype_id);
 	$('#edit_subjobyv').val(d.citizen_count);
 	
+	
 	$('#project_targets_edit').val(d.project_targets);
 	$('#project_targets_edit').trigger("chosen:updated");
 	
