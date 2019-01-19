@@ -15,6 +15,7 @@ class PersonDatatable < AjaxDatatablesRails::Base
        note: {source: "Person.note"},
        subject_name: {source: "Subject.name"},
        subject_id: {source: "Subject.id"},
+       unsubscribe: {source: "Person.unsubscribe"},
        created_at: { source: "Person.created_at" },
        updated_at: { source: "Person.updated_at" }
     }
@@ -38,6 +39,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag
          note: person.note,
          subject_name: person.subject.name,
          subject_id: person.subject.id,
+         unsubscribe: person.unsubscribe,
          created_at: person.created_at,
          updated_at: person.updated_at,
          delete_person: link_to(content_tag(:i,nil,class: 'fa fa-trash-o fa-2x') ,person, method: :delete, data: { confirm: 'Naozaj chceš zmazať túto osobu?' })

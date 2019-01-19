@@ -84,6 +84,7 @@
                       <th>Mobil</th>
                       <th>Poznámka</th>
                       <th>Subjekt</th>
+                      <th>Odhlásený</th>
                       <th></th>
                       <th></th>
                     </tr>
@@ -304,10 +305,11 @@ var tableready = function() {
   {data: 'citizen_count' },
    //{data: 'vip' },
   {data: 'vip','render' : function(data,type,row) {
-    $res = '';
+   /* $res = '';
     if (row.vip == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
       else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
-    return $res;
+    return $res;*/
+  return getTrueFalseIcon(row.vip);
   } },
   {data: 'project_targets', "visible":false},
   {data: 'project_targets_string'},
@@ -733,6 +735,10 @@ $('.editperson').on('click',function(event){
   {data: 'cellphone' },
   {data: 'note' },
   {data: 'subject_name' },
+
+  {data: 'unsubscribe','render' : function(data,type,row) {
+  return getTrueFalseIcon(row.unsubscribe);
+  } },
    {
     "className":   'personedit-control',
     "orderable":      false,
