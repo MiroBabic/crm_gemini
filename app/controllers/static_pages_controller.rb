@@ -111,6 +111,7 @@ class StaticPagesController < ApplicationController
 
 	def send_mail_to_subjects
 		require 'activerecord-import/base'
+		require 'base64'
 
 		begin
 			@email_subject= params[:email_subject]
@@ -123,6 +124,8 @@ class StaticPagesController < ApplicationController
 			@user= params[:user]
 			@docs= params[:docs]
 			@email_acc= params[:email_acc]
+
+			
 
 			@alldistricts_by_county = District.where(:county => @county)
 
@@ -184,7 +187,9 @@ class StaticPagesController < ApplicationController
 			if @res_addresses.length > 0
 				@res_addresses.each do |email_address|
 					begin
-					NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs).deliver_later
+					@hashmail = Base64.urlsafe_encode64(email_address)
+
+					NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs,@hashmail).deliver_later
 
 					
 					

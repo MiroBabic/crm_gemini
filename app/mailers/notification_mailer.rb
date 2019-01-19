@@ -1,7 +1,6 @@
 class NotificationMailer < ApplicationMailer
 
-	def send_mass_email(mail,text,sender, subject, smtp_user,smtp_pass,smtp_host,smtp_port,docs)
-		require 'base64'
+	def send_mass_email(mail,text,sender, subject, smtp_user,smtp_pass,smtp_host,smtp_port,docs,hashmail)
 		@text=text
 		@mail=mail
 		@mail_subject=subject
@@ -10,8 +9,8 @@ class NotificationMailer < ApplicationMailer
 		crypt = ActiveSupport::MessageEncryptor.new(Rails.application.secrets.secret_key_base)
 		@pass_decrypted = crypt.decrypt_and_verify(smtp_pass)
 
-		@hashmail = Base64.urlsafe_encode64(@mail)
-		@unsubscribeurl = '<a href="https://crm.geminigroup.sk/unsubscribe/'+@hashmail.to_s+'">https://crm.geminigroup.sk/unsubscribe/'+@hashmail.to_s+'</a>'
+		@hashmail = hashmail
+
 
 		delivery_options = { user_name: smtp_user,
                          password: @pass_decrypted,
