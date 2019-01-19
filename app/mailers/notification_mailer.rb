@@ -11,6 +11,7 @@ class NotificationMailer < ApplicationMailer
 		@pass_decrypted = crypt.decrypt_and_verify(smtp_pass)
 
 		@hashmail = Base64.urlsafe_encode64(@mail)
+		@unsubscribeurl = '<a href="https://crm.geminigroup.sk/unsubscribe/'+@hashmail.to_s+'">https://crm.geminigroup.sk/unsubscribe/'+@hashmail.to_s+'</a>'
 
 		delivery_options = { user_name: smtp_user,
                          password: @pass_decrypted,
