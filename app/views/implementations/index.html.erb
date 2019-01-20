@@ -80,7 +80,7 @@
           <h3 class="center">Projekt</h3>
          <label>Projekt:</label><%= select_tag 'project', options_from_collection_for_select(@projects, 'id', 'name'), class: 'form-control', id: 'project',"data-placeholder": "Projekt",prompt: "--vyber projekt--" %><br>
           <label>Projektový manažér:</label><%= select_tag 'project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
-          <label>Žiadateľ: </label><%= select_tag 'subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'subject_new', prompt: "--vyber subjekt--" %></br>
+          
          <!--<label>Operačný program:</label><input type="text" name="oprogram" id="oprogram" class="form-control" placeholder="Operačný program..." /><br>-->
          <label>Operačný program: </label><%= select_tag 'oprogram', options_from_collection_for_select(@oprograms, 'id', 'name'), class: 'form-control', id: 'oprogram', prompt: "--vyber operačný program--" %></br>
          <label>Kontaktná osoba - Poskytovateľ pomoci:</label><input type="text" name="contact_helper" id="contact_helper" class="form-control" placeholder="Kontaktná osoba - Poskytovateľ pomoci..." /><br>
@@ -200,7 +200,7 @@
          <input style="visibility:hidden" type="text" name="editimplementationID" id="editimplementationID" value="" readonly>
 
           <label>Projektový manažér:</label><%= select_tag 'edit_project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'edit_project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
-          <label>Žiadateľ: </label><%= select_tag 'edit_subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_subject_new', prompt: "--vyber subjekt--" %></br>
+          
          
          <label>Operačný program: </label><%= select_tag 'edit_oprogram_new', options_from_collection_for_select(@oprograms, 'id', 'name'), class: 'form-control', id: 'edit_oprogram_new', prompt: "--vyber operačný program--" %></br>
          <label>Kontaktná osoba - Poskytovateľ pomoci:</label><input type="text" name="edit_contact_helper" id="edit_contact_helper" class="form-control" placeholder="Kontaktná osoba - Poskytovateľ pomoci..." /><br>
@@ -385,15 +385,7 @@ var tableready = function() {
   {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
   {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
   {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
-
-  {
-    text: 'TXT',
-    extend: 'csvHtml5',
-    fieldSeparator: '\t',
-    extension: '.txt',
-    "className": 'btn btn-default btn-xs'
-  },
-  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+  {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
 
   ],
   'language': {
@@ -459,7 +451,7 @@ $('.addimplem').on('click',function(event){
 
 
           $project_id = $('#project').val();
-          $subject = $('#subject_new').val();
+          
           $projectmanager = $('#project_manager').val();
           $oprogram = $('#oprogram').val();
           $contact_helper=$('#contact_helper').val();
@@ -511,7 +503,7 @@ $('.addimplem').on('click',function(event){
             url: "/modal_create_implementation",
             data: {
               project_id: $project_id,
-              subject: $subject,
+              
               projectmanager: $projectmanager,
               oprogram: $oprogram,
               contact_helper: $contact_helper,
@@ -582,7 +574,7 @@ $('.editimplem').on('click',function(event){
           //console.log(event.target.id);
           
           $implementation_id = $('#editimplementationID').val();
-         $subject = $('#edit_subject_new').val();
+         
           $projectmanager = $('#edit_project_manager').val();
           $oprogram = $('#edit_oprogram_new').val();
           $contact_helper=$('#edit_contact_helper').val();
@@ -634,7 +626,7 @@ $('.editimplem').on('click',function(event){
             url: "/modal_edit_implementation",
             data: {
               implementation_id: $implementation_id,
-              subject: $subject,
+              
               projectmanager: $projectmanager,
               oprogram: $oprogram,
               contact_helper: $contact_helper,

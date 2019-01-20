@@ -44,7 +44,7 @@
                 <table class="table table-bordered" id="subjects" style="width:100%">
                   <thead>
                     <tr>
-                      <th>Meno</th>
+                      <th>Názov subjektu</th>
                       <th>Okres</th>
                       <th>Kraj</th>
                       <th>Typ Subjektu</th>
@@ -66,6 +66,27 @@
                   <tbody>
 
                   </tbody>
+                  <tfoot>
+                     <tr id ="tabledetailsearch" class="visibility" style="width:100%">
+                     <th>Názov subjektu</th>
+                      <th>Okres</th>
+                      <th>Kraj</th>
+                      <th>Typ Subjektu</th>
+                      <th>Spravuje</th>
+                      <th>Počet obyvateľov</th>
+                      <th>VIP</th>
+                      <th style="visibility:hidden">Projektový zámer_arr</th>
+                      <th>Projektový zámer</th>
+                      <th>Vložené</th>
+                      <th>Upravené</th>
+                      <th class="disabled">Detaily</th>
+                      <th class="disabled">Kontakty</th>
+                      <th class="disabled">Komunikácia</th>
+                      <th class="disabled"></th>
+                      <th class="disabled"></th>
+                                      
+                                      </tr>
+                                    </tfoot>
                 </table>
               </div>
             </div>
@@ -93,6 +114,8 @@
                   <tbody>
 
                   </tbody>
+                   
+
                 </table>
               </div>
             </div>
@@ -348,15 +371,7 @@ var tableready = function() {
   {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
   {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
   {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
-
-  {
-    text: 'TXT',
-    extend: 'csvHtml5',
-    fieldSeparator: '\t',
-    extension: '.txt',
-    "className": 'btn btn-default btn-xs'
-  },
-  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+  {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
 
   ],
   'language': {
@@ -366,7 +381,56 @@ var tableready = function() {
   [10, 50,100, -1],
   [10, 50,100, "All"]
   ],
-  //initComplete: function() {
+  initComplete: function() {
+    if ( $("#detailbutton").length) {console.log ('detailed search exists');}
+              else {
+
+              var r = $('#subjects tfoot tr');
+              r.find('th').each(function(){
+               $(this).css('padding', 8);
+
+
+              });
+              $('#subjects thead').append(r);
+              $('#search_0').css('text-align', 'center');
+
+//      $(".dataTables_filter").append('<button id="detailbutton" class="btn btn-primary btn-outline btn-xs" type="button"><span class="bold">Detailné vyhľadávanie</span></button>');
+  //     $('#changepageinput').val('');
+
+      var api = this.api();
+
+      // Apply the search
+      api.columns().every(function() {
+        var that = this;
+
+        $('input', this.footer()).on('keyup change', function() {
+          if (that.search() !== this.value) {
+            that
+              .search(this.value)
+              .draw();
+          }
+            });
+        });
+
+       $('#detailbutton').click(function() {
+          $('#tabledetailsearch').toggleClass('visibility');
+          });
+
+       $('#changepageinput').on('keyup change',function() {
+
+        if (parseInt($('#changepageinput').val()) > 0) {
+        var pagenum = (parseInt($('#changepageinput').val()) -1);
+        subjtable.page( pagenum ).draw( false );
+        }
+        else {subjtable.page( 0 ).draw( false );}
+
+
+      }); 
+
+    
+            }
+
+  },
     drawCallback: function(settings) {
 
     $('.subjedit-control').on('click',function(event){
@@ -498,7 +562,16 @@ var tableready = function() {
 
 });
 
-  
+// pridanie search inputov
+
+$('#subjects tfoot th').each( function () {
+        var title = $(this).text();
+        
+        $(this).html( '<input type="text" placeholder="Hľadaj" />' );
+    } );
+
+$('.disabled').html( '<input disabled type="text" style="display:none" />' );
+//
 
 $('.createcontact').on('click',function(event){
           //console.log(event.target.id);
@@ -753,15 +826,7 @@ $('.editperson').on('click',function(event){
   {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
   {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
   {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
-
-  {
-    text: 'TXT',
-    extend: 'csvHtml5',
-    fieldSeparator: '\t',
-    extension: '.txt',
-    "className": 'btn btn-default btn-xs'
-  },
-  {"extend" : 'pdfHtml5',"text": "PDF","className": 'btn btn-default btn-xs'},
+  {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
 
   ],
   'language': {

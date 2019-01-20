@@ -27,7 +27,7 @@
 												<p>Pre pridanie celodenného záznamu v kalendári klikni na deň v mesačnom prehľade a pridaj záznam</p>
 												<p>Pre pridanie záznamu na konkrétnu hodinu prejdi na týždenný alebo denný prehľad a myšou vysvieť čas, na ktorý chceš pridať záznam</p>
 												<p>Pre vymazanie záznamu klikni naň pravým tlačidlom a potvrď</p>
-												<p>Pri pridaní url treba vložiť celú cestu vrátane http://</p>
+												
 												</div>
 
 		<div id="calendar" >
@@ -77,7 +77,7 @@ selectable: true,
 selectHelper: true,
 select: function(start, end, allDay) {
 	var title = prompt("Poznámka:");
-	var url = prompt("url k danej poznámke, ak existuje a je potrebná:");
+	//var url = prompt("url k danej poznámke, ak existuje a je potrebná:");
 	if (title) {
 
 
@@ -96,7 +96,7 @@ select: function(start, end, allDay) {
 				title: title,
 				start: start,
 				end: end,
-				url: url,
+				
 				allDay: diffDays
 			},
 			type: "POST",
@@ -227,12 +227,12 @@ eventClick:  function(event, jsEvent, view) {
 
 	$('#modalTitle').html(event.title);
 	$('#modalBody').html(event.description);
-	$('#eventUrl').attr('href',event.url);
+	//$('#eventUrl').attr('href',event.url);
 	$('#calendarModal').modal();
-	if (event.url) {
+	/*if (event.url) {
       window.open(event.url);
       return false;
-    }
+    }*/
 }
 
 

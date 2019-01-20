@@ -38,7 +38,7 @@ function updateImplementationEditModalProject(d) {
 
 	
 	$('#editimplementationID').val(d.id);
-	$('#edit_subject_new').val(d.subject_id);
+	
 	$('#edit_project_manager').val(d.user_id);
 	$('#edit_oprogram_new').val(d.oprogram_id);
 	$('#edit_contact_helper').val(d.contact_helper);
