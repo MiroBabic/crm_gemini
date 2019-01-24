@@ -116,16 +116,45 @@ class StaticPagesController < ApplicationController
 		begin
 			@email_subject= params[:email_subject]
 			@content= params[:content]
-			@district= params[:district]
-			@county= params[:county]
-			@subjtype= params[:subjtype]
+			#@district= params[:district]
+			#@county= params[:county]
+			#@subjtype= params[:subjtype]
 			@obyv_count_from= params[:obyv_count_from]
 			@obyv_count_to= params[:obyv_count_to]
-			@user= params[:user]
+			#@user= params[:user]
 			@docs= params[:docs]
 			@email_acc= params[:email_acc]
 
 			
+
+			if params[:district].present?
+				@district = params[:district]
+			else
+				@district = District.all.pluck(:id)
+			end
+
+			if params[:county].present?
+				@county = params[:county]
+			else
+				@county = District.all.pluck(:county).uniq
+			end
+
+			if params[:subjtype].present?
+				@subjtype= params[:subjtype]
+			else
+				@subjtype = Subjtype.all.pluck(:id)
+			end
+
+			if params[:user].present?
+				@user = params[:user]
+			else
+				@user = User.all.pluck(:id)
+			end
+
+			
+			# unless params[:district].present?
+			# 	@alldistricts_by_county = District.where(:county => @county)
+			# end
 
 			@alldistricts_by_county = District.where(:county => @county)
 
@@ -134,10 +163,11 @@ class StaticPagesController < ApplicationController
 			@subjects_by_owner = Subject.where(:user_id=>@user)
 			@subjects_by_type = Subject.where(:subjtype_id => @subjtype)
 
+			#@total_subjects = Subject.where(:district_id)
 
 
-
-			@total_subjects = (@subjects_by_district + @subjects_by_county + @subjects_by_owner +@subjects_by_type).uniq
+			#@total_subjects = (@subjects_by_district + @subjects_by_county + @subjects_by_owner +@subjects_by_type).uniq
+			@total_subjects = @subjects_by_district.merge(@subjects_by_county).merge(@subjects_by_owner).merge(@subjects_by_type).flatten.uniq
 
 			unless @total_subjects.present?
 				if (@obyv_count_from.present? || @obyv_count_to.present?)
