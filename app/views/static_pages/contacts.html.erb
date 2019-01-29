@@ -621,7 +621,8 @@ $('.createcontact').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Subjekt bol vytvorený" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Subjekt bol vytvorený"));
+                //alert("Subjekt bol vytvorený" );
                 location.reload();
                 
               }
@@ -680,7 +681,8 @@ $('.editcontact').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Subjekt bol upravený" );
+                //alert("Subjekt bol upravený" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Subjekt bol upravený"));
                 location.reload();
                 
               }
@@ -727,7 +729,8 @@ $('.createperson').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Osoba bol vytvorená" );
+                //alert("Osoba bol vytvorená" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Osoba bol vytvorená"));
                 location.reload();
 
               }
@@ -770,7 +773,8 @@ $('.editperson').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Osoba bol upravená" );
+                //alert("Osoba bol upravená" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Osoba bol upravená"));
                 location.reload();
                 
               }

@@ -18,6 +18,37 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeInRight">
+	<div class="row">
+		<div class="col-lg-12">
+		<div class="ibox float-e-margins">
+		      <div class="ibox-content">
+		      		<p>Ak chceš pridať záznam do kalendára na ľubovolný dátum bez nutnosti hľadania v kalendári, zadaj ho tu</p>
+		      		<div class="row">
+		      		<div class="col-md-3">
+			<div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="calendar_manual_entry" id="calendar_manual_entry" class="form-control datepick" placeholder="1990-12-31" /></div>
+          </div>
+          <div class="col-md-3">
+          	<div class="input-group clockpicker" data-autoclose="true">
+                                <input type="text" id="calendar_manual_entry_time" class="form-control" placeholder="09:30">
+                                <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+                            </div>
+                        </div>
+             <div class="col-md-3">
+             	<input type="text" name="calendar_note" id="calendar_note" class="form-control" placeholder="Poznámka" />
+             </div>
+          <div class="col-md-3">
+          	<button class="btn btn-primary" id="manul_cal_entry_submit_button">Ulož záznam</button>
+          </div>
+      </div>
+          <br>
+
+      </div>
+      </div>		
+		</div>
+	</div>
   <div class="row">
    <div class="col-lg-12">
      <div class="ibox float-e-margins">
@@ -44,6 +75,72 @@
 <script type="text/javascript">
 
 var tableready = function() {
+
+	$('.datepick').datepicker({
+       trigger: $('#inputcalendar'),
+        autoHide: true,
+        format: 'yyyy-mm-dd'
+        });
+
+ $('.clockpicker').clockpicker();
+
+$("#manul_cal_entry_submit_button").click(function()
+{
+
+$manual_date = $('#calendar_manual_entry').val();
+$manual_time = $('#calendar_manual_entry_time').val();
+$calnote = $('#calendar_note').val();
+
+if ($manual_date.length > 0) {
+
+	if ($manual_time.length == 0) {
+		$allday = true;
+		$custstart = $manual_date.concat(' 00:00:00')
+		$custend = $manual_date.concat(' 23:59:59')
+	}
+	 else {
+	 	$allday = false; $custstart = $manual_date.concat(' ',$manual_time); $custend = $manual_date.concat(' ',$manual_time);
+	 }
+
+
+ 
+ $.ajax({
+            type: "POST",
+            url: "/add_calendar_event",
+            data: {
+                title: $calnote,
+                start: $custstart,
+                end: $custend,
+                allDay: $allday
+            }
+        })
+           .done(function (data) {
+                
+             if (data.status == "ok")
+              {
+                $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol vytvorený"));
+                //alert("Záznam do kalendára bol pridaný" );
+                location.reload();
+                
+              }
+              else { alert(data.status);}
+
+                               
+                            })
+           .fail(function (data) {
+           	$("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vložiť záznam do kalendára"));
+               
+               
+
+           })                            
+           ;
+}
+else {
+	$("#notice").html(flashMessageFromAjax("not ok","Nezadal si dátum"));
+}
+  });
+
+
 
 var date = new Date();
 	var d = date.getDate();
@@ -103,7 +200,8 @@ select: function(start, end, allDay) {
 			success: function(data) {
 				if (data.status == "ok")
               {
-                alert("Záznam do kalendára bol pridaný" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol vytvorený"));
+                //alert("Záznam do kalendára bol pridaný" );
                 calendar.fullCalendar( 'refetchEvents' );
                 
               }
@@ -145,7 +243,8 @@ eventDrop: function(event, delta) {
 		success: function(data) {
 				if (data.status == "ok")
               {
-                alert("Záznam v kalendári bol upravený" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol upravený"));
+                
                 calendar.fullCalendar( 'refetchEvents' );
                 
               }
@@ -171,7 +270,8 @@ eventResize: function(event) {
 		success: function(data) {
 				if (data.status == "ok")
               {
-                alert("Záznam v kalendári bol upravený" );
+              	$("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol upravený"));
+                //alert("Záznam v kalendári bol upravený" );
                 calendar.fullCalendar( 'refetchEvents' );
                 
               }
@@ -198,7 +298,8 @@ eventRender: function (event, element) {
 					success: function(data) {
 				if (data.status == "ok")
               {
-                alert("Záznam v kalendári bol vymazaný" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol vymazaný"));
+                //alert("Záznam v kalendári bol vymazaný" );
                 calendar.fullCalendar( 'refetchEvents' );
                 
               }

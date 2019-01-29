@@ -85,6 +85,15 @@ function getTrueFalseIcon(data) {
 	return $res;
 }
 
+  function flashMessageFromAjax(status,msg) {
+    var $statuscolor
+    if (status=="ok") {$statuscolor="alert alert-info"}
+      else {$statuscolor = "alert alert-danger"}
+
+        $myhtml ='<div class="'+$statuscolor+' fade in"><a href="#" data-dismiss="alert" class="close">×</a>'+ msg +'</div>'
+
+    return $myhtml;
+}
 
 
 document.addEventListener("turbolinks:load", function() {

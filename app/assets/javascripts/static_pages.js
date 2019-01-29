@@ -34,6 +34,7 @@ function formatSubjContactsDetail(d) {
 
 	var $part2 ='';
 	var $part1 = '<h3>Zoznam komunikácie so subjektom</h3>';
+	
 
 	 for ( var i = 0; i < d.length; i++) {
 	 	$part2+= '<p><b>S osobou: </b>' +d[i].first_name+' '+d[i].last_name+'</p><p><b>Vytvoril: </b>'+d[i].email+'</p><p><b>Kľúčové slovo: </b>'+d[i].keyword+
@@ -59,7 +60,7 @@ function updateSubjEditModal(d) {
 	$('#edit_subjdistrict').val(d.district_id);
 	$('#edit_subjtype').val(d.subjtype_id);
 	$('#edit_subjobyv').val(d.citizen_count);
-	
+
 	
 	$('#project_targets_edit').val(d.project_targets);
 	$('#project_targets_edit').trigger("chosen:updated");
