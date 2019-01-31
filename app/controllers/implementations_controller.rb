@@ -36,6 +36,64 @@ class ImplementationsController < ApplicationController
   def edit
   end
 
+  def get_implementation_notes
+    begin
+      @notes = Implnote.where(:implementation_id=>params[:id]).order("created_at desc")
+
+      respond_to do |format|
+              format.json { render :json => {"status":"ok", "data":@notes.as_json}  }
+      end
+
+
+    rescue=>error
+      puts error.message
+    end
+  end
+
+  def del_implementation_note
+    begin
+      @note = Implnote.find(params[:id])
+
+      if @note.destroy
+      respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+      end
+      else
+        respond_to do |format|
+              format.json { render :json => {"status":"not_ok"}  }
+      end
+      end
+
+
+    rescue=>error
+      puts error.message
+    end
+  end
+
+  def modal_create_implementation_note
+    begin
+      unless params[:note].present?
+          redirect_to implementations_path, alert: "Prázdna poznámka nemôže byť uložená" and return
+              throw :halt
+      end
+
+        @note = Implnote.new(:note=>params[:note],:implementation_id=>params[:implementation_id],:user_id=>current_user.id)
+
+        if @note.save
+          respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+        end
+      else
+        respond_to do |format|
+              format.json { render :json => {"status":"not_ok"}  }
+      end
+      end
+
+    rescue=>error
+      puts error.message
+    end
+  end
+
   # POST /implementations
   # POST /implementations.json
 

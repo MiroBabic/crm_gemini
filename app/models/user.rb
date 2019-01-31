@@ -12,4 +12,5 @@ class User < ActiveRecord::Base
     has_many :projects
     has_many :implementations
     has_many :iactivities
+    has_many :implnotes
 end

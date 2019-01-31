@@ -110,6 +110,9 @@ Rails.application.routes.draw do
   get '/implementacie' => 'implementations#index', :as=>'implementacie'
   post '/modal_create_implementation' => 'implementations#modal_create_implementation', :as=>'modal_create_implementation'
   post '/modal_edit_implementation' => 'implementations#modal_edit_implementation', :as=>'modal_edit_implementation'
+  get '/get_implementation_notes/:id' => 'implementations#get_implementation_notes', :as=>'get_implementation_notes'
+  post '/del_implementation_note' => 'implementations#del_implementation_note', :as => 'del_implementation_note'
+  post '/modal_create_implementation_note' => 'implementations#modal_create_implementation_note', :as=>'modal_create_implementation_note'
 
   #oprograms
   post '/modal_create_oprogram' => 'oprograms#modal_create_oprogram', :as=> 'modal_create_oprogram'

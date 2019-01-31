@@ -5,6 +5,7 @@ class Implementation < ActiveRecord::Base
   belongs_to :oprogram
 
   has_many :iactivities, :dependent => :destroy
+  has_many :implnotes, :dependent => :destroy
 
   validates :project_id, uniqueness: true
 

@@ -44,6 +44,7 @@
       <!--<th>Termín záverečnej monitorovačky</th>-->
       <th>Dátum predloženia na kontrolu</th>
       <th>Schválenie</th>
+      <th>Poznámky</th>
       <th>Detaily</th>
       <th></th>
       <th></th>
@@ -301,6 +302,24 @@
 </div>
 </div>
 
+<div id="addImplemNoteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="edit_myModalLabel">Vytvor poznámku </h2>
+       
+      </div>
+      <div class="modal-body">
+        <input style="visibility:hidden" type="text" name="new_implem_note_ID" id="new_implem_note_ID" value="" readonly>
+          <input type="text" name="new_implem_note" id="new_implem_note" class="form-control" placeholder="Poznámka..." /><br>
+
+           <button class="add_implem_note_btn btn btn-primary" type="button" class="editimplem btn btn-success">Vytvor</button>
+        </div>
+        </div>
+        </div>
+        </div>
+
 
 <script>
 var implementationtable;
@@ -362,6 +381,12 @@ var tableready = function() {
     return $res;
   } },
   {
+    "className":   'notes-implementation',
+    "orderable":      false,
+    "data":           null,
+    "defaultContent": '<a><center><i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i></center></a>'
+  },
+  {
     "className":   'details-implementation',
     "orderable":      false,
     "data":           null,
@@ -397,6 +422,9 @@ var tableready = function() {
   ],
 
   drawCallback: function(settings) {
+
+
+
      
      $('.implementationedit-control').on('click',function(event){
 
@@ -428,15 +456,138 @@ var tableready = function() {
           }
         });
 
+
+  $('#implementations tbody').on('click', 'td.notes-implementation', function () {
+
+      var tr = $(this).closest('tr');
+      var row = implementationtable.row( tr );
+
+      if ( row.child.isShown() ) {
+            // This row is already open - close it
+            row.child.hide();
+            tr.removeClass('shown');
+
+          }
+          else {
+            // Open this row
+
+            $.ajax({
+            type: "GET",
+            url: "/get_implementation_notes/"+row.data().id+".json"
+            
+        })
+           .done(function (data) {
+                
+             if (data.status == "ok")
+              {
+                row.child( formatImplementationNotes(data.data,row.data().id)).show();
+                $('#new_implem_note_ID').attr('value',row.data().id);
+                $("#new_implem_note").removeAttr('value');
+
+                    $('.del_implem_note').on('click',function(event){
+
+
+      $delbtnid =  event.target.id.replace("del_impl_note_", "");
+        $.ajax({
+                  type: "POST",
+                  url: "/del_implementation_note",
+                  data: {
+                      id: $delbtnid
+                     }
+            })
+           .done(function (data) {
+                
+             if (data.status == "ok")
+              {
+                $("#notice").html(flashMessageFromAjax(data.status,"Poznámka bola vymazaná"));
+                //alert("Záznam do kalendára bol pridaný" );
+               implementationtable.ajax.reload();
+                
+              }
+              else { alert(data.status);}
+
+                               
+                            })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vymazať poznámku"));
+               
+               
+
+           })                            
+           ;
+
+}
+  );
+                
+              }
+              else { alert(data.status);}
+
+                               
+                            })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa získať údaje o poznámkach"));
+               
+               
+
+           })  
+           
+            
+            tr.addClass('shown');
+          }
+        });
+
+
 }
 //koniec datatable
 
 
 });
 
+//add note
 
+ $('.add_implem_note_btn').on('click',function(event){
+
+  $implementation_id = $("#new_implem_note_ID").val();
+  $note = $("#new_implem_note").val();
+
+
+
+   $.ajax({
+            type: "POST",
+            url: "/modal_create_implementation_note",
+            data: {
+              implementation_id: $implementation_id,
+              note: $note
+              }
+               })
+           .done(function (data) {
+                
+             if (data.status == "ok")
+              {
+                $("#notice").html(flashMessageFromAjax(data.status,"Poznámka bola vytvorená"));
+                
+               implementationtable.ajax.reload();
+                $('#addImplemNoteModal').modal('toggle');
+                
+                
+              }
+              else { alert(data.status);}
+
+                               
+                            })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vytvoriť poznámku"));
+               
+               
+
+           })                            
+           ;
+
+ });
 
 // add implementation 
+
+
 
 $('.addimplem').on('click',function(event){
           //console.log(event.target.id);
