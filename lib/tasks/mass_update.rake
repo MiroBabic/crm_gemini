@@ -104,5 +104,32 @@ desc "this task updates subject types for selected subjects"
 	end
 
 
+desc "this task updates delayed_jobs"
+	task delayed_job: :environment do
+
+		begin
+
+			@jobs = Delayed::Job.all
+
+			if @jobs.present?
+
+				@jobs.each do |dj|
+					dj.run_at = Time.now
+					dj.attempts = 0
+					dj.locked_at=nil
+					dj.locked_by=nil
+					dj.last_error=nil
+					dj.save!
+				end
+			end
+			
+
+		rescue => error
+			puts error.message
+		end
+
+	end
+
+
 
 end
