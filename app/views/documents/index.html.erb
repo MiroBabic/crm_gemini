@@ -100,10 +100,10 @@ var tableready = function() {
 
 
  doctable= $('#documents').DataTable({
-  'order': [0,'asc'],
+  'order': [4,'desc'],
   'serverSide': false,
   'stateSave' :true,
-  'dom': 'lfr<"pull-right"B>tip',
+  'dom': 'lfr<"pull-right">tip',
   'buttons': [
   {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
   {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},

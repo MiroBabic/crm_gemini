@@ -119,10 +119,10 @@ function formatImplementationNotes(d,impl_id) {
 	$html = '<h3>Poznámky <a id="addimplnote" data-toggle="modal" data-target="#addImplemNoteModal"><i id="impl_id_'+impl_id+'" class="fa fa-plus-circle" aria-hidden="true"></i></a> </h3><hr>'
 	
 	 for ( var i = 0; i < d.length; i++) {
-	 	$html+= '<p><b>Dátum vloženia: </b>' +prettyDate(d[i].created_at)+'</p><p><b>Poznámka: </b>'+d[i].note+'</p><a class="del_implem_note"><i id="del_impl_note_'+d[i].id+'" class="fa fa-trash-o" aria-hidden="true"></i></a><hr>';
+	 	$html+= '<p><b>Dátum vloženia: </b>' +prettyDate(d[i].created_at)+'</p><p><b>Poznámka: </b>'+d[i].note+' <a class="del_implem_note"><i id="del_impl_note_'+d[i].id+'" class="fa fa-trash-o" aria-hidden="true"></i></a></p><hr>';
       
      }
-     
+
      
 	 return $html;
 
