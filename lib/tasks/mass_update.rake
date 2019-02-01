@@ -122,7 +122,7 @@ desc "this task updates delayed_jobs"
 					dj.last_error=nil
 					dj.save!
 
-					i++
+					i = i+1
 				end
 			end
 			
