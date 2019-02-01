@@ -126,7 +126,9 @@ desc "this task updates delayed_jobs"
 				end
 			end
 			
-		puts "#{i} delayed jobs were successfuly restarted"
+		datetm = Time.now
+
+		puts "#{i} delayed jobs were successfuly restarted at #{datetm}"
 
 		rescue => error
 			puts error.message
