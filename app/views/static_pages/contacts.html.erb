@@ -246,11 +246,7 @@
      <hr>
      <label>Projektový zámer</label><%= select_tag 'project_targets_edit', options_from_collection_for_select(@projecttargets, 'id', 'name'), class: 'form-control chosen-select',multiple: true, id: 'project_targets_edit', "data-placeholder": "Vyber projektový zámer..." %>
        <br><br> 
-       <hr>
-       <label>Osoby</label>
-       <div id="editpersoninsubject">
-
-       </div>
+      
        <hr>      
 
     <input  class="editcontact btn btn-success" value="Uprav" /> 

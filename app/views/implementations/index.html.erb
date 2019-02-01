@@ -79,7 +79,7 @@
   </div>
         <div class="form-group has-error">
           <h3 class="center">Projekt</h3>
-         <label>Projekt:</label><%= select_tag 'project', options_from_collection_for_select(@projects, 'id', 'name'), class: 'form-control', id: 'project',"data-placeholder": "Projekt",prompt: "--vyber projekt--" %><br>
+         <label>Projekt:</label><%= select_tag 'project', options_from_collection_for_select(@projects, 'id', 'name'), class: 'form-control chosen-select', id: 'project',"data-placeholder": "Projekt",prompt: "--vyber projekt--" %><br>
           <label>Projektový manažér:</label><%= select_tag 'project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
           
          <!--<label>Operačný program:</label><input type="text" name="oprogram" id="oprogram" class="form-control" placeholder="Operačný program..." /><br>-->
@@ -325,6 +325,8 @@
 var implementationtable;
 
 var tableready = function() {
+
+  $('.chosen-select').chosen({width: "100%"});
 
 
 
