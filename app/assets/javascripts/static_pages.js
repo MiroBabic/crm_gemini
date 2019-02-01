@@ -3,6 +3,7 @@
 //= require jquery-fileupload/jquery.fileupload-process.js
 //= require jquery-fileupload/bootstrap-filestyle.min.js
 
+
 function formatSubjDetail(d) {
       return '<p><b>Sídlo: </b>' +d.site+'</p><p><b>IČO: </b>'+d.ico+'</p><p><b>Poznámka: </b>'+d.note+'</p><p><b>Web: </b>'+d.web+
       '</p><p><b>Dátum vloženia: </b>'+prettyDate(d.created_at)+'</p><p><b>Dátum poslednej zmeny: </b>'+prettyDate(d.updated_at)+

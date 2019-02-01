@@ -112,6 +112,7 @@ desc "this task updates delayed_jobs"
 			@jobs = Delayed::Job.all
 
 			if @jobs.present?
+				i=0
 
 				@jobs.each do |dj|
 					dj.run_at = Time.now
@@ -120,9 +121,12 @@ desc "this task updates delayed_jobs"
 					dj.locked_by=nil
 					dj.last_error=nil
 					dj.save!
+
+					i++
 				end
 			end
 			
+		puts "#{i} delayed jobs were successfuly restarted"
 
 		rescue => error
 			puts error.message

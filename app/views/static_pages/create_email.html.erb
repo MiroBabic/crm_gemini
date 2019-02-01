@@ -182,8 +182,18 @@ $('.chosen-select').chosen({width: "100%"});
 
 $('.summernote').summernote({
  minHeight: 400,
- focus: true
+ focus: true,
+ toolbar: [
+    // [groupName, [list of button]]
+    ['style', ['bold', 'italic', 'underline', 'clear']],
+    ['font', ['strikethrough', 'superscript', 'subscript']],
+    ['fontsize', ['fontsize']],
+    ['color', ['color']],
+    ['para', ['ul', 'ol', 'paragraph']],
+    ['height', ['height']]
+  ]
 });
+
 
 $('#addtemplatebutton').on('click',function(event){
           //console.log(event.target.id);
