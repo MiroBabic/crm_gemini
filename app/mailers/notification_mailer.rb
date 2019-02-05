@@ -14,13 +14,14 @@ class NotificationMailer < ApplicationMailer
 
 		delivery_options = { user_name: smtp_user,
                          password: @pass_decrypted,
-                         address: smtp_host }
+                         address: smtp_host,
+                         port: smtp_port }
 
          @documents = Document.where(:id=>docs)
 
 		@documents.each do |doc|
 			attachments[doc.file_name] = File.read(doc.file_path)
 		end
-		mail(from: @sender, to: @mail, subject: @mail_subject,delivery_method_options: delivery_options)
+		mail(from: @sender, to: @mail, subject: @mail_subject, delivery_method_options: delivery_options)
 	end
 end
