@@ -40,7 +40,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.action_mailer.default_url_options = { host: 'localhost', port: 3000 }
-
+  config.mailer_sender = '"No-Reply" <noreply@mirobabic.com>'
 
   config.action_mailer.raise_delivery_errors = true
   config.action_mailer.perform_deliveries = true
@@ -52,6 +52,7 @@ address: 'smtp.websupport.sk',
 port: 25,
 domain: 'mirobabic.com',
 authentication: 'login',
+ssl: true,
 enable_starttls_auto: true,
 user_name: ENV['EMAIL'],
 password: ENV['EMAILPASSWORD']

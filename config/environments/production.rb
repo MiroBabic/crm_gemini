@@ -101,6 +101,7 @@ address: 'smtp.websupport.sk',
 port: 25,
 domain: 'geminigroup.sk',
 authentication: 'login',
+ssl: true,
 enable_starttls_auto: true,
 user_name: ENV['EMAIL'],
 password: ENV['PASSWORD']
