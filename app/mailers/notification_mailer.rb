@@ -21,6 +21,6 @@ class NotificationMailer < ApplicationMailer
 		@documents.each do |doc|
 			attachments[doc.file_name] = File.read(doc.file_path)
 		end
-		mail(from: @sender, to: @mail, subject: @mail_subject)
+		mail(from: @sender, to: @mail, subject: @mail_subject,delivery_method_options: delivery_options)
 	end
 end
