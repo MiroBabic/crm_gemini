@@ -296,6 +296,38 @@
 </div>
 </div>
 
+<div id="addCommunicationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Pridaj nový záznam</h2>
+       
+      </div>
+      <div class="modal-body">
+        
+          <form name="new_comm_form" accept-charset="utf-8">
+           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'commsubject', prompt: "--vyber subjekt--", disabled: true %>
+         </br>
+         
+          <span id="addPersonToComm"></span>
+     
+     <label>Text:</label><textarea rows="6" type="text" name="commabout" id="commabout" class="form-control" required placeholder="Obsah komunikácie"></textarea><br>
+     <label>Kľúčové slovo:</label><input type="text" name="commkeyword" id="commkeyword" class="form-control" required placeholder="Kľúčové slovo pre zatriedenie"/><br>
+     <input type="button" class="createcomm btn btn-success" value="Vytvor" /> 
+     </div>
+
+
+     
+
+   </form>
+
+ </div>
+</div>
+
+</div>
+
+
 
 <script>
 var subjtable;
@@ -463,6 +495,9 @@ var tableready = function() {
         });
 
  //childrow subject contacts
+
+
+
      $('#subjects tbody').on('click', 'td.subjpeople-control', function () {
 
       var tr = $(this).closest('tr');
@@ -518,11 +553,51 @@ var tableready = function() {
         });
 
    //childrow subject communication
+    //
+ $("#commsubject").change(function(){
+  $subjID = $("#commsubject").val();
+
+  if ($subjID !== '') {
+    $.ajax({
+            type: "GET",
+            url: "/get_subject_contacts/"+$subjID,
+           
+            success:function(data){
+              if (data.status == "ok")
+              {
+               $html1 = '<label>Osoba:</label><select id="commperson" class="form-control">';
+               var $html2;
+                for ( var i = 0; i < data.data.length; i++) {
+                  $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
+                }
+                $html3 ='</select><br>';
+
+                var $res = $html1.concat($html2,$html3);
+
+                $('#addPersonToComm').empty();
+                $('#addPersonToComm').append($res);
+                              
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+  }
+  else {
+    $('#addPersonToComm').empty();
+  }
+  
+});
+ //
+
    
     $('#subjects tbody').on('click', 'td.subjcomm-control', function () {
 
       var tr = $(this).closest('tr');
       var row = subjtable.row( tr );
+
+      $subject_id=row.data().subject_id;
 
       if ( row.child.isShown() ) {
             // This row is already open - close it
@@ -534,12 +609,50 @@ var tableready = function() {
             // Open this row
              $.ajax({
             type: "GET",
-            url: "/get_subject_communication/"+row.data().subject_id,
+            url: "/get_subject_communication/"+$subject_id,
             
             success:function(data){
               if (data.status == "ok")
               {
-                row.child( formatSubjCommunicationsDetail(data.data)).show();
+                row.child( formatSubjCommunicationsDetail(data.data,$subject_id)).show();
+
+                   $('#commsubject').val($subject_id).change();
+                
+
+                    $('.del_implem_note').on('click',function(event){
+
+
+      $delbtnid =  event.target.id.replace("del_comm_", "");
+        $.ajax({
+                  type: "POST",
+                  url: "/del_communication",
+                  data: {
+                      id: $delbtnid
+                     }
+            })
+           .done(function (data) {
+                
+             if (data.status == "ok")
+              {
+                $("#notice").html(flashMessageFromAjax(data.status,"Komunikácia bola vymazaná"));
+                //alert("Záznam do kalendára bol pridaný" );
+               location.reload();
+               
+                
+              }
+              else { alert(data.status);}
+
+                               
+                            })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vymazať komunikáciu"));
+               
+               
+
+           })                            
+           ;
+
+});
             
                 tr.addClass('shown');
 
@@ -784,6 +897,46 @@ $('.editperson').on('click',function(event){
 
 
         });
+
+$('.createcomm').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $subjid = $('#commsubject').val();
+          $personid = $('#commperson').val();
+          $commabout = $('#commabout').val();
+          $commkeyword = $('#commkeyword').val();
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_comm",
+            data: {
+              subjid: $subjid,
+              personid: $personid,
+              commabout: $commabout,
+              commkeyword: $commkeyword
+            },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+               $("#notice").html(flashMessageFromAjax(data.status,"Komunikácia bola vytvorená"));
+               $("#addCommunicationModal").modal('toggle');
+                location.reload();
+                
+                
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
 
 
 

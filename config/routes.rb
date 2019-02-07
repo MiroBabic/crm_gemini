@@ -65,6 +65,7 @@ Rails.application.routes.draw do
   post '/modal_update_comm' => 'communications#modal_update_comm', :as=> 'modal_update_comm'
   get '/komunikacia' => 'communications#index', :as=> 'komunikacia'
   get '/get_subject_communication/:id' => 'communications#get_subject_communication', :as=> 'get_subject_communication'
+  post '/del_communication' => 'communications#del_communication', :as => 'del_communication'
 
   #documents
   post '/insertfile' => 'documents#insertfile', :as=> 'insertfile'

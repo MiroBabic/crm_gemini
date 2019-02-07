@@ -26,7 +26,7 @@ class CommunicationsController < ApplicationController
       @subject = Subject.find(params[:id])
       #@communication = Communication.where(:subject_id=>@subject.id)
       @communication=Communication.joins(:subject).joins(:person).joins(:user).where(:subject_id=>@subject.id)
-      .select("communications.id,about,keyword,communications.created_at,communications.updated_at,subjects.name as subject_name, people.first_name,people.last_name,users.email")
+      .select("communications.id,about,keyword,communications.created_at,communications.updated_at,subjects.name as subject_name,subjects.id as subject_id, people.first_name,people.last_name,users.email").order("communications.created_at desc")
         respond_to do |format|
         format.json { render :json => {"status":"ok", "data":@communication.as_json}  }
       end
@@ -43,6 +43,26 @@ class CommunicationsController < ApplicationController
 
   # GET /communications/1/edit
   def edit
+  end
+
+  def del_communication
+    begin
+      @comm = Communication.find(params[:id])
+
+      if @comm.destroy
+      respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+      end
+      else
+        respond_to do |format|
+              format.json { render :json => {"status":"not_ok"}  }
+      end
+      end
+
+
+    rescue=>error
+      puts error.message
+    end
   end
 
   def modal_create_comm

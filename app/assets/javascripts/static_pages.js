@@ -31,16 +31,18 @@ function formatSubjContactsDetail(d) {
      
     }
 
- function formatSubjCommunicationsDetail(d) {
+ function formatSubjCommunicationsDetail(d,subject_id) {
+ 	
 
 	var $part2 ='';
-	var $part1 = '<h3>Zoznam komunikácie so subjektom</h3>';
+
+	var $part1 = '<h3>Zoznam komunikácie so subjektom  <a id="add_communication" data-toggle="modal" data-target="#addCommunicationModal"><i id="subject_id_'+subject_id+'" class="fa fa-plus-circle" aria-hidden="true"></i></a></h3>';
 	
 
 	 for ( var i = 0; i < d.length; i++) {
 	 	$part2+= '<p><b>S osobou: </b>' +d[i].first_name+' '+d[i].last_name+'</p><p><b>Vytvoril: </b>'+d[i].email+'</p><p><b>Kľúčové slovo: </b>'+d[i].keyword+
       '</p><p><b>Obash: </b>'+d[i].about+'</p><p><b>Dátum vloženia: </b>'+prettyDate(d[i].created_at)+
-      '</p><p><b>Dátum poslednej zmeny: </b>'+prettyDate(d[i].updated_at)+'</p><hr>';
+      '</p><p><b>Dátum poslednej zmeny: </b>'+prettyDate(d[i].updated_at)+'</p><a class="del_implem_note"><i id="del_comm_'+d[i].id+'" class="fa fa-trash-o" aria-hidden="true"></i></a><hr>';
 	 }
 
 	 
