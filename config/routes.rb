@@ -43,6 +43,8 @@ Rails.application.routes.draw do
   post '/send_mail_to_subjects' => 'static_pages#send_mail_to_subjects', :as=> 'send_mail_to_subjects'
   post 'delete_delayed_job'=>'static_pages#delete_delayed_job', :as=>'delete_delayed_job'
   get '/unsubscribe/:id' => 'static_pages#unsubscribe', :as=>'unsubscribe'
+  
+  get '/export'=> 'static_pages#export', :as=> 'export'
 
 
   #subjtypes
@@ -57,7 +59,7 @@ Rails.application.routes.draw do
   post '/modal_edit_person' => 'people#modal_edit_person', :as=> 'modal_edit_person'
   get '/get_subject_contacts/:id' => 'people#get_subject_contacts', :as => 'get_subject_contacts'
   get '/profil_kontaktu/:id' => 'subjects#show_subject_profile', :as=>'show_subject_profile'
-  
+  get '/subjectexport' => 'subjects#subjectexport', :as=>'subjectexport'
 
   
   #communication

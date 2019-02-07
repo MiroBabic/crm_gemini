@@ -18,6 +18,20 @@ class SubjectsController < ApplicationController
     end
   end
 
+  def subjectexport
+    params["columns"] ||= { "0" => {"data" => "" } }
+    params["length"]  ||= -1
+
+     respond_to do |format|
+      format.html
+      format.json do
+        #render json: ::ActivityDatatable.new(view_context, {region: get_current_user_region_filter})
+        render json: ::SubjectexportDatatable.new(view_context)
+        
+      end
+    end
+  end
+
   def show_subject_profile
     @subject = Subject.find(params[:id])
     @communications = Communication.where(:subject_id=>@subject.id).order("created_at desc").limit(6)

@@ -1,0 +1,256 @@
+<% content_for(:head_attributes) do %>
+<meta name="turbolinks-cache-control" content="no-cache">
+  <% end %>
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Export kontaktov</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Export kontaktov</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+     <div class="alert alert-success alert-dismissable">
+                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                        <p>Najprv si vyfiltruj dáta, ktoré chceš mať v exporte, následne si zobraz všetky riadky a potom si klikni na export (najlepšie XLS)</p>
+                        
+                        </div>     
+
+          
+              <br>
+
+              <div class="table-responsive">
+                <table class="table table-bordered" id="subjects" style="width:100%">
+                  <thead>
+                    <tr>
+                      <th>Názov subjektu</th>
+                      <th>Adresa</th>
+                      <th>IČO</th>
+                      <th>Okres</th>
+                      <th>Kraj</th>
+                      <th>Typ Subjektu</th>
+                      <th>Spravuje</th>
+                      <th>Počet obyvateľov</th>
+                      <th>Web</th>
+                      <th>Emaily1</th>
+                      <th>Emaily2</th>
+                      <th>Tel1</th>
+                      <th>Tel2</th>
+                      <th>VIP</th>
+                      <th style="visibility:hidden">Projektový zámer_arr</th>
+                      <th>Projektový zámer</th>
+                      <th>Vložené</th>
+                      <th>Upravené</th>
+                     
+                    </tr>
+                  </thead>
+
+                  <tbody>
+
+                  </tbody>
+                  <tfoot>
+                     <tr id ="tabledetailsearch" class="visibility" style="width:100%">
+                     <th>Názov subjektu</th>
+                     <th>Adresa</th>
+                      <th>IČO</th>
+                      <th>Okres</th>
+                      <th>Kraj</th>
+                      <th>Typ Subjektu</th>
+                      <th>Spravuje</th>
+                      <th>Počet obyvateľov</th>
+                      <th>Web</th>
+                      <th>Emaily1</th>
+                      <th>Emaily2</th>
+                      <th>Tel1</th>
+                      <th>Tel2</th>
+                      <th>VIP</th>
+                      <th style="visibility:hidden">Projektový zámer_arr</th>
+                      <th>Projektový zámer</th>
+                      <th>Vložené</th>
+                      <th>Upravené</th>
+                     
+                                      
+                                      </tr>
+                                    </tfoot>
+                </table>
+              </div>
+           
+          
+          
+
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+
+
+
+
+
+
+
+
+
+
+
+<script>
+var subjtable;
+
+var tableready = function() {
+
+
+
+ subjtable= $('#subjects').DataTable({
+  'order': [0, 'asc'],
+  'serverSide': true,
+  //'stateSave' :true,
+  "pageLength" : 100,
+   "lengthMenu": [[10, 50, 100, -1], [10, 50, 100, "Všetky"]],
+   'ajax' : '/subjectexport.json',
+  columns: [
+  {data: 'subject_name_show'},
+  {data: 'site'},
+  {data: 'ico'},
+  {data: 'district_name' },
+  {data: 'county_name' },
+  {data: 'subjtype_name' },
+  {data: 'user_name' },
+  {data: 'citizen_count' },
+  {data: 'web' },
+  {data: 'email1',"orderable":false },
+  {data: 'email2',"orderable":false },
+  {data: 'phone',"orderable":false },
+  {data: 'cellphone',"orderable":false },
+   //{data: 'vip' },
+  {data: 'vip','render' : function(data,type,row) {
+   /* $res = '';
+    if (row.vip == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
+      else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
+    return $res;*/
+  return getTrueFalseIcon(row.vip);
+  } },
+  {data: 'project_targets', "visible":false},
+  {data: 'project_targets_string'},
+  {data: 'created_at' },
+  {data: 'updated_at' }
+  
+
+
+  ],
+  'dom': 'lfr<"pull-right"B>tip',
+  'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+  {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+    'url': '/datatables_slovak.json'
+  },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ],
+  initComplete: function() {
+    if ( $("#detailbutton").length) {console.log ('detailed search exists');}
+              else {
+
+              var r = $('#subjects tfoot tr');
+              r.find('th').each(function(){
+               $(this).css('padding', 8);
+
+
+              });
+              $('#subjects thead').append(r);
+              $('#search_0').css('text-align', 'center');
+
+//      $(".dataTables_filter").append('<button id="detailbutton" class="btn btn-primary btn-outline btn-xs" type="button"><span class="bold">Detailné vyhľadávanie</span></button>');
+  //     $('#changepageinput').val('');
+
+      var api = this.api();
+
+      // Apply the search
+      api.columns().every(function() {
+        var that = this;
+
+        $('input', this.footer()).on('keyup change', function() {
+          if (that.search() !== this.value) {
+            that
+              .search(this.value)
+              .draw();
+          }
+            });
+        });
+
+       $('#detailbutton').click(function() {
+          $('#tabledetailsearch').toggleClass('visibility');
+          });
+
+       $('#changepageinput').on('keyup change',function() {
+
+        if (parseInt($('#changepageinput').val()) > 0) {
+        var pagenum = (parseInt($('#changepageinput').val()) -1);
+        subjtable.page( pagenum ).draw( false );
+        }
+        else {subjtable.page( 0 ).draw( false );}
+
+
+      }); 
+
+    
+            }
+
+  }
+
+
+
+});
+
+// pridanie search inputov
+
+$('#subjects tfoot th').each( function () {
+        var title = $(this).text();
+        
+        $(this).html( '<input type="text" placeholder="Hľadaj" />' );
+    } );
+
+$('.disabled').html( '<input disabled type="text" style="display:none" />' );
+//
+
+
+
+
+
+
+
+};
+$(".static_pages.contacts").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#subjects_wrapper').length ==1) {subjtable.destroy() ;} 
+ if ($('#people_wrapper').length ==1) {peopletable.destroy() ;} 
+});
+
+
+$(".static_pages.contacts").on('turbolinks:load', tableready); 
+</script>

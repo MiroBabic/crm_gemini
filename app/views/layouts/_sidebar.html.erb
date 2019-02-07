@@ -48,6 +48,7 @@
                                 </ul>
                             </li>
                             <li><%= link_to job_queue_path do%><i class="fa fa-spinner" aria-hidden="true"></i><span class="nav-label"> Procesy</span><%end%></li>
+                            <li><%= link_to export_path do%><i class="fa fa-file-excel-o" aria-hidden="true"></i><span class="nav-label"> Export dát</span><%end%></li>
                             <% if current_user.admin? %>
                             <li>
                                 <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><span class="nav-label"> Admin menu</span> <span class="fa arrow"></span></a>

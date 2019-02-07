@@ -9,6 +9,9 @@ class StaticPagesController < ApplicationController
 		@projecttargets = Projecttarget.all.order(:name)
 	end
 
+	def export
+	end
+
 	def users
 		@users = User.all
 	end
