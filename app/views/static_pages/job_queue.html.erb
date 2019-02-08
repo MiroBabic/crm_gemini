@@ -102,6 +102,8 @@ var tableready = function() {
 });
 
 $('.delete_job').on('click',function(event){
+  var tr = $(this).closest('tr');
+  var row = jobtable.row( tr );
           //console.log(event.target.id);
           
           $job_id = event.currentTarget.id;
@@ -116,8 +118,9 @@ $('.delete_job').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Proces bol vymazaný" );
-                location.reload();
+                $("#notice").html(flashMessageFromAjax(data.status,"Proces bol vymazaný"));
+                row.remove().draw();
+                //location.reload();
               }
               else { alert(data.status);}
 
