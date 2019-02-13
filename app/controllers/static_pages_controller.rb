@@ -218,19 +218,24 @@ class StaticPagesController < ApplicationController
 			#@res_addresses = @addresses1.compact + @addresses2.compact
 
 			if @res_addresses.length > 0
-				@res_addresses.each do |email_address|
-					begin
-					@hashmail = Base64.urlsafe_encode64(email_address)
+				act_time=Time.now
+				@res_addresses.each_slice(30) do |slice|
+					slice.each do |email_address|
+						begin
+						@hashmail = Base64.urlsafe_encode64(email_address)
 
-					NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs,@hashmail).deliver_later
+						#NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs,@hashmail).deliver_later
+						NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs,@hashmail).deliver_later(wait_until: act_time)
 
 					
 					
-					rescue => error
-						c=Communication.new
-						c.about = error.message
-						c.save
+						rescue => error
+							c=Communication.new
+							c.about = error.message
+							c.save
+						end
 					end
+					act_time=act_time+1.minute
 				end
 			else
 				redirect_to create_email_path, alert: "Nenašiel sa ani jeden email pre zadané kritéria" and return
