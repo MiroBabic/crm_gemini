@@ -64,33 +64,6 @@ else return 'Neexistuje';
 
 }
 
-function prettyDate2(dd) {
-var monthNames = [
-  "Január", "Február", "Marec",
-  "Apríl", "Máj", "Jún", "Júl",
-  "August", "September", "Október",
-  "November", "December"
-];
-
-var date = new Date(dd);
-
-var day = date.getDate();
-var monthIndex = date.getMonth();
-var year = date.getFullYear();
-var hour = date.getHours();
-var minute = date.getMinutes();
-
-if (hour < 10)  hour = '0'+hour;
-if (minute < 10)  minute = '0'+minute;
-
-if (dd !== null )
-
-return(day + ' ' + monthNames[monthIndex] + ' ' + year +'  '+ hour+':'+minute);
-
-else return 'Neexistuje';
-
-}
-
 
 function prettyDateToInput(dd) {
 	
