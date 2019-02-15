@@ -80,6 +80,7 @@ Rails.application.routes.draw do
   post '/add_calendar_event' => 'calendars#add_calendar_event', :as=>'add_calendar_event'
   post '/edit_calendar_event' => 'calendars#edit_calendar_event', :as=>'edit_calendar_event'
   post '/remove_calendar_event' => 'calendars#remove_calendar_event', :as=>'remove_calendar_event'
+  get '/get_user_calendar/:id' => 'calendars#get_user_calendar', :as=>'get_user_calendar'
 
   #emails
   get '/sablony' => 'mailtemplates#index', :as=>'sablony'

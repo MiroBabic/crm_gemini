@@ -1,21 +1,223 @@
 <p id="notice"><%= render 'layouts/flash_message' %></p>
  <div class="row  border-bottom white-bg dashboard-header">
 
+
                     <div class="col-md-3">
                         <h2>Vitaj <%= current_user.name %></h2>
                         <small>Máš <%= @calendar.count %> záznamov v kalendári na najbližší mesiac</small>
-                        <ul class="list-group clear-list m-t">
-                        	<% @calendar.each_with_index do |cal,index| %>
-                        	<li class="list-group-item">
-                                <span class="float-right">
-                                    <%= cal.start.to_formatted_s(:short) %>
-                                </span>
-                                <span class="label label-success"><%= index + 1 %></span> <%= cal.title %>
-                            </li>
-                            <% end %>
-                           
-                        </ul>
+                        <a class="pull-right" data-toggle="modal" data-target="#addCalendarNoteModal"  aria-expanded="false">
+                                <i class="fa fa-plus-square"></i>
+                            </a>
+                      
+                    </div>
+                    <div class="col-md-3">
+                        <h2>Kalendáre projektových manažérov</h2>
+                         <%= select_tag 'calendar_pms', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'calendar_pms',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %>
+                        
                     </div>
                    
 
             </div>
+<div class="row border-bottom white-bg dashboard-header">
+    <div class="col-md-3">
+          <ul class="list-group clear-list m-t">
+                            <% @calendar.each_with_index do |cal,index| %>
+                            <li class="list-group-item">
+                                <span class="float-right">
+                                    <%= I18n.localize cal.start, :format => :long %>
+                                </span>
+                                <span class="label label-success"><%= index + 1 %></span> <%= cal.title %>
+                                <a class="del_calendar" ><i id="<%= cal.id %>" class="fa fa-trash-o" aria-hidden="true" ></i></a>
+                            </li>
+                            <% end %>
+                           
+                        </ul>
+    </div>
+    <div class="col-md-3">
+       
+       
+                        <ul class="list-group clear-list m-t" id="user_calendar_data">
+
+                        </ul>
+    </div>
+
+</div>
+
+<div id="addCalendarNoteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="edit_myModalLabel">Vlož poznámku do kalendára </h2>
+       
+      </div>
+      <div class="modal-body">
+        <div class="row">
+              <div class="col-md-6">
+      <div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="calendar_manual_entry" id="calendar_manual_entry" class="form-control datepick" placeholder="1990-12-31" /></div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group clockpicker" data-autoclose="true">
+                                <input type="text" id="calendar_manual_entry_time" class="form-control" placeholder="09:30">
+                                <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+                            </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+             <div class="col-md-12">
+              <input type="text" name="calendar_note" id="calendar_note" class="form-control" placeholder="Poznámka" />
+             </div>
+           </div>
+           <br>
+           <div class="row">
+          <div class="col-md-3">
+            <button class="btn btn-primary" id="manul_cal_entry_submit_button">Ulož záznam</button>
+          </div>
+      </div>
+
+        </div>
+        </div>
+        </div>
+        </div>
+
+<script>
+var ready = function() {
+        $('.datepick').datepicker({
+       trigger: $('#inputcalendar'),
+        autoHide: true,
+        format: 'yyyy-mm-dd'
+        });
+
+
+$('.del_calendar').on('click',function(event){
+    
+    $id=event.target.id;
+    var x = confirm("Naozaj chceš vymazať tento záznam v kalendári?");
+            if (x) {
+                $.ajax({
+                    url: "/remove_calendar_event",
+                    data: {
+                        id: $id
+                    },
+                    type: "POST"
+                }).done(function (data) {
+
+                    
+                if (data.status == "ok")
+              {
+                $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol vymazaný"));
+                //alert("Záznam v kalendári bol vymazaný" );
+                $('#'+$id).closest('li').remove();
+                
+              }
+              else { alert(data.status);}
+
+                
+                
+            })
+                .fail(function (msg) {
+                    $("#notice").html(flashMessageFromAjax(data.status,msg)); 
+
+                });
+
+            }
+
+})
+
+    $("#manul_cal_entry_submit_button").click(function()
+{
+
+$manual_date = $('#calendar_manual_entry').val();
+$manual_time = $('#calendar_manual_entry_time').val();
+$calnote = $('#calendar_note').val();
+
+if ($manual_date.length > 0) {
+
+    if ($manual_time.length == 0) {
+        $allday = true;
+        $custstart = $manual_date.concat(' 00:00:00')
+        $custend = $manual_date.concat(' 23:59:59')
+    }
+     else {
+        $allday = false; $custstart = $manual_date.concat(' ',$manual_time); $custend = $manual_date.concat(' ',$manual_time);
+     }
+
+
+ 
+ $.ajax({
+            type: "POST",
+            url: "/add_calendar_event",
+            data: {
+                title: $calnote,
+                start: $custstart,
+                end: $custend,
+                allDay: $allday
+            }
+        })
+           .done(function (data) {
+                
+             if (data.status == "ok")
+              {
+                $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol vytvorený"));
+                //alert("Záznam do kalendára bol pridaný" );
+                location.reload();
+                
+              }
+              else { alert(data.status);}
+
+                               
+                            })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vložiť záznam do kalendára"));
+               
+               
+
+           })                            
+           ;
+}
+else {
+    $("#notice").html(flashMessageFromAjax("not ok","Nezadal si dátum"));
+}
+  });
+
+    
+    $( "#calendar_pms" ).change(function() {
+        $user_id= $( "#calendar_pms" ).val();
+          $.ajax({
+            type: "GET",
+            url: "/get_user_calendar/"+$user_id+".json"
+            
+        })
+           .done(function (data) {
+            if (data.status == "ok") {
+                var $html='';
+
+                if (data.data.length > 0) {
+                    
+
+                   for ( var i = 0; i < data.data.length; i++) {
+                    $html+= '<li class="list-group-item"><span class="float-right">'+data.data[i].start+'</span><span class="label label-success">'+(i+1)+'</span>'+data.data[i].title+'</li>'
+                   }
+
+                console.log($html)
+
+            }
+            $('#user_calendar_data').html('');
+            $('#user_calendar_data').append($html)
+            }
+           })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa získať údaje"));
+        });
+
+    });
+
+    };
+
+$(".static_pages.home").ready(ready);
+$(".static_pages.home").on('turbolinks:load', ready);
+</script>

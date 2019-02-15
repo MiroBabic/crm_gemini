@@ -32,6 +32,24 @@ class CalendarsController < ApplicationController
     end
   end
 
+  def get_user_calendar
+    @calendar = Calendar.where(:user_id=>params[:id]).order("start desc")
+
+    arr=Array.new
+    @calendar.each do |cal|
+      @res = Hash.new
+      @res["id"] = cal.id
+      @res["title"] = cal.title
+      @res["start"] = (I18n.localize cal.start, :format => :long)
+      arr.push(@res)
+    end
+   
+    respond_to do |format|
+      format.json { render :json => {"status":"ok", "data":arr.as_json } }
+    end
+
+  end
+
   def add_calendar_event
     begin
       @event = Calendar.new(:title=>params[:title],:url=>params[:url],:start=>params[:start],:end=>params[:end],:all_day=>params[:allDay],:user_id=>current_user.id)
