@@ -78,6 +78,19 @@ else return '';
 
 }
 
+function prettyTimeToInput(dd) {
+  
+
+if (dd !== null ) {
+  mytime = dd.split("T")[1]
+
+return(mytime);
+}
+
+else return '';
+
+}
+
 function getTrueFalseIcon(data) {
 	if (data==true) {$res = '<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>';}
 	else if(data==false)	{$res = '<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>';}
