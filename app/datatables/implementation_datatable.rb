@@ -44,7 +44,8 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
          subject_name: implementation.subject.name,
          subject_path: link_to(implementation.subject.name, show_subject_profile_path(implementation.subject_id)),
          subject_id: implementation.subject.id,
-         oprogram: implementation.oprogram.name,
+         oprogram: (implementation.oprogram.present? ? implementation.oprogram.name : nil),
+         #oprogram: implementation.oprogram.name,
          oprogram_id: implementation.oprogram_id,
          project_startdate: implementation.project_startdate,
          project_enddate_by_nfp_contract: implementation.project_enddate_by_nfp_contract,
@@ -99,7 +100,9 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
 
 
 def get_raw_records
-  Implementation.joins(:project).joins(:subject).joins(:user).joins(:oprogram)
+  #Implementation.joins(:project).joins(:subject).joins(:user).joins(:oprogram)
+  Implementation.joins(:project).joins(:subject).joins(:user).joins("LEFT JOIN oprograms ON implementations.oprogram_id = oprograms.id")
+  
 end
 
 
