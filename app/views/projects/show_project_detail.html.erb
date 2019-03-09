@@ -453,6 +453,9 @@
                                                </thead>
                                                 <tbody>
                                                   <% activity.action.each do |k,v| %>
+                                                  <% if (k == "updated_at" || k == "created_at") %>
+                                                    <% next %>
+                                                     <% end %>
                                                 <tr>
                                                     <td><%= pretty_implementation_activity_field(k) %></td>
                                                     <td><%= v.first %></td>
