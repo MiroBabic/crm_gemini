@@ -48,6 +48,9 @@ function updateImplementationEditModal(d) {
 	if (d.note_project_sooner_sent==true) { $('#edit_note_project_sooner_sent').prop('checked', true);} else {$('#edit_note_project_sooner_sent').prop('checked', false);}
 	$('#edit_note_project_sooner_sent_date').val(prettyDateToInput(d.note_project_sooner_sent_date));
 	$('#edit_project_real_enddate').val(prettyDateToInput(d.project_real_enddate));
+	$('#edit_change_request_last_term').val(prettyDateToInput(d.change_request_last_term));
+	$('#edit_change_request').val(d.change_request);
+	if (d.change_request_approval==true) { $('#edit_change_request_approval').prop('checked', true);} else {$('#edit_change_request_approval').prop('checked', false);}
 
 
 	return false;
@@ -96,6 +99,12 @@ function formatImplementationDetails(d) {
 '<p><b>Termín záverečnej monitorovačky: </b>'+prettyDate(d.finish_monitor_date)+'</p>'+
 '<p><b>Dátum predloženia na kontrolu: </b>'+prettyDate(d.control_date)+'</p>'+
 '<p><b>Schválenie:  </b>'+getTrueFalseIcon(d.approved)+'</p>'+
+
+'<hr><h3>Žiadosť o zmenu</h3><hr>'+
+'<p><b>Predmet žiadosti: </b>'+d.change_request+'</p>'+
+'<p><b>Posledný termín na preloženie žiadosti o zmenu: </b>'+prettyDate(d.change_request_last_term)+'</p>'+
+'<p><b>Schválenie žiadosti:  </b>'+getTrueFalseIcon(d.change_request_approval)+'</p>'+
+
 '<hr><h3>Povinná publicita</h3><hr>'+
 '<p><b>Predmet publicity: </b>'+d.publicity_subject+'</p>'+
 '<p><b>Posledný termín na predloženie publicity projektu: </b>'+prettyDate(d.publicity_last_term)+'</p>'+

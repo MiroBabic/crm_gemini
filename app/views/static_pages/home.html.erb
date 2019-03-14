@@ -15,6 +15,11 @@
                          <%= select_tag 'calendar_pms', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'calendar_pms',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %>
                         
                     </div>
+                    <div class="col-md-6">
+                        <h2>Projekty</h2>
+                         <%= select_tag 'projects_sel', options_from_collection_for_select(@projects, 'id', 'name'), class: 'form-control', id: 'projects_sel',"data-placeholder": "Projekt",prompt: "--vyber projekt--" %>
+                        
+                    </div>
                    
 
             </div>
@@ -39,6 +44,16 @@
                         <ul class="list-group clear-list m-t" id="user_calendar_data">
 
                         </ul>
+    </div>
+    <div class="col-md-6">
+       <div class="ibox">
+
+                        <div class="ibox-content" id="project_info">
+                           
+                        </div>
+                    
+       </div>
+       
     </div>
 
 </div>
@@ -215,6 +230,43 @@ else {
         });
 
     });
+
+
+//projects part
+
+    $( "#projects_sel" ).change(function() {
+        $project_id= $( "#projects_sel" ).val();
+          $.ajax({
+            type: "GET",
+            url: "projekt/"+$project_id+".json"
+            
+        })
+           .done(function (data) {
+            if (data.status == "ok") {
+                var $html='';
+
+                if (data.data.length > 0) {
+                    
+
+                   for ( var i = 0; i < data.data.length; i++) {
+                    $html+= '<li class="list-group-item"><span class="float-right">'+data.data[i].start+'</span><span class="label label-success">'+(i+1)+'</span>'+data.data[i].title+'</li>'
+                   }
+
+                console.log($html)
+
+            }
+            $('#user_calendar_data').html('');
+            $('#user_calendar_data').append($html)
+            }
+           })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa získať údaje"));
+        });
+
+    });
+
+
+//end of projects part
 
     };
 

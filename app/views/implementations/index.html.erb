@@ -154,6 +154,15 @@
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="control_date" id="control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
         <label>Schválenie: <input id="approved" type="checkbox" class="icheckbox_square-green" /> </label>
+
+         <h3 class="center">Žiadosť o zmenu</h3>   
+        <label>Predmet žiadosti:</label><input type="text" name="change_request" id="change_request" class="form-control" placeholder="Predmet žiadosti..." /><br>
+        <label>Posledný termín na preloženie žiadosti o zmenu:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+          <input type="text" name="change_request_last_term" id="change_request_last_term" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+           <label>Schválenie žiadosti: <input id="change_request_approval" type="checkbox" class="icheckbox_square-green" /> </label>
+
+
        <h3 class="center">Povinná publicita</h3>   
        <label>Predmet publicity:</label><input type="text" name="publicity_subject" id="publicity_subject" class="form-control" placeholder="Predmet publicity..." /><br>
       <label>Posledný termín na predloženie publicity projektu:</label><div class="input-group date">
@@ -279,6 +288,14 @@
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="edit_control_date" id="edit_control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
         <label>Schválenie: <input id="edit_approved" type="checkbox" class="icheckbox_square-green" /> </label>
+
+        <h3 class="center">Žiadosť o zmenu</h3>   
+        <label>Predmet žiadosti:</label><input type="text" name="edit_change_request" id="edit_change_request" class="form-control" placeholder="Predmet žiadosti..." /><br>
+        <label>Posledný termín na preloženie žiadosti o zmenu:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
+          <input type="text" name="edit_change_request_last_term" id="edit_change_request_last_term" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+           <label>Schválenie žiadosti: <input id="edit_change_request_approval" type="checkbox" class="icheckbox_square-green" /> </label>
+
        <h3 class="center">Povinná publicita</h3>   
        <label>Predmet publicity:</label><input type="text" name="edit_publicity_subject" id="edit_publicity_subject" class="form-control" placeholder="Predmet publicity..." /><br>
       <label>Posledný termín na predloženie publicity projektu:</label><div class="input-group date">
@@ -724,6 +741,7 @@ $('.addimplem').on('click',function(event){
           $approved = false;
           $project_end_sooner = false;
           $note_project_sooner_sent = false;
+          $change_request_approval = false;
 
 
           $project_id = $('#project').val();
@@ -771,6 +789,9 @@ $('.addimplem').on('click',function(event){
           if ($('#note_project_sooner_sent').is(":checked")) {$note_project_sooner_sent = true;}
           $note_project_sooner_sent_date=$('#note_project_sooner_sent_date').val();
           $project_real_enddate = $('#project_real_enddate').val();
+           $change_request = $('#change_request').val();
+          $change_request_last_term = $('#change_request_last_term').val();
+          if ($('#change_request_approval').is(":checked")) {$change_request_approval = true;}
 
 
         
@@ -822,7 +843,10 @@ $('.addimplem').on('click',function(event){
               project_end_sooner_date: $project_end_sooner_date,
               note_project_sooner_sent: $note_project_sooner_sent,
               note_project_sooner_sent_date: $note_project_sooner_sent_date,
-              project_real_enddate: $project_real_enddate
+              project_real_enddate: $project_real_enddate,
+              change_request: $change_request,
+              change_request_approval: $change_request_approval,
+              change_request_last_term: $change_request_last_term
               },
 
             success:function(data){
@@ -894,6 +918,9 @@ $('.editimplem').on('click',function(event){
           if ($('#edit_note_project_sooner_sent').is(":checked")) {$note_project_sooner_sent = true;} else {$note_project_sooner_sent = false;}
           $note_project_sooner_sent_date=$('#edit_note_project_sooner_sent_date').val();
           $project_real_enddate = $('#edit_project_real_enddate').val();
+          $change_request = $('#edit_change_request').val();
+          $change_request_last_term = $('#edit_change_request_last_term').val();
+          if ($('#edit_change_request_approval').is(":checked")) {$change_request_approval = true;} else {$change_request_approval = false;}
 
 
         
@@ -945,7 +972,10 @@ $('.editimplem').on('click',function(event){
               project_end_sooner_date: $project_end_sooner_date,
               note_project_sooner_sent: $note_project_sooner_sent,
               note_project_sooner_sent_date: $note_project_sooner_sent_date,
-              project_real_enddate: $project_real_enddate
+              project_real_enddate: $project_real_enddate,
+               change_request: $change_request,
+              change_request_approval: $change_request_approval,
+              change_request_last_term: $change_request_last_term
               },
 
             success:function(data){

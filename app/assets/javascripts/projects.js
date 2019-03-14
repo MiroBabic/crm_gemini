@@ -82,6 +82,9 @@ function updateImplementationEditModalProject(d) {
 	if (d.note_project_sooner_sent==true) { $('#edit_note_project_sooner_sent').prop('checked', true);} else {$('#edit_note_project_sooner_sent').prop('checked', false);}
 	$('#edit_note_project_sooner_sent_date').val(prettyDateToInput(d.note_project_sooner_sent_date));
 	$('#edit_project_real_enddate').val(prettyDateToInput(d.project_real_enddate));
+	$('#edit_change_request_last_term').val(prettyDateToInput(d.change_request_last_term));
+	$('#edit_change_request').val(d.change_request);
+	if (d.change_request_approval==true) { $('#edit_change_request_approval').prop('checked', true);} else {$('#edit_change_request_approval').prop('checked', false);}
 
 }
 

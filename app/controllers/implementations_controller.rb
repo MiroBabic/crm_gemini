@@ -143,6 +143,9 @@ class ImplementationsController < ApplicationController
     @note_project_sooner_sent=params[:note_project_sooner_sent]
     @note_project_sooner_sent_date=params[:note_project_sooner_sent_date]
     @project_real_enddate=params[:project_real_enddate]
+    @change_request = params[:change_request]
+    @change_request_last_term = params[:change_request_last_term]
+    @change_request_approval = params[:change_request_approval]
 
 
 
@@ -152,7 +155,7 @@ class ImplementationsController < ApplicationController
     begin
       @project = Project.find(@project_id)
       @subject = @project.subject_id
-    @i= Implementation.new(:project_id=>@project_id,:subject_id=>@subject,:user_id=>@projectmanager, :oprogram_id=>@oprogram, :contact_helper=>@contact_helper, :contact_client=>@contact_client, :projektant=>@projektant, :procurer_name=>@procurer_name, :auditor=>@auditor, :other_contacts=>@other_contacts, :itms_access_name=>@itms_access_name, :itms_access_pass=>@itms_access_pass, :nfp_contract_signed=>@nfp_contract_signed, :project_startdate=>@project_startdate, :project_start_about=>@project_start_about, :project_start_note_sentdate=>@project_start_note_sentdate, :project_start_note_sent=>@project_start_note_sent, :project_enddate_by_nfp_contract=>@project_enddate_by_nfp_contract, :project_schedule_change_need=>@project_schedule_change_need, :zop_showdate=>@zop_showdate, :zop_last_term_end=>@zop_last_term_end, :zop_last_term_start=>@zop_last_term_start, :zop_note=>@zop_note, :zop_last_showdate=>@zop_last_showdate, :zop_request_type=>@zop_request_type, :zop_paycond_fulfil=>@zop_paycond_fulfil, :zop_cond_fulfil=>@zop_cond_fulfil, :zop_data_to_itms=>@zop_data_to_itms, :zop_data_to_itms_state=>@zop_data_to_itms_state, :next_monitor_date=>@next_monitor_date, :finish_monitor_date=>@finish_monitor_date, :control_date=>@control_date, :approved=>@approved, :publicity_subject=>@publicity_subject, :publicity_last_term=>@publicity_last_term, :publicity_showdate=>@publicity_showdate, :project_end_type=>@project_end_type, :project_end_sooner=>@project_end_sooner, :project_end_sooner_date=>@project_end_sooner_date, :note_project_sooner_sent=>@note_project_sooner_sent, :note_project_sooner_sent_date=>@note_project_sooner_sent_date, :zop_state=>@zop_state, :schedule_change_need_date=>@schedule_change_need_date, :project_end_about=>@project_end_about, :project_real_enddate=>@project_real_enddate)
+    @i= Implementation.new(:project_id=>@project_id,:subject_id=>@subject,:user_id=>@projectmanager, :oprogram_id=>@oprogram, :contact_helper=>@contact_helper, :contact_client=>@contact_client, :projektant=>@projektant, :procurer_name=>@procurer_name, :auditor=>@auditor, :other_contacts=>@other_contacts, :itms_access_name=>@itms_access_name, :itms_access_pass=>@itms_access_pass, :nfp_contract_signed=>@nfp_contract_signed, :project_startdate=>@project_startdate, :project_start_about=>@project_start_about, :project_start_note_sentdate=>@project_start_note_sentdate, :project_start_note_sent=>@project_start_note_sent, :project_enddate_by_nfp_contract=>@project_enddate_by_nfp_contract, :project_schedule_change_need=>@project_schedule_change_need, :zop_showdate=>@zop_showdate, :zop_last_term_end=>@zop_last_term_end, :zop_last_term_start=>@zop_last_term_start, :zop_note=>@zop_note, :zop_last_showdate=>@zop_last_showdate, :zop_request_type=>@zop_request_type, :zop_paycond_fulfil=>@zop_paycond_fulfil, :zop_cond_fulfil=>@zop_cond_fulfil, :zop_data_to_itms=>@zop_data_to_itms, :zop_data_to_itms_state=>@zop_data_to_itms_state, :next_monitor_date=>@next_monitor_date, :finish_monitor_date=>@finish_monitor_date, :control_date=>@control_date, :approved=>@approved, :publicity_subject=>@publicity_subject, :publicity_last_term=>@publicity_last_term, :publicity_showdate=>@publicity_showdate, :project_end_type=>@project_end_type, :project_end_sooner=>@project_end_sooner, :project_end_sooner_date=>@project_end_sooner_date, :note_project_sooner_sent=>@note_project_sooner_sent, :note_project_sooner_sent_date=>@note_project_sooner_sent_date, :zop_state=>@zop_state, :schedule_change_need_date=>@schedule_change_need_date, :project_end_about=>@project_end_about, :project_real_enddate=>@project_real_enddate, :change_request=>@change_request, :change_request_last_term=>@change_request_last_term, :change_request_approval=>@change_request_approval)
 
     
     if @next_monitor_date.present?
@@ -166,6 +169,37 @@ class ImplementationsController < ApplicationController
       monitor_date_title = "Záverečná monitorovacia správa pre projekt #{@project.name}"
 
       @cal =  Calendar.new(:title=>monitor_date_title,:start=>@finish_monitor_date,:end=>@finish_monitor_date,:all_day=>true,:user_id=>current_user.id)
+      @cal.save
+    end
+
+    if @change_request_last_term.present?
+      change_request_last_term_title = "Posledný termín na preloženie žiadosti o zmenu pre projekt #{@project.name}"
+
+      @cal =  Calendar.new(:title=>change_request_last_term_title,:start=>@change_request_last_term,:end=>@change_request_last_term,:all_day=>true,:user_id=>current_user.id)
+      @cal.save
+    end
+
+
+   
+
+    if @zop_last_term_start.present?
+      zop_last_term_start_title = "Posledný termín na predloženie prvej ŽOP pre projekt #{@project.name}"
+
+      @cal =  Calendar.new(:title=>zop_last_term_start_title,:start=>@zop_last_term_start,:end=>@zop_last_term_start,:all_day=>true,:user_id=>current_user.id)
+      @cal.save
+    end
+
+    if @zop_last_term_end.present?
+      zop_last_term_end_title = "Posledný termín na predloženie ŽOP záverečná pre projekt #{@project.name}"
+
+      @cal =  Calendar.new(:title=>zop_last_term_end_title,:start=>@zop_last_term_end,:end=>@zop_last_term_end,:all_day=>true,:user_id=>current_user.id)
+      @cal.save
+    end
+
+    if @publicity_last_term.present?
+      publicity_last_term_title = "Posledný termín na predloženie publicity projektu #{@project.name}"
+
+      @cal =  Calendar.new(:title=>publicity_last_term_title,:start=>@publicity_last_term,:end=>@publicity_last_term,:all_day=>true,:user_id=>current_user.id)
       @cal.save
     end
     
@@ -247,6 +281,9 @@ class ImplementationsController < ApplicationController
     @note_project_sooner_sent=params[:note_project_sooner_sent]
     @note_project_sooner_sent_date=params[:note_project_sooner_sent_date]
     @project_real_enddate = params[:project_real_enddate]
+    @change_request = params[:change_request]
+    @change_request_last_term = params[:change_request_last_term]
+    @change_request_approval = params[:change_request_approval]
 
     @subject = Project.find(@orig_implementation.project_id).subject_id
 
@@ -261,6 +298,18 @@ class ImplementationsController < ApplicationController
       @cal.save
     end
 
+    if @change_request_last_term.present?
+      change_request_last_term_title = "Posledný termín na preloženie žiadosti o zmenu pre projekt #{@project.name}"
+
+      @cal = Calendar.where(:title=> change_request_last_term_title, :user_id=>current_user.id).first_or_create
+
+      @cal.start = @change_request_last_term
+      @cal.end = @change_request_last_term
+      @cal.all_day = true
+      @cal.save
+    end
+
+
      if @finish_monitor_date.present?
       monitor_date_title = "Záverečná monitorovacia správa pre projekt #{@project.name}"
 
@@ -272,8 +321,41 @@ class ImplementationsController < ApplicationController
       @cal.save
     end
 
+    if @zop_last_term_start.present?
+      zop_last_term_start_title = "Posledný termín na predloženie prvej ŽOP pre projekt #{@project.name}"
 
-    if (@orig_implementation.update_attributes(:user_id=>@projectmanager, :oprogram_id=>@oprogram, :contact_helper=>@contact_helper, :contact_client=>@contact_client, :projektant=>@projektant, :procurer_name=>@procurer_name, :auditor=>@auditor, :other_contacts=>@other_contacts, :itms_access_name=>@itms_access_name, :itms_access_pass=>@itms_access_pass, :nfp_contract_signed=>@nfp_contract_signed, :project_startdate=>@project_startdate, :project_start_about=>@project_start_about, :project_start_note_sentdate=>@project_start_note_sentdate, :project_start_note_sent=>@project_start_note_sent, :project_enddate_by_nfp_contract=>@project_enddate_by_nfp_contract, :project_schedule_change_need=>@project_schedule_change_need, :zop_showdate=>@zop_showdate, :zop_last_term_end=>@zop_last_term_end, :zop_last_term_start=>@zop_last_term_start, :zop_note=>@zop_note, :zop_last_showdate=>@zop_last_showdate, :zop_request_type=>@zop_request_type, :zop_paycond_fulfil=>@zop_paycond_fulfil, :zop_cond_fulfil=>@zop_cond_fulfil, :zop_data_to_itms=>@zop_data_to_itms, :zop_data_to_itms_state=>@zop_data_to_itms_state, :next_monitor_date=>@next_monitor_date, :finish_monitor_date=>@finish_monitor_date, :control_date=>@control_date, :approved=>@approved, :publicity_subject=>@publicity_subject, :publicity_last_term=>@publicity_last_term, :publicity_showdate=>@publicity_showdate, :project_end_type=>@project_end_type, :project_end_sooner=>@project_end_sooner, :project_end_sooner_date=>@project_end_sooner_date, :note_project_sooner_sent=>@note_project_sooner_sent, :note_project_sooner_sent_date=>@note_project_sooner_sent_date, :zop_state=>@zop_state, :schedule_change_need_date=>@schedule_change_need_date, :project_end_about=>@project_end_about, :project_real_enddate=>@project_real_enddate))
+      @cal = Calendar.where(:title=> zop_last_term_start_title, :user_id=>current_user.id).first_or_create
+
+      @cal.start = @zop_last_term_start
+      @cal.end = @zop_last_term_start
+      @cal.all_day = true
+      @cal.save
+    end
+
+    if @zop_last_term_end.present?
+      zop_last_term_end_title = "Posledný termín na predloženie ŽOP záverečná pre projekt #{@project.name}"
+
+      @cal = Calendar.where(:title=> zop_last_term_end_title, :user_id=>current_user.id).first_or_create
+
+      @cal.start = @zop_last_term_end
+      @cal.end = @zop_last_term_end
+      @cal.all_day = true
+      @cal.save
+    end
+
+    if @publicity_last_term.present?
+      publicity_last_term_title = "Posledný termín na predloženie publicity projektu #{@project.name}"
+
+      @cal = Calendar.where(:title=> publicity_last_term_title, :user_id=>current_user.id).first_or_create
+
+      @cal.start = @publicity_last_term
+      @cal.end = @publicity_last_term
+      @cal.all_day = true
+      @cal.save
+    end
+
+
+    if (@orig_implementation.update_attributes(:user_id=>@projectmanager, :oprogram_id=>@oprogram, :contact_helper=>@contact_helper, :contact_client=>@contact_client, :projektant=>@projektant, :procurer_name=>@procurer_name, :auditor=>@auditor, :other_contacts=>@other_contacts, :itms_access_name=>@itms_access_name, :itms_access_pass=>@itms_access_pass, :nfp_contract_signed=>@nfp_contract_signed, :project_startdate=>@project_startdate, :project_start_about=>@project_start_about, :project_start_note_sentdate=>@project_start_note_sentdate, :project_start_note_sent=>@project_start_note_sent, :project_enddate_by_nfp_contract=>@project_enddate_by_nfp_contract, :project_schedule_change_need=>@project_schedule_change_need, :zop_showdate=>@zop_showdate, :zop_last_term_end=>@zop_last_term_end, :zop_last_term_start=>@zop_last_term_start, :zop_note=>@zop_note, :zop_last_showdate=>@zop_last_showdate, :zop_request_type=>@zop_request_type, :zop_paycond_fulfil=>@zop_paycond_fulfil, :zop_cond_fulfil=>@zop_cond_fulfil, :zop_data_to_itms=>@zop_data_to_itms, :zop_data_to_itms_state=>@zop_data_to_itms_state, :next_monitor_date=>@next_monitor_date, :finish_monitor_date=>@finish_monitor_date, :control_date=>@control_date, :approved=>@approved, :publicity_subject=>@publicity_subject, :publicity_last_term=>@publicity_last_term, :publicity_showdate=>@publicity_showdate, :project_end_type=>@project_end_type, :project_end_sooner=>@project_end_sooner, :project_end_sooner_date=>@project_end_sooner_date, :note_project_sooner_sent=>@note_project_sooner_sent, :note_project_sooner_sent_date=>@note_project_sooner_sent_date, :zop_state=>@zop_state, :schedule_change_need_date=>@schedule_change_need_date, :project_end_about=>@project_end_about, :project_real_enddate=>@project_real_enddate,:change_request=>@change_request, :change_request_last_term=>@change_request_last_term, :change_request_approval=>@change_request_approval))
 
         @activity = Iactivity.new(:implementation_id=>@orig_implementation.id, :user_id=>current_user.id, :action=>@orig_implementation.previous_changes, :action_type=>'implemenation_update', :note=>'Implementácia upravená')
         @activity.save
@@ -345,6 +427,6 @@ class ImplementationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def implementation_params
-      params.require(:implementation).permit(:project_id, :user_id, :oprogram, :subject_id, :contact_helper, :contact_client, :projektant, :procurer_name, :auditor, :other_contacts, :itms_access_name, :itms_access_pass, :nfp_contract_signed, :project_startdate, :project_start_about, :project_start_note_sentdate, :project_start_note_sent, :project_enddate_by_nfp_contract, :project_schedule_change_need, :zop_showdate, :zop_last_term_end, :zop_last_term_start, :zop_note, :zop_last_showdate, :zop_request_type, :zop_paycond_fulfil, :zop_cond_fulfil, :zop_data_to_itms, :zop_data_to_itms_state, :next_monitor_date, :finish_monitor_date, :control_date, :approved, :publicity_subject, :publicity_last_term, :publicity_showdate, :project_end_type, :project_end_sooner, :project_end_sooner_date, :note_project_sooner_sent, :note_project_sooner_sent_date,:project_end_about,:zop_state,:schedule_change_need_date)
+      params.require(:implementation).permit(:project_id, :user_id, :oprogram, :subject_id, :contact_helper, :contact_client, :projektant, :procurer_name, :auditor, :other_contacts, :itms_access_name, :itms_access_pass, :nfp_contract_signed, :project_startdate, :project_start_about, :project_start_note_sentdate, :project_start_note_sent, :project_enddate_by_nfp_contract, :project_schedule_change_need, :zop_showdate, :zop_last_term_end, :zop_last_term_start, :zop_note, :zop_last_showdate, :zop_request_type, :zop_paycond_fulfil, :zop_cond_fulfil, :zop_data_to_itms, :zop_data_to_itms_state, :next_monitor_date, :finish_monitor_date, :control_date, :approved, :publicity_subject, :publicity_last_term, :publicity_showdate, :project_end_type, :project_end_sooner, :project_end_sooner_date, :note_project_sooner_sent, :note_project_sooner_sent_date,:project_end_about,:zop_state,:schedule_change_need_date, :change_request, :change_request_approval, :change_request_last_term, :project_real_enddate)
     end
 end

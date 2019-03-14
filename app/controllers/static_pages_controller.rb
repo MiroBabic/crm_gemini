@@ -31,6 +31,7 @@ class StaticPagesController < ApplicationController
 	def home
 		@calendar = Calendar.where(:user_id=>current_user.id)
 		@users = User.all.order(:name)
+		@projects = Project.all.order("updated_at desc")
 	end
 
 	def job_queue

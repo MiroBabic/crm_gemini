@@ -44,7 +44,19 @@ class ProjectsController < ApplicationController
     @oprograms = Oprogram.select(:name, :id).order("name asc")
     if @implementation.present?
       @activities = Iactivity.where(:implementation_id=>@implementation.id).order("created_at desc")
+    else
+      @activities = nil
     end
+
+    respond_to do |format|
+
+      format.html 
+      format.json { render :json => {"status": "ok", "project": @project, "implementation": @implementation, "users": @users, "oprograms": @oprograms, "activities": @activities} }
+
+    end
+
+
+    
     rescue=>error
       redirect_to projekty_path, :alert=>error.message
     end
