@@ -137,7 +137,8 @@ module ApplicationHelper
 			when 'other_contacts' then res = 'Iné kontaktné osoby'
 			when 'itms_access_name' then res = 'Prístup do ITMS - Meno'
 			when 'itms_access_pass' then res = 'Prístup do ITMS - Heslo'
-			when 'nfp_contract_signed' then res = 'Dátum podpisu a účinnosti zmluvy o NFP'
+			when 'nfp_contract_signed' then res = 'Dátum podpisu zmluvy o NFP'
+			when 'nfp_contract_effective' then res = 'Dátum účinnosti zmluvy o NFP'
 			when 'project_startdate' then res = 'Dátum začatia projektu'
 			when 'project_start_about' then res = 'Čím sa projekt začína'
 			when 'project_start_note_sentdate' then res = 'Zaslanie hlásenia o začatí projektu - dátum'
@@ -170,6 +171,11 @@ module ApplicationHelper
 			when 'schedule_change_need_date' then res = 'Termín na predloženie žiadostí o zmenu harmonogramu'
 			when 'project_end_about' then res = 'Čím sa projekt končí'
 			when 'project_real_enddate' then res = 'Dátum skutočného ukončenia projektu'
+			when 'change_request' then res = 'Predmet žiadosti'
+			when 'change_request_last_term' then res = 'Posledný termín na preloženie žiadosti o zmenu'
+			when 'change_request_approval' then res = 'Schválenie žiadosti'
+
+				
 
 			end
 

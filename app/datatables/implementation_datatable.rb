@@ -67,6 +67,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
         itms_access_name: implementation.itms_access_name,
         itms_access_pass: implementation.itms_access_pass,
         nfp_contract_signed: implementation.nfp_contract_signed,
+        nfp_contract_effective: implementation.nfp_contract_effective,
         project_start_about: implementation.project_start_about,
         project_start_note_sent: implementation.project_start_note_sent,
         project_schedule_change_need: implementation.project_schedule_change_need,

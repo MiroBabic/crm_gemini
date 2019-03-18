@@ -16,6 +16,7 @@ function updateImplementationEditModal(d) {
 	$('#edit_itms_access_name').val(d.itms_access_name);
 	$('#edit_itms_access_pass').val(d.itms_access_pass);
     $('#edit_nfp_contract_signed').val(prettyDateToInput(d.nfp_contract_signed));
+    $('#edit_nfp_contract_effective').val(prettyDateToInput(d.nfp_contract_effective));
     $('#edit_project_startdate').val(prettyDateToInput(d.project_startdate));
 	$('#edit_project_start_about').val(d.project_start_about);
 	$('#edit_project_end_about').val(d.project_end_about);
@@ -73,7 +74,8 @@ function formatImplementationDetails(d) {
 '<hr><h3>Začatie projektu</h3><hr>'+
 '<p><b>Prístup do ITMS - Meno: </b>'+d.itms_access_name+'</p>'+
 '<p><b>Prístup do ITMS - Heslo: </b>'+d.itms_access_pass+'</p>'+
-'<p><b>Dátum podpisu a účinnosti zmluvy o NFP: </b>'+prettyDate(d.nfp_contract_signed)+'</p>'+
+'<p><b>Dátum podpisu zmluvy o NFP: </b>'+prettyDate(d.nfp_contract_signed)+'</p>'+
+'<p><b>Dátum účinnosti zmluvy o NFP: </b>'+prettyDate(d.nfp_contract_effective)+'</p>'+
 '<p><b>Dátum začatia projektu: </b>'+prettyDate(d.project_startdate)+'</p>'+
 '<p><b>Čím sa projekt začína: </b>'+d.project_start_about+'</p>'+
 '<p><b>Čím sa projekt končí: </b>'+d.project_end_about+'</p>'+

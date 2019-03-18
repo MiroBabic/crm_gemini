@@ -80,9 +80,9 @@
    Polia vyznačené na červeno sú povinné
   </div>
         <div class="form-group has-error">
-         <label>Názov:</label><input type="text" name="project_name" id="project_name" class="form-control" placeholder="Názov projektu" /><br>
-          <label>Projektový manažér:</label><%= select_tag 'project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
-          <label>Žiadateľ: </label><%= select_tag 'subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'chosen-select', id: 'subject_new', prompt: "--vyber subjekt--" %>
+         <label class="red-text">Názov:</label><input type="text" name="project_name" id="project_name" class="form-control" placeholder="Názov projektu" /><br>
+          <label class="red-text">Projektový manažér:</label><%= select_tag 'project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
+          <label class="red-text">Žiadateľ: </label><%= select_tag 'subject_new', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'chosen-select', id: 'subject_new', prompt: "--vyber subjekt--" %>
          </br>
          
           <span id="addPersonToComm"></span><br>

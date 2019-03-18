@@ -191,8 +191,10 @@
            <h3 class="center">Začatie projektu</h3>
           <label>Prístup do ITMS - Meno:</label><input type="text" name="edit_itms_access_name" id="edit_itms_access_name" class="form-control" placeholder="Prístup do ITMS - Meno..." /><br>
           <label>Prístup do ITMS - Heslo:</label><input type="text" name="edit_itms_access_pass" id="edit_itms_access_pass" class="form-control" placeholder="Prístup do ITMS - Heslo..." /><br>
-          <label>Dátum podpisu a účinnosti zmluvy o NFP:</label><div class="input-group date">
+          <label>Dátum podpisu zmluvy o NFP:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_nfp_contract_signed" id="edit_nfp_contract_signed" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+          <label>Dátum účinnosti zmluvy o NFP:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_nfp_contract_effective" id="edit_nfp_contract_effective" class="form-control datepick" placeholder="1990-12-31" /></div><br>
            <label>Dátum začatia projektu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input  name="edit_project_startdate" id="edit_project_startdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
           <label>Čím sa projekt začína:</label><input type="text" name="edit_project_start_about" id="edit_project_start_about" class="form-control" placeholder="Čím sa projekt začína..." /><br>
@@ -317,8 +319,10 @@
            <h3 class="center">Začatie projektu</h3>
           <label>Prístup do ITMS - Meno:</label><input type="text" name="itms_access_name" id="itms_access_name" class="form-control" placeholder="Prístup do ITMS - Meno..." /><br>
           <label>Prístup do ITMS - Heslo:</label><input type="text" name="itms_access_pass" id="itms_access_pass" class="form-control" placeholder="Prístup do ITMS - Heslo..." /><br>
-          <label>Dátum podpisu a účinnosti zmluvy o NFP:</label><div class="input-group date">
+          <label>Dátum podpisu zmluvy o NFP:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="nfp_contract_signed" id="nfp_contract_signed" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+          <label>Dátum účinnosti zmluvy o NFP:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="nfp_contract_effective" id="nfp_contract_effective" class="form-control datepick" placeholder="1990-12-31" /></div><br>
            <label>Dátum začatia projektu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input  name="project_startdate" id="project_startdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
           <label>Čím sa projekt začína:</label><input type="text" name="project_start_about" id="project_start_about" class="form-control" placeholder="Čím sa projekt začína..." /><br>
@@ -555,6 +559,7 @@ var ready = function() {
           $itms_access_name=$('#itms_access_name').val();
           $itms_access_pass=$('#itms_access_pass').val();
           $nfp_contract_signed=$('#nfp_contract_signed').val();
+          $nfp_contract_effective=$('#nfp_contract_effective').val();
           $project_startdate=$('#project_startdate').val();
           $project_start_about=$('#project_start_about').val();
           $project_end_about=$('#project_end_about').val();
@@ -609,6 +614,7 @@ var ready = function() {
               itms_access_name: $itms_access_name,
               itms_access_pass: $itms_access_pass,
               nfp_contract_signed: $nfp_contract_signed,
+              nfp_contract_effective: $nfp_contract_effective,
               project_startdate: $project_startdate,
               project_start_about: $project_start_about,
               project_end_about: $project_end_about,
@@ -680,6 +686,7 @@ $('.editimplem').on('click',function(event){
           $itms_access_name=$('#edit_itms_access_name').val();
           $itms_access_pass=$('#edit_itms_access_pass').val();
           $nfp_contract_signed=$('#edit_nfp_contract_signed').val();
+          $nfp_contract_effective=$('#edit_nfp_contract_effective').val();
           $project_startdate=$('#edit_project_startdate').val();
           $project_start_about=$('#edit_project_start_about').val();
           $project_end_about=$('#edit_project_end_about').val();
@@ -736,6 +743,7 @@ $('.editimplem').on('click',function(event){
               itms_access_name: $itms_access_name,
               itms_access_pass: $itms_access_pass,
               nfp_contract_signed: $nfp_contract_signed,
+              nfp_contract_effective: $nfp_contract_effective,
               project_startdate: $project_startdate,
               project_start_about: $project_start_about,
               project_end_about: $project_end_about,

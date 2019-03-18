@@ -82,6 +82,11 @@ class ProjectsController < ApplicationController
     @duedate= params[:duedate]
     @payed= params[:payed]
 
+    unless params[:subject].present?
+          redirect_to projects_path, alert: "Projekt musí mať pridelený subjekt!" and return
+              throw :halt
+    end
+
     begin
     @project = Project.new(:name=>@name,:subject_id=>@subject, :person_id=>@projectperson, :user_id=>@projectmanager, :contract=>@contract, :order=>@order, :control_zonfp=>@control_zonfp, :note=>@note, :contractor=>@contractor,:sent_to_sign=>@sent_sign,:submit_online=>@submitonline, :submit_print=>@submitprint, :agreed_payment=>@agreed_pay, :payment=>@pay, :due_date=>@duedate, :payed=>@payed)
   
