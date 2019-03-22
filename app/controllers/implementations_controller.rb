@@ -11,6 +11,7 @@ class ImplementationsController < ApplicationController
     
     @projects = Project.where("id not in (select distinct(project_id) from implementations where project_id is not null)").order("name asc")
     @oprograms = Oprogram.select(:name, :id).order("name asc")
+    @project_status_data = [{:id=>"nfp_approved", :name=>"schválená zmluva o NFP"},{:id=>"in_progress", :name=>"realizácia projektu"},{:id=>"project_done", :name=>"ukončenie projektu"}]
 
     respond_to do |format|
           format.html
@@ -147,6 +148,15 @@ class ImplementationsController < ApplicationController
     @change_request = params[:change_request]
     @change_request_last_term = params[:change_request_last_term]
     @change_request_approval = params[:change_request_approval]
+    @project_request_code= params[:project_request_code]
+    @project_status= params[:project_status]
+    @procurement_name= params[:procurement_name]
+    @procurement_subject= params[:procurement_subject]
+    @procurement_control_date= params[:procurement_control_date]
+    @procurement_approval_date= params[:procurement_approval_date]
+    @procurement_approval= params[:procurement_approval]
+    @procurement_status= params[:procurement_status]
+    @procurement_note= params[:procurement_note]
 
 
 
@@ -156,7 +166,7 @@ class ImplementationsController < ApplicationController
     begin
       @project = Project.find(@project_id)
       @subject = @project.subject_id
-    @i= Implementation.new(:project_id=>@project_id,:subject_id=>@subject,:user_id=>@projectmanager, :oprogram_id=>@oprogram, :contact_helper=>@contact_helper, :contact_client=>@contact_client, :projektant=>@projektant, :procurer_name=>@procurer_name, :auditor=>@auditor, :other_contacts=>@other_contacts, :itms_access_name=>@itms_access_name, :itms_access_pass=>@itms_access_pass, :nfp_contract_signed=>@nfp_contract_signed, :project_startdate=>@project_startdate, :project_start_about=>@project_start_about, :project_start_note_sentdate=>@project_start_note_sentdate, :project_start_note_sent=>@project_start_note_sent, :project_enddate_by_nfp_contract=>@project_enddate_by_nfp_contract, :project_schedule_change_need=>@project_schedule_change_need, :zop_showdate=>@zop_showdate, :zop_last_term_end=>@zop_last_term_end, :zop_last_term_start=>@zop_last_term_start, :zop_note=>@zop_note, :zop_last_showdate=>@zop_last_showdate, :zop_request_type=>@zop_request_type, :zop_paycond_fulfil=>@zop_paycond_fulfil, :zop_cond_fulfil=>@zop_cond_fulfil, :zop_data_to_itms=>@zop_data_to_itms, :zop_data_to_itms_state=>@zop_data_to_itms_state, :next_monitor_date=>@next_monitor_date, :finish_monitor_date=>@finish_monitor_date, :control_date=>@control_date, :approved=>@approved, :publicity_subject=>@publicity_subject, :publicity_last_term=>@publicity_last_term, :publicity_showdate=>@publicity_showdate, :project_end_type=>@project_end_type, :project_end_sooner=>@project_end_sooner, :project_end_sooner_date=>@project_end_sooner_date, :note_project_sooner_sent=>@note_project_sooner_sent, :note_project_sooner_sent_date=>@note_project_sooner_sent_date, :zop_state=>@zop_state, :schedule_change_need_date=>@schedule_change_need_date, :project_end_about=>@project_end_about, :project_real_enddate=>@project_real_enddate, :change_request=>@change_request, :change_request_last_term=>@change_request_last_term, :change_request_approval=>@change_request_approval, :nfp_contract_effective=>@nfp_contract_effective)
+    @i= Implementation.new(:project_id=>@project_id,:subject_id=>@subject,:user_id=>@projectmanager, :oprogram_id=>@oprogram, :contact_helper=>@contact_helper, :contact_client=>@contact_client, :projektant=>@projektant, :procurer_name=>@procurer_name, :auditor=>@auditor, :other_contacts=>@other_contacts, :itms_access_name=>@itms_access_name, :itms_access_pass=>@itms_access_pass, :nfp_contract_signed=>@nfp_contract_signed, :project_startdate=>@project_startdate, :project_start_about=>@project_start_about, :project_start_note_sentdate=>@project_start_note_sentdate, :project_start_note_sent=>@project_start_note_sent, :project_enddate_by_nfp_contract=>@project_enddate_by_nfp_contract, :project_schedule_change_need=>@project_schedule_change_need, :zop_showdate=>@zop_showdate, :zop_last_term_end=>@zop_last_term_end, :zop_last_term_start=>@zop_last_term_start, :zop_note=>@zop_note, :zop_last_showdate=>@zop_last_showdate, :zop_request_type=>@zop_request_type, :zop_paycond_fulfil=>@zop_paycond_fulfil, :zop_cond_fulfil=>@zop_cond_fulfil, :zop_data_to_itms=>@zop_data_to_itms, :zop_data_to_itms_state=>@zop_data_to_itms_state, :next_monitor_date=>@next_monitor_date, :finish_monitor_date=>@finish_monitor_date, :control_date=>@control_date, :approved=>@approved, :publicity_subject=>@publicity_subject, :publicity_last_term=>@publicity_last_term, :publicity_showdate=>@publicity_showdate, :project_end_type=>@project_end_type, :project_end_sooner=>@project_end_sooner, :project_end_sooner_date=>@project_end_sooner_date, :note_project_sooner_sent=>@note_project_sooner_sent, :note_project_sooner_sent_date=>@note_project_sooner_sent_date, :zop_state=>@zop_state, :schedule_change_need_date=>@schedule_change_need_date, :project_end_about=>@project_end_about, :project_real_enddate=>@project_real_enddate, :change_request=>@change_request, :change_request_last_term=>@change_request_last_term, :change_request_approval=>@change_request_approval, :nfp_contract_effective=>@nfp_contract_effective, :project_request_code=> @project_request_code, :project_status=> @project_status, :procurement_name=> @procurement_name, :procurement_subject=> @procurement_subject, :procurement_control_date=> @procurement_control_date, :procurement_approval_date=> @procurement_approval_date, :procurement_approval=> @procurement_approval, :procurement_status=> @procurement_status, :procurement_note=> @procurement_note)
 
     
     if @next_monitor_date.present?
@@ -286,6 +296,15 @@ class ImplementationsController < ApplicationController
     @change_request = params[:change_request]
     @change_request_last_term = params[:change_request_last_term]
     @change_request_approval = params[:change_request_approval]
+    @project_request_code= params[:project_request_code]
+    @project_status= params[:project_status]
+    @procurement_name= params[:procurement_name]
+    @procurement_subject= params[:procurement_subject]
+    @procurement_control_date= params[:procurement_control_date]
+    @procurement_approval_date= params[:procurement_approval_date]
+    @procurement_approval= params[:procurement_approval]
+    @procurement_status= params[:procurement_status]
+    @procurement_note= params[:procurement_note]
 
     @subject = Project.find(@orig_implementation.project_id).subject_id
 
@@ -357,7 +376,7 @@ class ImplementationsController < ApplicationController
     end
 
 
-    if (@orig_implementation.update_attributes(:user_id=>@projectmanager, :oprogram_id=>@oprogram, :contact_helper=>@contact_helper, :contact_client=>@contact_client, :projektant=>@projektant, :procurer_name=>@procurer_name, :auditor=>@auditor, :other_contacts=>@other_contacts, :itms_access_name=>@itms_access_name, :itms_access_pass=>@itms_access_pass, :nfp_contract_signed=>@nfp_contract_signed, :project_startdate=>@project_startdate, :project_start_about=>@project_start_about, :project_start_note_sentdate=>@project_start_note_sentdate, :project_start_note_sent=>@project_start_note_sent, :project_enddate_by_nfp_contract=>@project_enddate_by_nfp_contract, :project_schedule_change_need=>@project_schedule_change_need, :zop_showdate=>@zop_showdate, :zop_last_term_end=>@zop_last_term_end, :zop_last_term_start=>@zop_last_term_start, :zop_note=>@zop_note, :zop_last_showdate=>@zop_last_showdate, :zop_request_type=>@zop_request_type, :zop_paycond_fulfil=>@zop_paycond_fulfil, :zop_cond_fulfil=>@zop_cond_fulfil, :zop_data_to_itms=>@zop_data_to_itms, :zop_data_to_itms_state=>@zop_data_to_itms_state, :next_monitor_date=>@next_monitor_date, :finish_monitor_date=>@finish_monitor_date, :control_date=>@control_date, :approved=>@approved, :publicity_subject=>@publicity_subject, :publicity_last_term=>@publicity_last_term, :publicity_showdate=>@publicity_showdate, :project_end_type=>@project_end_type, :project_end_sooner=>@project_end_sooner, :project_end_sooner_date=>@project_end_sooner_date, :note_project_sooner_sent=>@note_project_sooner_sent, :note_project_sooner_sent_date=>@note_project_sooner_sent_date, :zop_state=>@zop_state, :schedule_change_need_date=>@schedule_change_need_date, :project_end_about=>@project_end_about, :project_real_enddate=>@project_real_enddate,:change_request=>@change_request, :change_request_last_term=>@change_request_last_term, :change_request_approval=>@change_request_approval, :nfp_contract_effective=>@nfp_contract_effective))
+    if (@orig_implementation.update_attributes(:user_id=>@projectmanager, :oprogram_id=>@oprogram, :contact_helper=>@contact_helper, :contact_client=>@contact_client, :projektant=>@projektant, :procurer_name=>@procurer_name, :auditor=>@auditor, :other_contacts=>@other_contacts, :itms_access_name=>@itms_access_name, :itms_access_pass=>@itms_access_pass, :nfp_contract_signed=>@nfp_contract_signed, :project_startdate=>@project_startdate, :project_start_about=>@project_start_about, :project_start_note_sentdate=>@project_start_note_sentdate, :project_start_note_sent=>@project_start_note_sent, :project_enddate_by_nfp_contract=>@project_enddate_by_nfp_contract, :project_schedule_change_need=>@project_schedule_change_need, :zop_showdate=>@zop_showdate, :zop_last_term_end=>@zop_last_term_end, :zop_last_term_start=>@zop_last_term_start, :zop_note=>@zop_note, :zop_last_showdate=>@zop_last_showdate, :zop_request_type=>@zop_request_type, :zop_paycond_fulfil=>@zop_paycond_fulfil, :zop_cond_fulfil=>@zop_cond_fulfil, :zop_data_to_itms=>@zop_data_to_itms, :zop_data_to_itms_state=>@zop_data_to_itms_state, :next_monitor_date=>@next_monitor_date, :finish_monitor_date=>@finish_monitor_date, :control_date=>@control_date, :approved=>@approved, :publicity_subject=>@publicity_subject, :publicity_last_term=>@publicity_last_term, :publicity_showdate=>@publicity_showdate, :project_end_type=>@project_end_type, :project_end_sooner=>@project_end_sooner, :project_end_sooner_date=>@project_end_sooner_date, :note_project_sooner_sent=>@note_project_sooner_sent, :note_project_sooner_sent_date=>@note_project_sooner_sent_date, :zop_state=>@zop_state, :schedule_change_need_date=>@schedule_change_need_date, :project_end_about=>@project_end_about, :project_real_enddate=>@project_real_enddate,:change_request=>@change_request, :change_request_last_term=>@change_request_last_term, :change_request_approval=>@change_request_approval, :nfp_contract_effective=>@nfp_contract_effective,:project_request_code=> @project_request_code, :project_status=> @project_status, :procurement_name=> @procurement_name, :procurement_subject=> @procurement_subject, :procurement_control_date=> @procurement_control_date, :procurement_approval_date=> @procurement_approval_date, :procurement_approval=> @procurement_approval, :procurement_status=> @procurement_status, :procurement_note=> @procurement_note ))
 
         @activity = Iactivity.new(:implementation_id=>@orig_implementation.id, :user_id=>current_user.id, :action=>@orig_implementation.previous_changes, :action_type=>'implemenation_update', :note=>'Implementácia upravená')
         @activity.save

@@ -86,5 +86,15 @@ function updateImplementationEditModalProject(d) {
 	$('#edit_change_request').val(d.change_request);
 	if (d.change_request_approval==true) { $('#edit_change_request_approval').prop('checked', true);} else {$('#edit_change_request_approval').prop('checked', false);}
 
+	$('#edit_project_request_code').val(d.project_request_code);
+    $('#edit_project_status').val(d.project_status);
+    $('#edit_procurement_name').val(d.procurement_name);
+    $('#edit_procurement_subject').val(d.procurement_subject);
+    $('#edit_procurement_control_date').val(prettyDateToInput(d.procurement_control_date));
+    $('#edit_procurement_approval_date').val(prettyDateToInput(d.procurement_approval_date));
+    if (d.procurement_approval==true) { $('#edit_procurement_approval').prop('checked', true);} else {$('#edit_procurement_approval').prop('checked', false);}
+    $('#edit_procurement_status').val(d.procurement_status);
+    $('#edit_procurement_note').val(d.procurement_note);
+
 }
 

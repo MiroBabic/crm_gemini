@@ -3,6 +3,7 @@
 
 function updateImplementationEditModal(d) {
 
+
 	$('#editimplementationID').val(d.id);
 	
 	$('#edit_project_manager').val(d.user_id);
@@ -54,11 +55,24 @@ function updateImplementationEditModal(d) {
 	if (d.change_request_approval==true) { $('#edit_change_request_approval').prop('checked', true);} else {$('#edit_change_request_approval').prop('checked', false);}
 
 
+	$('#edit_project_request_code').val(d.project_request_code);
+    $('#edit_project_status').val(d.project_status);
+    $('#edit_procurement_name').val(d.procurement_name);
+    $('#edit_procurement_subject').val(d.procurement_subject);
+    $('#edit_procurement_control_date').val(prettyDateToInput(d.procurement_control_date));
+    $('#edit_procurement_approval_date').val(prettyDateToInput(d.procurement_approval_date));
+    if (d.procurement_approval==true) { $('#edit_procurement_approval').prop('checked', true);} else {$('#edit_procurement_approval').prop('checked', false);}
+    $('#edit_procurement_status').val(d.procurement_status);
+    $('#edit_procurement_note').val(d.procurement_note);
+
+
 	return false;
 
 }
 
 function formatImplementationDetails(d) {
+
+
 
 	$html = '<h3>Projekt</h3><hr>'+
 '<p><b>Projekt: </b>'+d.project_name+'</p>'+
@@ -68,9 +82,19 @@ function formatImplementationDetails(d) {
 '<p><b>Kontaktná osoba - Poskytovateľ pomoci: </b>'+d.contact_helper+'</p>'+
 '<p><b>Kontaktná osoba - Klient: </b>'+d.contact_client+'</p>'+
 '<p><b>Projektant: </b>'+d.projektant+'</p>'+
-'<p><b>Verejný obstarávateľ: </b>'+d.procurer_name+'</p>'+
 '<p><b>Auditor: </b>'+d.auditor+'</p>'+
 '<p><b>Iné kontaktné osoby: </b>'+d.other_contacts+'</p>'+
+'<p><b>Kód žiadosti projektu: </b>'+d.project_request_code+'</p>'+
+'<p><b>Stav projektu: </b>'+prettyProjectStatus(d.project_status)+'</p>'+
+'<hr><h3>Verejné obstarávanie</h3><hr>'+
+'<p><b>Verejný obstarávateľ: </b>'+d.procurer_name+'</p>'+
+'<p><b>Názov verejného obstarávania: </b>'+d.procurement_name+'</p>'+
+'<p><b>Predmet zákazky: </b>'+d.procurement_subject+'</p>'+
+'<p><b>Dátum predloženia na kontrolu: </b>'+prettyDate(d.procurement_control_date)+'</p>'+
+'<p><b>Dátum rozhodnutia o schválení: </b>'+prettyDate(d.procurement_approval_date)+'</p>'+
+'<p><b>Rozhodnutie o schválení: </b>'+getTrueFalseIcon(d.procurement_approval)+'</p>'+
+'<p><b>Stav verejného obstarávania: </b>'+d.procurement_status+'</p>'+
+'<p><b>Poznámka k verejnému obstarávaniu: </b>'+d.procurement_note+'</p>'+
 '<hr><h3>Začatie projektu</h3><hr>'+
 '<p><b>Prístup do ITMS - Meno: </b>'+d.itms_access_name+'</p>'+
 '<p><b>Prístup do ITMS - Heslo: </b>'+d.itms_access_pass+'</p>'+

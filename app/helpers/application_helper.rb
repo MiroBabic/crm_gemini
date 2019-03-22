@@ -121,6 +121,24 @@ module ApplicationHelper
 
   end
 
+  def prettyProjectStatus(status)
+  	@res = status
+  	if (status == 'in_progress') 
+  		@res = 'realizácia projektu'
+  	end
+  if (status == 'project_done') 
+  	@res = 'ukončenie projektu'
+  end
+
+  if (status == 'nfp_approved') 
+  	@res = 'schválená zmluva o NFP'
+  end
+
+  	return @res
+  end
+
+  	
+
 
   def pretty_implementation_activity_field(value)
   	begin

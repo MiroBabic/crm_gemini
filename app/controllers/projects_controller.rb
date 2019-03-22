@@ -48,6 +48,8 @@ class ProjectsController < ApplicationController
       @activities = nil
     end
 
+    @project_status_data = [{:id=>"nfp_approved", :name=>"schválená zmluva o NFP"},{:id=>"in_progress", :name=>"realizácia projektu"},{:id=>"project_done", :name=>"ukončenie projektu"}]
+
     respond_to do |format|
 
       format.html 

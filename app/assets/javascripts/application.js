@@ -64,6 +64,16 @@ else return 'Neexistuje';
 
 }
 
+function prettyProjectStatus(status) {
+
+  $res = status;
+
+  if (status == 'in_progress') {$res = 'realizácia projektu'}
+  if (status == 'project_done') {$res = 'ukončenie projektu'}
+  if (status == 'nfp_approved') {$res = 'schválená zmluva o NFP'}
+
+    return $res;
+}
 
 function prettyDateToInput(dd) {
 	
