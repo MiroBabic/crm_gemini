@@ -123,6 +123,12 @@ Rails.application.routes.draw do
   post '/modal_edit_oprogram' => 'oprograms#modal_edit_oprogram', :as=> 'modal_edit_oprogram'
   get '/operacneprogramy' => 'oprograms#index', :as=>'operacneprogramy'
 
+  #obstaravania
+  get '/obstaravania' => 'procurements#index', :as=>'obstaravania'
+  post '/modal_create_procurement' => 'procurements#modal_create_procurement', :as=>'modal_create_procurement'
+  post '/modal_edit_procurement' => 'procurements#modal_edit_procurement', :as=>'modal_edit_procurement'
+  post '/get_procurements' => 'procurements#get_procurements', :as=>'get_procurements'
+
   root 'static_pages#home'
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

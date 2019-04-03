@@ -120,16 +120,21 @@
        <p><b>Kód žiadosti projektu:</b><%=@implementation.project_request_code%></p>
       <p><b>Stav projektu:</b><%=prettyProjectStatus(@implementation.project_status)%></p>
       <hr><h3>Verejné obstarávanie</h3><hr>
-      <p><b>Verejný obstarávateľ:</b><%=@implementation.procurer_name%></p>
-      <p><b>Názov verejného obstarávania:</b><%=@implementation.procurement_name%></p>
-      <p><b>Predmet zákazky:</b><%=@implementation.procurement_subject%></p>
-      <p><b>Dátum predloženia na kontrolu:</b><%=prettyDate(@implementation.procurement_control_date)%></p>
-      <p><b>Dátum rozhodnutia o schválení:</b><%=prettyDate(@implementation.procurement_approval_date)%></p>
-      <p><b>Rozhodnutie o schválení:</b><%=get_true_false_icon(@implementation.procurement_approval)%></p>
-      <p><b>Stav verejného obstarávania:</b><%=@implementation.procurement_status%></p>
-      <p><b>Poznámka k verejnému obstarávaniu:</b><%=@implementation.procurement_note%></p>
-
-
+      <% if @imp_procurements.present? %>
+      <% @imp_procurements.each do |proc| %>
+      <p><b>Verejný obstarávateľ:</b><%=proc.procurer_name%></p>
+      <p><b>Názov verejného obstarávania:</b><%=proc.name%></p>
+      <p><b>Predmet zákazky:</b><%=proc.subject%></p>
+      <p><b>Dátum predloženia na kontrolu:</b><%=prettyDate(proc.control_date)%></p>
+      <p><b>Dátum rozhodnutia o schválení:</b><%=prettyDate(proc.approval_date)%></p>
+      <p><b>Rozhodnutie o schválení:</b><%=get_true_false_icon(proc.approval)%></p>
+      <p><b>Stav verejného obstarávania:</b><%=proc.status%></p>
+      <p><b>Poznámka k verejnému obstarávaniu:</b><%=proc.note%></p>
+      <hr>
+      <% end %>
+      <% else %>
+      <p>Žiadne verejné obstarávanie nebolo priradené ku implementácii</p>
+      <% end %>
 
       <hr><h3>Začatie projektu</h3><hr>
       <p><b>Prístup do ITMS - Meno: </b><%=@implementation.itms_access_name%></p>
@@ -207,18 +212,7 @@
            <label>Stav projektu:</label><%= select_tag 'edit_project_status', options_for_select(@project_status_data.map { |obj| [obj[:name], obj[:id]] }), class: 'form-control', id: 'edit_project_status', prompt: "--vyber stav projektu--" %></br><br>
 
            <h3 class="center">Verejné obstarávanie</h3>
-          <label>Verejný obstarávateľ:</label><input type="text" name="edit_procurer_name" id="edit_procurer_name" class="form-control" placeholder="Verejný obstarávateľ..." /><br>
-          <label>Názov verejného obstarávania:</label><input type="text" name="edit_procurement_name" id="edit_procurement_name" class="form-control" placeholder="Názov verejného obstarávania..." /><br>
-          <label>Predmet zákazky:</label><input type="text" name="edit_procurement_subject" id="edit_procurement_subject" class="form-control" placeholder="Predmet zákazky..." /><br>
-          <label>Dátum predloženia na kontrolu:</label><div class="input-group date">
-          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_procurement_control_date" id="edit_procurement_control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
-          <label>Dátum rozhodnutia o schválení:</label><div class="input-group date">
-          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_procurement_approval_date" id="edit_procurement_approval_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
-           <label>Rozhodnutie o schválení: <input id="edit_procurement_approval" type="checkbox" class="icheckbox_square-green" /></label><br>
-
-
-          <label>Stav verejného obstarávania:</label><input type="text" name="edit_procurement_status" id="edit_procurement_status" class="form-control" placeholder="Stav verejného obstarávania..." /><br>
-          <label>Poznámka k verejnému obstarávaniu:</label><input type="text" name="edit_procurement_note" id="edit_procurement_note" class="form-control" placeholder="Poznámka k verejnému obstarávaniu..." /><br>
+          <label>Verejné obstarávanie: </label><%= select_tag 'edit_procurement', options_from_collection_for_select(@procurements, 'id', 'name'), multiple: true, class: 'form-control chosen-select', id: 'edit_procurement', "data-placeholder": "Vyber obstarávanie..." %></br>
 
            <h3 class="center">Začatie projektu</h3>
           <label>Prístup do ITMS - Meno:</label><input type="text" name="edit_itms_access_name" id="edit_itms_access_name" class="form-control" placeholder="Prístup do ITMS - Meno..." /><br>
@@ -353,18 +347,7 @@
            <label>Stav projektu:</label><%= select_tag 'project_status', options_for_select(@project_status_data.map { |obj| [obj[:name], obj[:id]] }), class: 'form-control', id: 'project_status', prompt: "--vyber stav projektu--" %></br><br>
 
           <h3 class="center">Verejné obstarávanie</h3>
-          <label>Verejný obstarávateľ:</label><input type="text" name="procurer_name" id="procurer_name" class="form-control" placeholder="Verejný obstarávateľ..." /><br>
-          <label>Názov verejného obstarávania:</label><input type="text" name="procurement_name" id="procurement_name" class="form-control" placeholder="Názov verejného obstarávania..." /><br>
-          <label>Predmet zákazky:</label><input type="text" name="procurement_subject" id="procurement_subject" class="form-control" placeholder="Predmet zákazky..." /><br>
-          <label>Dátum predloženia na kontrolu:</label><div class="input-group date">
-          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="procurement_control_date" id="procurement_control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
-          <label>Dátum rozhodnutia o schválení:</label><div class="input-group date">
-          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="procurement_approval_date" id="procurement_approval_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
-           <label>Rozhodnutie o schválení: <input id="procurement_approval" type="checkbox" class="icheckbox_square-green" /></label><br>
-
-            
-          <label>Stav verejného obstarávania:</label><input type="text" name="procurement_status" id="procurement_status" class="form-control" placeholder="Stav verejného obstarávania..." /><br>
-          <label>Poznámka k verejnému obstarávaniu:</label><input type="text" name="procurement_note" id="procurement_note" class="form-control" placeholder="Poznámka k verejnému obstarávaniu..." /><br>
+           <label>Verejné obstarávanie: </label><%= select_tag 'procurement', options_from_collection_for_select(@procurements, 'id', 'name'), multiple: true, class: 'form-control chosen-select', id: 'procurement',  "data-placeholder": "Vyber obstarávanie..."  %></br>
 
            <h3 class="center">Začatie projektu</h3>
           <label>Prístup do ITMS - Meno:</label><input type="text" name="itms_access_name" id="itms_access_name" class="form-control" placeholder="Prístup do ITMS - Meno..." /><br>
@@ -577,6 +560,21 @@ var ready = function() {
 
 //console.log()
 
+ $('.chosen-select').chosen({width: "100%"});
+
+   $("#edit_procurement").chosen().change(function(e, params){
+ $edit_procurement  = $("#edit_procurement").chosen().val();
+
+ //console.log($project_targets)
+});
+
+    $("#procurement").chosen().change(function(e, params){
+ $procurement  = $("#procurement").chosen().val();
+
+ //console.log($project_targets)
+});
+
+
     $('.datepick').datepicker({
        trigger: $('#inputcalendar'),
         autoHide: true,
@@ -585,6 +583,11 @@ var ready = function() {
 
   $('.addimplem').on('click',function(event){
           //console.log(event.target.id);
+
+          if (typeof $procurement !== 'undefined') {
+          $procurements = $procurement;
+            }
+
           $project_start_note_sent = false;
           $project_schedule_change_need = false;
           $zop_paycond_fulfil = false;
@@ -603,7 +606,7 @@ var ready = function() {
           $contact_helper=$('#contact_helper').val();
           $contact_client=$('#contact_client').val();
           $projektant=$('#projektant').val();
-          $procurer_name=$('#procurer_name').val();
+          
           $auditor=$('#auditor').val();
           $other_contacts=$('#other_contacts').val();
           $itms_access_name=$('#itms_access_name').val();
@@ -648,13 +651,7 @@ var ready = function() {
 
           $project_request_code=$('#project_request_code').val();
           $project_status=$('#project_status').val();
-          $procurement_name=$('#procurement_name').val();
-          $procurement_subject=$('#procurement_subject').val();
-          $procurement_control_date=$('#procurement_control_date').val();
-          $procurement_approval_date=$('#procurement_approval_date').val();
-          if ($('#procurement_approval').is(":checked")) {$procurement_approval = true;}
-          $procurement_status=$('#procurement_status').val();
-          $procurement_note=$('#procurement_note').val();
+          
 
         
           $.ajax({
@@ -668,7 +665,6 @@ var ready = function() {
               contact_helper: $contact_helper,
               contact_client: $contact_client,
               projektant: $projektant,
-              procurer_name: $procurer_name,
               auditor: $auditor,
               other_contacts: $other_contacts,
               itms_access_name: $itms_access_name,
@@ -712,13 +708,7 @@ var ready = function() {
               change_request_last_term: $change_request_last_term,
               project_request_code: $project_request_code,
               project_status: $project_status,
-              procurement_name: $procurement_name,
-              procurement_subject: $procurement_subject,
-              procurement_control_date: $procurement_control_date,
-              procurement_approval_date: $procurement_approval_date,
-              procurement_approval: $procurement_approval,
-              procurement_status: $procurement_status,
-              procurement_note: $procurement_note
+              procurement: $procurements
               },
 
             success:function(data){
@@ -741,6 +731,10 @@ var ready = function() {
 //edit implementation
 $('.editimplem').on('click',function(event){
           //console.log(event.target.id);
+
+          if (typeof $edit_procurement !== 'undefined') {
+          $procurements = $edit_procurement;
+            }
           
           $implementation_id = $('#editimplementationID').val();
          
@@ -749,7 +743,7 @@ $('.editimplem').on('click',function(event){
           $contact_helper=$('#edit_contact_helper').val();
           $contact_client=$('#edit_contact_client').val();
           $projektant=$('#edit_projektant').val();
-          $procurer_name=$('#edit_procurer_name').val();
+          
           $auditor=$('#edit_auditor').val();
           $other_contacts=$('#edit_other_contacts').val();
           $itms_access_name=$('#edit_itms_access_name').val();
@@ -793,13 +787,7 @@ $('.editimplem').on('click',function(event){
           if ($('#edit_change_request_approval').is(":checked")) {$change_request_approval = true;} else {$change_request_approval = false;}
           $project_request_code=$('#edit_project_request_code').val();
           $project_status=$('#edit_project_status').val();
-          $procurement_name=$('#edit_procurement_name').val();
-          $procurement_subject=$('#edit_procurement_subject').val();
-          $procurement_control_date=$('#edit_procurement_control_date').val();
-          $procurement_approval_date=$('#edit_procurement_approval_date').val();
-          if ($('#edit_procurement_approval').is(":checked")) {$procurement_approval = true;} else {$procurement_approval = false;}
-          $procurement_status=$('#edit_procurement_status').val();
-          $procurement_note=$('#edit_procurement_note').val();
+          
 
 
         
@@ -814,7 +802,7 @@ $('.editimplem').on('click',function(event){
               contact_helper: $contact_helper,
               contact_client: $contact_client,
               projektant: $projektant,
-              procurer_name: $procurer_name,
+              
               auditor: $auditor,
               other_contacts: $other_contacts,
               itms_access_name: $itms_access_name,
@@ -858,13 +846,7 @@ $('.editimplem').on('click',function(event){
               change_request_last_term: $change_request_last_term,
               project_request_code: $project_request_code,
               project_status: $project_status,
-              procurement_name: $procurement_name,
-              procurement_subject: $procurement_subject,
-              procurement_control_date: $procurement_control_date,
-              procurement_approval_date: $procurement_approval_date,
-              procurement_approval: $procurement_approval,
-              procurement_status: $procurement_status,
-              procurement_note: $procurement_note
+              procurement: $procurements
               },
 
             success:function(data){

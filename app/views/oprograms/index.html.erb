@@ -157,7 +157,8 @@ $('.editoprogram').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Operačný program bol upravený" );
+               // alert("Operačný program bol upravený" );
+               $("#notice").html(flashMessageFromAjax(data.status,"Operačný program bol upravený"));
                 location.reload();
               }
               else { alert(data.status);}
@@ -188,7 +189,8 @@ $('.addoprogram').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Operačný program bol vytvorený" );
+                //alert("Operačný program bol vytvorený" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Operačný program bol vytvorený"));
                 location.reload();
               }
               else { alert(data.status);}

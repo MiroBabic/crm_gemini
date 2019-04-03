@@ -40,12 +40,16 @@ class ProjectsController < ApplicationController
     @project = Project.find(params[:id])
     @implementation = Implementation.find_by_project_id(@project.id)
     @users=User.all.order(:name)
+
+    @procurements = Procurement.all.order(:name)
         
     @oprograms = Oprogram.select(:name, :id).order("name asc")
     if @implementation.present?
       @activities = Iactivity.where(:implementation_id=>@implementation.id).order("created_at desc")
+      @imp_procurements = Procurement.where(:id=>@implementation.procurements)
     else
       @activities = nil
+      @imp_procurements = nil
     end
 
     @project_status_data = [{:id=>"nfp_approved", :name=>"schválená zmluva o NFP"},{:id=>"in_progress", :name=>"realizácia projektu"},{:id=>"project_done", :name=>"ukončenie projektu"}]
@@ -53,7 +57,7 @@ class ProjectsController < ApplicationController
     respond_to do |format|
 
       format.html 
-      format.json { render :json => {"status": "ok", "project": @project, "implementation": @implementation, "users": @users, "oprograms": @oprograms, "activities": @activities} }
+      format.json { render :json => {"status": "ok", "project": @project, "implementation": @implementation, "users": @users, "oprograms": @oprograms, "activities": @activities, "procurements": @imp_procurements, "all_procs": @procurements} }
 
     end
 

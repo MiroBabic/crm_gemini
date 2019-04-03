@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190321222123) do
+ActiveRecord::Schema.define(version: 20190331212333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -170,13 +170,8 @@ ActiveRecord::Schema.define(version: 20190321222123) do
     t.datetime "nfp_contract_effective"
     t.string   "project_request_code"
     t.string   "project_status"
-    t.string   "procurement_name"
-    t.string   "procurement_subject"
-    t.datetime "procurement_control_date"
-    t.datetime "procurement_approval_date"
-    t.boolean  "procurement_approval"
-    t.string   "procurement_status"
-    t.string   "procurement_note"
+    t.string   "procurements_string"
+    t.json     "procurements"
   end
 
   add_index "implementations", ["oprogram_id"], name: "index_implementations_on_oprogram_id", using: :btree
@@ -266,6 +261,11 @@ ActiveRecord::Schema.define(version: 20190321222123) do
     t.datetime "effective_date"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.string   "procurer_name"
+    t.datetime "approval_date"
+    t.boolean  "approval"
+    t.string   "status"
+    t.string   "note"
   end
 
   create_table "projects", force: :cascade do |t|

@@ -57,20 +57,17 @@ function updateImplementationEditModal(d) {
 
 	$('#edit_project_request_code').val(d.project_request_code);
     $('#edit_project_status').val(d.project_status);
-    $('#edit_procurement_name').val(d.procurement_name);
-    $('#edit_procurement_subject').val(d.procurement_subject);
-    $('#edit_procurement_control_date').val(prettyDateToInput(d.procurement_control_date));
-    $('#edit_procurement_approval_date').val(prettyDateToInput(d.procurement_approval_date));
-    if (d.procurement_approval==true) { $('#edit_procurement_approval').prop('checked', true);} else {$('#edit_procurement_approval').prop('checked', false);}
-    $('#edit_procurement_status').val(d.procurement_status);
-    $('#edit_procurement_note').val(d.procurement_note);
+    
+    $('#edit_procurement').val(d.procurements);
+	$('#edit_procurement').trigger("chosen:updated");
+   
 
 
 	return false;
 
 }
 
-function formatImplementationDetails(d) {
+function formatImplementationDetails(d,procs) {
 
 
 
@@ -86,16 +83,25 @@ function formatImplementationDetails(d) {
 '<p><b>Iné kontaktné osoby: </b>'+d.other_contacts+'</p>'+
 '<p><b>Kód žiadosti projektu: </b>'+d.project_request_code+'</p>'+
 '<p><b>Stav projektu: </b>'+prettyProjectStatus(d.project_status)+'</p>'+
-'<hr><h3>Verejné obstarávanie</h3><hr>'+
-'<p><b>Verejný obstarávateľ: </b>'+d.procurer_name+'</p>'+
-'<p><b>Názov verejného obstarávania: </b>'+d.procurement_name+'</p>'+
-'<p><b>Predmet zákazky: </b>'+d.procurement_subject+'</p>'+
-'<p><b>Dátum predloženia na kontrolu: </b>'+prettyDate(d.procurement_control_date)+'</p>'+
-'<p><b>Dátum rozhodnutia o schválení: </b>'+prettyDate(d.procurement_approval_date)+'</p>'+
-'<p><b>Rozhodnutie o schválení: </b>'+getTrueFalseIcon(d.procurement_approval)+'</p>'+
-'<p><b>Stav verejného obstarávania: </b>'+d.procurement_status+'</p>'+
-'<p><b>Poznámka k verejnému obstarávaniu: </b>'+d.procurement_note+'</p>'+
-'<hr><h3>Začatie projektu</h3><hr>'+
+'<hr><h3>Verejné obstarávanie</h3><hr>';
+
+for (var i=0; i < procs.length; i++) {
+	$html+= '<p><b>Verejný obstarávateľ:</b>'+procs[i].procurer_name+'</p>'+
+			'<p><b>Názov verejného obstarávania:</b>'+procs[i].name+'</p>'+
+			'<p><b>Predmet zákazky:</b>'+procs[i].subject+'</p>'+
+			'<p><b>Dátum predloženia na kontrolu:</b>'+prettyDate(procs[i].control_date)+'</p>'+
+      		'<p><b>Dátum rozhodnutia o schválení:</b>'+prettyDate(procs[i].approval_date)+'</p>'+
+      		'<p><b>Rozhodnutie o schválení:</b>'+getTrueFalseIcon(procs[i].approval)+'</p>'+
+      		'<p><b>Stav verejného obstarávania:</b>'+procs[i].status+'</p>'+
+      		'<p><b>Poznámka k verejnému obstarávaniu:</b>'+procs[i].note+'</p><hr>'
+
+      
+      
+      
+
+}
+
+$html+= '<hr><h3>Začatie projektu</h3><hr>'+
 '<p><b>Prístup do ITMS - Meno: </b>'+d.itms_access_name+'</p>'+
 '<p><b>Prístup do ITMS - Heslo: </b>'+d.itms_access_pass+'</p>'+
 '<p><b>Dátum podpisu zmluvy o NFP: </b>'+prettyDate(d.nfp_contract_signed)+'</p>'+
