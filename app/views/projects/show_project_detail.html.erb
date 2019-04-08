@@ -584,6 +584,8 @@ var ready = function() {
   $('.addimplem').on('click',function(event){
           //console.log(event.target.id);
 
+          var $procurements = 0;
+
           if (typeof $procurement !== 'undefined') {
           $procurements = $procurement;
             }
@@ -731,7 +733,8 @@ var ready = function() {
 //edit implementation
 $('.editimplem').on('click',function(event){
           //console.log(event.target.id);
-
+          var $procurements = 0;
+          
           if (typeof $edit_procurement !== 'undefined') {
           $procurements = $edit_procurement;
             }

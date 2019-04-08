@@ -25,7 +25,7 @@ class CalendarsController < ApplicationController
   end
 
   def get_calendar_events
-    @calendar = Calendar.where(:user_id=>current_user.id)
+    @calendar = Calendar.where("user_id = ? and disabled is not true",current_user.id)
 
     respond_to do |format|
       format.json { render :json => @calendar.as_json  }
@@ -33,7 +33,7 @@ class CalendarsController < ApplicationController
   end
 
   def get_user_calendar
-    @calendar = Calendar.where(:user_id=>params[:id]).order("start desc")
+    @calendar = Calendar.where("user_id = ? and disabled is not true",current_user.id).order("start desc")
 
     arr=Array.new
     @calendar.each do |cal|
@@ -94,8 +94,9 @@ def edit_calendar_event
   def remove_calendar_event
     begin
       @event = Calendar.find(params[:id])
-     
-     if (@event.destroy)
+      @event.disabled = true
+
+      if (@event.save)
         respond_to do |format|
               format.json { render :json => {"status":"ok"}  }
            end

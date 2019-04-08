@@ -245,7 +245,8 @@ select: function(start, end, allDay) {
               {
                 $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol vytvorený"));
                 //alert("Záznam do kalendára bol pridaný" );
-                calendar.fullCalendar( 'refetchEvents' );
+                //calendar.fullCalendar( 'refetchEvents' );
+                calendar.fullCalendar('rerenderEvents')
                 
               }
               else { alert(data.status);}
@@ -288,7 +289,8 @@ eventDrop: function(event, delta) {
               {
                 $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol upravený"));
                 
-                calendar.fullCalendar( 'refetchEvents' );
+                //calendar.fullCalendar( 'refetchEvents' );
+                calendar.fullCalendar('rerenderEvents')
                 
               }
               else { alert(data.status);}
