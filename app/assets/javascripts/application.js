@@ -119,6 +119,39 @@ function getTrueFalseIcon(data) {
     return $myhtml;
 }
 
+function get_activity_icon(action_type) {
+
+  
+ 
+  $res = ''
+
+  switch (action_type) {
+      case 'implemenation_create':
+        $res = '<i class="fa fa-plus-circle" aria-hidden="true"></i>';
+        break;
+      case 'implemenation_update':
+        $res = '<i class="fa fa-puzzle-piece" aria-hidden="true"></i>';
+        break;
+      case 'document_upload':
+        $res = '<i class="fa fa-files-o" aria-hidden="true"></i>';
+        break;
+      case 'procurement_change':
+        $res = '<i class="fa fa-university" aria-hidden="true"></i>';
+        break;
+      case 'invoice':
+        $res = '<i class="fa fa-eur" aria-hidden="true"></i>';
+        break;
+      case 'implementation_change':
+        $res = '<i class="fa fa-indent" aria-hidden="true"></i>';
+        break;
+     default:
+        $res = ''
+    }
+
+    return $res;
+  }
+
+     
 
 document.addEventListener("turbolinks:load", function() {
   $('#side-menu').metisMenu({toggle: false });

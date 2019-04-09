@@ -48,7 +48,7 @@
     <div class="col-md-6">
        <div class="ibox">
 
-                        <div class="ibox-content" id="project_info">
+                        <div id="project_info">
                            
                         </div>
                     
@@ -218,10 +218,12 @@ else {
                     $html+= '<li class="list-group-item"><span class="float-right">'+data.data[i].start+'</span><span class="label label-success">'+(i+1)+'</span>'+data.data[i].title+'</li>'
                    }
 
-                console.log($html)
+                //console.log($html)
 
             }
+            
             $('#user_calendar_data').html('');
+            
             $('#user_calendar_data').append($html)
             }
            })
@@ -245,18 +247,44 @@ else {
             if (data.status == "ok") {
                 var $html='';
 
-                if (data.data.length > 0) {
-                    
+                $html += '<div class="col-md-12"><div class="col-md-4"><p>Zmluva: <b>'+ data.project.contract +'</b></p>'+
+'<p class="m-b-xs">Objednávka: <b>'+ data.project.order +'</b></p>'+
+'<p class="m-b-xs">Kontrola ŽoNFP: <b>'+ data.project.control_zonfp +'</b></p>'+
+'<p class="m-b-xs">Poznámka: <b>'+ data.project.note +'</b></p>'+
+'<p class="m-b-xs">Dodávateľ: <b>'+ data.project.contractor +'</b></p>'+
+'</div>'+
+'<div class="col-md-4">'+
+'<p class="m-b-xs">Poslané na podpis: <b>'+ getTrueFalseIcon(data.project.sent_to_sign) +'</b></p>'+
+'<p class="m-b-xs">Odovzdané-online: <b>'+ getTrueFalseIcon(data.project.submit_online) +'</b></p>'+
+'<p class="m-b-xs">Odovzdané-print: <b>'+ getTrueFalseIcon(data.project.submit_print) +'</b></p>'+
+'</div>'+
+'<div class="col-md-4">'+
+'<p class="m-b-xs">Dohodnuté odmeny: <b>'+ data.project.agreed_payment +'</b></p>'+
+'<p class="m-b-xs">Fakturovaná odmena: <b>'+ data.project.payment +'</b></p>'+
+'<p class="m-b-xs">Splatnosť: <b>'+ data.project.due_date +'</b></p>'+
+'<p class="m-b-xs">Uhradené: <b>'+ getTrueFalseIcon(data.project.payed) +'</b></p></div></div><hr>';
 
-                   for ( var i = 0; i < data.data.length; i++) {
-                    $html+= '<li class="list-group-item"><span class="float-right">'+data.data[i].start+'</span><span class="label label-success">'+(i+1)+'</span>'+data.data[i].title+'</li>'
-                   }
 
-                console.log($html)
+
+                if (data.activities.length > 0) {
+
+                  $html+= '<div class="ibox-content inspinia-timeline"><div class="col-md-12">'
+
+                  for ( var i = 0; i < data.activities.length; i++) {
+                      
+                      $email = ''
+                      for (k = 0; k < data.users.length; ++k) { if (data.users[k].id == data.activities[i].user_id) {$email = data.users[k].email } }                    
+
+                      $html+= '<div class="timeline-item "><div class="row"><div class="col-md-4 date padding_top_10px">'+get_activity_icon(data.activities[i].action_type)+'<br><small class="text-navy">'+prettyDate(data.activities[i].created_at)+'</small></div>';
+                      $html += '<div class="col-md-8 content no-top-border min80height"><p class="m-b-xs"><strong>'+data.activities[i].note+'</strong></p>';
+                      $html += '<p>Autor: '+ $email+' </p></div></div></div>';
+
+                   } 
+                   $html += '</div></div>'
 
             }
-            $('#user_calendar_data').html('');
-            $('#user_calendar_data').append($html)
+            $('#project_info').html('');
+            $('#project_info').append($html)
             }
            })
            .fail(function (data) {
@@ -273,3 +301,8 @@ else {
 $(".static_pages.home").ready(ready);
 $(".static_pages.home").on('turbolinks:load', ready);
 </script>
+
+
+
+                                    
+                                            

@@ -28,6 +28,13 @@
   color: #ED5565;
 }
 
+.min80height {
+  min-height: 80px !important;
+}
+
+.padding_top_10px {
+  padding-top:10px !important;
+}
 
 @media (min-width: 992px) {
   .modal-xl {

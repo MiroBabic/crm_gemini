@@ -33,7 +33,7 @@ class CalendarsController < ApplicationController
   end
 
   def get_user_calendar
-    @calendar = Calendar.where("user_id = ? and disabled is not true",current_user.id).order("start desc")
+    @calendar = Calendar.where("user_id = ? and disabled is not true",params[:id]).order("start desc")
 
     arr=Array.new
     @calendar.each do |cal|
