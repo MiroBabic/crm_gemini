@@ -151,8 +151,33 @@ function get_activity_icon(action_type) {
     return $res;
   }
 
+
+//set navigation
+
+function setNavigation() {
+   var path = window.location.pathname;
+   path = path[0] == '/' ? path.substr(0) : path; //it will remove the dash in the URL
+
+   $("ul.metismenu a").each(function() {
+       var href = $(this).attr('href');
+       if (path.substring(0, href.length) === href) {
+           $(this).closest('li').addClass('active');
+       }
+   });
+
+   $("ul.metismenu .nav-second-level a").each(function() {
+       var href = $(this).attr('href');
+       if (path.substring(0, href.length) === href) {
+           $(this).parent().parent().closest('li').addClass('active');
+           $(this).closest('ul').addClass('in');
+       }
+   });
+}
+
+//end of set navigation
      
 
 document.addEventListener("turbolinks:load", function() {
   $('#side-menu').metisMenu({toggle: false });
+  setNavigation();
 });
