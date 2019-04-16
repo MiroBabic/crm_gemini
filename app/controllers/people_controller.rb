@@ -19,6 +19,25 @@ class PeopleController < ApplicationController
   def show
   end
 
+    def remove_unsubscribe
+    begin
+       @subjects = Subject.where(:subjtype_id =>params[:id]).pluck(:id)
+       @contacts = Person.where(:subject_id=>@subjects, :unsubscribe=>true)
+
+       @contacts.each do |contact|
+        contact.unsubscribe = false
+        contact.save
+       end
+
+       respond_to do |format|
+              format.html { redirect_to subjtypes_path, notice: 'Všetkým kontaktom pre daný typ subjektu bol zrušený unsubscribe.' }
+           end
+
+    rescue=>error
+      redirect_to subjtypes_path, alert: error.message
+    end
+  end
+
   def get_subject_contacts
     begin
       @subject = Subject.find(params[:id])

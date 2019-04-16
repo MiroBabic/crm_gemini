@@ -32,6 +32,7 @@ class SubjectsController < ApplicationController
     end
   end
 
+
   def show_subject_profile
     @subject = Subject.find(params[:id])
     @communications = Communication.where(:subject_id=>@subject.id).order("created_at desc").limit(6)

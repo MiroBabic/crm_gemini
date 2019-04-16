@@ -33,7 +33,9 @@
                 <th>Typ subjektu</th>
                 <th>Opis</th>
                 <th>Počet subjektov pre tento typ</th>
+                <th>Počet unsubscribed kontaktov</th>
                 <% if current_user.admin? %>
+                <th></th>
                 <th></th>
                 <th></th>
                 <% end %>
@@ -46,7 +48,9 @@
                 <td><%= subjtype.name %></td>
                 <td><%= subjtype.about %></td>
                 <td><%= count_total_subject_for_subjtype(subjtype.id) %></td>
+                <td><%= count_unsubscribe_for_subjtype(subjtype.id) %></td>
                 <% if current_user.admin? %>
+                <td><%= link_to "Zruš všetky unsubscribe", remove_unsubscribe_path(subjtype.id) %></td>
                 <td><a  data-toggle="modal" data-target="#editsubjtypeModal<%=subjtype.id%>"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
         <td><%= link_to subjtype, method: :delete, data: { confirm: 'Naozaj ho chceš zmazať? Všetky naviazané subjekty a ich dáta budú nenávratne zmazané!' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
                 <% end %></td>

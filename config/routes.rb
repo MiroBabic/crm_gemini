@@ -43,6 +43,7 @@ Rails.application.routes.draw do
   post '/send_mail_to_subjects' => 'static_pages#send_mail_to_subjects', :as=> 'send_mail_to_subjects'
   post 'delete_delayed_job'=>'static_pages#delete_delayed_job', :as=>'delete_delayed_job'
   get '/unsubscribe/:id' => 'static_pages#unsubscribe', :as=>'unsubscribe'
+  get '/remove_unsubscribe/:id' => 'people#remove_unsubscribe', :as=>'remove_unsubscribe'
   
   get '/export'=> 'static_pages#export', :as=> 'export'
 
