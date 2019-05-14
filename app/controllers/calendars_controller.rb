@@ -33,17 +33,19 @@ class CalendarsController < ApplicationController
   end
 
   def get_user_calendar
-    @calendar = Calendar.where("user_id = ? and disabled is not true",params[:id]).order("start desc")
+    @calendar = Calendar.where("user_id = ? and disabled is not true and start >= ?",params[:id], (Date.today - 1) ).order("start desc")
 
     arr=Array.new
     @calendar.each do |cal|
       @res = Hash.new
       @res["id"] = cal.id
       @res["title"] = cal.title
+      @res["orig_start"] = cal.start
       @res["start"] = (I18n.localize cal.start, :format => :long)
       arr.push(@res)
     end
    
+    arr = arr.sort_by {|x| x["orig_start"]}
     respond_to do |format|
       format.json { render :json => {"status":"ok", "data":arr.as_json } }
     end

@@ -29,7 +29,8 @@ class StaticPagesController < ApplicationController
 	end
 
 	def home
-		@calendar = Calendar.where("user_id = ? and disabled is not true",current_user.id)
+		#@calendar = Calendar.where("user_id = ? and disabled is not true",current_user.id)
+		@calendar = Calendar.where("user_id = ? and disabled is not true and start >= ?",current_user.id, (Date.today - 1) ).order("start desc")
 		@users = User.all.order(:name)
 		@projects = Project.all.order("updated_at desc")
 	end
