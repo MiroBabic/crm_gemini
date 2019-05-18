@@ -27,7 +27,7 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 
 gem 'devise'
 gem 'font-awesome-sass', '~> 4.7.0'
-gem 'bootstrap-sass', '~> 3.3.6'
+gem 'bootstrap-sass', '~> 3.4.1'
 gem 'ajax-datatables-rails', github: 'ajahongir/ajax-datatables-rails', branch: 'v-0-4-0'
 
 gem 'carrierwave', '~> 1.0'
