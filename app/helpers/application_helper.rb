@@ -137,6 +137,15 @@ module ApplicationHelper
   	return @res
   end
 
+
+  def get_process_count
+  	begin
+  		@res = Delayed::Job.all.size
+  		return @res
+  	rescue=>error
+  		return 0
+  	end
+  end
   	
 
 
