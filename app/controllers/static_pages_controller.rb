@@ -204,10 +204,7 @@ class StaticPagesController < ApplicationController
 				@total_subjects = (@total_subjects.select{|x| x["citizen_count"].to_i <= @obyv_count_to.to_i}).reject{|x| x["citizen_count"].nil?}
 			end
 
-			@email_from = Userprofile.where(:user_id=>current_user.id).first.send("email_acc"+@email_acc.to_s)
-			@pass = Userprofile.where(:user_id=>current_user.id).first.send("email_pass"+@email_acc.to_s)
-			@smtp = Userprofile.where(:user_id=>current_user.id).first.send("smtp"+@email_acc.to_s)
-			@port = Userprofile.where(:user_id=>current_user.id).first.send("port"+@email_acc.to_s)
+			
 
 			
 
@@ -223,6 +220,11 @@ class StaticPagesController < ApplicationController
 			###end check if add filtered to manual
 			
 			end
+
+			@email_from = Userprofile.where(:user_id=>current_user.id).first.send("email_acc"+@email_acc.to_s)
+			@pass = Userprofile.where(:user_id=>current_user.id).first.send("email_pass"+@email_acc.to_s)
+			@smtp = Userprofile.where(:user_id=>current_user.id).first.send("smtp"+@email_acc.to_s)
+			@port = Userprofile.where(:user_id=>current_user.id).first.send("port"+@email_acc.to_s)
 
 			@manual_mails_parsed.each do |man|
 				person = Person.where('email = ? OR email2 = ?',man,man).first
