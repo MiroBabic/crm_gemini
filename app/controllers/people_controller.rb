@@ -19,6 +19,20 @@ class PeopleController < ApplicationController
   def show
   end
 
+  def find_email
+    search_term = params[:request]
+
+    puts "----------"
+    puts search_term
+    puts "----------"
+
+    @emails = Person.where("email like ? OR email2 like ? ", '%' +search_term.to_s + '%','%'+ search_term.to_s+ '%').pluck(:email,:email2).flatten.compact.sort.uniq
+
+    respond_to do |format|
+      format.json { render :json => {"data":@emails}  }
+    end
+  end
+
     def remove_unsubscribe
     begin
        @subjects = Subject.where(:subjtype_id =>params[:id]).pluck(:id)

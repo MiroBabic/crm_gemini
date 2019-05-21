@@ -88,6 +88,7 @@ Rails.application.routes.draw do
   post '/modal_create_mail_template' => 'mailtemplates#modal_create_mail_template', :as=>'modal_create_mail_template'
   post '/modal_update_mail_template' => 'mailtemplates#modal_update_mail_template', :as=>'modal_update_mail_template'
   get '/get_template/:id' => 'mailtemplates#get_template', :as=> 'get_template'
+  post '/find_email' => 'people#find_email', :as=>'find_email'
 
   #userprofile
   get '/profil_uzivatela' => 'userprofiles#showprofile', :as=> 'showprofile'

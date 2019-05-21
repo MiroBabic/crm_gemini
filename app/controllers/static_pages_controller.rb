@@ -130,8 +130,19 @@ class StaticPagesController < ApplicationController
 			#@user= params[:user]
 			@docs= params[:docs]
 			@email_acc= params[:email_acc]
+			@manual_emails = params[:manual_emails]
+			@filtered_to_manual = params[:add_filtered_to_manual]
 
+			puts @filtered_to_manual
+			puts @filtered_to_manual.class
+
+			@manual_mails_parsed = @manual_emails.delete(" ").gsub(";",",").split(',')
 			
+			
+			@comm_arr = Array.new
+
+			#check if add filtered subjects or only manual emails
+			if @filtered_to_manual == 'true'
 
 			if params[:district].present?
 				@district = params[:district]
@@ -198,8 +209,9 @@ class StaticPagesController < ApplicationController
 			@smtp = Userprofile.where(:user_id=>current_user.id).first.send("smtp"+@email_acc.to_s)
 			@port = Userprofile.where(:user_id=>current_user.id).first.send("port"+@email_acc.to_s)
 
-			@comm_arr = Array.new
+			
 
+			
 			@total_subjects.each do |subj|
 				subj.people.each do |person|
 					c=Communication.new(:subject_id=>subj.id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
@@ -208,14 +220,36 @@ class StaticPagesController < ApplicationController
 
 			end
 
+			###end check if add filtered to manual
+			
+			end
+
+			@manual_mails_parsed.each do |man|
+				person = Person.where('email = ? OR email2 = ?',man,man).first
+				if (person.present? && person.unsubscribe == true)
+					@manual_mails_parsed.delete(man)
+				end
+
+				if (person.present? && person.unsubscribe == false)
+					c=Communication.new(:subject_id=>person.subject_id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
+					@comm_arr.push(c)
+				end
+			end
+
 			if @comm_arr.present?
 				Communication.import @comm_arr
 			end
 			
 			#@addresses1 = (@total_subjects.map {|a| a.people.map {|b| b.email}}).flatten.uniq
 			#@addresses2 = (@total_subjects.map {|a| a.people.map {|b| b.email2}}).flatten.uniq
-			@subjids = @total_subjects.map {|a| a.id}.flatten.uniq
-			@res_addresses = Person.where(:subject_id=>@subjids,:unsubscribe=>false).pluck(:email,:email2).flatten.uniq
+			if @total_subjects.present?
+				@subjids = @total_subjects.map {|a| a.id}.flatten.uniq
+				@res_addresses = Person.where(:subject_id=>@subjids,:unsubscribe=>false).pluck(:email,:email2).flatten.uniq
+
+				@res_addresses = @res_addresses.concat(@manual_mails_parsed)
+			else
+				@res_addresses = @manual_mails_parsed
+			end
 
 
 			#@res_addresses = @addresses1.compact + @addresses2.compact

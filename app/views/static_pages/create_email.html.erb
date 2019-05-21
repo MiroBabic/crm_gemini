@@ -39,13 +39,14 @@
                             </div>
                 </div>
 		<div class="col-lg-12" id="main_box" >
-			
+		
 
 			<div class="col-lg-3">
 				<div class="ibox">
 					<div class="ibox-content mailbox-content">
 
-                            
+            
+
                         
 						<div class="form-group">
 							<label class="font-normal">Okres</label>
@@ -121,7 +122,18 @@
 
 					<div class="mail-body">
 
-						
+						 <div class="form-group row"><label class="col-sm-2 col-form-label">Adresa:</label>
+              <div class="col-sm-10"><input list="manual_emails" type="email" name="manual_email_entry" id="manual_email_entry" class="form-control" placeholder="Zadaj email. Viac adries je nutné oddeliť čiarkami!"/>
+                <datalist id="manual_emails">
+                 </datalist></div>
+               
+              </div>
+            
+            <div class="form-group row"><label class="col-sm-2 col-form-label">Chcem zároveň poslať kontaktom podľa filtra vľavo. Nezaškrtnuté políčko znamená, že sa poše email len hore napísaným adresám!</label>
+
+                <div class="col-sm-10"><input id="add_filtered_to_manual" type="checkbox" class="icheckbox_square-green" /></div>
+              </div>
+
 
 							<div class="form-group row"><label class="col-sm-2 col-form-label">Predmet:</label>
 
@@ -184,6 +196,37 @@
     var ready = function() {
 
 $('.chosen-select').chosen({width: "100%"});
+
+$('#manual_email_entry').on('input',function(e){
+
+  $entry_term = $('#manual_email_entry').val();
+
+  $search_term = $entry_term.split(/[, ]+/).pop();
+
+
+  if ($search_term.length > 2) {
+    $.ajax({
+            type: "POST",
+            url: "/find_email/",
+            dataType: 'json',
+            data: {request: $search_term}
+                       
+          }).done(function (data) {
+            //console.log(data.data)
+            var $opt_val = ''
+            for ( var i = 0; i < data.data.length; i++) {
+              $opt_val += '<option value="'+data.data[i]+'">'
+            }
+
+            $('#manual_emails').html('')
+            $('#manual_emails').html($opt_val)
+          })
+    ; 
+  }
+});
+
+
+
 
 $('.summernote').summernote({
  minHeight: 400,
@@ -269,6 +312,9 @@ $("#main_box").addClass('ibox-content sk-loading');
           
 	};
 
+  var $add_filtered_to_manual = false;
+  if ($('#add_filtered_to_manual').is(':checked')) { $add_filtered_to_manual = true }
+
  $email_subject = $('#email_subject').val();
  $content = $('#email_content').val();
  $district = $('#district').val();
@@ -279,6 +325,7 @@ $("#main_box").addClass('ibox-content sk-loading');
  $user = $('#user').val();
  $docs = $('#docs').val();
  $email_acc = $('#email_acc').val();
+ $all_manual_emails = $('#manual_email_entry').val();
 
  	$.ajax({
             type: "POST",
@@ -293,7 +340,9 @@ $("#main_box").addClass('ibox-content sk-loading');
               obyv_count_to: $obyv_count_to,
               user: $user,
               docs: $docs,
-              email_acc: $email_acc
+              email_acc: $email_acc,
+              manual_emails: $all_manual_emails,
+              add_filtered_to_manual: $add_filtered_to_manual
             },
 
             success:function(data){
