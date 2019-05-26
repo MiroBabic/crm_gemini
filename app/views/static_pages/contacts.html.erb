@@ -634,9 +634,11 @@ var tableready = function() {
                 
              if (data.status == "ok")
               {
+                $("#commdetail"+$delbtnid).html("")
                 $("#notice").html(flashMessageFromAjax(data.status,"Komunikácia bola vymazaná"));
-                //alert("Záznam do kalendára bol pridaný" );
-               location.reload();
+
+                
+               //location.reload();
                
                 
               }

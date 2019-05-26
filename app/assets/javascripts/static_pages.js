@@ -40,9 +40,9 @@ function formatSubjContactsDetail(d) {
 	
 
 	 for ( var i = 0; i < d.length; i++) {
-	 	$part2+= '<p><b>S osobou: </b>' +d[i].first_name+' '+d[i].last_name+'</p><p><b>Vytvoril: </b>'+d[i].email+'</p><p><b>Kľúčové slovo: </b>'+d[i].keyword+
+	 	$part2+= '<span id="commdetail'+d[i].id+'"><p><b>S osobou: </b>' +d[i].first_name+' '+d[i].last_name+'</p><p><b>Vytvoril: </b>'+d[i].email+'</p><p><b>Kľúčové slovo: </b>'+d[i].keyword+
       '</p><p><b>Obash: </b>'+d[i].about+'</p><p><b>Dátum vloženia: </b>'+prettyDate(d[i].created_at)+
-      '</p><p><b>Dátum poslednej zmeny: </b>'+prettyDate(d[i].updated_at)+'</p><a class="del_implem_note"><i id="del_comm_'+d[i].id+'" class="fa fa-trash-o" aria-hidden="true"></i></a><hr>';
+      '</p><p><b>Dátum poslednej zmeny: </b>'+prettyDate(d[i].updated_at)+'</p><a class="del_implem_note"><i id="del_comm_'+d[i].id+'" class="fa fa-trash-o" aria-hidden="true"></i></a><hr></span>';
 	 }
 
 	 
