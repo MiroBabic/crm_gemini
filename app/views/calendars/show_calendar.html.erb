@@ -59,10 +59,17 @@
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="calendar_goto_entry" id="calendar_goto_entry" class="form-control datepick" placeholder="1990-12-31" /></div> 
     </div>
   
-   <div class="col-md-3">
+   <div class="col-md-2">
             <button class="btn btn-primary" id="cal_goto_submit_button">Prejdi na dátum</button>
           </div>
+ <div class="col-md-5">
+  <input type="text" name="calendar_search_input" id="calendar_search_input" class="form-control" placeholder="Hľadaný text" />
+ </div>
+ <div class="col-md-2">
+            <button class="btn btn-primary" id="cal_search_submit_button">Hľadaj</button>
+          </div>
         </div>
+
   </div>
   </div>
   </div>
@@ -124,6 +131,30 @@
           </div>
       </div>
 
+        </div>
+        </div>
+        </div>
+        </div>
+
+
+<div id="searchCalendarModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="edit_myModalLabel">Výsledok hľadania záznamov v kalendári </h2>
+       
+      </div>
+      <div class="modal-body">
+      
+                      <div class="row">
+                        <h3>Po kliknutí na dátum vo výsledkoch sa kalendár presunie na daný dátum</h3>
+             <div id="search_cal_result" class="col-md-12">
+              
+             </div>
+           </div>
+         
+         
         </div>
         </div>
         </div>
@@ -203,6 +234,40 @@ $("#cal_goto_submit_button").click(function()
 {
   $goto_date = $('#calendar_goto_entry').val();
   calendar.fullCalendar('gotoDate',$goto_date)
+}
+);
+
+
+
+
+$("#cal_search_submit_button").click(function()
+{
+  $search_term = $('#calendar_search_input').val();
+  
+   $.ajax({
+            type: "POST",
+            url: "/search_calendar_data",
+            data: {
+                term: $search_term
+            }
+        })
+           .done(function (data) {
+            //console.log(data)
+            $('#search_cal_result').html('')
+            $('#search_cal_result').html(format_calendar_search(data.data))
+            $('#searchCalendarModal').modal('toggle');
+
+
+            $(".search_entry_date").click(function(event)
+              {
+                //console.log(event)
+                $goto_date_search = event.target.innerText;
+                calendar.fullCalendar('gotoDate',$goto_date_search)
+              }
+              );
+
+           })
+
 }
 );
 

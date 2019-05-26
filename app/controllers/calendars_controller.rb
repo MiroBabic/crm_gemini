@@ -24,6 +24,21 @@ class CalendarsController < ApplicationController
   def show_calendar
   end
 
+  def search_calendar_data
+    begin
+      search_term = params[:term]
+      @all_events = Calendar.where(:user_id=>current_user.id)
+      @events = @all_events.advanced_search(title: search_term)
+
+      respond_to do |format|
+        format.json { render :json => {"status":"ok", "data": @events } }
+      end
+
+    rescue=>error
+      redirect_to show_calendar_path, alert: error.message
+    end
+  end
+
   def get_calendar_events
     @calendar = Calendar.where("user_id = ? and disabled is not true",current_user.id)
 

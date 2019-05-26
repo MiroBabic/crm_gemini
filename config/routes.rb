@@ -82,6 +82,7 @@ Rails.application.routes.draw do
   post '/edit_calendar_event' => 'calendars#edit_calendar_event', :as=>'edit_calendar_event'
   post '/remove_calendar_event' => 'calendars#remove_calendar_event', :as=>'remove_calendar_event'
   get '/get_user_calendar/:id' => 'calendars#get_user_calendar', :as=>'get_user_calendar'
+  post '/search_calendar_data' => 'calendars#search_calendar_data', :as=>'search_calendar_data'
 
   #emails
   get '/sablony' => 'mailtemplates#index', :as=>'sablony'
