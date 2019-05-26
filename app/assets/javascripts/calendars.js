@@ -7,7 +7,7 @@
 	
 
 	 for ( var i = 0; i < d.length; i++) {
-	 	$html+='<td>'+d[i].title+'</td><td class="search_entry_date">'+prettyDateToInput(d[i].start)+'</td><td class="search_entry_date">'+prettyDateToInput(d[i].end)+'</td>';
+	 	$html+='<tr><td>'+d[i].title+'</td><td class="search_entry_date">'+prettyDateToInput(d[i].start)+'</td><td class="search_entry_date">'+prettyDateToInput(d[i].end)+'</td></tr>';
 	 }
 
 	 $html += '</tbody></table>'
