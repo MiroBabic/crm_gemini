@@ -50,6 +50,24 @@
 		</div>
 	</div>
   <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+          <div class="ibox-content">
+            <div class="row">
+     <div class="col-md-3">
+     <div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="calendar_goto_entry" id="calendar_goto_entry" class="form-control datepick" placeholder="1990-12-31" /></div> 
+    </div>
+  
+   <div class="col-md-3">
+            <button class="btn btn-primary" id="cal_goto_submit_button">Prejdi na dátum</button>
+          </div>
+        </div>
+  </div>
+  </div>
+  </div>
+  </div>
+  <div class="row">
    <div class="col-lg-12">
      <div class="ibox float-e-margins">
       <div class="ibox-content">
@@ -180,6 +198,13 @@ else {
 	$("#notice").html(flashMessageFromAjax("not ok","Nezadal si dátum"));
 }
   });
+
+$("#cal_goto_submit_button").click(function()
+{
+  $goto_date = $('#calendar_goto_entry').val();
+  calendar.fullCalendar('gotoDate',$goto_date)
+}
+);
 
 
 var defaultView = (localStorage.getItem("fcDefaultView") !== null ? localStorage.getItem("fcDefaultView") : "basicWeek");
