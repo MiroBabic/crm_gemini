@@ -160,7 +160,7 @@ $('.editprojtarget').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Projektový zámer bol upravený" );
+              
                 location.reload();
               }
               else { alert(data.status);}
@@ -191,7 +191,7 @@ $('.addprojecttarget').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Projektový zámer bol vytvorený" );
+               
                 location.reload();
               }
               else { alert(data.status);}

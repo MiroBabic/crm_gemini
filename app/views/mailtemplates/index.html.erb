@@ -207,7 +207,7 @@ $('.addmailtemplatebtn').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Šablóna bola vytvorená" );
+               
                 location.reload();
               }
               else { alert(data.status);}
@@ -257,7 +257,7 @@ $('.editmailtemplatebtn').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Šablóna bola upravená" );
+               
                 location.reload();
               }
               else { alert(data.status);}

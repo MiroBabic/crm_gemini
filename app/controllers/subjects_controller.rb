@@ -39,6 +39,7 @@ class SubjectsController < ApplicationController
     @documents = Document.where(:subject_id=>@subject.id)
     @people = Person.where(:subject_id=>@subject.id)
     @media = Medium.where(:subject_id=>@subject.id)
+    @projects = Project.where(:subject_id=>@subject.id).order("updated_at desc")
 
     @districts = District.all.order(:name)
     @subjtypes = Subjtype.all.order(:name)

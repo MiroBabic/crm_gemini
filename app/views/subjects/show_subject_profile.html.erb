@@ -168,7 +168,7 @@
 
 </div>
 
-<div class="col-lg-6">
+<div class="col-lg-3">
  <div class="ibox">
     <div class="ibox-title">
     <h5>Komunikácia</h5>
@@ -188,6 +188,40 @@
                                             <div><strong>Kľúčové slovo: </strong><%= comm.keyword %></div>
                                             <div><%= comm.about %></div>
                                             <small class="text-muted"><%= (I18n.localize comm.created_at) %></small>
+                                        </div>
+                                    </div>
+                                    <% end %>
+                                   
+
+                                </div>
+                            
+</div>
+</div>
+
+</div>
+<div class="col-lg-3">
+ <div class="ibox">
+    <div class="ibox-title">
+    <h5>Projekty</h5>
+    </div>
+   <div class="ibox-content ">
+
+                                <div class="feed-activity-list">
+                                  <% @projects.each do |project| %>
+                                    <div class="feed-element">
+                                        <div>
+                                            <small class="float-right text-navy">Naposledy upravený pred <%= time_ago_in_words(project.updated_at) %></small>
+                                            
+                                            <div><h3><%= link_to project.name, show_project_detail_path(project.id) %></h3></div>
+                                            
+                                            <div><strong>Projektový manažér: </strong><%= project.user.name if project.user.present? %></div>
+                                            <div><strong>Zmluva: </strong><%= project.contract %></div>
+                                            <div><strong>Zmluva: </strong><%= project.contract %></div>
+                                            <div><strong>Objednávka: </strong><%= project.order %></div>
+                                            <div><strong>Poslané na podpis: </strong><%= get_true_false_icon(project.sent_to_sign) %></div>
+                                            <div><strong>Odovzdané-online: </strong><%= get_true_false_icon(project.submit_online) %></div>
+                                            <div><strong>Odovzdané-print: </strong><%= get_true_false_icon(project.submit_print) %></div>
+                                          
                                         </div>
                                     </div>
                                     <% end %>
@@ -568,7 +602,7 @@ $('.createcomm').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Záznam bol vytvorený" );
+                //alert("Záznam bol vytvorený" );
                 location.reload();
                 
               }
@@ -629,7 +663,7 @@ $('.editcontact').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Subjekt bol upravený" );
+                //alert("Subjekt bol upravený" );
                 location.reload();
                 
               }
@@ -677,7 +711,7 @@ $('.editperson').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Osoba bol upravená" );
+                //alert("Osoba bol upravená" );
                 location.reload();
                 
               }
@@ -724,7 +758,7 @@ $('.createperson').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Osoba bol vytvorená" );
+                //alert("Osoba bol vytvorená" );
                 location.reload();
 
               }

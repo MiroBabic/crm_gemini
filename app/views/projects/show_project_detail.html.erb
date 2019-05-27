@@ -35,7 +35,7 @@
 
           </h2>
           <br>
-          <p>Žiadateľ: <b><%= @project.subject.name if @project.subject.present? %></b></p>
+          <p>Žiadateľ: <b><%= link_to @project.subject.name, show_subject_profile_path(@project.subject_id) if @project.subject.present? %></b></p>
           <p>Kontaktná osoba: <b><%= @project.person.email if @project.person.present? %></b></p>
           <p>Projektový manažér: <b><%= @project.user.email if @project.user.present? %></b></p>
           

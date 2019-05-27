@@ -406,7 +406,7 @@ eventResize: function(event) {
 				if (data.status == "ok")
               {
               	$("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol upravený"));
-                //alert("Záznam v kalendári bol upravený" );
+                
                 calendar.fullCalendar( 'refetchEvents' );
                 
               }
@@ -434,7 +434,7 @@ eventRender: function (event, element) {
 				if (data.status == "ok")
               {
                 $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol vymazaný"));
-                //alert("Záznam v kalendári bol vymazaný" );
+                
                 calendar.fullCalendar( 'refetchEvents' );
                 
               }
@@ -522,7 +522,7 @@ if ($manual_date.length > 0) {
              if (data.status == "ok")
               {
                 $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol vytvorený"));
-                //alert("Záznam do kalendára bol pridaný" );
+                
                 location.reload();
                 
               }

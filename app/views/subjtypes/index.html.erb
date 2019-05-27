@@ -165,7 +165,7 @@ $('.editsubjtype').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Typ subjektu bol upravený" );
+                //alert("Typ subjektu bol upravený" );
                 location.reload();
               }
               else { alert(data.status);}
@@ -196,7 +196,7 @@ $('.addsubjtype').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Typ subjektu bol vytvorený" );
+               // alert("Typ subjektu bol vytvorený" );
                 location.reload();
               }
               else { alert(data.status);}
