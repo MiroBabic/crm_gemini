@@ -82,6 +82,7 @@ class StaticPagesController < ApplicationController
 	def create_email
 		#@subject_types = Subjtype.all.order(:name)
 		@subject_types = Subjtype.where("id in (select distinct(subjtype_id) from subjects)")
+		@subjects = Subject.all.order(:name)
 		@districts = District.all.order(:name)
 		@counties =  District.all.pluck(:county).uniq.sort
 		@users = User.all
@@ -131,6 +132,7 @@ class StaticPagesController < ApplicationController
 			@docs= params[:docs]
 			@email_acc= params[:email_acc]
 			@manual_emails = params[:manual_emails]
+			@manual_subjects = params[:manual_subjects]
 			@filtered_to_manual = params[:add_filtered_to_manual]
 
 			puts @filtered_to_manual
@@ -226,6 +228,23 @@ class StaticPagesController < ApplicationController
 			@smtp = Userprofile.where(:user_id=>current_user.id).first.send("smtp"+@email_acc.to_s)
 			@port = Userprofile.where(:user_id=>current_user.id).first.send("port"+@email_acc.to_s)
 
+
+			### process manually entered subjects##
+			@man_subj = Subject.where(:id=>@manual_subjects)
+			@man_subj.each do |man_sub|
+				man_sub.people.each do |person|
+					c=Communication.new(:subject_id=>man_sub.id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
+					@comm_arr.push(c)
+				end
+			end
+
+			@man_subj_ids = @man_subj.map {|a| a.id}.flatten.uniq
+			@man_subj_emails = Person.where(:subject_id=>@man_subj_ids,:unsubscribe=>false).pluck(:email,:email2).flatten.uniq
+
+			###
+
+
+			### process manually entered email addresses
 			@manual_mails_parsed.each do |man|
 				person = Person.where('email = ? OR email2 = ?',man,man).first
 				if (person.present? && person.unsubscribe == true)
@@ -238,6 +257,8 @@ class StaticPagesController < ApplicationController
 				end
 			end
 
+			####
+
 			if @comm_arr.present?
 				Communication.import @comm_arr
 			end
@@ -249,8 +270,10 @@ class StaticPagesController < ApplicationController
 				@res_addresses = Person.where(:subject_id=>@subjids,:unsubscribe=>false).pluck(:email,:email2).flatten.uniq
 
 				@res_addresses = @res_addresses.concat(@manual_mails_parsed)
+				@res_addresses = @res_addresses.concat(@man_subj_emails).uniq
 			else
-				@res_addresses = @manual_mails_parsed
+				@res_addresses = @manual_mails_parsed.concat(@man_subj_emails).uniq
+
 			end
 
 

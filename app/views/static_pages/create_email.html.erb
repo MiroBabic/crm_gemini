@@ -128,8 +128,14 @@
                  </datalist></div>
                
               </div>
+            <div class="form-group row"><label class="col-sm-2 col-form-label">Subjekt:</label>
+              <div class="col-sm-10">
+                <%= select_tag 'subjekt_manual', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'chosen-select',multiple: true, id: 'subjekt_manual',"data-placeholder": "Vyber subjekt..." %>
+              </div>
+               
+              </div>
             
-            <div class="form-group row"><label class="col-sm-2 col-form-label">Chcem zároveň poslať kontaktom podľa filtra vľavo. Nezaškrtnuté políčko znamená, že sa poše email len hore napísaným adresám!</label>
+            <div class="form-group row"><label class="col-sm-2 col-form-label">Chcem zároveň poslať kontaktom podľa filtra vľavo. Nezaškrtnuté políčko znamená, že sa poše email len hore napísaným adresám/vybraným subjektom!</label>
 
                 <div class="col-sm-10"><input id="add_filtered_to_manual" type="checkbox" class="icheckbox_square-green" /></div>
               </div>
@@ -316,6 +322,7 @@ $("#main_box").addClass('ibox-content sk-loading');
   if ($('#add_filtered_to_manual').is(':checked')) { $add_filtered_to_manual = true }
 
  $email_subject = $('#email_subject').val();
+ $manual_subjects = $('#subjekt_manual').val();
  $content = $('#email_content').val();
  $district = $('#district').val();
  $county = $('#county').val();
@@ -342,6 +349,7 @@ $("#main_box").addClass('ibox-content sk-loading');
               docs: $docs,
               email_acc: $email_acc,
               manual_emails: $all_manual_emails,
+              manual_subjects: $manual_subjects,
               add_filtered_to_manual: $add_filtered_to_manual
             },
 
