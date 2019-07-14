@@ -119,6 +119,7 @@
 
        <p><b>Kód žiadosti projektu:</b><%=@implementation.project_request_code%></p>
       <p><b>Stav projektu:</b><%=prettyProjectStatus(@implementation.project_status)%></p>
+      <div class="grey-background">
       <hr><h3>Verejné obstarávanie</h3><hr>
       <% if @imp_procurements.present? %>
       <% @imp_procurements.each do |proc| %>
@@ -135,7 +136,7 @@
       <% else %>
       <p>Žiadne verejné obstarávanie nebolo priradené ku implementácii</p>
       <% end %>
-
+      </div>
       <hr><h3>Začatie projektu</h3><hr>
       <p><b>Prístup do ITMS - Meno: </b><%=@implementation.itms_access_name%></p>
       <p><b>Prístup do ITMS - Heslo: </b><%=@implementation.itms_access_pass%></p>
@@ -148,6 +149,7 @@
       <p><b>Termín ukončenia projektu podľa zmluvy o NFP: </b><%=prettyDate(@implementation.project_enddate_by_nfp_contract)%></p>
       <p><b>Potreba zmeny harmonogramu projektu:  </b><%=get_true_false_icon(@implementation.project_schedule_change_need)%></p>
       <p><b>Potreba zmeny harmonogramu projektu - Termín:  </b><%=prettyDate(@implementation.schedule_change_need_date)%></p>
+      <div class="grey-background">
       <hr><h3>ŽOP</h3><hr>
       <p><b>Dátum predloženia ŽOP: </b><%=prettyDate(@implementation.zop_showdate)%></p>
       <p><b>Posledný termín na predloženie ŽOP záverečná: </b><%=prettyDate(@implementation.zop_last_term_end)%></p>
@@ -160,19 +162,23 @@
       <p><b>Splnené náležitosti ŽOP: </b><%=get_true_false_icon(@implementation.zop_cond_fulfil)%></p>
       <p><b>Nahratie podkladov do ITMS: </b><%=get_true_false_icon(@implementation.zop_data_to_itms)%></p>
       <p><b>Nahratie podkladov do ITMS - Stav: </b><%=@implementation.zop_data_to_itms_state%></p>
+      </div>
       <hr><h3>Monitorovanie</h3><hr>
       <p><b>Termín najbližšej monitorovačky: </b><%=prettyDate(@implementation.next_monitor_date)%></p>
       <p><b>Termín záverečnej monitorovačky: </b><%=prettyDate(@implementation.finish_monitor_date)%></p>
       <p><b>Dátum predloženia na kontrolu: </b><%=prettyDate(@implementation.control_date)%></p>
       <p><b>Schválenie:  </b><%=get_true_false_icon(@implementation.approved)%></p>
+      <div class="grey-background">
       <hr><h3>Žiadosť o zmenu</h3><hr>
       <p><b>Predmet žiadosti: </b><%=@implementation.change_request%></p>
        <p><b>Posledný termín na preloženie žiadosti o zmenu: </b><%=prettyDate(@implementation.change_request_last_term)%></p>
        <p><b>Schválenie:  </b><%=get_true_false_icon(@implementation.change_request_approval)%></p>
+     </div>
       <hr><h3>Povinná publicita</h3><hr>
       <p><b>Predmet publicity: </b><%=@implementation.publicity_subject%></p>
       <p><b>Posledný termín na predloženie publicity projektu: </b><%=prettyDate(@implementation.publicity_last_term)%></p>
       <p><b>Dátum predloženia: </b><%=prettyDate(@implementation.publicity_showdate)%></p>
+      <div class="grey-background">
       <hr><h3>Ukončenie projektu</h3><hr>
       <p><b>Dátum skutočného ukončenia projektu: </b><%=prettyDate(@implementation.project_real_enddate)%></p>
       <p><b>Spôsob ukončenia projektu: </b><%=@implementation.project_end_type%></p>
@@ -180,7 +186,7 @@
       <p><b>Predčasné ukončenie projektu - Termín: </b><%=prettyDate(@implementation.project_end_sooner_date)%></p>
       <p><b>Zaslanie hlásenia o predčasnom ukončení projektu: </b><%=get_true_false_icon(@implementation.note_project_sooner_sent)%></p>
       <p><b>Zaslanie hlásenia o predčasnom ukončení projektu - Termín: </b><%=prettyDate(@implementation.note_project_sooner_sent_date)%></p>
-
+    </div>
       <!-- modal edit -->
       <div id="edit_editImplementationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">

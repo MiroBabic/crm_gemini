@@ -201,6 +201,9 @@ module ApplicationHelper
 			when 'change_request' then res = 'Predmet žiadosti'
 			when 'change_request_last_term' then res = 'Posledný termín na preloženie žiadosti o zmenu'
 			when 'change_request_approval' then res = 'Schválenie žiadosti'
+			when 'project_status' then res ='Stav projektu'
+			when 'procurements_string' then 'Verejne obstarávania'
+			when 'project_request_code' then 'Kód žiadosti projektu'
 
 				
 
