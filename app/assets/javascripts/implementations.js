@@ -60,6 +60,10 @@ function updateImplementationEditModal(d) {
     
     $('#edit_procurement').val(d.procurements);
 	$('#edit_procurement').trigger("chosen:updated");
+
+	$('#edit_publicity_note').val(d.publicity_note);
+	$('#edit_monitoring_note').val(d.monitoring_note);
+	$('#edit_change_request_note').val(d.change_request_note);
    
 
 
@@ -131,16 +135,17 @@ $html+= '<hr><h3>Začatie projektu</h3><hr>'+
 '<p><b>Termín záverečnej monitorovačky: </b>'+prettyDate(d.finish_monitor_date)+'</p>'+
 '<p><b>Dátum predloženia na kontrolu: </b>'+prettyDate(d.control_date)+'</p>'+
 '<p><b>Schválenie:  </b>'+getTrueFalseIcon(d.approved)+'</p>'+
-
+'<p><b>Poznámka k monitorovačke: </b>'+d.monitoring_note+'</p>'+
 '<hr><h3>Žiadosť o zmenu</h3><hr>'+
 '<p><b>Predmet žiadosti: </b>'+d.change_request+'</p>'+
 '<p><b>Posledný termín na preloženie žiadosti o zmenu: </b>'+prettyDate(d.change_request_last_term)+'</p>'+
 '<p><b>Schválenie žiadosti:  </b>'+getTrueFalseIcon(d.change_request_approval)+'</p>'+
-
+'<p><b>Poznámka k žiadosti: </b>'+d.change_request_note+'</p>'+
 '<hr><h3>Povinná publicita</h3><hr>'+
 '<p><b>Predmet publicity: </b>'+d.publicity_subject+'</p>'+
 '<p><b>Posledný termín na predloženie publicity projektu: </b>'+prettyDate(d.publicity_last_term)+'</p>'+
 '<p><b>Dátum predloženia: </b>'+prettyDate(d.publicity_showdate)+'</p>'+
+'<p><b>Poznámka k publicite: </b>'+d.publicity_note+'</p>'+
 '<hr><h3>Ukončenie projektu</h3><hr>'+
 '<p><b>Dátum skutočného ukončenia projektu: </b>'+prettyDate(d.project_real_enddate)+'</p>'+
 '<p><b>Spôsob ukončenia projektu: </b>'+d.project_end_type+'</p>'+

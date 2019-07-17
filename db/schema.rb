@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190408210129) do
+ActiveRecord::Schema.define(version: 20190717210737) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -173,6 +173,9 @@ ActiveRecord::Schema.define(version: 20190408210129) do
     t.string   "project_status"
     t.string   "procurements_string"
     t.json     "procurements"
+    t.string   "monitoring_note"
+    t.string   "change_request_note"
+    t.string   "publicity_note"
   end
 
   add_index "implementations", ["oprogram_id"], name: "index_implementations_on_oprogram_id", using: :btree

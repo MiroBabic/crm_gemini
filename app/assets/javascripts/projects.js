@@ -92,5 +92,9 @@ function updateImplementationEditModalProject(d) {
    $('#edit_procurement').val(d.procurements);
 	$('#edit_procurement').trigger("chosen:updated");
 
+	$('#edit_publicity_note').val(d.publicity_note);
+	$('#edit_monitoring_note').val(d.monitoring_note);
+	$('#edit_change_request_note').val(d.change_request_note);
+
 }
 

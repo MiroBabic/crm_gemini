@@ -105,7 +105,7 @@
     </div>
     <div class="ibox-content">
       <% if @implementation.present? %>
-      <h3>Projekt</h3><hr>
+      <div class="label-info"><hr><h3>Projekt</h3><hr></div>
 
       <p><b>Projektový manažér: </b><%=@implementation.user.email if @implementation.user.present? %></p>
       <p><b>Žiadateľ:  </b><%=@implementation.subject.name if @implementation.subject.present? %></p>
@@ -120,7 +120,7 @@
        <p><b>Kód žiadosti projektu:</b><%=@implementation.project_request_code%></p>
       <p><b>Stav projektu:</b><%=prettyProjectStatus(@implementation.project_status)%></p>
       <div class="grey-background">
-      <hr><h3>Verejné obstarávanie</h3><hr>
+      <div class="label-info"><hr><h3>Verejné obstarávanie</h3><hr></div>
       <% if @imp_procurements.present? %>
       <% @imp_procurements.each do |proc| %>
       <p><b>Verejný obstarávateľ:</b><%=proc.procurer_name%></p>
@@ -137,7 +137,7 @@
       <p>Žiadne verejné obstarávanie nebolo priradené ku implementácii</p>
       <% end %>
       </div>
-      <hr><h3>Začatie projektu</h3><hr>
+      <div class="label-info"><hr><h3>Začatie projektu</h3><hr></div>
       <p><b>Prístup do ITMS - Meno: </b><%=@implementation.itms_access_name%></p>
       <p><b>Prístup do ITMS - Heslo: </b><%=@implementation.itms_access_pass%></p>
       <p><b>Dátum podpisu a účinnosti zmluvy o NFP: </b><%=prettyDate(@implementation.nfp_contract_signed)%></p>
@@ -150,7 +150,7 @@
       <p><b>Potreba zmeny harmonogramu projektu:  </b><%=get_true_false_icon(@implementation.project_schedule_change_need)%></p>
       <p><b>Potreba zmeny harmonogramu projektu - Termín:  </b><%=prettyDate(@implementation.schedule_change_need_date)%></p>
       <div class="grey-background">
-      <hr><h3>ŽOP</h3><hr>
+      <div class="label-info"><hr><h3>ŽOP</h3><hr></div>
       <p><b>Dátum predloženia ŽOP: </b><%=prettyDate(@implementation.zop_showdate)%></p>
       <p><b>Posledný termín na predloženie ŽOP záverečná: </b><%=prettyDate(@implementation.zop_last_term_end)%></p>
       <p><b>Posledný termín na predloženie prvej ŽOP: </b><%=prettyDate(@implementation.zop_last_term_start)%></p>
@@ -163,23 +163,26 @@
       <p><b>Nahratie podkladov do ITMS: </b><%=get_true_false_icon(@implementation.zop_data_to_itms)%></p>
       <p><b>Nahratie podkladov do ITMS - Stav: </b><%=@implementation.zop_data_to_itms_state%></p>
       </div>
-      <hr><h3>Monitorovanie</h3><hr>
+      <div class="label-info"><hr><h3>Monitorovanie</h3><hr></div>
       <p><b>Termín najbližšej monitorovačky: </b><%=prettyDate(@implementation.next_monitor_date)%></p>
       <p><b>Termín záverečnej monitorovačky: </b><%=prettyDate(@implementation.finish_monitor_date)%></p>
       <p><b>Dátum predloženia na kontrolu: </b><%=prettyDate(@implementation.control_date)%></p>
       <p><b>Schválenie:  </b><%=get_true_false_icon(@implementation.approved)%></p>
+      <p><b>Poznámka k monitorovačke: </b><%=@implementation.monitoring_note%></p>
       <div class="grey-background">
-      <hr><h3>Žiadosť o zmenu</h3><hr>
+      <div class="label-info"><hr><h3>Žiadosť o zmenu</h3><hr></div>
       <p><b>Predmet žiadosti: </b><%=@implementation.change_request%></p>
        <p><b>Posledný termín na preloženie žiadosti o zmenu: </b><%=prettyDate(@implementation.change_request_last_term)%></p>
        <p><b>Schválenie:  </b><%=get_true_false_icon(@implementation.change_request_approval)%></p>
+       <p><b>Poznámka k žiadosti: </b><%=@implementation.change_request_note%></p>
      </div>
-      <hr><h3>Povinná publicita</h3><hr>
+      <div class="label-info"><hr><h3>Povinná publicita</h3><hr></div>
       <p><b>Predmet publicity: </b><%=@implementation.publicity_subject%></p>
       <p><b>Posledný termín na predloženie publicity projektu: </b><%=prettyDate(@implementation.publicity_last_term)%></p>
       <p><b>Dátum predloženia: </b><%=prettyDate(@implementation.publicity_showdate)%></p>
+      <p><b>Poznámka k publicite: </b><%=@implementation.publicity_note%></p>
       <div class="grey-background">
-      <hr><h3>Ukončenie projektu</h3><hr>
+      <div class="label-info"><hr><h3>Ukončenie projektu</h3><hr></div>
       <p><b>Dátum skutočného ukončenia projektu: </b><%=prettyDate(@implementation.project_real_enddate)%></p>
       <p><b>Spôsob ukončenia projektu: </b><%=@implementation.project_end_type%></p>
       <p><b>Predčasné ukončenie projektu: </b><%=get_true_false_icon(@implementation.project_end_sooner)%></p>
@@ -281,12 +284,14 @@
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="edit_control_date" id="edit_control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
         <label>Schválenie: <input id="edit_approved" type="checkbox" class="icheckbox_square-green" /> </label>
+        <br><br><label>Poznámka k monitorovačke:</label><input type="text" name="edit_monitoring_note" id="edit_monitoring_note" class="form-control" placeholder="Poznámka k monitorovačke..." /><br>
         <h3 class="center">Žiadosť o zmenu</h3>   
         <label>Predmet žiadosti:</label><input type="text" name="edit_change_request" id="edit_change_request" class="form-control" placeholder="Predmet žiadosti..." /><br>
         <label>Posledný termín na preloženie žiadosti o zmenu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="edit_change_request_last_term" id="edit_change_request_last_term" class="form-control datepick" placeholder="1990-12-31" /></div><br>
            <label>Schválenie žiadosti: <input id="edit_change_request_approval" type="checkbox" class="icheckbox_square-green" /> </label>
+          <br> <br><label>Poznámka k žiadosti o zmenu:</label><input type="text" name="edit_change_request_note" id="edit_change_request_note" class="form-control" placeholder="Poznámka k žiadosti o zmenu..." /><br>
        <h3 class="center">Povinná publicita</h3>   
        <label>Predmet publicity:</label><input type="text" name="edit_publicity_subject" id="edit_publicity_subject" class="form-control" placeholder="Predmet publicity..." /><br>
       <label>Posledný termín na predloženie publicity projektu:</label><div class="input-group date">
@@ -295,7 +300,7 @@
       <label>Dátum predloženia:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="edit_publicity_showdate" id="edit_publicity_showdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
-
+          <br><label>Poznámka k publicite:</label><input type="text" name="edit_publicity_note" id="edit_publicity_note" class="form-control" placeholder="Poznámka k publicite..." /><br>
         <h3 class="center">Ukončenie projektu</h3>
         <label>Dátum skutočného ukončenia projektu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
@@ -416,13 +421,14 @@
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="control_date" id="control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
         <label>Schválenie: <input id="approved" type="checkbox" class="icheckbox_square-green" /> </label>
+        <br><br><label>Poznámka k monitorovačke:</label><input type="text" name="monitoring_note" id="monitoring_note" class="form-control" placeholder="Poznámka k monitorovačke..." /><br>
          <h3 class="center">Žiadosť o zmenu</h3>   
         <label>Predmet žiadosti:</label><input type="text" name="change_request" id="change_request" class="form-control" placeholder="Predmet žiadosti..." /><br>
         <label>Posledný termín na preloženie žiadosti o zmenu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="change_request_last_term" id="change_request_last_term" class="form-control datepick" placeholder="1990-12-31" /></div><br>
            <label>Schválenie žiadosti: <input id="change_request_approval" type="checkbox" class="icheckbox_square-green" /> </label>
-
+           <br><br><label>Poznámka k žiadosti o zmenu:</label><input type="text" name="change_request_note" id="change_request_note" class="form-control" placeholder="Poznámka k žiadosti o zmenu..." /><br>
        <h3 class="center">Povinná publicita</h3>   
        <label>Predmet publicity:</label><input type="text" name="publicity_subject" id="publicity_subject" class="form-control" placeholder="Predmet publicity..." /><br>
       <label>Posledný termín na predloženie publicity projektu:</label><div class="input-group date">
@@ -431,7 +437,7 @@
       <label>Dátum predloženia:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="publicity_showdate" id="publicity_showdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
-
+          <br><label>Poznámka k publicite:</label><input type="text" name="publicity_note" id="publicity_note" class="form-control" placeholder="Poznámka k publicite..." /><br>
         <h3 class="center">Ukončenie projektu</h3>
         <label>Dátum skutočného ukončenia projektu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
@@ -659,6 +665,10 @@ var ready = function() {
 
           $project_request_code=$('#project_request_code').val();
           $project_status=$('#project_status').val();
+
+          $monitoring_note=$('#monitoring_note').val();
+          $change_request_note=$('#change_request_note').val();
+          $publicity_note=$('#publicity_note').val();
           
 
         
@@ -716,7 +726,10 @@ var ready = function() {
               change_request_last_term: $change_request_last_term,
               project_request_code: $project_request_code,
               project_status: $project_status,
-              procurement: $procurements
+              procurement: $procurements,
+              monitoring_note: $monitoring_note,
+              change_request_note: $change_request_note,
+              publicity_note: $publicity_note
               },
 
             success:function(data){
@@ -797,7 +810,9 @@ $('.editimplem').on('click',function(event){
           $project_request_code=$('#edit_project_request_code').val();
           $project_status=$('#edit_project_status').val();
           
-
+          $monitoring_note=$('#edit_monitoring_note').val();
+          $change_request_note=$('#edit_change_request_note').val();
+          $publicity_note=$('#edit_publicity_note').val();
 
         
           $.ajax({
@@ -855,7 +870,10 @@ $('.editimplem').on('click',function(event){
               change_request_last_term: $change_request_last_term,
               project_request_code: $project_request_code,
               project_status: $project_status,
-              procurement: $procurements
+              procurement: $procurements,
+              monitoring_note: $monitoring_note,
+              change_request_note: $change_request_note,
+              publicity_note: $publicity_note
               },
 
             success:function(data){

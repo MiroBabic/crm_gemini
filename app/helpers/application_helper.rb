@@ -204,6 +204,9 @@ module ApplicationHelper
 			when 'project_status' then res ='Stav projektu'
 			when 'procurements_string' then 'Verejne obstarávania'
 			when 'project_request_code' then 'Kód žiadosti projektu'
+			when 'monitoring_note' then 'Poznámka k monitorovačke'
+			when 'publicity_note' then 'Poznámka k publicite'
+			when 'change_request_note' then 'Poznámka k žiadosti'
 
 				
 
