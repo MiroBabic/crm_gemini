@@ -413,6 +413,7 @@ var tableready = function() {
 
   $('.chosen-select').chosen({width: "100%"});
 
+
    $("#edit_procurement").chosen().change(function(e, params){
  $edit_procurement  = $("#edit_procurement").chosen().val();
 
@@ -531,6 +532,7 @@ var tableready = function() {
 
       updateImplementationEditModal(row.data());
       $('#edit_editImplementationModal').modal('show');
+      $edit_procurement  = $("#edit_procurement").chosen().val();
 });
 
       $('#implementations tbody').on('click', 'td.details-implementation', function () {
