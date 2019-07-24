@@ -58,6 +58,27 @@
             <tbody>
              
             </tbody>
+             <tfoot>
+                     <tr id ="tabledetailsearch" class="visibility" style="width:100%">
+                      <th>Projekt</th>
+                <th>Žiadateľ</th>
+                <th>Projektový manažér</th>
+                <th>Kontaktná osoba/Žiadateľ</th>
+                <th>Zmluva</th>
+                <th>Objednávka</th>
+                <th>Kontrola ŽoNFP</th>
+                <th>Poznámka</th>
+                <th>Dodávateľ</th>
+                <th class="findtruefalse">Poslané na podpis</th>
+                <th class="findtruefalse">Odovzdané-online</th>
+                <th class="findtruefalse">Odovzdané-print</th>
+                <th class="disabled">Financie</th>
+                <th class="disabled"></th>
+                <th class="disabled"></th>
+                     
+                                      
+                                      </tr>
+                                    </tfoot>
           </table>
         </div>
       </div>
@@ -189,7 +210,7 @@ $('#duedate').datepicker({
  projecttable= $('#projects').DataTable({
   'order': [0, 'desc'],
   'serverSide': true,
-  'stateSave' :true,
+  'stateSave' :false,
   'ajax' : '/projects.json',
   columns: [
   {data: 'project_detail'},
@@ -256,6 +277,66 @@ $('#duedate').datepicker({
   [10, 50,100, -1],
   [10, 50,100, "All"]
   ],
+  initComplete: function() {
+    if ( $("#detailbutton").length) {console.log ('detailed search exists');}
+              else {
+
+              var r = $('#projects tfoot tr');
+              r.find('th').each(function(){
+               $(this).css('padding', 8);
+
+
+              });
+              $('#projects thead').append(r);
+              $('#search_0').css('text-align', 'center');
+
+//      $(".dataTables_filter").append('<button id="detailbutton" class="btn btn-primary btn-outline btn-xs" type="button"><span class="bold">Detailné vyhľadávanie</span></button>');
+  //     $('#changepageinput').val('');
+
+      var api = this.api();
+
+      // Apply the search
+      api.columns().every(function() {
+        var that = this;
+
+        $('input', this.footer()).on('keyup change', function() {
+          if (that.search() !== this.value) {
+            that
+              .search(this.value)
+              .draw();
+          }
+            });
+
+        $('.findtruefalse', this.footer()).on('change', function() {
+          
+          if (that.search() !== this.value) {
+            that
+              .search(this.value)
+              .draw();
+          }
+            });
+
+        });
+
+       $('#detailbutton').click(function() {
+          $('#tabledetailsearch').toggleClass('visibility');
+          });
+
+       $('#changepageinput').on('keyup change',function() {
+
+        if (parseInt($('#changepageinput').val()) > 0) {
+        var pagenum = (parseInt($('#changepageinput').val()) -1);
+        subjtable.page( pagenum ).draw( false );
+        }
+        else {subjtable.page( 0 ).draw( false );}
+
+
+      }); 
+
+    
+            }
+
+  },
   drawCallback: function(settings) {
      
      $('.projectedit-control').on('click',function(event){
@@ -318,6 +399,25 @@ $('#duedate').datepicker({
   }
 
 });
+
+// pridanie search inputov
+
+$('#projects tfoot th').each( function () {
+        var title = $(this).text();
+        
+        //console.log($(this))
+        if ( $(this).hasClass('inputdate') ) {
+        $(this).html( '<input type="text" placeholder="2019-06-30" />' );  
+        }
+        else if ( $(this).hasClass('findtruefalse') ) {
+         $(this).html( '<select class="findtruefalse form-control input-sm"><option value="">Všetko</option><option value="true">Áno</option><option value="false">Nie</option></select>' );   
+        }
+        else {
+        $(this).html( '<input type="text" placeholder="Hľadaj" />' );
+      }
+    } );
+
+$('.disabled').html( '<input disabled type="text" style="display:none" />' );
 
 $("#subject_new").change(function(){
   $subjID = $("#subject_new").val();
