@@ -18,7 +18,7 @@ require 'csv'
 		CSV.foreach(file.path, encoding: "utf-8", headers: true, :col_sep=>';') do |row|
 			total = total +1
 			
-			row["email"].downcase!
+			row["email"].downcase! if row["email"].present?
 			admin_id = User.where(:email=>'admin@geminigroup.sk').first.id
 			
 			begin
