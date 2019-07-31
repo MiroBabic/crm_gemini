@@ -22,12 +22,12 @@ require 'csv'
 			admin_id = User.where(:email=>'admin@geminigroup.sk').first.id
 			
 			begin
-				@district = District.where(:name=>row["okres"])
-				@subjtype = Subjtype.where(:name=>row["typ_subjektu"])
+				@district = District.where(:name=>row["okres"].strip)
+				@subjtype = Subjtype.where(:name=>row["typ_subjektu"].strip)
 
 				if (@district.present? && @subjtype.present? && admin_id.present?)
 
-					@subject = Subject.where(:name=>row["subjekt"],:district_id=>@district.first.id, :subjtype_id=>@subjtype.first.id).first_or_create
+					@subject = Subject.where(:name=>row["subjekt"].strip,:district_id=>@district.first.id, :subjtype_id=>@subjtype.first.id).first_or_create
 					@subject.site = row["sidlo"]
 					@subject.ico = row["ico"]
 					@subject.note = row["poznamka"]
