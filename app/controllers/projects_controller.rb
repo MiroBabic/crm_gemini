@@ -35,6 +35,18 @@ class ProjectsController < ApplicationController
   def edit
   end
 
+  def get_user_project
+  
+    @projects = Project.where("user_id = ?",params[:id]).order("name asc")
+
+    
+    respond_to do |format|
+      format.json { render :json => {"status":"ok", "data": @projects.as_json } }
+    end
+
+  
+  end
+
   def show_project_detail
     begin
     @project = Project.find(params[:id])

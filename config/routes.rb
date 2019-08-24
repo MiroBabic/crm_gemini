@@ -113,6 +113,7 @@ Rails.application.routes.draw do
   post '/modal_create_project' => 'projects#modal_create_project', :as=>'modal_create_project'
   post '/modal_edit_project' => 'projects#modal_edit_project', :as=>'modal_edit_project'
   get '/projekt/:id' => 'projects#show_project_detail', :as=> 'show_project_detail'
+  get '/get_user_project/:id' => 'projects#get_user_project', :as => 'get_user_project'
 
   get '/implementacie' => 'implementations#index', :as=>'implementacie'
   post '/modal_create_implementation' => 'implementations#modal_create_implementation', :as=>'modal_create_implementation'
@@ -120,6 +121,7 @@ Rails.application.routes.draw do
   get '/get_implementation_notes/:id' => 'implementations#get_implementation_notes', :as=>'get_implementation_notes'
   post '/del_implementation_note' => 'implementations#del_implementation_note', :as => 'del_implementation_note'
   post '/modal_create_implementation_note' => 'implementations#modal_create_implementation_note', :as=>'modal_create_implementation_note'
+
 
   #oprograms
   post '/modal_create_oprogram' => 'oprograms#modal_create_oprogram', :as=> 'modal_create_oprogram'

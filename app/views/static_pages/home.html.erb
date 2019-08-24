@@ -1,32 +1,21 @@
 <p id="notice"><%= render 'layouts/flash_message' %></p>
- <div class="row  border-bottom white-bg dashboard-header">
 
-
-                    <div class="col-md-3">
-                        <h2>Vitaj <%= current_user.name %></h2>
+<div class="row">
+                    <div class="col-lg-3">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                <h2>Vitaj <%= current_user.name %></h2>
+                            </div>
+                            <div class="ibox-content">
+                                
                         <small>Máš <%= @calendar.count %> záznamov v kalendári na najbližší mesiac</small>
                         <a class="pull-right" data-toggle="modal" data-target="#addCalendarNoteModal"  aria-expanded="false">
                                 <i class="fa fa-plus-square"></i>
                             </a>
-                      
-                    </div>
-                    <div class="col-md-3">
-                        <h2>Kalendáre projektových manažérov</h2>
-                         <%= select_tag 'calendar_pms', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'calendar_pms',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %>
-                        
-                    </div>
-                    <div class="col-md-6">
-                        <h2>Projekty</h2>
-                         <%= select_tag 'projects_sel', options_from_collection_for_select(@projects, 'id', 'name'), class: 'form-control', id: 'projects_sel',"data-placeholder": "Projekt",prompt: "--vyber projekt--" %>
-                        
-                    </div>
-                   
 
-            </div>
-<div class="row border-bottom white-bg dashboard-header">
-    <div class="col-md-3">
-          <!--<ul class="list-group clear-list m-t">-->
-          <table class="table table-hover no-margins">
+                            </div>
+                            <div class="ibox-content">
+                               <table class="table table-hover no-margins">
             <tbody>
 
                             <% @calendar.each_with_index do |cal,index| %>
@@ -42,26 +31,52 @@
                    <!--     </ul>-->
                  </tbody>
                </table>
-    </div>
-    <div class="col-md-3">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-9">
+                        <div class="ibox ">
+                            <div class="ibox-title">
+                                 <h2>Vyber projektového manažéra</h2>
+                            </div>
+                            <div class="ibox-content">
+                               <%= select_tag 'calendar_pms', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'calendar_pms',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %>
+                            </div>
+                            <div class="ibox-content" id="pm_details">
+                              <div class="row">
+
+                               <div class="col-md-4">
        
        
-                        <div id="user_calendar_data">
+                                  <div id="user_calendar_data">
 
-                        </div>
-    </div>
-    <div class="col-md-6">
-       <div class="ibox">
+                                </div>
+                            </div>
+                            <div class="col-md-8">
+                              
+                              <span id="project_select">
+                              </span>
+                               <div class="ibox">
 
-                        <div id="project_info">
-                           
+                                                <div id="project_info">
+                                                   
+                                                </div>
+                                            
+                               </div>
+                              </div>   
+                            </div>
+                            </div>
                         </div>
+                    </div>
                     
-       </div>
-       
-    </div>
+            </div>
 
-</div>
+
+<br>
+<br>
+
+
 
 <div id="addCalendarNoteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -207,6 +222,9 @@ else {
     
     $( "#calendar_pms" ).change(function() {
         $user_id= $( "#calendar_pms" ).val();
+
+          
+//kalendar
           $.ajax({
             type: "GET",
             url: "/get_user_calendar/"+$user_id+".json"
@@ -215,11 +233,10 @@ else {
            .done(function (data) {
             if (data.status == "ok") {
                 var $html='';
-
+                $html += '<h2>Kalendár projektového manažéra</h2>'
+                
                 if (data.data.length > 0) {
                     
-                          
-
                $html+=' <table class="table table-hover no-margins"> <tbody>'
 
                    for ( var i = 0; i < data.data.length; i++) {
@@ -231,6 +248,7 @@ else {
                 //console.log($html)
 
             }
+            else { $html += 'Nenašiel sa žíadny záznam v kalendári pre projektového manažéra.' }
             
             $('#user_calendar_data').html('');
             
@@ -241,7 +259,31 @@ else {
             $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa získať údaje"));
         });
 
-    });
+//projekty
+     $.ajax({
+            type: "GET",
+            url: "/get_user_project/"+$user_id+".json"
+            
+        }).done(function (data) {
+            if (data.status == "ok") {
+               $('#project_info').html('');
+                var $html='';
+                $html += '<h2>Projekty projektového manažéra</h2>'
+                if (data.data.length > 0) {
+                    $html += "<select id='projects_sel' class='form-control'><option value=''>-- Vyber projekt --</option>"
+                   for ( var i = 0; i < data.data.length; i++) {
+                    $html += "<option value='" + data.data[i].id + "'>" + data.data[i].name + "</option>"
+
+                   }
+                   $html += '</select>'
+                }
+
+                else { $html += 'Nenašli sa žiadne projekty projektového manažéra';}
+
+                 $('#project_select').html('');
+            
+                $('#project_select').append($html) ;
+
 
 
 //projects part
@@ -257,7 +299,8 @@ else {
             if (data.status == "ok") {
                 var $html='';
 
-                $html += '<div class="col-md-12"><div class="col-md-4"><p>Zmluva: <b>'+ data.project.contract +'</b></p>'+
+                $html += '<div class="col-md-12"><div class="col-md-4"><p>Projekt: <b><a href="/projekt/'+ data.project.id + '">' + data.project.name +'</a></b></p>'+
+                '<p>Zmluva: <b>'+ data.project.contract +'</b></p>'+
 '<p class="m-b-xs">Objednávka: <b>'+ data.project.order +'</b></p>'+
 '<p class="m-b-xs">Kontrola ŽoNFP: <b>'+ data.project.control_zonfp +'</b></p>'+
 '<p class="m-b-xs">Poznámka: <b>'+ data.project.note +'</b></p>'+
@@ -302,6 +345,17 @@ else {
         });
 
     });
+
+
+              }
+            }).fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa získať údaje"));
+          });
+
+
+    });
+
+
 
 
 //end of projects part
