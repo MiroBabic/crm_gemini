@@ -40,6 +40,7 @@ Rails.application.configure do
   
   config.assets.precompile += %w(vendor/assets/javascripts/*)
   config.assets.precompile += %w(vendor/assets/stylesheets/*)
+  config.assets.precompile += %w(*.png *.jpg *.jpeg *.eot *.ttf *.woff)
 
   # Asset digests allow you to set far-future HTTP expiration dates on all assets,
   # yet still be able to expire them through the digest params.
