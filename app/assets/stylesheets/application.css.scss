@@ -13,25 +13,25 @@ $grid-float-breakpoint: 990px;
 
 
 //Datatables css
-@import "dataTables/datatables.min.css";
-@import "dataTables/dataTables.checkboxes.css";
+@import "dataTables/datatables.min.css.scss";
+@import "dataTables/dataTables.checkboxes.css.scss";
 
 
 //summernote
-@import "summernote/summernote.css";
+@import "summernote/summernote.css.scss";
 
 
 //datepicker
-@import "datepicker/bootstrap_datepicker.min.css";
+@import "datepicker/bootstrap_datepicker.min.css.scss";
 
 //fullcalendar
-@import "fullcalendar/fullcalendar.min.css";
+@import "fullcalendar/fullcalendar.min.css.scss";
 
 //chosen
-@import "chosen/bootstrap-chosen.css";
+@import "chosen/bootstrap-chosen.css.scss";
 
 //blueimp
-@import "blueimp/css/blueimp-gallery.min.css";
+@import "blueimp/css/blueimp-gallery.min.css.scss";
 
 //clockpicker
-@import "clockpicker/clockpicker.css";
+@import "clockpicker/clockpicker.css.scss";

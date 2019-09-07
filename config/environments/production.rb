@@ -34,7 +34,7 @@ Rails.application.configure do
 
 
 
-  config.assets.compile = true
+  config.assets.compile = false
   #config.serve_static_assets = true
   config.serve_static_files = true
   
