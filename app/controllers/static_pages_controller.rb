@@ -280,7 +280,11 @@ class StaticPagesController < ApplicationController
 			#@res_addresses = @addresses1.compact + @addresses2.compact
 
 			if @res_addresses.length > 0
-				act_time=Time.now
+				if Delayed::Job.all.exists?
+					act_time = Delayed::Job.all.pluck(:run_at).max+1.minute
+				else
+					act_time=Time.now
+				end
 				@res_addresses.each_slice(30) do |slice|
 					slice.each do |email_address|
 						begin
