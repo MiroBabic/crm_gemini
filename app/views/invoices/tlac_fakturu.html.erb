@@ -99,11 +99,10 @@
 
 <script>
 var ready = function() {
-    $('.navbar-default').hide();
-    $('.navbar').hide();
-    $('.footer').hide();
-    //$('#page-wrapper').hide();
-    window.print();
+
+
+ $('#printed_div').printThis();
+
 
 }
 $(".invoices.tlac_fakturu").ready(ready);

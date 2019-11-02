@@ -1,3 +1,6 @@
+//= require printThis/printThis.min.js
+
+
 function updateInvoiceEditModal(d) {
 
 
