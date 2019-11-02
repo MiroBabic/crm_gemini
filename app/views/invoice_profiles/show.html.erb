@@ -1,0 +1,44 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @invoice_profile.name %>
+</p>
+
+<p>
+  <strong>Address1:</strong>
+  <%= @invoice_profile.address1 %>
+</p>
+
+<p>
+  <strong>Address2:</strong>
+  <%= @invoice_profile.address2 %>
+</p>
+
+<p>
+  <strong>Ico:</strong>
+  <%= @invoice_profile.ico %>
+</p>
+
+<p>
+  <strong>Dic:</strong>
+  <%= @invoice_profile.dic %>
+</p>
+
+<p>
+  <strong>Icdph:</strong>
+  <%= @invoice_profile.icdph %>
+</p>
+
+<p>
+  <strong>Bank name:</strong>
+  <%= @invoice_profile.bank_name %>
+</p>
+
+<p>
+  <strong>Iban:</strong>
+  <%= @invoice_profile.iban %>
+</p>
+
+<%= link_to 'Edit', edit_invoice_profile_path(@invoice_profile) %> |
+<%= link_to 'Back', invoice_profiles_path %>

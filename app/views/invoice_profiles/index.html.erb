@@ -1,0 +1,310 @@
+<% if current_user.admin? %>
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Fakturačné profily</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Fakturačné profily</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_invoice_profile_button" data-toggle="modal" data-target="#addInvoiceProfileModal">Pridaj fakturačný profil</button>
+        
+        <hr>
+        <div class="table-responsive">
+
+
+<table class="table table-bordered" id="invoice_profiles" style="width:100%">
+  <thead>
+    <tr>
+      <th>Meno</th>
+      <th>Adresa 1</th>
+      <th>Adresa 2</th>
+      <th>IČO</th>
+      <th>DIČ</th>
+      <th>IČ DPH</th>
+      <th>Banka</th>
+      <th>IBAN</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @invoice_profiles.each do |invoice_profile| %>
+      <tr>
+        <td><%= invoice_profile.name %></td>
+        <td><%= invoice_profile.address1 %></td>
+        <td><%= invoice_profile.address2 %></td>
+        <td><%= invoice_profile.ico %></td>
+        <td><%= invoice_profile.dic %></td>
+        <td><%= invoice_profile.icdph %></td>
+        <td><%= invoice_profile.bank_name %></td>
+        <td><%= invoice_profile.iban %></td>
+         <td><a  class="edit_invoice_profile_btn"><i id="<%= invoice_profile.id %>" class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
+        <td><%= link_to invoice_profile, method: :delete, data: { confirm: 'Naozaj ho chceš zmazať? ' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
+                <% end %></td>
+                
+      </tr>
+    <% end %>
+             
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+<div id="addInvoiceProfileModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Vytvor fakturačný profil </h2>
+       
+      </div>
+      <div class="modal-body">
+               
+         
+           <label>Meno:</label><input type="text" name="name" id="name" class="form-control" placeholder="GeminiGroup s.r.o." /><br>
+          <label>Adresa 1:</label><input type="text" name="address1" id="address1" class="form-control" placeholder="Ulica 1" /><br>
+          <label>Adresa 2:</label><input type="text" name="address2" id="address2" class="form-control" placeholder="850 00 Bratislava" /><br>
+          <label>IČO:</label><input type="text" name="ico" id="ico" class="form-control" placeholder="00123456" /><br>
+          <label>DIČ:</label><input type="text" name="dic" id="dic" class="form-control" placeholder="232532532523" /><br>
+          <label>IČ DPH:</label><input type="text" name="icdph" id="icdph" class="form-control" placeholder="SK232532532523" /><br>
+          <label>Banka:</label><input type="text" name="bank_name" id="bank_name" class="form-control" placeholder="Csob a.s." /><br>
+          <label>IBAN:</label><input type="text" name="iban" id="iban" class="form-control" placeholder="SK110000400042424324" /><br>
+          <label>Zápis v ORSR:</label><input type="text" name="orsr_entry" id="orsr_entry" class="form-control" placeholder="Zapísaná v obchodnom registri Okresného súdu Bratislava I  v oddieli Sro vo vložke 48351-B" /><br>
+          
+           
+       
+       <button id="addinvprofilebtn" type="button" class="addinvprofile btn btn-success">Vytvor</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+
+
+<div id="editInvoiceProfileModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav fakturačný profil </h2>
+       
+      </div>
+      <div class="modal-body">
+
+         <label>Meno:</label><input type="text" name="edit_name" id="edit_name" class="form-control" placeholder="GeminiGroup s.r.o." /><br>
+          <label>Adresa 1:</label><input type="text" name="edit_address1" id="edit_address1" class="form-control" placeholder="Ulica 1" /><br>
+          <label>Adresa 2:</label><input type="text" name="edit_address2" id="edit_address2" class="form-control" placeholder="850 00 Bratislava" /><br>
+          <label>IČO:</label><input type="text" name="edit_ico" id="edit_ico" class="form-control" placeholder="00123456" /><br>
+          <label>DIČ:</label><input type="text" name="edit_dic" id="edit_dic" class="form-control" placeholder="232532532523" /><br>
+          <label>IČ DPH:</label><input type="text" name="edit_icdph" id="edit_icdph" class="form-control" placeholder="SK232532532523" /><br>
+          <label>Banka:</label><input type="text" name="edit_bank_name" id="edit_bank_name" class="form-control" placeholder="Csob a.s." /><br>
+          <label>IBAN:</label><input type="text" name="edit_iban" id="edit_iban" class="form-control" placeholder="SK110000400042424324" /><br>
+          <label>Zápis v ORSR:</label><input type="text" name="edit_orsr_entry" id="edit_orsr_entry" class="form-control" placeholder="Zapísaná v obchodnom registri Okresného súdu Bratislava I  v oddieli Sro vo vložke 48351-B" /><br>
+           
+       
+       <button id="editinvprofilebtn" type="button" class="editinvprofile btn btn-success">Uprav</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+
+
+<script>
+var invoicetable;
+
+var tableready = function() {
+
+
+ invoicetable= $('#invoice_profiles').DataTable({
+  'order': [0, 'desc'],
+  'serverSide': false,
+  'stateSave' :true,
+  
+  'dom': 'lfr<"pull-right"B>tip',
+ 'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+  {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ],
+  drawCallback: function(settings) {
+     
+    $('.edit_invoice_profile_btn').on('click',function(event){
+
+      $id = event.target.id
+
+       $.ajax({
+            type: "GET",
+            url: "/invoice_profiles/"+$id+".json"
+            
+        })
+           .done(function (data) {
+              updateInvProfileEditModal(data);
+          $('#editInvoiceProfileModal').modal('show');
+
+           })
+           .fail(function (data) {
+              $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa natiahnuť údaje o profile"));
+           }
+            )
+      
+      
+});
+
+  
+
+  }
+
+});
+
+
+////
+
+$('.addinvprofile').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $name=$('#name').val();
+          $address1=$('#address1').val();
+          $address2=$('#address2').val();
+          $ico=$('#ico').val();
+          $dic=$('#dic').val();
+          $icdph=$('#icdph').val();
+          $bank_name=$('#bank_name').val();
+          $iban=$('#iban').val();
+          $orsr_entry=$('#orsr_entry').val();
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_invprofile",
+            data: {
+              name: $name,
+              address1: $address1,
+              address2: $address2,
+              ico: $ico,
+              dic: $dic,
+              icdph: $icdph,
+              bank_name: $bank_name,
+              iban: $iban,
+              orsr_entry: $orsr_entry
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                
+                 $("#notice").html(flashMessageFromAjax(data.status,"Profil bol vytvorený"));
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+$('.editinvprofile').on('click',function(event){
+          //console.log(event.target.id);
+         $name=$('#edit_name').val();
+          $address1=$('#edit_address1').val();
+          $address2=$('#edit_address2').val();
+          $ico=$('#edit_ico').val();
+          $dic=$('#edit_dic').val();
+          $icdph=$('#edit_icdph').val();
+          $bank_name=$('#edit_bank_name').val();
+          $iban=$('#edit_iban').val();
+          $orsr_entry=$('#edit_orsr_entry').val();
+
+        
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_edit_invprofile",
+            data: {
+              id: $id,
+                name: $name,
+              address1: $address1,
+              address2: $address2,
+              ico: $ico,
+              dic: $dic,
+              icdph: $icdph,
+              bank_name: $bank_name,
+              iban: $iban,
+              orsr_entry: $orsr_entry
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                //alert("Projekt bol upravený" );
+                 $("#notice").html(flashMessageFromAjax(data.status,"Profil bol upravený"));
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+
+
+};
+$(".invoice_profiles.index").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#invoice_profiles_wrapper').length ==1) {invoicetable.destroy() ;} 
+
+});
+
+
+$(".invoice_profiles.index").on('turbolinks:load', tableready); 
+</script>
+<% else %>
+<p>sem nemas pristup!</p>
+<%end %>

@@ -51,6 +51,7 @@
                             <li><%= link_to job_queue_path do%><i class="fa fa-spinner" aria-hidden="true"></i><span class="nav-label"> Procesy </span><span class="label label-info pull-right float-right"><%=get_process_count%></span><%end%></li>
                             <li><%= link_to export_path do%><i class="fa fa-file-excel-o" aria-hidden="true"></i><span class="nav-label"> Export dát</span><%end%></li>
                             <% if current_user.admin? %>
+                            <li><%= link_to faktury_path do%><i class="fa fa-file-excel-o" aria-hidden="true"></i><span class="nav-label"> Faktúry</span><%end%></li>
                             <li>
                                 <a href="#"><i class="fa fa-wrench" aria-hidden="true"></i><span class="nav-label"> Admin menu</span> <span class="fa arrow"></span></a>
                                 
@@ -59,6 +60,7 @@
                                     <li><%= link_to  subjtypes_path do%><i class="fa fa-building-o" aria-hidden="true"></i><span class="nav-label"> Typy subjektov</span><%end%></li>
                                     <li><%= link_to projecttargets_path do%><i class="fa fa-bullseye" aria-hidden="true"></i><span class="nav-label"> Projektový zámer</span><%end%></li>
                                     <li><%= link_to imports_path do%><i class="fa fa-upload" aria-hidden="true"></i><span class="nav-label"> Import Dát</span><%end%></li>
+                                    <li><%= link_to fakturacne_profily_path do%><i class="fa fa-credit-card" aria-hidden="true"></i><span class="nav-label"> Fakturačné profily</span><%end%></li>
                                     
                                     
                                 </ul>

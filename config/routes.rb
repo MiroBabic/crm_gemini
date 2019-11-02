@@ -2,6 +2,7 @@ Rails.application.routes.draw do
 
     
   
+  resources :invoice_profiles
   mount LetsencryptPlugin::Engine, at: '/'  # It must be at root level
   
 
@@ -133,6 +134,20 @@ Rails.application.routes.draw do
   post '/modal_create_procurement' => 'procurements#modal_create_procurement', :as=>'modal_create_procurement'
   post '/modal_edit_procurement' => 'procurements#modal_edit_procurement', :as=>'modal_edit_procurement'
   post '/get_procurements' => 'procurements#get_procurements', :as=>'get_procurements'
+
+  #faktury
+  get '/faktury' => 'invoices#index', :as=> 'faktury'
+  get '/faktura/:id' => 'invoices#show', :as=> 'faktura'
+  post '/modal_create_invoice' => 'invoices#modal_create_invoice', :as=> 'modal_create_invoice'
+  post '/modal_edit_invoice' => 'invoices#modal_edit_invoice', :as=> 'modal_edit_invoice'
+  get '/tlac_fakturu/:id' => 'invoices#tlac_fakturu', :as=> 'tlac_fakturu'
+
+  get '/fakturacne-profily' => 'invoice_profiles#index', :as=> 'fakturacne-profily'
+  post '/modal_create_invprofile' => 'invoice_profiles#modal_create_invprofile', :as=>'modal_create_invprofile'
+  post '/modal_edit_invprofile' => 'invoice_profiles#modal_edit_invprofile', :as=>'modal_edit_invprofile'
+  post '/modal_edit_inv_amount' => 'invoices#modal_edit_inv_amount', :as=>'modal_edit_inv_amount'
+  post '/modal_edit_inv_text' => 'invoices#modal_edit_inv_text', :as=>'modal_edit_inv_text'
+  
 
   root 'static_pages#home'
   # The priority is based upon order of creation: first created -> highest priority.

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190717210737) do
+ActiveRecord::Schema.define(version: 20191102110307) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -194,6 +194,20 @@ ActiveRecord::Schema.define(version: 20190717210737) do
   add_index "implnotes", ["implementation_id"], name: "index_implnotes_on_implementation_id", using: :btree
   add_index "implnotes", ["user_id"], name: "index_implnotes_on_user_id", using: :btree
 
+  create_table "invoice_profiles", force: :cascade do |t|
+    t.string   "name"
+    t.string   "address1"
+    t.string   "address2"
+    t.string   "ico"
+    t.string   "dic"
+    t.string   "icdph"
+    t.string   "bank_name"
+    t.string   "iban"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.text     "orsr_entry"
+  end
+
   create_table "invoices", force: :cascade do |t|
     t.integer  "implementation_id"
     t.datetime "processed_date"
@@ -201,12 +215,28 @@ ActiveRecord::Schema.define(version: 20190717210737) do
     t.float    "contracted_hours"
     t.integer  "document_id"
     t.float    "done_hours"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
+    t.string   "invoice_no"
+    t.text     "invoice_text"
+    t.string   "corp_name"
+    t.string   "corp_ico"
+    t.string   "corp_dic"
+    t.string   "corp_icdph"
+    t.string   "corp_address"
+    t.string   "const_symbol"
+    t.date     "invoice_create_date"
+    t.date     "delivery_date"
+    t.date     "invoice_due_date"
+    t.string   "payment_type"
+    t.string   "status"
+    t.integer  "invoice_profile_id"
+    t.string   "corp_address2"
   end
 
   add_index "invoices", ["document_id"], name: "index_invoices_on_document_id", using: :btree
   add_index "invoices", ["implementation_id"], name: "index_invoices_on_implementation_id", using: :btree
+  add_index "invoices", ["invoice_profile_id"], name: "index_invoices_on_invoice_profile_id", using: :btree
 
   create_table "mailtemplates", force: :cascade do |t|
     t.string   "name"
@@ -392,6 +422,7 @@ ActiveRecord::Schema.define(version: 20190717210737) do
   add_foreign_key "implnotes", "users"
   add_foreign_key "invoices", "documents"
   add_foreign_key "invoices", "implementations"
+  add_foreign_key "invoices", "invoice_profiles"
   add_foreign_key "media", "subjects"
   add_foreign_key "people", "subjects"
   add_foreign_key "projects", "people"

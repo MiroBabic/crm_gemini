@@ -1,38 +1,10 @@
 <% if current_user.admin? %>
-<p id="notice"><%= render 'layouts/flash_message' %></p>
-
-<div class="row wrapper border-bottom white-bg page-heading">
-  <div class="col-lg-8">
-    <h2>Faktúra</h2>
-    <ol class="breadcrumb">
-      <li>
-        <%= link_to 'Home', root_path %>
-      </li>
-      <li>
-        <%= link_to 'Faktúry', faktury_path %>
-      </li>
-
-      <li class="active">
-        <strong>Faktúra</strong>
-      </li>
-    </ol>
-  </div>
-  <div class="col-lg-4">
-                    <div class="title-action">
-                       
-                        
-                            <%= link_to tlac_fakturu_path(@invoice.id), :class=>'btn btn-primary', :target=>'_blank' do %>
-                            <i class="fa fa-print"></i> Tlač faktúru </a>
-                        <% end %>
-                    </div>
-                </div>
-</div>
 
 
- <div class="row">
+ <div class="print-page row" id="printed_div">
             <div class="col-lg-12">
                 <div class="wrapper wrapper-content animated fadeInRight">
-                    <div class="ibox-content p-xl">
+                    <div class="ibox-content noborder">
                         <div class="row">
                             <div class="col-md-6">
                             <h4>Faktúra čislo:</h4>
@@ -90,9 +62,7 @@
 
                             <div class="row">
                                 <div class="col-md-8 offset-md-2">
-                                    <h3><a data-toggle="modal" data-target="#editInvText"   aria-expanded="false">
-                                <i class="fa fa-pencil-square-o"></i>
-                            </a></h3>
+                                   
                                     <p class="p-lg">
                                         <%= @invoice.invoice_text%>
                                     </p>
@@ -105,8 +75,7 @@
                                 <tbody>
                                 <tr>
                                     <td><strong>Faktúrovaná suma v EUR bez DPH :</strong></td>
-                                    <td><a data-toggle="modal" data-target="#editInvAmount"   aria-expanded="false">
-                                <i class="fa fa-pencil-square-o"></i></a><%= @invoice.contracted_amount %> EUR</td>
+                                    <td><%= @invoice.contracted_amount %> EUR</td>
                                 </tr>
                                 <tr>
                                     <td><strong>DPH :</strong></td>
@@ -128,129 +97,19 @@
             </div>
         </div>
 
-<div id="editInvAmount" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Uprav Sumu</h2>
-        
-      </div>
-      <div class="modal-body">
-        <div class="form-group has-error">
-          <form name="edit_subjekt_form" accept-charset="utf-8">
-    <label>Suma bez DPH:</label><input type="number" name="edit_inv_amount" id="edit_inv_amount" class="form-control" placeholder="200" value="<%= @invoice.contracted_amount %>" /><br>
-    
-    <br>       
-
-    <input  class="editinvamountbtn btn btn-success" value="Uprav" /> 
-
-   </form>
-
- </div>
-</div>
-</div>
-</div>
-</div>
-
-<div id="editInvText" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Uprav text na faktúre</h2>
-        
-      </div>
-      <div class="modal-body">
-        <div class="form-group has-error">
-          <form name="edit_subjekt_form" accept-charset="utf-8">
-   <input type="text_area" name="edit_inv_text" id="edit_inv_text" class="form-control" placeholder="Fakturujeme vam sluzbu...." value="<%= @invoice.invoice_text %>" /><br>
-    
-    <br>       
-
-    <input  class="editinvtextbtn btn btn-success" value="Uprav" /> 
-
-   </form>
-
- </div>
-</div>
-</div>
-</div>
-</div>
-
 <script>
 var ready = function() {
-    $('.editinvamountbtn').on('click',function(event){
-          //console.log(event.target.id);
-          
-          $inv_amount = $('#edit_inv_amount').val();
-         
-          
-          $.ajax({
-            type: "POST",
-            url: "/modal_edit_inv_amount",
-            data: {
-              inv_amount: $inv_amount,
-              inv_id: <%= @invoice.id %>
-
-            },
-
-            success:function(data){
-              if (data.status == "ok")
-              {
-                //alert("Subjekt bol upravený" );
-                location.reload();
-                
-              }
-              else { alert(data.status);}
-
-
-            }
-          });
-          
-
-
-
-        });
-
-$('.editinvtextbtn').on('click',function(event){
-          //console.log(event.target.id);
-          
-          $inv_text = $('#edit_inv_text').val();
-         
-          
-          $.ajax({
-            type: "POST",
-            url: "/modal_edit_inv_text",
-            data: {
-              inv_text: $inv_text,
-              inv_id: <%= @invoice.id %>
-
-            },
-
-            success:function(data){
-              if (data.status == "ok")
-              {
-                //alert("Subjekt bol upravený" );
-                location.reload();
-                
-              }
-              else { alert(data.status);}
-
-
-            }
-          });
-          
-
-
-
-        });
+    $('.navbar-default').hide();
+    $('.navbar').hide();
+    $('.footer').hide();
+    //$('#page-wrapper').hide();
+    window.print();
 
 }
-
-$(".invoices.show").ready(ready);
-$(".invoices.show").on('turbolinks:load', ready);
+$(".invoices.tlac_fakturu").ready(ready);
+$(".invoices.tlac_fakturu").on('turbolinks:load', ready);
 </script>
+
 <% else %>
 <h2>Sem nemas pristup</h2>
 <% end %>

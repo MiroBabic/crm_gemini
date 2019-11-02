@@ -1,37 +1,355 @@
-<p id="notice"><%= notice %></p>
+<% if current_user.admin? %>
+<p id="notice"><%= render 'layouts/flash_message' %></p>
 
-<h1>Listing Invoices</h1>
 
-<table>
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Faktúry</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Faktúry</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_invoice_button" data-toggle="modal" data-target="#addInvoiceModal">Vytvor faktúru</button>
+        
+        <hr>
+        <div class="table-responsive">
+
+<table class="table table-bordered" id="invoices" style="width:100%">
   <thead>
     <tr>
-      <th>Implementation</th>
-      <th>Processed date</th>
-      <th>Contracted amount</th>
-      <th>Contracted hours</th>
-      <th>Document</th>
-      <th>Done hours</th>
-      <th colspan="3"></th>
+      <th>Číslo faktúry</th>
+      <th>Fakturačný profil</th>
+      <th>Suma</th>
+      <th>Stav</th>
+      <th>Odberateľ</th>
+      <th>Adresa</th>
+      <th>Adresa2</th>
+      <th>IČO</th>
+      <th>DIČ</th>
+      <th>IČ DPH</th>
+      <th>Dátum vystavenia</th>
+      <th>Dátum dodania</th>
+      <th>Dátum splatnosti</th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
 
   <tbody>
+    <% if current_user.admin? %>
     <% @invoices.each do |invoice| %>
       <tr>
-        <td><%= invoice.implementation %></td>
-        <td><%= invoice.processed_date %></td>
+        <td><%= link_to(invoice.invoice_no, faktura_path(invoice.id)) %></td>
+        <td><%= invoice.invoice_profile.name if invoice.invoice_profile_id %></td>
         <td><%= invoice.contracted_amount %></td>
-        <td><%= invoice.contracted_hours %></td>
-        <td><%= invoice.document %></td>
-        <td><%= invoice.done_hours %></td>
-        <td><%= link_to 'Show', invoice %></td>
-        <td><%= link_to 'Edit', edit_invoice_path(invoice) %></td>
-        <td><%= link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= invoice.status %></td>
+        <td><%= invoice.corp_name %></td>
+        <td><%= invoice.corp_address %></td>
+        <td><%= invoice.corp_address2 %></td>
+        <td><%= invoice.corp_ico %></td>
+        <td><%= invoice.corp_dic %></td>
+        <td><%= invoice.corp_icdph %></td>
+        <td><%= prettyDate(invoice.invoice_create_date) %></td>
+        <td><%= prettyDate(invoice.delivery_date) %></td>
+        <td><%= prettyDate(invoice.invoice_due_date) %></td>
+         <td><a  class="edit_invoice_btn"><i id="<%= invoice.id %>" class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
+        <td><%= link_to invoice, method: :delete, data: { confirm: 'Naozaj ju chceš zmazať? ' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
+                <% end %></td>
+                
       </tr>
     <% end %>
-  </tbody>
-</table>
 
+      <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
 <br>
 
-<%= link_to 'New Invoice', new_invoice_path %>
+
+
+<div id="addInvoiceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Vytvor faktúru</h2>
+       
+      </div>
+      <div class="modal-body">
+               
+         
+           <label>Číslo faktúry:</label><input type="text" name="invoice_no" id="invoice_no" class="form-control" placeholder="FA12345678..." /><br>
+           <label>Fakturačný profil:</label><%= select_tag(:invoiceprofile, options_from_collection_for_select(InvoiceProfile.all, :id, :name), :class=>'form-control') %><br>
+           <label>Suma:</label><input type="number" name="contracted_amount" id="contracted_amount" class="form-control" placeholder="200" /><br>
+           <label>Stav:</label><%= select_tag(:status, options_for_select([['Nová', 'Nová'], ['Odoslaná', 'Odoslaná'], ['Uhradená', 'Uhradená'],['Zrušená','Zrušená']]), :class=>'form-control') %><br>
+          <!--<label>Stav:</label><input type="text" name="status" id="status" class="form-control" placeholder="Odoslaná/Uhradená/Zrušená..." /><br>-->
+          <label>Odberateľ:</label><input type="text" name="corp_name" id="corp_name" class="form-control" placeholder="Firma 123..." /><br>
+          <label>Adresa:</label><input type="text" name="corp_address" id="corp_address" class="form-control" placeholder="Nová Ulica 1..." /><br>
+          <label>Adresa2:</label><input type="text" name="corp_address2" id="corp_address2" class="form-control" placeholder="800 00, Bratislava..." /><br>
+          <label>IČO:</label><input type="text" name="corp_ico" id="corp_ico" class="form-control" placeholder="0012345678..." /><br>
+          <label>DIČ:</label><input type="text" name="corp_dic" id="corp_dic" class="form-control" placeholder="2355325532523..." /><br>
+          <label>IČ DPH:</label><input type="text" name="corp_icdph" id="corp_icdph" class="form-control" placeholder="SK2355325532523..." /><br>
+          <label>Dátum vystavenia:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="invoice_create_date" id="invoice_create_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+          <label>Dátum dodania:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="delivery_date" id="delivery_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+          <label>Dátum splatnosti:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="invoice_due_date" id="invoice_due_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+
+       <button id="addinvoicetbtn" type="button" class="addinvoice btn btn-success">Vytvor</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+<div id="editInvoiceModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav faktúru</h2>
+       
+      </div>
+      <div class="modal-body">
+
+         <label>Číslo faktúry:</label><input type="text" name="edit_invoice_no" id="edit_invoice_no" class="form-control" placeholder="FA12345678..." /><br>
+         <label>Fakturačný profil:</label><%= select_tag(:edit_invoiceprofile, options_from_collection_for_select(InvoiceProfile.all, :id, :name), :class=>'form-control') %><br>
+         <label>Suma:</label><input type="number" name="edit_contracted_amount" id="edit_contracted_amount" class="form-control" placeholder="200" /><br>
+         <label>Stav:</label><%= select_tag(:edit_status, options_for_select([['Nová', 'Nová'], ['Odoslaná', 'Odoslaná'], ['Uhradená', 'Uhradená'],['Zrušená','Zrušená']]), :class=>'form-control') %><br>
+          <!--<label>Stav:</label><input type="text" name="edit_status" id="edit_status" class="form-control" placeholder="Odoslaná/Uhradená/Zrušená..." /><br>-->
+          <label>Odberateľ:</label><input type="text" name="edit_corp_name" id="edit_corp_name" class="form-control" placeholder="Firma 123..." /><br>
+          <label>Adresa:</label><input type="text" name="edit_corp_address" id="edit_corp_address" class="form-control" placeholder="Nová Ulica 1..." /><br>
+          <label>Adresa2:</label><input type="text" name="edit_corp_address2" id="edit_corp_address2" class="form-control" placeholder="800 00, Bratislava..." /><br>
+          <label>IČO:</label><input type="text" name="edit_corp_ico" id="edit_corp_ico" class="form-control" placeholder="0012345678..." /><br>
+          <label>DIČ:</label><input type="text" name="edit_corp_dic" id="edit_corp_dic" class="form-control" placeholder="2355325532523..." /><br>
+          <label>IČ DPH:</label><input type="text" name="edit_corp_icdph" id="edit_corp_icdph" class="form-control" placeholder="SK2355325532523..." /><br>
+          <label>Dátum vystavenia:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_invoice_create_date" id="edit_invoice_create_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+          <label>Dátum dodania:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_delivery_date" id="edit_delivery_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+          <label>Dátum splatnosti:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_invoice_due_date" id="edit_invoice_due_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+           
+       
+       <button id="editinvoicetbtnconfirm" type="button" class="editinvoice btn btn-success">Uprav</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+
+
+<script>
+var invoicetable;
+
+var tableready = function() {
+
+$('.chosen-select').chosen({width: "100%"});
+
+$('.datepick').datepicker({
+       trigger: $('#inputcalendar'),
+        autoHide: true,
+        format: 'yyyy-mm-dd'
+          });
+
+ invoicetable= $('#invoices').DataTable({
+  'order': [0, 'desc'],
+  'serverSide': false,
+  'stateSave' :true,
+  
+  'dom': 'lfr<"pull-right"B>tip',
+ 'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+  {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ],
+  drawCallback: function(settings) {
+     
+    $('.edit_invoice_btn').on('click',function(event){
+
+      $id = event.target.id
+
+       $.ajax({
+            type: "GET",
+            url: "/invoices/"+$id+".json"
+            
+        })
+           .done(function (data) {
+            updateInvoiceEditModal(data);
+          $('#editInvoiceModal').modal('show');
+
+           })
+           .fail(function (data) {
+              $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa natiahnuť údaje o faktúre"));
+           }
+            )
+      
+      
+});
+
+  
+
+  }
+
+});
+
+
+$('.addinvoice').on('click',function(event){
+          //console.log(event.target.id);
+          $invoice_no=$('#invoice_no').val();
+          $invprofile=$('#invoiceprofile').val();
+          $contracted_amount=$('#contracted_amount').val();
+          $status=$('#status').val();
+          $corp_name=$('#corp_name').val();
+          $corp_address=$('#corp_address').val();
+          $corp_address2=$('#corp_address2').val();
+          $corp_ico=$('#corp_ico').val();
+          $corp_dic=$('#corp_dic').val();
+          $corp_icdph=$('#corp_icdph').val();
+          $invoice_create_date=$('#invoice_create_date').val();
+          $invoice_due_date=$('#invoice_due_date').val();
+          $delivery_date=$('#delivery_date').val();
+        
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_invoice",
+            data: {
+              invoice_no: $invoice_no,
+              invoice_profile: $invprofile,
+              contracted_amount: $contracted_amount,
+              status: $status,
+              corp_name: $corp_name,
+              corp_address: $corp_address,
+              corp_address2: $corp_address2,
+              corp_ico: $corp_ico,
+              corp_dic: $corp_dic,
+              corp_icdph: $corp_icdph,
+              invoice_create_date: $invoice_create_date,
+              invoice_due_date: $invoice_due_date,
+              delivery_date: $delivery_date
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                //alert("Obstarávanie bolo vytvorené" );
+                 $("#notice").html(flashMessageFromAjax(data.status,"Faktúra bola vytvorená"));
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+$('.editinvoice').on('click',function(event){
+          //console.log(event.target.id);
+          $invoice_no=$('#edit_invoice_no').val();
+          $invprofile=$('#edit_invoiceprofile').val();
+          $contracted_amount=$('#edit_contracted_amount').val();
+          $status=$('#edit_status').val();
+          $corp_name=$('#edit_corp_name').val();
+          $corp_address=$('#edit_corp_address').val();
+          $corp_address2=$('#edit_corp_address2').val();
+          $corp_ico=$('#edit_corp_ico').val();
+          $corp_dic=$('#edit_corp_dic').val();
+          $corp_icdph=$('#edit_corp_icdph').val();
+          $invoice_create_date=$('#edit_invoice_create_date').val();
+          $invoice_due_date=$('#edit_invoice_due_date').val();
+          $delivery_date=$('#edit_delivery_date').val();
+
+        
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_edit_invoice",
+            data: {
+              id: $id,
+              invoice_no: $invoice_no,
+              invoice_profile: $invprofile,
+              contracted_amount: $contracted_amount,
+              status: $status,
+              corp_name: $corp_name,
+              corp_address: $corp_address,
+              corp_address2: $corp_address2,
+              corp_ico: $corp_ico,
+              corp_dic: $corp_dic,
+              corp_icdph: $corp_icdph,
+              invoice_create_date: $invoice_create_date,
+              invoice_due_date: $invoice_due_date,
+              delivery_date: $delivery_date
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                //alert("Projekt bol upravený" );
+                 $("#notice").html(flashMessageFromAjax(data.status,"Faktúra bolo upravená"));
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+};
+
+
+$(".invoices.index").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#invoices_wrapper').length ==1) {invoicetable.destroy() ;} 
+
+});
+
+
+$(".invoices.index").on('turbolinks:load', tableready); 
+
+</script>
+<% else %>
+<h2>Sem nemas pristup</h2>
+<% end %>

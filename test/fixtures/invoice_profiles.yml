@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  address1: MyString
+  address2: MyString
+  ico: MyString
+  dic: MyString
+  icdph: MyString
+  bank_name: MyString
+  iban: MyString
+
+two:
+  name: MyString
+  address1: MyString
+  address2: MyString
+  ico: MyString
+  dic: MyString
+  icdph: MyString
+  bank_name: MyString
+  iban: MyString

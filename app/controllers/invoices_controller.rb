@@ -21,6 +21,132 @@ class InvoicesController < ApplicationController
   def edit
   end
 
+  def tlac_fakturu
+    @invoice = Invoice.find(params[:id])
+
+  end
+
+  def modal_edit_inv_amount
+    begin
+      @invoice = Invoice.find(params[:inv_id])
+      @invoice.contracted_amount = params[:inv_amount]
+
+      if (@invoice.save)
+
+       respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+           end
+        else
+          respond_to do |format|
+              format.json { render :json => {"status":"Nepodarilo sa upraviiť záznam"}  }
+           end
+         end
+
+    rescue=>error
+      redirect_to invoices_url, :alert=>error.message
+    end
+  end
+
+  def modal_edit_inv_text
+     begin
+      @invoice = Invoice.find(params[:inv_id])
+      @invoice.invoice_text = params[:inv_text]
+
+      if (@invoice.save)
+
+       respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+           end
+        else
+          respond_to do |format|
+              format.json { render :json => {"status":"Nepodarilo sa upraviiť záznam"}  }
+           end
+         end
+
+    rescue=>error
+      redirect_to invoices_url, :alert=>error.message
+    end
+  end
+
+  def modal_create_invoice
+    @invoice_no = params[:invoice_no]
+    @status = params[:status]
+    @invoice_profile = params[:invoice_profile]
+    @corp_name = params[:corp_name]
+    @corp_address = params[:corp_address]
+    @corp_address2 = params[:corp_address2]
+    @contracted_amount = params[:contracted_amount]
+    @corp_ico = params[:corp_ico]
+    @corp_dic = params[:corp_dic]
+    @corp_icdph = params[:corp_icdph]
+    @invoice_create_date = params[:invoice_create_date]
+    @invoice_due_date = params[:invoice_due_date]
+    @delivery_date = params[:delivery_date]
+
+
+    begin
+
+    @invoice= Invoice.new(:invoice_no=>@invoice_no, :invoice_profile_id=>@invoice_profile, :status=>@status, :contracted_amount=> @contracted_amount, :corp_name=>@corp_name, :corp_address=>@corp_address, :corp_address2=>@corp_address2, :corp_ico=>@corp_ico, :corp_dic=>@corp_dic, :corp_icdph=>@corp_icdph, :invoice_create_date=>@invoice_create_date, :invoice_due_date=>@invoice_due_date, :delivery_date=>@delivery_date)
+
+    
+    
+   if (@invoice.save)
+
+       respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+           end
+        else
+          respond_to do |format|
+              format.json { render :json => {"status":"Nepodarilo sa vytvoriť záznam"}  }
+           end
+         end
+
+    rescue=>error
+      redirect_to faktury_path, :alert=>error.message
+    end
+  end
+
+    def modal_edit_invoice
+
+begin
+
+    @invoice = Invoice.find(params[:id])
+
+    @invoice.invoice_no= params[:invoice_no]
+    @invoice.status = params[:status]
+    @invoice.contracted_amount = params[:contracted_amount]
+    @invoice.invoice_profile_id = params[:invoice_profile]
+    @invoice.corp_name = params[:corp_name]
+    @invoice.corp_address = params[:corp_address]
+    @invoice.corp_address2 = params[:corp_address2]
+    @invoice.corp_ico = params[:corp_ico]
+    @invoice.corp_dic = params[:corp_dic]
+    @invoice.corp_icdph = params[:corp_icdph]
+    @invoice.invoice_create_date = params[:invoice_create_date]
+    @invoice.invoice_due_date = params[:invoice_due_date]
+    @invoice.delivery_date = params[:delivery_date]
+    
+
+    
+   if (@invoice.save)
+
+       respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+           end
+        else
+          respond_to do |format|
+              format.json { render :json => {"status":"Nepodarilo sa upraviiť záznam"}  }
+           end
+         end
+
+    rescue=>error
+      redirect_to faktury_path, :alert=>error.message
+    end
+
+
+
+  end
+
   # POST /invoices
   # POST /invoices.json
   def create
