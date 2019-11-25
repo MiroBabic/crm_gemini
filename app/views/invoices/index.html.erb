@@ -101,7 +101,7 @@
            <label>Číslo faktúry:</label><input type="text" name="invoice_no" id="invoice_no" class="form-control" placeholder="FA12345678..." /><br>
            <label>Fakturačný profil:</label><%= select_tag(:invoiceprofile, options_from_collection_for_select(InvoiceProfile.all, :id, :name), :class=>'form-control') %><br>
            <label>Suma:</label><input type="number" name="contracted_amount" id="contracted_amount" class="form-control" placeholder="200" /><br>
-           <label>Stav:</label><%= select_tag(:status, options_for_select([['Nová', 'Nová'], ['Odoslaná', 'Odoslaná'], ['Uhradená', 'Uhradená'],['Zrušená','Zrušená']]), :class=>'form-control') %><br>
+           <label>Stav:</label><%= select_tag(:status, options_for_select([['Nová', 'Nová'], ['Odoslaná', 'Odoslaná'], ['Uhradená', 'Uhradená'],['Zálohová','Zálohová'],['Dobropis','Dobropis'],['Zrušená','Zrušená']]), :class=>'form-control') %><br>
           <!--<label>Stav:</label><input type="text" name="status" id="status" class="form-control" placeholder="Odoslaná/Uhradená/Zrušená..." /><br>-->
           <label>Odberateľ:</label><input type="text" name="corp_name" id="corp_name" class="form-control" placeholder="Firma 123..." /><br>
           <label>Adresa:</label><input type="text" name="corp_address" id="corp_address" class="form-control" placeholder="Nová Ulica 1..." /><br>
@@ -136,7 +136,7 @@
          <label>Číslo faktúry:</label><input type="text" name="edit_invoice_no" id="edit_invoice_no" class="form-control" placeholder="FA12345678..." /><br>
          <label>Fakturačný profil:</label><%= select_tag(:edit_invoiceprofile, options_from_collection_for_select(InvoiceProfile.all, :id, :name), :class=>'form-control') %><br>
          <label>Suma:</label><input type="number" name="edit_contracted_amount" id="edit_contracted_amount" class="form-control" placeholder="200" /><br>
-         <label>Stav:</label><%= select_tag(:edit_status, options_for_select([['Nová', 'Nová'], ['Odoslaná', 'Odoslaná'], ['Uhradená', 'Uhradená'],['Zrušená','Zrušená']]), :class=>'form-control') %><br>
+         <label>Stav:</label><%= select_tag(:edit_status, options_for_select([['Nová', 'Nová'], ['Odoslaná', 'Odoslaná'], ['Uhradená', 'Uhradená'],['Zálohová','Zálohová'],['Dobropis','Dobropis'],['Zrušená','Zrušená']]), :class=>'form-control') %><br>
           <!--<label>Stav:</label><input type="text" name="edit_status" id="edit_status" class="form-control" placeholder="Odoslaná/Uhradená/Zrušená..." /><br>-->
           <label>Odberateľ:</label><input type="text" name="edit_corp_name" id="edit_corp_name" class="form-control" placeholder="Firma 123..." /><br>
           <label>Adresa:</label><input type="text" name="edit_corp_address" id="edit_corp_address" class="form-control" placeholder="Nová Ulica 1..." /><br>
