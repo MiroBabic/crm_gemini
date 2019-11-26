@@ -55,6 +55,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
          subjtype_id: subject.subjtype_id,
          citizen_count: subject.citizen_count,
          user_name: subject.user.name,
+         user_id: subject.user_id,
          note: subject.note,
          web: subject.web,
          subject_id: subject.subject_id,

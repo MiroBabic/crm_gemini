@@ -56,6 +56,7 @@ function updateSubjEditModal(d) {
 
 	$('#editsubjektID').val(d.subject_id);
 	$('#edit_subjname').val(d.subject_name);
+	$('#edit_spravuje').val(d.user_id);
 	$('#edit_subjsite').val(d.site);
 	$('#edit_subjico').val(d.ico);
 	$('#edit_subjnote').val(d.note);

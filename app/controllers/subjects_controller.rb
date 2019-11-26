@@ -115,6 +115,7 @@ class SubjectsController < ApplicationController
       @subject = Subject.find(params[:edit_subjectid])
 
       @subject.name = params[:edit_subjname]
+      @subject.user_id = params[:edit_spravuje]
       @subject.district_id = params[:edit_subjdistrict]
       @subject.subjtype_id = params[:edit_subjtype]
       @subject.site = params[:edit_subjsite]

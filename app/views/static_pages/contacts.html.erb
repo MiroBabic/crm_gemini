@@ -27,6 +27,7 @@
       <div class="ibox-content">
         <button type="button" class="btn btn-success" id="add_contact_button" data-toggle="modal" data-target="#addSubjektModal">Pridaj nový subjekt</button>
         <button type="button" class="btn btn-success" id="add_contact_button" data-toggle="modal" data-target="#addContactModal">Pridaj novú osobu</button>
+        
         <hr>
         <div class="tabs-container">
           <ul class="nav nav-tabs">
@@ -44,6 +45,7 @@
                 <table class="table table-bordered" id="subjects" style="width:100%">
                   <thead>
                     <tr>
+                      
                       <th>Názov subjektu</th>
                       <th>Okres</th>
                       <th>Kraj</th>
@@ -68,13 +70,14 @@
                   </tbody>
                   <tfoot>
                      <tr id ="tabledetailsearch" class="visibility" style="width:100%">
+                      
                      <th>Názov subjektu</th>
                       <th>Okres</th>
                       <th>Kraj</th>
                       <th>Typ Subjektu</th>
                       <th>Spravuje</th>
                       <th>Počet obyvateľov</th>
-                      <th>VIP</th>
+                      <th class="findtruefalse">VIP</th>
                       <th style="visibility:hidden">Projektový zámer_arr</th>
                       <th>Projektový zámer</th>
                       <th>Vložené</th>
@@ -233,6 +236,7 @@
           <form name="edit_subjekt_form" accept-charset="utf-8">
             <input style="visibility:hidden" type="text" name="editsubjektID" id="editsubjektID" value="" readonly>
            <label>Názov:</label><input type="text" name="edit_subjname" id="edit_subjname" class="form-control" placeholder="Názov subjektu" required /><br>
+           <label>Spravuje:</label><%= select_tag 'edit_spravuje', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'edit_spravuje' %> </br>
            <label>Okres:</label><%= select_tag 'edit_okres', options_from_collection_for_select(@districts, 'id', 'name'), class: 'form-control', id: 'edit_subjdistrict' %>
          </br>
          <label>Typ Subjektu:</label><%= select_tag 'edit_typ_subjektu', options_from_collection_for_select(@subjtypes, 'id', 'name'), class: 'form-control', id: 'edit_subjtype' %>
@@ -334,7 +338,9 @@ var subjtable;
 var peopletable;
 var tableready = function() {
 
+
   $('.chosen-select').chosen({width: "100%"});
+  
 
   $("#project_targets_edit").chosen().change(function(e, params){
  $project_targets  = $("#project_targets_edit").chosen().val();
@@ -347,7 +353,9 @@ var tableready = function() {
   'serverSide': true,
   'stateSave' :true,
   'ajax' : '/subjects.json',
+  
   columns: [
+  
   {data: 'subject_name_show'},
   {data: 'district_name' },
   {data: 'county_name' },
@@ -410,6 +418,9 @@ var tableready = function() {
   [10, 50,100, "All"]
   ],
   initComplete: function() {
+
+    $('#disable').html( '<input disabled type="text" />' );
+
     if ( $("#detailbutton").length) {console.log ('detailed search exists');}
               else {
 
@@ -438,9 +449,21 @@ var tableready = function() {
               .draw();
           }
             });
+
+        $('.findtruefalse', this.footer()).on('change', function() {
+          
+          if (that.search() !== this.value) {
+            that
+              .search(this.value)
+              .draw();
+          }
+            });
+
         });
 
        $('#detailbutton').click(function() {
+        
+
           $('#tabledetailsearch').toggleClass('visibility');
           });
 
@@ -475,7 +498,7 @@ var tableready = function() {
 
 
 //childrow subject details
-    $('#subjects tbody').on('click', 'td.details-control', function () {
+    $('#subjects tbody').off('click').on('click', 'td.details-control', function () {
 
       var tr = $(this).closest('tr');
       var row = subjtable.row( tr );
@@ -678,7 +701,14 @@ var tableready = function() {
 $('#subjects tfoot th').each( function () {
         var title = $(this).text();
         
+        //$(this).html( '<input type="text" placeholder="Hľadaj" />' );
+         if ( $(this).hasClass('findtruefalse') ) {
+         $(this).html( '<select class="findtruefalse form-control input-sm"><option value="">Všetko</option><option value="true">Áno</option><option value="false">Nie</option></select>' );   
+        }
+        else {
         $(this).html( '<input type="text" placeholder="Hľadaj" />' );
+      }
+
     } );
 
 $('.disabled').html( '<input disabled type="text" style="display:none" />' );
@@ -753,6 +783,7 @@ $('.editcontact').on('click',function(event){
           
           $edit_subjectID = $('#editsubjektID').val();
           $edit_subjname = $('#edit_subjname').val();
+          $edit_spravuje = $('#edit_spravuje').val();
           $edit_subjdistrict = $('#edit_subjdistrict').val();
           $edit_subjtype = $('#edit_subjtype').val();
           $edit_subjsite = $('#edit_subjsite').val(); 
@@ -777,6 +808,7 @@ $('.editcontact').on('click',function(event){
             url: "/modal_edit_subj",
             data: {
               edit_subjectid: $edit_subjectID,
+              edit_spravuje: $edit_spravuje,
               edit_subjname: $edit_subjname,
               edit_subjdistrict: $edit_subjdistrict,
               edit_subjtype: $edit_subjtype,

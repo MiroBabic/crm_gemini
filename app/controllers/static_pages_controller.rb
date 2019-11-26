@@ -7,6 +7,7 @@ class StaticPagesController < ApplicationController
 		@subjtypes = Subjtype.select(:name,:id).order(:name)
 		@subjects = Subject.select(:name,:id).order(:name)
 		@projecttargets = Projecttarget.all.order(:name)
+		@users = User.all.order(:name)
 	end
 
 	def export
