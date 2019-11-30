@@ -187,7 +187,7 @@ class StaticPagesController < ApplicationController
 
 
 			#@total_subjects = (@subjects_by_district + @subjects_by_county + @subjects_by_owner +@subjects_by_type).uniq
-			@total_subjects = @subjects_by_district.merge(@subjects_by_county).merge(@subjects_by_owner).merge(@subjects_by_type).flatten.uniq
+			@total_subjects = @subjects_by_district.merge(@subjects_by_county).merge(@subjects_by_owner).merge(@subjects_by_type).to_a.flatten.uniq
 
 			unless @total_subjects.present?
 				if (@obyv_count_from.present? || @obyv_count_to.present?)
