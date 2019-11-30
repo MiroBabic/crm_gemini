@@ -1,4 +1,4 @@
-class AddRemoveColumnsImplementations < ActiveRecord::Migration
+class AddRemoveColumnsImplementations < ActiveRecord::Migration[4.2]
   def change
   	remove_column :implementations,:procurement_name, :string
   	remove_column :implementations,:procurement_subject, :string

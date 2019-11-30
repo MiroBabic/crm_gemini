@@ -1,2 +1,2 @@
-class Projecttarget < ActiveRecord::Base
+class Projecttarget < ApplicationRecord
 end

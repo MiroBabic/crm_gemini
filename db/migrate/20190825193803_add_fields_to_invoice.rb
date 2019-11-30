@@ -1,4 +1,4 @@
-class AddFieldsToInvoice < ActiveRecord::Migration
+class AddFieldsToInvoice < ActiveRecord::Migration[4.2]
   def change
   	add_column :invoices,:invoice_no, :string
   	add_column :invoices,:invoice_text, :text

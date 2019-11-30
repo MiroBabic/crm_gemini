@@ -1,4 +1,4 @@
-class CreateCommunications < ActiveRecord::Migration
+class CreateCommunications < ActiveRecord::Migration[4.2]
   def change
     create_table :communications do |t|
       t.references :subject, index: true, foreign_key: true

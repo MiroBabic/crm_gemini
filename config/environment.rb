@@ -1,5 +1,5 @@
 # Load the Rails application.
-require File.expand_path('../application', __FILE__)
+require_relative 'application'
 
 #load env with username and pass for email
 app_env_vars = File.join(Rails.root, 'config', 'initializers', 'app_env_vars.rb')

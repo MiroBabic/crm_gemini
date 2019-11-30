@@ -1,2 +1,2 @@
-class Procurement < ActiveRecord::Base
+class Procurement < ApplicationRecord
 end

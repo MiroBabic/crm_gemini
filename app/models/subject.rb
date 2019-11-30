@@ -1,4 +1,4 @@
-class Subject < ActiveRecord::Base
+class Subject < ApplicationRecord
   belongs_to :district
   belongs_to :subjtype
   belongs_to :user

@@ -1,4 +1,4 @@
-class CreateInvoiceProfiles < ActiveRecord::Migration
+class CreateInvoiceProfiles < ActiveRecord::Migration[4.2]
   def change
     create_table :invoice_profiles do |t|
       t.string :name

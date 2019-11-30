@@ -1,4 +1,4 @@
-class AddFieldsToImplem < ActiveRecord::Migration
+class AddFieldsToImplem < ActiveRecord::Migration[4.2]
   def change
   	add_column :implementations,:nfp_contract_effective, :datetime
   	add_column :implementations,:project_request_code, :string

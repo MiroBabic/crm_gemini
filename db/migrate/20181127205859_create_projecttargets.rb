@@ -1,4 +1,4 @@
-class CreateProjecttargets < ActiveRecord::Migration
+class CreateProjecttargets < ActiveRecord::Migration[4.2]
   def change
     create_table :projecttargets do |t|
       t.string :name

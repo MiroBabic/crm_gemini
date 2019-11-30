@@ -1,4 +1,4 @@
-class CreateSubjtypes < ActiveRecord::Migration
+class CreateSubjtypes < ActiveRecord::Migration[4.2]
   def change
     create_table :subjtypes do |t|
       t.string :name

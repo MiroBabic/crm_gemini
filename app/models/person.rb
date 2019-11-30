@@ -1,4 +1,4 @@
-class Person < ActiveRecord::Base
+class Person < ApplicationRecord
   belongs_to :subject
 
   has_many :communications, :dependent => :destroy

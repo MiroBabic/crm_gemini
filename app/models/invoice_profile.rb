@@ -1,3 +1,3 @@
-class InvoiceProfile < ActiveRecord::Base
+class InvoiceProfile < ApplicationRecord
 	has_one :invoice
 end

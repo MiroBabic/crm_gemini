@@ -1,4 +1,4 @@
-class CreateImpchanges < ActiveRecord::Migration
+class CreateImpchanges < ActiveRecord::Migration[4.2]
   def change
     create_table :impchanges do |t|
       t.references :implementation, index: true, foreign_key: true

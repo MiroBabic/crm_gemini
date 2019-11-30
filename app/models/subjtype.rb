@@ -1,3 +1,3 @@
-class Subjtype < ActiveRecord::Base
+class Subjtype < ApplicationRecord
 	has_many :subjects, :dependent => :destroy
 end

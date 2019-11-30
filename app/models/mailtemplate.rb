@@ -1,2 +1,2 @@
-class Mailtemplate < ActiveRecord::Base
+class Mailtemplate < ApplicationRecord
 end

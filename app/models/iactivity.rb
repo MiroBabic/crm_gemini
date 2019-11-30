@@ -1,4 +1,4 @@
-class Iactivity < ActiveRecord::Base
+class Iactivity < ApplicationRecord
   belongs_to :implementation
   belongs_to :user
 

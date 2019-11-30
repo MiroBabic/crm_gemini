@@ -1,2 +1,2 @@
-class Oprogram < ActiveRecord::Base
+class Oprogram < ApplicationRecord
 end

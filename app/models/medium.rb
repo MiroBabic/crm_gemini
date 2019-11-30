@@ -1,4 +1,4 @@
-class Medium < ActiveRecord::Base
+class Medium < ApplicationRecord
   belongs_to :subject
 
 
