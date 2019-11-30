@@ -58,7 +58,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
          user_id: subject.user_id,
          note: subject.note,
          web: subject.web,
-         subject_id: subject.subject_id,
+         #subject_id: subject.subject_id,
          zaujimavost: subject.zaujimavost,
          created_at: subject.created_at_modif,
          updated_at: subject.updated_at_modif,
