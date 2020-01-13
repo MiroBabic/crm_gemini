@@ -40,8 +40,8 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
          id: project.id,
          name: project.name,
          project_detail: link_to(project.name, show_project_detail_path(project.id)),
-         person: project.person.email,
-         person_id: project.person.id,
+         person:  (project.person_id.present? ? project.person.email : nil),
+         person_id: project.person_id,
          subject_id: project.subject.id,
          subject_path: link_to(project.subject.name, show_subject_profile_path(project.subject_id)),
          subject: project.subject.name,
@@ -71,7 +71,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
 
 
 def get_raw_records
-  Project.joins(:subject).joins(:person).joins(:user)
+  Project.joins(:subject).left_outer_joins(:person).joins(:user)
 end
 
 

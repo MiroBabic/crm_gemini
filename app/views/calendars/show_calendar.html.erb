@@ -18,18 +18,31 @@
 </div>
 
 <div class="wrapper wrapper-content animated fadeInRight">
-	<div class="row">
-		<div class="col-lg-12">
-		<div class="ibox float-e-margins">
-		      <div class="ibox-content">
-		      		<p>Ak chceš pridať záznam do kalendára na ľubovolný dátum bez nutnosti hľadania v kalendári, zadaj ho tu</p>
-		      		<div class="row">
-		      		<div class="col-md-3">
-			<div class="input-group date">
+	
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+      	
+
+		<div id="calendar" >
+			</div>
+</div>
+</div>
+</div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+    <div class="ibox float-e-margins">
+          <div class="ibox-content">
+              <p>Ak chceš pridať záznam do kalendára na ľubovolný dátum bez nutnosti hľadania v kalendári, zadaj ho tu</p>
+              <div class="row">
+              <div class="col-md-3">
+      <div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="calendar_manual_entry" id="calendar_manual_entry" class="form-control datepick" placeholder="1990-12-31" /></div>
           </div>
           <div class="col-md-3">
-          	<div class="input-group clockpicker" data-autoclose="true">
+            <div class="input-group clockpicker" data-autoclose="true">
                                 <input type="text" id="calendar_manual_entry_time" class="form-control" placeholder="09:30">
                                 <span class="input-group-addon">
                                     <span class="fa fa-clock-o"></span>
@@ -37,18 +50,18 @@
                             </div>
                         </div>
              <div class="col-md-3">
-             	<input type="text" name="calendar_note" id="calendar_note" class="form-control" placeholder="Poznámka" />
+              <input type="text" name="calendar_note" id="calendar_note" class="form-control" placeholder="Poznámka" />
              </div>
           <div class="col-md-3">
-          	<button class="btn btn-primary" id="manul_cal_entry_submit_button">Ulož záznam</button>
+            <button class="btn btn-primary" id="manul_cal_entry_submit_button">Ulož záznam</button>
           </div>
       </div>
           <br>
 
       </div>
-      </div>		
-		</div>
-	</div>
+      </div>    
+    </div>
+  </div>
   <div class="row">
     <div class="col-lg-12">
       <div class="ibox float-e-margins">
@@ -74,24 +87,13 @@
   </div>
   </div>
   </div>
-  <div class="row">
-   <div class="col-lg-12">
-     <div class="ibox float-e-margins">
-      <div class="ibox-content">
-      	<div class="alert alert-success alert-dismissable">
-												<button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
-												<p>Pre pridanie celodenného záznamu v kalendári klikni na deň v mesačnom prehľade a pridaj záznam</p>
-												<p>Pre pridanie záznamu na konkrétnu hodinu prejdi na týždenný alebo denný prehľad a myšou vysvieť čas, na ktorý chceš pridať záznam</p>
-												<p>Pre vymazanie záznamu klikni naň pravým tlačidlom a potvrď</p>
-												
-												</div>
-
-		<div id="calendar" >
-			</div>
-</div>
-</div>
-</div>
-</div>
+<div class="alert alert-success alert-dismissable">
+                        <button class="close" aria-hidden="true" data-dismiss="alert" type="button">×</button>
+                        <p>Pre pridanie celodenného záznamu v kalendári klikni na deň v mesačnom prehľade a pridaj záznam</p>
+                        <p>Pre pridanie záznamu na konkrétnu hodinu prejdi na týždenný alebo denný prehľad a myšou vysvieť čas, na ktorý chceš pridať záznam</p>
+                        <p>Pre vymazanie záznamu klikni naň pravým tlačidlom a potvrď</p>
+                        
+                        </div>
 </div>
 
 

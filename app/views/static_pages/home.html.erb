@@ -36,6 +36,7 @@
                     </div>
 
                     <div class="col-lg-9">
+                      <% if current_user.admin? %>
                         <div class="ibox ">
                             <div class="ibox-title">
                                  <h2>Vyber projektového manažéra</h2>
@@ -68,6 +69,7 @@
                             </div>
                             </div>
                         </div>
+                        <% end %>
                     </div>
                     
             </div>
