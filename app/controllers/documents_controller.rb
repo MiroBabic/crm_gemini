@@ -1,5 +1,7 @@
 class DocumentsController < ApplicationController
   before_action :set_document, only: [:show, :edit, :update, :destroy]
+  before_action :can_use_seller
+  
 
   # GET /documents
   # GET /documents.json

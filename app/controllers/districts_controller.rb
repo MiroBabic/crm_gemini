@@ -1,5 +1,7 @@
 class DistrictsController < ApplicationController
   before_action :set_district, only: [:show, :edit, :update, :destroy]
+  before_action :can_use_seller
+  before_action :can_use_project_manager
 
   # GET /districts
   # GET /districts.json

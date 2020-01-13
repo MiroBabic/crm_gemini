@@ -1,5 +1,7 @@
 class SubjtypesController < ApplicationController
   before_action :set_subjtype, only: [:show, :edit, :update, :destroy]
+  before_action :can_use_seller
+  before_action :can_use_project_manager
 
   # GET /subjtypes
   # GET /subjtypes.json

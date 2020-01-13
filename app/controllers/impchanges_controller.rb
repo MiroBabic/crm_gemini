@@ -1,5 +1,7 @@
 class ImpchangesController < ApplicationController
   before_action :set_impchange, only: [:show, :edit, :update, :destroy]
+  before_action :can_use_seller
+  
 
   # GET /impchanges
   # GET /impchanges.json

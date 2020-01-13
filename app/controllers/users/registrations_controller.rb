@@ -1,6 +1,8 @@
 class Users::RegistrationsController < Devise::RegistrationsController
 # before_action :configure_sign_up_params, only: [:create]
 # before_action :configure_account_update_params, only: [:update]
+before_action :can_use_seller, :only=> [:modal_edit_user, :modal_create_user, :destroy]
+before_action :can_use_project_manager, :only=> [:modal_edit_user, :modal_create_user, :destroy]
 
   # GET /resource/sign_up
   # def new
@@ -34,14 +36,12 @@ class Users::RegistrationsController < Devise::RegistrationsController
     type = params[:user_type]
     name = params[:user_name]
 
-    if type == '2'
-      admin = true
-    else
-      admin = false
-    end
-
+    
+    @user.user_type = type
     @user.name = name
-    @user.admin = admin
+    if type =='admin'
+      @user.admin = true
+    end
     @user.save
 
     respond_to do |format|
@@ -61,17 +61,15 @@ class Users::RegistrationsController < Devise::RegistrationsController
       password = params[:password]
       password_confirm = params[:password_confirm]
 
-      if type == '2'
-      admin = true
-    else
-      admin = false
-    end
-
+      
       if (password == password_confirm)
         u=User.new
         u.name = name
         u.email = email
-        u.admin = admin
+        u.user-type = type
+        if type =='admin'
+          @user.admin = true
+        end
         u.password = password
         u.save
 

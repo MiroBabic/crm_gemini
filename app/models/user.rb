@@ -4,6 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  enum user_type: {admin: 1, project_manager: 2, seller: 3}
+
     has_many :communications
     has_many :calendars
     has_many :subjects

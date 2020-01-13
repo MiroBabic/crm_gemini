@@ -1,5 +1,7 @@
 class OprogramsController < ApplicationController
   before_action :set_oprogram, only: [:show, :edit, :update, :destroy]
+  before_action :can_use_seller
+  
 
   # GET /oprograms
   # GET /oprograms.json

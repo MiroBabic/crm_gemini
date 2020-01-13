@@ -1,5 +1,7 @@
 class ImplementationsController < ApplicationController
   before_action :set_implementation, only: [:show, :edit, :update, :destroy]
+  before_action :can_use_seller
+  
 
   # GET /implementations
   # GET /implementations.json

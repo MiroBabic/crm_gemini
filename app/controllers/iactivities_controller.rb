@@ -1,5 +1,7 @@
 class IactivitiesController < ApplicationController
   before_action :set_iactivity, only: [:show, :edit, :update, :destroy]
+  before_action :can_use_seller
+  
 
   # GET /iactivities
   # GET /iactivities.json

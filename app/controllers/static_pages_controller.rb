@@ -1,5 +1,7 @@
 class StaticPagesController < ApplicationController
 	before_action :authenticate_user!, :except=>[:unsubscribe]
+	before_action :can_use_seller, :except=> [:contacts, :home]
+	before_action :can_use_project_manager, :except=> [:contacts, :home, :subory]
 
 
 	def contacts
@@ -322,6 +324,5 @@ class StaticPagesController < ApplicationController
 	end
 
 
-	
-	
+
 end

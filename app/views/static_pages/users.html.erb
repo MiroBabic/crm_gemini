@@ -44,7 +44,7 @@
       <tr>
         <td><%= user.name %></td>
         <td><%= user.email %></td>
-        <td><% if user.admin? %>Správca<% else %>Bežný užívateľ<% end %></td>
+        <td><%= user.user_type.humanize.capitalize %></td>
         <% if current_user.admin? %>
         <td><a  data-toggle="modal" data-target="#editUserModal<%=user.id%>"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
         <td><%= link_to admin_destroy_user_path(user), method: :delete, data: { confirm: 'Naozaj ho chceš zmazať?' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
@@ -75,9 +75,7 @@
          <label>Email:</label><input type="text" name="adduseremail" id="adduseremail" class="form-control" placeholder="Email" /><br>
           <label>Meno:</label><input type="text" name="addusername" id="addusername" class="form-control" placeholder="Meno" /><br>
            <label>Typ:</label>
-            <select name="addusertype" id="addusertype" class="form-control" title="addusertype">
-            <option value="1">Bežný užívateľ</option>
-            <option value="2">Správca</option></select></br>
+           <%= select_tag :addusertype, options_for_select(User.user_types.map {|k, v| [k.humanize.capitalize, k]}), :class=>'form-control' %>
 
             <label>Heslo:</label><input type="password" name="password" id="password" class="form-control" /><br>
             <label>Zopakuj heslo:</label><input type="password" name="password_confirm" id="password_confirm" class="form-control" /><br>
@@ -93,7 +91,7 @@
 
 
 <% @users.each do |user| %>
-<div id="editUserModal<%=user.id%>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="editUserModal<%=user.id%>" class="modal fade editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -106,9 +104,9 @@
          
            <label>Meno:</label><input type="text" name="username<%=user.id%>" id="username<%=user.id%>" class="form-control" placeholder="Meno" value="<%=user.name%>" /><br>
            <label>Typ:</label>
-            <select name="usertype<%=user.id%>" id="usertype<%=user.id%>" class="form-control" title="usertype">
-            <option value="1">Bežný užívateľ</option>
-            <option value="2">Správca</option></select></br>
+           <%= select_tag ('usertype'+ user.id.to_s), options_for_select(User.user_types.map {|k, v| [k.humanize.capitalize, k]}, user.user_type), :class=>'form-control' %>
+
+           
            
        </div>
        <button id="<%=user.id%>" type="button" class="editusr btn btn-success">Uprav</button>
@@ -130,8 +128,10 @@ var tableready = function() {
 
 
 
+
+
  userstable= $('#users').DataTable({
-  'order': [2, 'desc'],
+  'order': [0, 'asc'],
   'serverSide': false,
   'stateSave' :true,
   'dom': 'lfr<"pull-right"B>tip',

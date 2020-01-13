@@ -1,4 +1,3 @@
-# encoding: UTF-8
 # This file is auto-generated from the current state of the database. Instead
 # of editing this file, please use the migrations feature of Active Record to
 # incrementally modify your database, and then regenerate this schema definition.
@@ -11,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20191102110307) do
+ActiveRecord::Schema.define(version: 20200112094345) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -26,9 +25,8 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.boolean  "disabled"
+    t.index ["user_id"], name: "index_calendars_on_user_id", using: :btree
   end
-
-  add_index "calendars", ["user_id"], name: "index_calendars_on_user_id", using: :btree
 
   create_table "communications", force: :cascade do |t|
     t.integer  "subject_id"
@@ -38,11 +36,10 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["person_id"], name: "index_communications_on_person_id", using: :btree
+    t.index ["subject_id"], name: "index_communications_on_subject_id", using: :btree
+    t.index ["user_id"], name: "index_communications_on_user_id", using: :btree
   end
-
-  add_index "communications", ["person_id"], name: "index_communications_on_person_id", using: :btree
-  add_index "communications", ["subject_id"], name: "index_communications_on_subject_id", using: :btree
-  add_index "communications", ["user_id"], name: "index_communications_on_user_id", using: :btree
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   default: 0, null: false
@@ -56,10 +53,9 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.string   "queue"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.index ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+    t.index ["queue"], name: "delayed_jobs_queue", using: :btree
   end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-  add_index "delayed_jobs", ["queue"], name: "delayed_jobs_queue", using: :btree
 
   create_table "districts", force: :cascade do |t|
     t.string   "name"
@@ -83,11 +79,10 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer  "project_id"
+    t.index ["project_id"], name: "index_documents_on_project_id", using: :btree
+    t.index ["subject_id"], name: "index_documents_on_subject_id", using: :btree
+    t.index ["user_id"], name: "index_documents_on_user_id", using: :btree
   end
-
-  add_index "documents", ["project_id"], name: "index_documents_on_project_id", using: :btree
-  add_index "documents", ["subject_id"], name: "index_documents_on_subject_id", using: :btree
-  add_index "documents", ["user_id"], name: "index_documents_on_user_id", using: :btree
 
   create_table "iactivities", force: :cascade do |t|
     t.integer  "implementation_id"
@@ -97,10 +92,9 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.string   "note"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.index ["implementation_id"], name: "index_iactivities_on_implementation_id", using: :btree
+    t.index ["user_id"], name: "index_iactivities_on_user_id", using: :btree
   end
-
-  add_index "iactivities", ["implementation_id"], name: "index_iactivities_on_implementation_id", using: :btree
-  add_index "iactivities", ["user_id"], name: "index_iactivities_on_user_id", using: :btree
 
   create_table "impchanges", force: :cascade do |t|
     t.integer  "implementation_id"
@@ -111,10 +105,9 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.datetime "change_date"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.index ["implementation_id"], name: "index_impchanges_on_implementation_id", using: :btree
+    t.index ["user_id"], name: "index_impchanges_on_user_id", using: :btree
   end
-
-  add_index "impchanges", ["implementation_id"], name: "index_impchanges_on_implementation_id", using: :btree
-  add_index "impchanges", ["user_id"], name: "index_impchanges_on_user_id", using: :btree
 
   create_table "implementations", force: :cascade do |t|
     t.integer  "project_id"
@@ -176,12 +169,11 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.string   "monitoring_note"
     t.string   "change_request_note"
     t.string   "publicity_note"
+    t.index ["oprogram_id"], name: "index_implementations_on_oprogram_id", using: :btree
+    t.index ["project_id"], name: "index_implementations_on_project_id", using: :btree
+    t.index ["subject_id"], name: "index_implementations_on_subject_id", using: :btree
+    t.index ["user_id"], name: "index_implementations_on_user_id", using: :btree
   end
-
-  add_index "implementations", ["oprogram_id"], name: "index_implementations_on_oprogram_id", using: :btree
-  add_index "implementations", ["project_id"], name: "index_implementations_on_project_id", using: :btree
-  add_index "implementations", ["subject_id"], name: "index_implementations_on_subject_id", using: :btree
-  add_index "implementations", ["user_id"], name: "index_implementations_on_user_id", using: :btree
 
   create_table "implnotes", force: :cascade do |t|
     t.integer  "implementation_id"
@@ -189,10 +181,9 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.integer  "user_id"
     t.datetime "created_at",        null: false
     t.datetime "updated_at",        null: false
+    t.index ["implementation_id"], name: "index_implnotes_on_implementation_id", using: :btree
+    t.index ["user_id"], name: "index_implnotes_on_user_id", using: :btree
   end
-
-  add_index "implnotes", ["implementation_id"], name: "index_implnotes_on_implementation_id", using: :btree
-  add_index "implnotes", ["user_id"], name: "index_implnotes_on_user_id", using: :btree
 
   create_table "invoice_profiles", force: :cascade do |t|
     t.string   "name"
@@ -232,11 +223,10 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.string   "status"
     t.integer  "invoice_profile_id"
     t.string   "corp_address2"
+    t.index ["document_id"], name: "index_invoices_on_document_id", using: :btree
+    t.index ["implementation_id"], name: "index_invoices_on_implementation_id", using: :btree
+    t.index ["invoice_profile_id"], name: "index_invoices_on_invoice_profile_id", using: :btree
   end
-
-  add_index "invoices", ["document_id"], name: "index_invoices_on_document_id", using: :btree
-  add_index "invoices", ["implementation_id"], name: "index_invoices_on_implementation_id", using: :btree
-  add_index "invoices", ["invoice_profile_id"], name: "index_invoices_on_invoice_profile_id", using: :btree
 
   create_table "mailtemplates", force: :cascade do |t|
     t.string   "name"
@@ -256,9 +246,8 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.string   "note"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["subject_id"], name: "index_media_on_subject_id", using: :btree
   end
-
-  add_index "media", ["subject_id"], name: "index_media_on_subject_id", using: :btree
 
   create_table "oprograms", force: :cascade do |t|
     t.string   "name"
@@ -280,9 +269,8 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.datetime "updated_at",                       null: false
     t.integer  "oldcrm_person_id"
     t.boolean  "unsubscribe",      default: false
+    t.index ["subject_id"], name: "index_people_on_subject_id", using: :btree
   end
-
-  add_index "people", ["subject_id"], name: "index_people_on_subject_id", using: :btree
 
   create_table "procurements", force: :cascade do |t|
     t.string   "name"
@@ -321,11 +309,10 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.boolean  "payed"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
+    t.index ["person_id"], name: "index_projects_on_person_id", using: :btree
+    t.index ["subject_id"], name: "index_projects_on_subject_id", using: :btree
+    t.index ["user_id"], name: "index_projects_on_user_id", using: :btree
   end
-
-  add_index "projects", ["person_id"], name: "index_projects_on_person_id", using: :btree
-  add_index "projects", ["subject_id"], name: "index_projects_on_subject_id", using: :btree
-  add_index "projects", ["user_id"], name: "index_projects_on_user_id", using: :btree
 
   create_table "projecttargets", force: :cascade do |t|
     t.string   "name"
@@ -351,11 +338,10 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.integer  "oldcrm_subject_id"
     t.json     "project_targets"
     t.text     "project_targets_string"
+    t.index ["district_id"], name: "index_subjects_on_district_id", using: :btree
+    t.index ["subjtype_id"], name: "index_subjects_on_subjtype_id", using: :btree
+    t.index ["user_id"], name: "index_subjects_on_user_id", using: :btree
   end
-
-  add_index "subjects", ["district_id"], name: "index_subjects_on_district_id", using: :btree
-  add_index "subjects", ["subjtype_id"], name: "index_subjects_on_subjtype_id", using: :btree
-  add_index "subjects", ["user_id"], name: "index_subjects_on_user_id", using: :btree
 
   create_table "subjtypes", force: :cascade do |t|
     t.string   "name"
@@ -380,9 +366,8 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.string   "email_pass3"
     t.datetime "created_at",  null: false
     t.datetime "updated_at",  null: false
+    t.index ["user_id"], name: "index_userprofiles_on_user_id", using: :btree
   end
-
-  add_index "userprofiles", ["user_id"], name: "index_userprofiles_on_user_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",    null: false
@@ -399,10 +384,10 @@ ActiveRecord::Schema.define(version: 20191102110307) do
     t.datetime "updated_at",                             null: false
     t.boolean  "admin",                  default: false
     t.string   "name"
+    t.integer  "user_type",              default: 3
+    t.index ["email"], name: "index_users_on_email", unique: true, using: :btree
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
   end
-
-  add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
-  add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   add_foreign_key "calendars", "users"
   add_foreign_key "communications", "people"

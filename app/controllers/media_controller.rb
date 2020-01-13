@@ -1,5 +1,7 @@
 class MediaController < ApplicationController
   before_action :set_medium, only: [:show, :edit, :update, :destroy]
+  before_action :can_use_seller
+  
 
   # GET /media
   # GET /media.json
