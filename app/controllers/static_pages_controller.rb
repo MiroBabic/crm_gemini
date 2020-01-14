@@ -1,6 +1,6 @@
 class StaticPagesController < ApplicationController
 	before_action :authenticate_user!, :except=>[:unsubscribe]
-	before_action :can_use_seller, :except=> [:contacts, :home]
+	before_action :can_use_seller, :except=> [:contacts, :home, :create_email, :send_mail_to_subjects]
 	before_action :can_use_project_manager, :except=> [:contacts, :home, :subory]
 
 
@@ -144,7 +144,7 @@ class StaticPagesController < ApplicationController
 			@manual_mails_parsed = @manual_emails.delete(" ").gsub(";",",").split(',')
 			
 			
-			@comm_arr = Array.new
+			#@comm_arr = Array.new
 
 			#check if add filtered subjects or only manual emails
 			if @filtered_to_manual == 'true'
@@ -189,7 +189,7 @@ class StaticPagesController < ApplicationController
 
 
 			#@total_subjects = (@subjects_by_district + @subjects_by_county + @subjects_by_owner +@subjects_by_type).uniq
-			@total_subjects = @subjects_by_district.merge(@subjects_by_county).merge(@subjects_by_owner).merge(@subjects_by_type).to_a.flatten.uniq
+			@total_subjects = @subjects_by_county.merge(@subjects_by_district).merge(@subjects_by_owner).merge(@subjects_by_type).to_a.flatten.uniq
 
 			unless @total_subjects.present?
 				if (@obyv_count_from.present? || @obyv_count_to.present?)
@@ -213,14 +213,14 @@ class StaticPagesController < ApplicationController
 
 			
 
-			
-			@total_subjects.each do |subj|
-				subj.people.each do |person|
-					c=Communication.new(:subject_id=>subj.id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
-					@comm_arr.push(c)
-				end
+			#vypnutie zapisovania do komunikacie
+			#@total_subjects.each do |subj|
+			#	subj.people.each do |person|
+			#		c=Communication.new(:subject_id=>subj.id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
+			#		@comm_arr.push(c)
+			#	end
 
-			end
+			#end
 
 			###end check if add filtered to manual
 			
@@ -234,12 +234,12 @@ class StaticPagesController < ApplicationController
 
 			### process manually entered subjects##
 			@man_subj = Subject.where(:id=>@manual_subjects)
-			@man_subj.each do |man_sub|
-				man_sub.people.each do |person|
-					c=Communication.new(:subject_id=>man_sub.id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
-					@comm_arr.push(c)
-				end
-			end
+			#@man_subj.each do |man_sub|
+			#	man_sub.people.each do |person|
+			#		c=Communication.new(:subject_id=>man_sub.id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
+			#		@comm_arr.push(c)
+			#	end
+			#end
 
 			@man_subj_ids = @man_subj.map {|a| a.id}.flatten.uniq
 			@man_subj_emails = Person.where(:subject_id=>@man_subj_ids,:unsubscribe=>false).pluck(:email,:email2).flatten.uniq
@@ -254,17 +254,17 @@ class StaticPagesController < ApplicationController
 					@manual_mails_parsed.delete(man)
 				end
 
-				if (person.present? && person.unsubscribe == false)
-					c=Communication.new(:subject_id=>person.subject_id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
-					@comm_arr.push(c)
-				end
+				#if (person.present? && person.unsubscribe == false)
+				#	c=Communication.new(:subject_id=>person.subject_id,:person_id=>person.id,:keyword=>"hromadny email",:about=>@email_subject,:user_id=>current_user.id)
+				#	@comm_arr.push(c)
+				#end
 			end
 
 			####
 
-			if @comm_arr.present?
-				Communication.import @comm_arr
-			end
+			#if @comm_arr.present?
+			#	Communication.import @comm_arr
+			#end
 			
 			#@addresses1 = (@total_subjects.map {|a| a.people.map {|b| b.email}}).flatten.uniq
 			#@addresses2 = (@total_subjects.map {|a| a.people.map {|b| b.email2}}).flatten.uniq

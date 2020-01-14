@@ -59,7 +59,7 @@
                       <th>Upravené</th>
                       <th>Detaily</th>
                       <th>Kontakty</th>
-                      <% if current_user.admin? %>
+                      <% unless current_user.user_type == 'project_manager' %>
                       <th>Komunikácia</th>
                       <% end %>
                       <th></th>
@@ -86,7 +86,7 @@
                       <th>Upravené</th>
                       <th class="disabled">Detaily</th>
                       <th class="disabled">Kontakty</th>
-                      <% if current_user.admin? %>
+                      <% unless current_user.user_type == 'project_manager' %>
                       <th class="disabled">Komunikácia</th>
                       <% end %>
                       <th class="disabled"></th>
@@ -390,7 +390,7 @@ var tableready = function() {
     "data":           null,
     "defaultContent": '<a><center><i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i></center></a>'
   },
-  <% if current_user.admin? %>
+  <% unless current_user.user_type == 'project_manager' %>
   {
     "className":   'subjcomm-control',
     "orderable":      false,

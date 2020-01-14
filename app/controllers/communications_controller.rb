@@ -1,6 +1,5 @@
 class CommunicationsController < ApplicationController
   before_action :set_communication, only: [:show, :edit, :update, :destroy]
-  before_action :can_use_seller
   before_action :can_use_project_manager
 
   # GET /communications

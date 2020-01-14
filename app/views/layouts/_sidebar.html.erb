@@ -25,7 +25,7 @@
                             <li><%= link_to root_path do%><i class="fa fa-bar-chart" aria-hidden="true"></i> <span class="nav-label"> Prehľad</span><%end%></li>
                             <li><%= link_to contacts_path do%><i class="fa fa-id-card-o" aria-hidden="true"></i> <span class="nav-label"> Kontakty</span><%end%></li>
                             <li><%= link_to show_calendar_path do%><i class="fa fa-calendar" aria-hidden="true"></i><span class="nav-label"> Kalendár</span><%end%></li>
-                            <% if current_user.admin? %>
+                            <% if current_user.admin? || current_user.user_type == 'seller' %>
                             <li><%= link_to komunikacia_path do%><i class="fa fa-weixin" aria-hidden="true"></i><span class="nav-label"> Komunikácia</span><%end%></li>
                             <% end %>
                             <% if current_user.user_type == 'admin' || current_user.user_type == 'project_manager' %>
@@ -44,7 +44,7 @@
                             <li><%= link_to dokumenty_path do%><i class="fa fa-files-o" aria-hidden="true"></i><span class="nav-label"> Dokumenty</span><%end%></li>
                             <li><%= link_to subory_path do%><i class="fa fa-video-camera" aria-hidden="true"></i><span class="nav-label"> Média</span><%end%></li>
                             <% end %>
-                            <% if current_user.admin? %>
+                            <% if current_user.admin? || current_user.user_type == 'seller' %>
                             <li>
                                 <a href="#"><i class="fa fa-envelope" aria-hidden="true"></i><span class="nav-label"> E-mail</span> <span class="fa arrow"></span></a>
                                 
@@ -55,7 +55,8 @@
                                 </ul>
                             </li>
                             
-                            
+                            <% end %>
+                            <% if current_user.user_type == 'admin' %>
                             <li><%= link_to job_queue_path do%><i class="fa fa-spinner" aria-hidden="true"></i><span class="nav-label"> Procesy </span><span class="label label-info pull-right float-right"><%=get_process_count%></span><%end%></li>
                             <li><%= link_to export_path do%><i class="fa fa-file-excel-o" aria-hidden="true"></i><span class="nav-label"> Export dát</span><%end%></li>
                             <li><%= link_to faktury_path do%><i class="fa fa-file-excel-o" aria-hidden="true"></i><span class="nav-label"> Faktúry</span><%end%></li>
