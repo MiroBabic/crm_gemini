@@ -54,7 +54,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
          subjtype_about: subject.subjtype.about,
          subjtype_id: subject.subjtype_id,
          citizen_count: subject.citizen_count,
-         user_name: subject.user.name,
+         user_name: (subject.user_id.present? ? subject.user.name : nil), 
          user_id: subject.user_id,
          note: subject.note,
          web: subject.web,
@@ -72,7 +72,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
 
 def get_raw_records
   #Subject.joins(:district).joins(:subjtype).joins(:user).select("subjects.id as id, subjects.name as name, subjects.site as site, subjects.ico as ico, districts.name as district_name,     districts.id as district_id,districts.county as county, subjtypes.name as subjtype_name, subjtypes.id as subjtype_id,     subjtypes.about as subjtype_about, subjects.citizen_count as citizen_count, users.name as user_name, subjects.note as note, subjects.web as web, subjects.zaujimavost as zaujimavost,    subjects.created_at as created_at, subjects.updated_at as updated_at").all
-  Subject.joins(:district).joins(:subjtype).joins(:user).select("subjects.*,subjects.id as subject_id,subjects.name as subject_name,to_char(subjects.created_at,'YYYY-MM-DD HH24:MI:SS') as created_at_modif,
+  Subject.joins(:district).joins(:subjtype).left_outer_joins(:user).select("subjects.*,subjects.id as subject_id,subjects.name as subject_name,to_char(subjects.created_at,'YYYY-MM-DD HH24:MI:SS') as created_at_modif,
     to_char(subjects.updated_at,'YYYY-MM-DD HH24:MI:SS') as updated_at_modif,subjects.project_targets_string, districts.name,districts.county,districts.id as district_id,subjtypes.name,subjtypes.id as subjtype_id,users.name,users.email").all
   #Subject.joins(:district).joins(:subjtype).joins(:user).all
 end

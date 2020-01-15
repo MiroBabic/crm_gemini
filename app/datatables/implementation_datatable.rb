@@ -41,7 +41,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
          user_id: implementation.user_id,
          project_name: implementation.project.name,
          project_detail: link_to(implementation.project.name, show_project_detail_path(implementation.project_id)),
-         project_manager: implementation.user.email,
+         project_manager: (implementation.user_id.present? ? implementation.user.email : nil),
          subject_name: implementation.subject.name,
          subject_path: link_to(implementation.subject.name, show_subject_profile_path(implementation.subject_id)),
          subject_id: implementation.subject.id,
@@ -120,7 +120,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
 
 def get_raw_records
   #Implementation.joins(:project).joins(:subject).joins(:user).joins(:oprogram)
-  Implementation.joins(:project).joins(:subject).joins(:user).joins("LEFT JOIN oprograms ON implementations.oprogram_id = oprograms.id")
+  Implementation.joins(:project).joins(:subject).left_outer_joins(:user).joins("LEFT JOIN oprograms ON implementations.oprogram_id = oprograms.id")
   
 end
 

@@ -53,8 +53,8 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
          sent_to_sign: project.sent_to_sign,
          submit_online: project.submit_online,
          submit_print: project.submit_print,
-         user: project.user.name,
-         user_id: project.user.id,
+         user: (project.user_id.present? ? project.user.name : nil),
+         user_id: project.user_id,
          agreed_payment: project.agreed_payment,
          payment: project.payment,
          due_date: project.due_date,
@@ -71,7 +71,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_project_deta
 
 
 def get_raw_records
-  Project.joins(:subject).left_outer_joins(:person).joins(:user)
+  Project.joins(:subject).left_outer_joins(:person).left_outer_joins(:user)
 end
 
 

@@ -57,7 +57,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
          subjtype_about: subject.subjtype.about,
          subjtype_id: subject.subjtype.id,
          citizen_count: subject.citizen_count,
-         user_name: subject.user.name,
+         user_name: (subject.user_id.present? ? subject.user.name : nil),
          note: subject.note,
          web: subject.web,
          subject_id: subject.subject_id,
@@ -78,7 +78,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
 
 def get_raw_records
   #Subject.joins(:district).joins(:subjtype).joins(:user).select("subjects.id as id, subjects.name as name, subjects.site as site, subjects.ico as ico, districts.name as district_name,     districts.id as district_id,districts.county as county, subjtypes.name as subjtype_name, subjtypes.id as subjtype_id,     subjtypes.about as subjtype_about, subjects.citizen_count as citizen_count, users.name as user_name, subjects.note as note, subjects.web as web, subjects.zaujimavost as zaujimavost,    subjects.created_at as created_at, subjects.updated_at as updated_at").all
-  Subject.joins(:district).joins(:subjtype).joins(:user).joins("LEFT JOIN people ON subjects.id = people.subject_id").select("subjects.*,subjects.id as subject_id,subjects.name as subject_name,to_char(subjects.created_at,'YYYY-MM-DD HH24:MI:SS') as created_at_modif,to_char(subjects.updated_at,'YYYY-MM-DD HH24:MI:SS') as updated_at_modif,subjects.project_targets_string, districts.*,subjtypes.*,users.*,array_agg(people.email) as email1, array_agg(people.email2) as email2, array_agg(people.phone) as phone, array_agg(people.cellphone) as cellphone").group("subjects.id,districts.id,subjtypes.id,users.id")
+  Subject.joins(:district).joins(:subjtype).left_outer_joins(:user).joins("LEFT JOIN people ON subjects.id = people.subject_id").select("subjects.*,subjects.id as subject_id,subjects.name as subject_name,to_char(subjects.created_at,'YYYY-MM-DD HH24:MI:SS') as created_at_modif,to_char(subjects.updated_at,'YYYY-MM-DD HH24:MI:SS') as updated_at_modif,subjects.project_targets_string, districts.*,subjtypes.*,users.*,array_agg(people.email) as email1, array_agg(people.email2) as email2, array_agg(people.phone) as phone, array_agg(people.cellphone) as cellphone").group("subjects.id,districts.id,subjtypes.id,users.id")
 
 
 end

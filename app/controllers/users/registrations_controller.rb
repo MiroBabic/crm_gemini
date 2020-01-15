@@ -54,7 +54,7 @@ before_action :can_use_project_manager, :only=> [:modal_edit_user, :modal_create
   end
 
   def modal_create_user
-    begin
+    #begin
       email = params[:user_email]
       type = params[:user_type]
       name = params[:user_name]
@@ -66,9 +66,9 @@ before_action :can_use_project_manager, :only=> [:modal_edit_user, :modal_create
         u=User.new
         u.name = name
         u.email = email
-        u.user-type = type
+        u.user_type = type
         if type =='admin'
-          @user.admin = true
+          u.admin = true
         end
         u.password = password
         u.save
@@ -85,14 +85,26 @@ before_action :can_use_project_manager, :only=> [:modal_edit_user, :modal_create
 
 
 
-    rescue => error
-      redirect_to users_path, alert: error.message
-    end
+    #rescue => error
+     # redirect_to users_path, alert: error.message
+    #end
   end
 
   def destroy
     begin
-    super
+   # super
+   user = User.find(params[:id])
+
+     
+   if user.destroy
+    respond_to do |format|
+       format.html { redirect_to users_path, notice: 'Užívateľ bol vymazaný.' }
+    end
+  else
+    redirect_to users_path, alert: error.message
+  end
+
+
   rescue=>error
     redirect_to users_path, alert: error.message
   end

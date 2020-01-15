@@ -6,13 +6,13 @@ class User < ApplicationRecord
 
   enum user_type: {admin: 1, project_manager: 2, seller: 3}
 
-    has_many :communications
-    has_many :calendars
-    has_many :subjects
-    has_many :userprofiles
-    has_many :documents
-    has_many :projects
-    has_many :implementations
-    has_many :iactivities
-    has_many :implnotes
+    has_many :communications, dependent: :destroy
+    has_many :calendars,dependent: :destroy
+    has_many :subjects, dependent: :nullify
+    has_many :userprofiles, dependent: :destroy
+    has_many :documents, dependent: :nullify
+    has_many :projects, dependent: :nullify
+    has_many :implementations, dependent: :nullify
+    has_many :iactivities, dependent: :nullify
+    has_many :implnotes, dependent: :nullify
 end
