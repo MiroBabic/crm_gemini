@@ -14,7 +14,7 @@ class SubjectsController < ApplicationController
       format.html
       format.json do
         #render json: ::ActivityDatatable.new(view_context, {region: get_current_user_region_filter})
-        render json: ::SubjectDatatable.new(view_context)
+        render json: ::SubjectDatatable.new(view_context, {current_user_id: current_user.id})
         
       end
     end

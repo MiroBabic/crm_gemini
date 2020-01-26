@@ -1,6 +1,6 @@
 <% content_for(:head_attributes) do %>
 <meta name="turbolinks-cache-control" content="no-cache">
-  <% end %>
+<% end %>
 <p id="notice"><%= render 'layouts/flash_message' %></p>
 
 <div class="row wrapper border-bottom white-bg page-heading">
@@ -45,7 +45,7 @@
                 <table class="table table-bordered" id="subjects" style="width:100%">
                   <thead>
                     <tr>
-                      
+
                       <th>Názov subjektu</th>
                       <th>Okres</th>
                       <th>Kraj</th>
@@ -71,67 +71,67 @@
 
                   </tbody>
                   <tfoot>
-                     <tr id ="tabledetailsearch" class="visibility" style="width:100%">
-                      
+                   <tr id ="tabledetailsearch" class="visibility" style="width:100%">
+
                      <th>Názov subjektu</th>
-                      <th>Okres</th>
-                      <th>Kraj</th>
-                      <th>Typ Subjektu</th>
-                      <th>Spravuje</th>
-                      <th>Počet obyvateľov</th>
-                      <th class="findtruefalse">VIP</th>
-                      <th style="visibility:hidden">Projektový zámer_arr</th>
-                      <th>Projektový zámer</th>
-                      <th>Vložené</th>
-                      <th>Upravené</th>
-                      <th class="disabled">Detaily</th>
-                      <th class="disabled">Kontakty</th>
-                      <% unless current_user.user_type == 'project_manager' %>
-                      <th class="disabled">Komunikácia</th>
-                      <% end %>
-                      <th class="disabled"></th>
-                      <th class="disabled"></th>
-                                      
-                                      </tr>
-                                    </tfoot>
-                </table>
-              </div>
-            </div>
-            <div id="tab-2" class="tab-pane">
-              <br>
+                     <th>Okres</th>
+                     <th>Kraj</th>
+                     <th>Typ Subjektu</th>
+                     <th>Spravuje</th>
+                     <th>Počet obyvateľov</th>
+                     <th class="findtruefalse">VIP</th>
+                     <th style="visibility:hidden">Projektový zámer_arr</th>
+                     <th>Projektový zámer</th>
+                     <th>Vložené</th>
+                     <th>Upravené</th>
+                     <th class="disabled">Detaily</th>
+                     <th class="disabled">Kontakty</th>
+                     <% unless current_user.user_type == 'project_manager' %>
+                     <th class="disabled">Komunikácia</th>
+                     <% end %>
+                     <th class="disabled"></th>
+                     <th class="disabled"></th>
 
-              <div class="table-responsive">
-                <table class="table table-bordered" id="people" style="width:100%">
-                  <thead>
-                    <tr>
-                      <th>Meno</th>
-                      <th>Priezvisko</th>
-                      <th>Email</th>
-                      <th>Email2</th>
-                      <th>Tel</th>
-                      <th>Mobil</th>
-                      <th>Poznámka</th>
-                      <th>Subjekt</th>
-                      <th>Odhlásený</th>
-                      <th></th>
-                      <th></th>
-                    </tr>
-                  </thead>
+                   </tr>
+                 </tfoot>
+               </table>
+             </div>
+           </div>
+           <div id="tab-2" class="tab-pane">
+            <br>
 
-                  <tbody>
+            <div class="table-responsive">
+              <table class="table table-bordered" id="people" style="width:100%">
+                <thead>
+                  <tr>
+                    <th>Meno</th>
+                    <th>Priezvisko</th>
+                    <th>Email</th>
+                    <th>Email2</th>
+                    <th>Tel</th>
+                    <th>Mobil</th>
+                    <th>Poznámka</th>
+                    <th>Subjekt</th>
+                    <th>Odhlásený</th>
+                    <th></th>
+                    <th></th>
+                  </tr>
+                </thead>
 
-                  </tbody>
-                   
+                <tbody>
 
-                </table>
-              </div>
+                </tbody>
+
+
+              </table>
             </div>
           </div>
         </div>
-
       </div>
+
     </div>
   </div>
+</div>
 </div>
 </div>
 <br>
@@ -202,14 +202,14 @@
            <label>Meno:</label><input type="text" name="contactname_c" id="contactname_c" class="form-control" placeholder="Meno " required /><br>
            <label>Priezvisko:</label><input type="text" name="contactsurname_c" id="contactsurname_c" class="form-control" placeholder="Priezvisko " required /><br>
            <label>Email:</label><input type="text" name="contactemail_c" id="contactemail_c" class="form-control" placeholder="Email" required /><br>
-           </div>
-           <label>Telefónne číslo:</label><input type="text" name="contactphone_c" id="contactphone_c" class="form-control" placeholder="Telefónne číslo"  /><br>
-           <label>Mobil:</label><input type="text" name="contactcell_c" id="contactcell_c" class="form-control" placeholder="Mobil"  /><br>
-           <div class="form-group has-error">
+         </div>
+         <label>Telefónne číslo:</label><input type="text" name="contactphone_c" id="contactphone_c" class="form-control" placeholder="Telefónne číslo"  /><br>
+         <label>Mobil:</label><input type="text" name="contactcell_c" id="contactcell_c" class="form-control" placeholder="Mobil"  /><br>
+         <div class="form-group has-error">
            <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'contactsubject' %>
          </div>
-         </br>
        </br>
+     </br>
 
      
      <label>Poznámka:</label><input type="text" name="contactnote_c" id="contactnote_c" class="form-control" placeholder="Poznámka" /><br>
@@ -239,29 +239,29 @@
         <div class="form-group has-error">
           <form name="edit_subjekt_form" accept-charset="utf-8">
             <input style="visibility:hidden" type="text" name="editsubjektID" id="editsubjektID" value="" readonly>
-           <label>Názov:</label><input type="text" name="edit_subjname" id="edit_subjname" class="form-control" placeholder="Názov subjektu" required /><br>
-           <label>Spravuje:</label><%= select_tag 'edit_spravuje', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'edit_spravuje' %> </br>
-           <label>Okres:</label><%= select_tag 'edit_okres', options_from_collection_for_select(@districts, 'id', 'name'), class: 'form-control', id: 'edit_subjdistrict' %>
-         </br>
-         <label>Typ Subjektu:</label><%= select_tag 'edit_typ_subjektu', options_from_collection_for_select(@subjtypes, 'id', 'name'), class: 'form-control', id: 'edit_subjtype' %>
-       </br>
-     </div>
-     <label>Sídlo:</label><input type="text" name="edit_subjsite" id="edit_subjsite" class="form-control" placeholder="Sídlo subjektu" /><br>
-     <label>IČO:</label><input type="number" name="edit_subjico" id="edit_subjico" class="form-control" onkeyup="if(!this.checkValidity()){this.value=\'\';alert(\'Vložte číslo!\')};" placeholder="IČO ak má subjekt pridelené"/><br>
-     <label class="">VIP <input id="edit_isvip" type="checkbox" class="icheckbox_square-green" /></label><br>
-     <label>Poznámka:</label><input type="text" name="edit_subjnote" id="edit_subjnote" class="form-control" placeholder="Poznámka"/><br>
-     <label>Počet obyvateľov ak je obec:</label><input type="text" name="edit_subjobyv" id="edit_subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
-     <hr>
-     <label>Projektový zámer</label><%= select_tag 'project_targets_edit', options_from_collection_for_select(@projecttargets, 'id', 'name'), class: 'form-control chosen-select',multiple: true, id: 'project_targets_edit', "data-placeholder": "Vyber projektový zámer..." %>
-       <br><br> 
+            <label>Názov:</label><input type="text" name="edit_subjname" id="edit_subjname" class="form-control" placeholder="Názov subjektu" required /><br>
+            <label>Spravuje:</label><%= select_tag 'edit_spravuje', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'edit_spravuje' %> </br>
+            <label>Okres:</label><%= select_tag 'edit_okres', options_from_collection_for_select(@districts, 'id', 'name'), class: 'form-control', id: 'edit_subjdistrict' %>
+          </br>
+          <label>Typ Subjektu:</label><%= select_tag 'edit_typ_subjektu', options_from_collection_for_select(@subjtypes, 'id', 'name'), class: 'form-control', id: 'edit_subjtype' %>
+        </br>
+      </div>
+      <label>Sídlo:</label><input type="text" name="edit_subjsite" id="edit_subjsite" class="form-control" placeholder="Sídlo subjektu" /><br>
+      <label>IČO:</label><input type="number" name="edit_subjico" id="edit_subjico" class="form-control" onkeyup="if(!this.checkValidity()){this.value=\'\';alert(\'Vložte číslo!\')};" placeholder="IČO ak má subjekt pridelené"/><br>
+      <label class="">VIP <input id="edit_isvip" type="checkbox" class="icheckbox_square-green" /></label><br>
+      <label>Poznámka:</label><input type="text" name="edit_subjnote" id="edit_subjnote" class="form-control" placeholder="Poznámka"/><br>
+      <label>Počet obyvateľov ak je obec:</label><input type="text" name="edit_subjobyv" id="edit_subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
+      <hr>
+      <label>Projektový zámer</label><%= select_tag 'project_targets_edit', options_from_collection_for_select(@projecttargets, 'id', 'name'), class: 'form-control chosen-select',multiple: true, id: 'project_targets_edit', "data-placeholder": "Vyber projektový zámer..." %>
+      <br><br> 
       
-       <hr>      
+      <hr>      
 
-    <input  class="editcontact btn btn-success" value="Uprav" /> 
+      <input  class="editcontact btn btn-success" value="Uprav" /> 
 
-   </form>
+    </form>
 
- </div>
+  </div>
 </div>
 </div>
 </div>
@@ -283,25 +283,25 @@
         <div class="form-group has-error">
           <form name="edit_person_form" accept-charset="utf-8">
             <input style="visibility:hidden" type="text" name="editpersonID" id="editpersonID" value="" readonly>
-           <label>Meno:</label><input type="text" name="edit_personname" id="edit_personname" class="form-control" required /><br>
-           <label>Priezvisko:</label><input type="text" name="edit_personsurname" id="edit_personsurname" class="form-control" required /><br>
-          <label>Email:</label><input type="text" name="edit_email" id="edit_email" class="form-control" placeholder="Email" required /><br>
+            <label>Meno:</label><input type="text" name="edit_personname" id="edit_personname" class="form-control" required /><br>
+            <label>Priezvisko:</label><input type="text" name="edit_personsurname" id="edit_personsurname" class="form-control" required /><br>
+            <label>Email:</label><input type="text" name="edit_email" id="edit_email" class="form-control" placeholder="Email" required /><br>
           </div>
-         <label>Email2:</label><input type="text" name="edit_email2" id="edit_email2" class="form-control" placeholder="Email"  /><br>
-         <label>Tel:</label><input type="text" name="edit_tel" id="edit_tel" class="form-control" placeholder="Tel"  /><br>
-        <label>Mobil:</label><input type="text" name="edit_cell" id="edit_cell" class="form-control" placeholder="Mobil"  /><br>
-         <label>Poznámka:</label><input type="text" name="edit_personnote" id="edit_personnote" class="form-control" placeholder="Poznámka"/><br>
-         <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_personsubject' %>
-      
-             
-    <input class="editperson btn btn-success" value="Uprav" /> 
-
-   </form>
+          <label>Email2:</label><input type="text" name="edit_email2" id="edit_email2" class="form-control" placeholder="Email"  /><br>
+          <label>Tel:</label><input type="text" name="edit_tel" id="edit_tel" class="form-control" placeholder="Tel"  /><br>
+          <label>Mobil:</label><input type="text" name="edit_cell" id="edit_cell" class="form-control" placeholder="Mobil"  /><br>
+          <label>Poznámka:</label><input type="text" name="edit_personnote" id="edit_personnote" class="form-control" placeholder="Poznámka"/><br>
+          <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_personsubject' %>
 
 
-</div>
-</div>
-</div>
+          <input class="editperson btn btn-success" value="Uprav" /> 
+
+        </form>
+
+
+      </div>
+    </div>
+  </div>
 </div>
 
 <div id="addCommunicationModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
@@ -310,19 +310,19 @@
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
         <h2 class="modal-title" id="myModalLabel">Pridaj nový záznam</h2>
-       
+
       </div>
       <div class="modal-body">
-        
-          <form name="new_comm_form" accept-charset="utf-8">
-           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'commsubject', prompt: "--vyber subjekt--", disabled: true %>
-         </br>
-         
-          <span id="addPersonToComm"></span>
-     
-     <label>Text:</label><textarea rows="6" type="text" name="commabout" id="commabout" class="form-control" required placeholder="Obsah komunikácie"></textarea><br>
-     <label>Kľúčové slovo:</label><input type="text" name="commkeyword" id="commkeyword" class="form-control" required placeholder="Kľúčové slovo pre zatriedenie"/><br>
-     <input type="button" class="createcomm btn btn-success" value="Vytvor" /> 
+
+        <form name="new_comm_form" accept-charset="utf-8">
+         <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'commsubject', prompt: "--vyber subjekt--", disabled: true %>
+       </br>
+
+       <span id="addPersonToComm"></span>
+
+       <label>Text:</label><textarea rows="6" type="text" name="commabout" id="commabout" class="form-control" required placeholder="Obsah komunikácie"></textarea><br>
+       <label>Kľúčové slovo:</label><input type="text" name="commkeyword" id="commkeyword" class="form-control" required placeholder="Kľúčové slovo pre zatriedenie"/><br>
+       <input type="button" class="createcomm btn btn-success" value="Vytvor" /> 
      </div>
 
 
@@ -338,111 +338,119 @@
 
 
 <script>
-var subjtable;
-var peopletable;
-var tableready = function() {
+  var subjtable;
+  var peopletable;
+  var tableready = function() {
 
 
-  $('.chosen-select').chosen({width: "100%"});
-  
+    $('.chosen-select').chosen({width: "100%"});
 
-  $("#project_targets_edit").chosen().change(function(e, params){
- $project_targets  = $("#project_targets_edit").chosen().val();
+
+    $("#project_targets_edit").chosen().change(function(e, params){
+     $project_targets  = $("#project_targets_edit").chosen().val();
 
  //console.log($project_targets)
 });
 
- subjtable= $('#subjects').DataTable({
-  'order': [0, 'asc'],
-  'serverSide': true,
-  'stateSave' :true,
-  'ajax' : '/subjects.json',
-  
-  columns: [
-  
-  {data: 'subject_name_show'},
-  {data: 'district_name' },
-  {data: 'county_name' },
-  {data: 'subjtype_name' },
-  {data: 'user_name' },
-  {data: 'citizen_count' },
+    subjtable= $('#subjects').DataTable({
+      'order': [0, 'asc'],
+      'serverSide': true,
+      'stateSave' :true,
+      'ajax' : '/subjects.json',
+
+      columns: [
+
+      {data: 'subject_name_show'},
+      {data: 'district_name' },
+      {data: 'county_name' },
+      {data: 'subjtype_name' },
+      {data: 'user_name' },
+      {data: 'citizen_count' },
    //{data: 'vip' },
-  {data: 'vip','render' : function(data,type,row) {
+   {data: 'vip','render' : function(data,type,row) {
    /* $res = '';
     if (row.vip == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
       else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
-    return $res;*/
-  return getTrueFalseIcon(row.vip);
-  } },
-  {data: 'project_targets', "visible":false},
-  {data: 'project_targets_string'},
-  {data: 'created_at' },
-  {data: 'updated_at' },
-  {
-    "className":   'details-control',
-    "orderable":      false,
-    "data":           null,
-    "defaultContent": '<a><center><i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i></center></a>'
-  },
-  {
-    "className":   'subjpeople-control',
-    "orderable":      false,
-    "data":           null,
-    "defaultContent": '<a><center><i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i></center></a>'
-  },
-  <% unless current_user.user_type == 'project_manager' %>
-  {
-    "className":   'subjcomm-control',
-    "orderable":      false,
-    "data":           null,
-    "defaultContent": '<a><center><i class="fa fa-comments-o fa-2x" aria-hidden="true"></i></center></a>'
-  },
-  <% end %>
-  {
-    "className":   'subjedit-control',
-    "orderable":      false,
-    "data":           null,
-    "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
-  },
-  {data: 'delete_subject', orderable: false, searchable: false} 
+        return $res;*/
+      return getTrueFalseIcon(row.vip);
+    } },
+    {data: 'project_targets', "visible":false},
+    {data: 'project_targets_string'},
+    {data: 'created_at' },
+    {data: 'updated_at' },
+    {
+      "className":   'details-control',
+      "orderable":      false,
+      "data":           null,
+      "defaultContent": '<a><center><i class="fa fa-chevron-down fa-2x" aria-hidden="true"></i></center></a>'
+    },
+    {
+      "className":   'subjpeople-control',
+      "orderable":      false,
+      "data":           null,
+      "defaultContent": '<a><center><i class="fa fa-address-card-o fa-2x" aria-hidden="true"></i></center></a>'
+    },
+    <% unless current_user.user_type == 'project_manager' %>
+    {
+      "className":   'subjcomm-control',
+      "orderable":      false,
+      "data":           null,
+      "defaultContent": '<a><center><i class="fa fa-comments-o fa-2x" aria-hidden="true"></i></center></a>'
+    },
+    <% end %>
+    {
+      "className":   'subjedit-control',
+      "orderable":      false,
+      "data":           null,
+      "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
+    },
+    {data: 'delete_subject', orderable: false, searchable: false,'render': function(data,type,row) {
+      if (row.online_user_type == 'seller' && (row.user_id == <%= current_user.id %> || row.user_name =='admin')) { $res = row.delete_subject}
+        else if (row.online_user_type != 'seller') {$res = row.delete_subject}
+          else {$res = row.no_access}
+
+        return $res;
+    }
+  } 
+    
 
 
-  ],
-  'dom': 'lfr<"pull-right"B>tip',
-  'buttons': [
-  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
-  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
-  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
-  {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
+    ],
+    'dom': 'lfr<"pull-right"B>tip',
+    'buttons': [
+    {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+    {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+    {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+    {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
 
-  ],
-  'language': {
-    'url': '/datatables_slovak.json'
-  },
-  'lengthMenu': [
-  [10, 50,100, -1],
-  [10, 50,100, "All"]
-  ],
-  initComplete: function() {
+    ],
+    'language': {
+      'url': '/datatables_slovak.json'
+    },
+    'lengthMenu': [
+    [10, 50,100, -1],
+    [10, 50,100, "All"]
+    ],
+    initComplete: function() {
 
-    $('#disable').html( '<input disabled type="text" />' );
+      $('#disable').html( '<input disabled type="text" />' );
 
-    if ( $("#detailbutton").length) {console.log ('detailed search exists');}
-              else {
+      if ( $("#detailbutton").length) {console.log ('detailed search exists');}
+      else {
 
-              var r = $('#subjects tfoot tr');
-              r.find('th').each(function(){
-               $(this).css('padding', 8);
+        var r = $('#subjects tfoot tr');
+        r.find('th').each(function(){
+         $(this).css('padding', 8);
 
 
-              });
-              $('#subjects thead').append(r);
-              $('#search_0').css('text-align', 'center');
+       });
+        $('#subjects thead').append(r);
+        $('#search_0').css('text-align', 'center');
 
 //      $(".dataTables_filter").append('<button id="detailbutton" class="btn btn-primary btn-outline btn-xs" type="button"><span class="bold">Detailné vyhľadávanie</span></button>');
   //     $('#changepageinput').val('');
 
-      var api = this.api();
+  var api = this.api();
 
       // Apply the search
       api.columns().every(function() {
@@ -451,65 +459,74 @@ var tableready = function() {
         $('input', this.footer()).on('keyup change', function() {
           if (that.search() !== this.value) {
             that
-              .search(this.value)
-              .draw();
+            .search(this.value)
+            .draw();
           }
-            });
-
-        $('.findtruefalse', this.footer()).on('change', function() {
-          
-          if (that.search() !== this.value) {
-            that
-              .search(this.value)
-              .draw();
-          }
-            });
-
         });
 
-       $('#detailbutton').click(function() {
-        
+        $('.findtruefalse', this.footer()).on('change', function() {
 
-          $('#tabledetailsearch').toggleClass('visibility');
-          });
+          if (that.search() !== this.value) {
+            that
+            .search(this.value)
+            .draw();
+          }
+        });
 
-       $('#changepageinput').on('keyup change',function() {
+      });
+
+      $('#detailbutton').click(function() {
+
+
+        $('#tabledetailsearch').toggleClass('visibility');
+      });
+
+      $('#changepageinput').on('keyup change',function() {
 
         if (parseInt($('#changepageinput').val()) > 0) {
-        var pagenum = (parseInt($('#changepageinput').val()) -1);
-        subjtable.page( pagenum ).draw( false );
+          var pagenum = (parseInt($('#changepageinput').val()) -1);
+          subjtable.page( pagenum ).draw( false );
         }
         else {subjtable.page( 0 ).draw( false );}
 
 
       }); 
 
-    
-            }
+
+    }
 
   },
-    drawCallback: function(settings) {
+  drawCallback: function(settings) {
 
     $('.subjedit-control').on('click',function(event){
-       var tr = $(this).closest('tr');
-      var row = subjtable.row( tr );
+     var tr = $(this).closest('tr');
+     var row = subjtable.row( tr );
 
+     <% if current_user.user_type=='seller' %>
+     if (row.data().user_id == <%= current_user.id %> || row.data().user_name == 'admin') {
+      updateSubjEditModal(row.data());
 
+      $('#editSubjektModal').modal('show');}
+      else {
+        alert('Tento subjekt nemôžeš upravovať!')
+      }
+      <% else %>
       updateSubjEditModal(row.data());
 
       $('#editSubjektModal').modal('show');
-});
+      <% end %>
+    });
 
 
 
 
 //childrow subject details
-    $('#subjects tbody').off('click').on('click', 'td.details-control', function () {
+$('#subjects tbody').off('click').on('click', 'td.details-control', function () {
 
-      var tr = $(this).closest('tr');
-      var row = subjtable.row( tr );
+  var tr = $(this).closest('tr');
+  var row = subjtable.row( tr );
 
-      if ( row.child.isShown() ) {
+  if ( row.child.isShown() ) {
             // This row is already open - close it
             row.child.hide();
             tr.removeClass('shown');
@@ -517,7 +534,15 @@ var tableready = function() {
           }
           else {
             // Open this row
+            <% if current_user.user_type=='seller' %>
+            if (row.data().user_id == <%= current_user.id %> || row.data().user_name == 'admin') {
+              row.child( formatSubjDetail(row.data())).show();
+            }
+            else 
+              {row.child( showNoAccess(row.data())).show(); }
+            <% else %>
             row.child( formatSubjDetail(row.data())).show();
+            <% end %>
             
             tr.addClass('shown');
           }
@@ -527,48 +552,50 @@ var tableready = function() {
 
 
 
-     $('#subjects tbody').on('click', 'td.subjpeople-control', function () {
+ $('#subjects tbody').on('click', 'td.subjpeople-control', function () {
 
-      var tr = $(this).closest('tr');
-      var row = subjtable.row( tr );
+  var tr = $(this).closest('tr');
+  var row = subjtable.row( tr );
 
-      if ( row.child.isShown() ) {
+  if ( row.child.isShown() ) {
             // This row is already open - close it
             row.child.hide();
             tr.removeClass('shown');
 
           }
           else {
+            <% if current_user.user_type=='seller' %>
+            if (row.data().user_id == <%= current_user.id %> || row.data().user_name == 'admin') {
             // Open this row
-             $.ajax({
-            type: "GET",
-            url: "/get_subject_contacts/"+row.data().subject_id,
-            
-            success:function(data){
-              if (data.status == "ok")
-              {
-                row.child( formatSubjContactsDetail(data.data)).show();
-            
-                tr.addClass('shown');
+            $.ajax({
+              type: "GET",
+              url: "/get_subject_contacts/"+row.data().subject_id,
+
+              success:function(data){
+                if (data.status == "ok")
+                {
+                  row.child( formatSubjContactsDetail(data.data)).show();
+
+                  tr.addClass('shown');
 
                 //
-                     $('.editsubjectcontactbtn').on('click',function(event){
-                      $btnid = event.target.id;
-                      $personID = $btnid.replace("editsubjectcontactbtn","");
-                      console.log($personID);
+                $('.editsubjectcontactbtn').on('click',function(event){
+                  $btnid = event.target.id;
+                  $personID = $btnid.replace("editsubjectcontactbtn","");
+                  console.log($personID);
 
-                         $.ajax({
-                            type: "GET",
-                            url: "/people/"+$personID+".json",
-                            
-                            success:function(data){
+                  $.ajax({
+                    type: "GET",
+                    url: "/people/"+$personID+".json",
+
+                    success:function(data){
                              //console.log(data)
                              updatePersonEditModal(data);
 
-                            $('#editPersonModal').modal('show');
-                            }
-                          });
-                     });
+                             $('#editPersonModal').modal('show');
+                           }
+                         });
+                });
                 //
 
 
@@ -576,59 +603,100 @@ var tableready = function() {
               else { alert(data.status);}
             }
           });
-
-            
           }
-        });
+          else {
+           row.child( showNoAccess(row.data())).show(); 
+           tr.addClass('shown');
+         }
+         <% else %>
+         $.ajax({
+          type: "GET",
+          url: "/get_subject_contacts/"+row.data().subject_id,
+
+          success:function(data){
+            if (data.status == "ok")
+            {
+              row.child( formatSubjContactsDetail(data.data)).show();
+
+              tr.addClass('shown');
+
+                //
+                $('.editsubjectcontactbtn').on('click',function(event){
+                  $btnid = event.target.id;
+                  $personID = $btnid.replace("editsubjectcontactbtn","");
+                  console.log($personID);
+
+                  $.ajax({
+                    type: "GET",
+                    url: "/people/"+$personID+".json",
+
+                    success:function(data){
+                             //console.log(data)
+                             updatePersonEditModal(data);
+
+                             $('#editPersonModal').modal('show');
+                           }
+                         });
+                });
+
+
+              }
+            }
+
+
+          });
+         <% end %>
+       }
+     });
 
    //childrow subject communication
     //
- $("#commsubject").change(function(){
-  $subjID = $("#commsubject").val();
+    $("#commsubject").change(function(){
+      $subjID = $("#commsubject").val();
 
-  if ($subjID !== '') {
-    $.ajax({
-            type: "GET",
-            url: "/get_subject_contacts/"+$subjID,
-           
-            success:function(data){
-              if (data.status == "ok")
-              {
-               $html1 = '<label>Osoba:</label><select id="commperson" class="form-control">';
-               var $html2;
-                for ( var i = 0; i < data.data.length; i++) {
-                  $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
-                }
-                $html3 ='</select><br>';
+      if ($subjID !== '') {
+        $.ajax({
+          type: "GET",
+          url: "/get_subject_contacts/"+$subjID,
 
-                var $res = $html1.concat($html2,$html3);
-
-                $('#addPersonToComm').empty();
-                $('#addPersonToComm').append($res);
-                              
-              }
-              else { alert(data.status);}
-
-
+          success:function(data){
+            if (data.status == "ok")
+            {
+             $html1 = '<label>Osoba:</label><select id="commperson" class="form-control">';
+             var $html2;
+             for ( var i = 0; i < data.data.length; i++) {
+              $html2 += '<option value="'+data.data[i].id+'">'+data.data[i].first_name+' '+data.data[i].last_name+'</option>';
             }
-          });
-  }
-  else {
-    $('#addPersonToComm').empty();
-  }
-  
-});
+            $html3 ='</select><br>';
+
+            var $res = $html1.concat($html2,$html3);
+
+            $('#addPersonToComm').empty();
+            $('#addPersonToComm').append($res);
+
+          }
+          else { alert(data.status);}
+
+
+        }
+      });
+      }
+      else {
+        $('#addPersonToComm').empty();
+      }
+
+    });
  //
 
-   
-    $('#subjects tbody').on('click', 'td.subjcomm-control', function () {
 
-      var tr = $(this).closest('tr');
-      var row = subjtable.row( tr );
+ $('#subjects tbody').on('click', 'td.subjcomm-control', function () {
 
-      $subject_id=row.data().subject_id;
+  var tr = $(this).closest('tr');
+  var row = subjtable.row( tr );
 
-      if ( row.child.isShown() ) {
+  $subject_id=row.data().subject_id;
+
+  if ( row.child.isShown() ) {
             // This row is already open - close it
             row.child.hide();
             tr.removeClass('shown');
@@ -636,82 +704,146 @@ var tableready = function() {
           }
           else {
             // Open this row
-             $.ajax({
-            type: "GET",
-            url: "/get_subject_communication/"+$subject_id,
-            
-            success:function(data){
-              if (data.status == "ok")
-              {
-                row.child( formatSubjCommunicationsDetail(data.data,$subject_id)).show();
+            <% if current_user.user_type=='seller' %>
+            if (row.data().user_id == <%= current_user.id %> || row.data().user_name == 'admin') {
 
-                   $('#commsubject').val($subject_id).change();
-                
+            $.ajax({
+              type: "GET",
+              url: "/get_subject_communication/"+$subject_id,
 
-                    $('.del_implem_note').on('click',function(event){
+              success:function(data){
+                if (data.status == "ok")
+                {
+                  row.child( formatSubjCommunicationsDetail(data.data,$subject_id)).show();
+
+                  $('#commsubject').val($subject_id).change();
 
 
-      $delbtnid =  event.target.id.replace("del_comm_", "");
-        $.ajax({
-                  type: "POST",
-                  url: "/del_communication",
-                  data: {
-                      id: $delbtnid
-                     }
-            })
-           .done(function (data) {
-                
-             if (data.status == "ok")
-              {
-                $("#commdetail"+$delbtnid).html("")
-                $("#notice").html(flashMessageFromAjax(data.status,"Komunikácia bola vymazaná"));
+                  $('.del_implem_note').on('click',function(event){
 
-                
+
+                    $delbtnid =  event.target.id.replace("del_comm_", "");
+                    $.ajax({
+                      type: "POST",
+                      url: "/del_communication",
+                      data: {
+                        id: $delbtnid
+                      }
+                    })
+                    .done(function (data) {
+
+                     if (data.status == "ok")
+                     {
+                      $("#commdetail"+$delbtnid).html("")
+                      $("#notice").html(flashMessageFromAjax(data.status,"Komunikácia bola vymazaná"));
+
+
                //location.reload();
                
-                
+
+             }
+             else { alert(data.status);}
+
+
+           })
+                    .fail(function (data) {
+                      $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vymazať komunikáciu"));
+
+
+
+                    })                            
+                    ;
+
+                  });
+
+                  tr.addClass('shown');
+
+                }
+                else { alert(data.status);}
               }
-              else { alert(data.status);}
-
-                               
-                            })
-           .fail(function (data) {
-            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vymazať komunikáciu"));
-               
-               
-
-           })                            
-           ;
-
-});
-            
-                tr.addClass('shown');
-
-              }
-              else { alert(data.status);}
+            });
             }
-          });
+          else {
+           row.child( showNoAccess(row.data())).show(); 
+           tr.addClass('shown');
+         }
+         <% else %>
+         $.ajax({
+              type: "GET",
+              url: "/get_subject_communication/"+$subject_id,
 
+              success:function(data){
+                if (data.status == "ok")
+                {
+                  row.child( formatSubjCommunicationsDetail(data.data,$subject_id)).show();
+
+                  $('#commsubject').val($subject_id).change();
+
+
+                  $('.del_implem_note').on('click',function(event){
+
+
+                    $delbtnid =  event.target.id.replace("del_comm_", "");
+                    $.ajax({
+                      type: "POST",
+                      url: "/del_communication",
+                      data: {
+                        id: $delbtnid
+                      }
+                    })
+                    .done(function (data) {
+
+                     if (data.status == "ok")
+                     {
+                      $("#commdetail"+$delbtnid).html("")
+                      $("#notice").html(flashMessageFromAjax(data.status,"Komunikácia bola vymazaná"));
+
+
+               //location.reload();
+               
+
+             }
+             else { alert(data.status);}
+
+
+           })
+                    .fail(function (data) {
+                      $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vymazať komunikáciu"));
+
+
+
+                    })                            
+                    ;
+
+                  });
+
+                  tr.addClass('shown');
+
+                }
+                else { alert(data.status);}
+              }
+            });
+         <% end %>
             
           }
         });
 
       //    
-  }
+    }
 
 
-});
+  });
 
 // pridanie search inputov
 
 $('#subjects tfoot th').each( function () {
-        var title = $(this).text();
-        
+  var title = $(this).text();
+
         //$(this).html( '<input type="text" placeholder="Hľadaj" />' );
-         if ( $(this).hasClass('findtruefalse') ) {
+        if ( $(this).hasClass('findtruefalse') ) {
          $(this).html( '<select class="findtruefalse form-control input-sm"><option value="">Všetko</option><option value="true">Áno</option><option value="false">Nie</option></select>' );   
-        }
-        else {
+       }
+       else {
         $(this).html( '<input type="text" placeholder="Hľadaj" />' );
       }
 
@@ -801,8 +933,8 @@ $('.editcontact').on('click',function(event){
           var $targets = 0;
 
           if (typeof $project_targets !== 'undefined') {
-          $targets = $project_targets;
-            }
+            $targets = $project_targets;
+          }
 
           
 
@@ -886,7 +1018,7 @@ $('.createperson').on('click',function(event){
               else { alert(data.status);}
             }
           });
-  
+
         });
 
 
@@ -902,7 +1034,7 @@ $('.editperson').on('click',function(event){
           $edit_cell = $('#edit_cell').val();
           $edit_personnote = $('#edit_personnote').val();
           $edit_personsubject = $('#edit_personsubject').val();
-       
+
           $.ajax({
             type: "POST",
             url: "/modal_edit_person",
@@ -961,15 +1093,15 @@ $('.createcomm').on('click',function(event){
               {
                $("#notice").html(flashMessageFromAjax(data.status,"Komunikácia bola vytvorená"));
                $("#addCommunicationModal").modal('toggle');
-                location.reload();
-                
-                
-              }
-              else { alert(data.status);}
+               location.reload();
 
 
-            }
-          });
+             }
+             else { alert(data.status);}
+
+
+           }
+         });
           
 
 
@@ -980,56 +1112,56 @@ $('.createcomm').on('click',function(event){
 
 
 
- $('a[href="#tab-2"]').on('shown.bs.tab', function (e) {
+$('a[href="#tab-2"]').on('shown.bs.tab', function (e) {
 
   if ($('#people_wrapper').length ==1) {peopletable.destroy() ;} 
 
   
    //people
- peopletable= $('#people').DataTable({
-  'order': [0, 'asc'],
-  'serverSide': true,
-  'audoWidth': true,
-  'stateSave' :true,
-  'ajax' : '/people.json',
-  columns: [
-  {data: 'first_name'},
-  {data: 'last_name' },
-  {data: 'email' },
-  {data: 'email2' },
-  {data: 'phone' },
-  {data: 'cellphone' },
-  {data: 'note' },
-  {data: 'subject_name' },
+   peopletable= $('#people').DataTable({
+    'order': [0, 'asc'],
+    'serverSide': true,
+    'audoWidth': true,
+    'stateSave' :true,
+    'ajax' : '/people.json',
+    columns: [
+    {data: 'first_name'},
+    {data: 'last_name' },
+    {data: 'email' },
+    {data: 'email2' },
+    {data: 'phone' },
+    {data: 'cellphone' },
+    {data: 'note' },
+    {data: 'subject_name' },
 
-  {data: 'unsubscribe','render' : function(data,type,row) {
-  return getTrueFalseIcon(row.unsubscribe);
-  } },
-   {
-    "className":   'personedit-control',
-    "orderable":      false,
-    "data":           null,
-    "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
-  },
-  {data: 'delete_person', orderable: false, searchable: false} 
-  
-  ],
-  'dom': 'lfr<"pull-right"B>tip',
-  'buttons': [
-  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
-  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
-  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
-  {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
+    {data: 'unsubscribe','render' : function(data,type,row) {
+      return getTrueFalseIcon(row.unsubscribe);
+    } },
+    {
+      "className":   'personedit-control',
+      "orderable":      false,
+      "data":           null,
+      "defaultContent": '<a><center><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></center></a>'
+    },
+    {data: 'delete_person', orderable: false, searchable: false} 
 
-  ],
-  'language': {
-    'url': '/datatables_slovak.json'
-  },
-  'lengthMenu': [
-  [10, 50,100, -1],
-  [10, 50,100, "All"]
-  ],
-  initComplete: function() {
+    ],
+    'dom': 'lfr<"pull-right"B>tip',
+    'buttons': [
+    {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+    {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+    {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+    {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
+
+    ],
+    'language': {
+      'url': '/datatables_slovak.json'
+    },
+    'lengthMenu': [
+    [10, 50,100, -1],
+    [10, 50,100, "All"]
+    ],
+    initComplete: function() {
      $('.personedit-control').on('click',function(event){
       var tr = $(this).closest('tr');
       var row = peopletable.row( tr );
@@ -1037,12 +1169,12 @@ $('.createcomm').on('click',function(event){
       updatePersonEditModal(row.data());
 
       $('#editPersonModal').modal('show');
-});
-  }
+    });
+   }
 
-});
+ });
  //end
-  
+
 });
 
 };

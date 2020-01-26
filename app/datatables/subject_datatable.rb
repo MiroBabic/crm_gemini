@@ -30,7 +30,7 @@ class SubjectDatatable < AjaxDatatablesRails::Base
   end
 
 
-def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_profile_path, :get_project_targets
+def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_profile_path, :get_project_targets, :find_user_type
 
 
   def data
@@ -45,6 +45,8 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
          site: subject.site,
          ico: subject.ico,
          vip: subject.vip,
+         user_type: (subject.user_id.present? ? subject.user.user_type : nil),
+         online_user_type: find_user_type,
          project_targets: subject.project_targets,
          project_targets_string: subject.project_targets_string,
          district_name: subject.district.name,
@@ -62,6 +64,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
          zaujimavost: subject.zaujimavost,
          created_at: subject.created_at_modif,
          updated_at: subject.updated_at_modif,
+         no_access: (content_tag(:i,nil,class: 'fa fa-times fa-2x')),
          delete_subject: link_to(content_tag(:i,nil,class: 'fa fa-trash-o fa-2x') ,("subjects/"+subject.subject_id.to_s), method: :delete, data: { confirm: 'Naozaj chceš zmazať tento subjekt? Ak ho zmažeš, zmažú sa aj všetky naviazané osoby.' })
         }
     end
@@ -87,6 +90,11 @@ def get_project_targets(arr)
 
   return @names
 end
+
+def find_user_type
+    @u=User.where(:id => options[:current_user_id]).first
+    return @u.user_type
+  end
 
 
   # ==== These methods represent the basic operations to perform on records

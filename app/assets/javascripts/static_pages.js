@@ -3,6 +3,9 @@
 //= require jquery-fileupload/jquery.fileupload-process.js
 //= require jquery-fileupload/bootstrap-filestyle.min.js
 
+function showNoAccess(d) {
+	return '<p>Sem nemáš prístup</p>';
+}
 
 function formatSubjDetail(d) {
       return '<p><b>Sídlo: </b>' +d.site+'</p><p><b>IČO: </b>'+d.ico+'</p><p><b>Poznámka: </b>'+d.note+'</p><p><b>Web: </b>'+d.web+
