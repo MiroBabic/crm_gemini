@@ -56,6 +56,29 @@
   <tbody>
     
   </tbody>
+   <tfoot>
+                   <tr id ="tabledetailsearch" class="visibility" style="width:100%">
+                     <th>Projekt</th>
+      <th>Projektový manažér</th>
+      <th>Operačný program</th>
+      <th>Subjekt</th>
+      <th>Dátum začatia projektu</th>
+      <th>Termín ukončenia projektu podľa zmluvy o NFP</th>
+      <th>Zaslanie hlásenia o začatí projektu</th>
+      <th>Dátum predloženia ŽOP</th>
+      
+      <th>Typ žiadosti</th>
+      <th>Termín najbližšej monitorovačky</th>
+      <!--<th>Termín záverečnej monitorovačky</th>-->
+      <th>Dátum predloženia na kontrolu</th>
+      <th class="findtruefalse">Schválenie</th>
+      <th class="disabled">Poznámky</th>
+      <th class="disabled">Detaily</th>
+      <th class="disabled"></th>
+      <th class="disabled"></th>
+
+                   </tr>
+                 </tfoot>
 </table>
         </div>
       </div>
@@ -518,7 +541,71 @@ var tableready = function() {
   [10, 50,100, -1],
   [10, 50,100, "All"]
   ],
+initComplete: function() {
 
+      $('#disable').html( '<input disabled type="text" />' );
+
+      if ( $("#detailbutton").length) {console.log ('detailed search exists');}
+      else {
+
+        var r = $('#implementations tfoot tr');
+        r.find('th').each(function(){
+         $(this).css('padding', 8);
+
+
+       });
+        $('#implementations thead').append(r);
+        $('#search_0').css('text-align', 'center');
+
+//      $(".dataTables_filter").append('<button id="detailbutton" class="btn btn-primary btn-outline btn-xs" type="button"><span class="bold">Detailné vyhľadávanie</span></button>');
+  //     $('#changepageinput').val('');
+
+  var api = this.api();
+
+      // Apply the search
+      api.columns().every(function() {
+        var that = this;
+
+        $('input', this.footer()).on('keyup change', function() {
+          if (that.search() !== this.value) {
+            that
+            .search(this.value)
+            .draw();
+          }
+        });
+
+        $('.findtruefalse', this.footer()).on('change', function() {
+
+          if (that.search() !== this.value) {
+            that
+            .search(this.value)
+            .draw();
+          }
+        });
+
+      });
+
+      $('#detailbutton').click(function() {
+
+
+        $('#tabledetailsearch').toggleClass('visibility');
+      });
+
+      $('#changepageinput').on('keyup change',function() {
+
+        if (parseInt($('#changepageinput').val()) > 0) {
+          var pagenum = (parseInt($('#changepageinput').val()) -1);
+          subjtable.page( pagenum ).draw( false );
+        }
+        else {subjtable.page( 0 ).draw( false );}
+
+
+      }); 
+
+
+    }
+
+  },
   drawCallback: function(settings) {
 
 
@@ -658,8 +745,24 @@ var tableready = function() {
 
 });
 
-//add note
 
+
+//add search input
+$('#implementations tfoot th').each( function () {
+  var title = $(this).text();
+
+        //$(this).html( '<input type="text" placeholder="Hľadaj" />' );
+        if ( $(this).hasClass('findtruefalse') ) {
+         $(this).html( '<select class="findtruefalse form-control input-sm"><option value="">Všetko</option><option value="true">Áno</option><option value="false">Nie</option></select>' );   
+       }
+       else {
+        $(this).html( '<input type="text" placeholder="Hľadaj" />' );
+      }
+
+    } );
+
+$('.disabled').html( '<input disabled type="text" style="display:none" />' );
+//add note
 //calendar modals
 var $modalname;
  $('.docs-datepicker-trigger').on('click',function(event){
