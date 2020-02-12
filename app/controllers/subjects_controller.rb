@@ -72,6 +72,7 @@ class SubjectsController < ApplicationController
       subjsite= params[:subjsite]
       subjico= params[:subjico]
       subjisvip = params[:isvip]
+      subjisark = params[:isark]
       subjnote= params[:subjnote]
       subjobyv= params[:subjobyv]
       contactname= params[:contactname]
@@ -83,7 +84,7 @@ class SubjectsController < ApplicationController
 
       
 
-        s=Subject.new(:name=>subjname,:site=>subjsite,:ico=>subjico,:district_id=>subjdistrict,:subjtype_id=>subjtype,:user_id=>current_user.id,:note=>subjnote, :citizen_count=>subjobyv, :vip=>subjisvip)
+        s=Subject.new(:name=>subjname,:site=>subjsite,:ico=>subjico,:district_id=>subjdistrict,:subjtype_id=>subjtype,:user_id=>current_user.id,:note=>subjnote, :citizen_count=>subjobyv, :vip=>subjisvip, :ark=>subjisark)
         s.save
 
         p=Person.new(:first_name=>contactname, :last_name=>contactsurname, :email=>contactemail,:phone=>contactphone,:cellphone=>contactcell,:note=>contactnote)
@@ -124,6 +125,7 @@ class SubjectsController < ApplicationController
       @subject.ico = params[:edit_subjico]
       @subject.note= params[:edit_subjnote]
       @subject.vip = params[:edit_isvip]
+      @subject.ark = params[:edit_isark]
       @subject.citizen_count = params[:edit_subjobyv]
 
       if params[:edit_project_targets ] != "0"

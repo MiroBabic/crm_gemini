@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200112094345) do
+ActiveRecord::Schema.define(version: 20200212204401) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -338,6 +338,7 @@ ActiveRecord::Schema.define(version: 20200112094345) do
     t.integer  "oldcrm_subject_id"
     t.json     "project_targets"
     t.text     "project_targets_string"
+    t.boolean  "ark",                    default: false
     t.index ["district_id"], name: "index_subjects_on_district_id", using: :btree
     t.index ["subjtype_id"], name: "index_subjects_on_subjtype_id", using: :btree
     t.index ["user_id"], name: "index_subjects_on_user_id", using: :btree
