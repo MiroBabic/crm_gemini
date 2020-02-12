@@ -27,6 +27,7 @@
       <div class="ibox-content">
         <button type="button" class="btn btn-success" id="add_contact_button" data-toggle="modal" data-target="#addSubjektModal">Pridaj nový subjekt</button>
         <button type="button" class="btn btn-success" id="add_contact_button" data-toggle="modal" data-target="#addContactModal">Pridaj novú osobu</button>
+        <button type="button" class="btn btn-warning" id="clear_filter_button" >Zruš všetky filtre</button>
         
         <hr>
         <div class="tabs-container">
@@ -1237,6 +1238,11 @@ $('.createcomm').on('click',function(event){
 
         });
 
+ $("#clear_filter_button").on('click',function(event){
+      subjtable.state.clear();
+      location.reload();
+
+    });
 
 
 
