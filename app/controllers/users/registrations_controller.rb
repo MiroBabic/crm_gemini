@@ -91,6 +91,11 @@ before_action :can_use_project_manager, :only=> [:modal_edit_user, :modal_create
   end
 
   def modal_change_user_pass
+    unless current_user.admin?
+      redirect_to users_path, alert: "Na toto nemáš práva!!!" and return
+      throw :halt
+    end
+    
     begin
     password = params[:user_pass]
     password_confirm = params[:user_pass_confirm]
