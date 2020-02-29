@@ -131,20 +131,24 @@ desc "this task updates delayed_jobs"
 
 			@jobs = Delayed::Job.all
 
-			if @jobs.present?
-				i=0
+			 if @jobs.present?
+                                i=0
+                                act_time=Time.now
+                                @jobs.each_slice(30) do |slice|
+                                slice.each do |dj|
+                                        dj.run_at = act_time
+                                        dj.attempts = 0
+                                        dj.locked_at=nil
+                                        dj.locked_by=nil
+                                        dj.last_error=nil
+                                        dj.save!
 
-				@jobs.each do |dj|
-					dj.run_at = Time.now
-					dj.attempts = 0
-					dj.locked_at=nil
-					dj.locked_by=nil
-					dj.last_error=nil
-					dj.save!
+                                        i = i+1
+                                end
+                                act_time = act_time+1.minute
+                                end
+                        end
 
-					i = i+1
-				end
-			end
 			
 		datetm = Time.now
 
