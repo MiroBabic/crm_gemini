@@ -103,6 +103,26 @@ desc "this task updates subject types for selected subjects"
 
 	end
 
+desc "this task compares data from file with db for subjects"
+task compare_subjects: :environment do
+	begin
+		file=File.open(Rails.root+'tmp/obce2020.csv', "r")
+		CSV.foreach(file, encoding: "utf-8", headers: true, :col_sep=>'|') do |row|
+			@subject = Subject.joins(:district).where("subjects.name =? and districts.name = ? and districts.county = ?",row["obec"].to_s.strip,row["okres"].to_s.strip, row["kraj"].to_s.gsub("kraj","").strip)
+
+			unless @subject.present?
+				@subject2 = Subject.joins(:district).where("subjects.name =? and districts.name = ? and districts.county = ?",("mesto " + row["obec"].to_s.strip),row["okres"].to_s.strip, row["kraj"].to_s.gsub("kraj","").strip)		
+				unless @subject2.present?		
+					puts row["obec"].to_s.strip + " " + row["okres"].to_s.strip + " " + row["kraj"].to_s.gsub("kraj","").strip
+				end
+			end
+
+		end
+	rescue=>error
+		puts error.message
+	end
+end
+
 
 desc "this task updates delayed_jobs"
 	task delayed_job: :environment do
