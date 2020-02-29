@@ -90,6 +90,31 @@ before_action :can_use_project_manager, :only=> [:modal_edit_user, :modal_create
     #end
   end
 
+  def modal_change_user_pass
+    begin
+    password = params[:user_pass]
+    password_confirm = params[:user_pass_confirm]
+
+    if (password == password_confirm)
+
+      @user = User.find(params[:user_id])
+      @user.password = password
+      @user.save
+
+      respond_to do |format|
+            format.json { render :json => {"status":"ok"}  }
+         end
+    else
+      respond_to do |format|
+            format.json { render :json => {"status":"Heslo sa nezhoduje"}  }
+         end
+    end
+
+    rescue=>error
+      redirect_to users_path, alert: error.message and return
+    end
+  end
+
   def destroy
     begin
    # super

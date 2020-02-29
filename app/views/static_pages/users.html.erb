@@ -36,6 +36,7 @@
                 <% if current_user.admin? %>
                 <th></th>
                 <th></th>
+                <th></th>
                 <% end %>
               </tr>
             </thead>
@@ -46,7 +47,9 @@
         <td><%= user.email %></td>
         <td><%= user.user_type.humanize.capitalize %></td>
         <% if current_user.admin? %>
+        <td><a  data-toggle="modal" data-target="#changeUserPassModal<%=user.id%>">Zmeň heslo</a></td>
         <td><a  data-toggle="modal" data-target="#editUserModal<%=user.id%>"><i class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
+
         <td><%= link_to admin_destroy_user_path(user), method: :delete, data: { confirm: 'Naozaj ho chceš zmazať?' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
                 <% end %></td>
         <% end %>
@@ -62,7 +65,7 @@
 </div>
 <br>
 
-<div id="addUserModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="addUserModal" class="addusermodalclass modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -90,8 +93,33 @@
 </div>
 
 
+
+
 <% @users.each do |user| %>
-<div id="editUserModal<%=user.id%>" class="modal fade editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+<div id="changeUserPassModal<%=user.id%>" class="changepassmodalclass modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Zmeň heslo pre <%=user.email%></h2>
+       
+      </div>
+      <div class="modal-body">
+        <div class="form-group has-error">
+                  
+            <label>Heslo:</label><input type="password" name="changepassword<%=user.id%>" id="changepassword<%=user.id%>" class="form-control" /><br>
+            <label>Zopakuj heslo:</label><input type="password" name="changepassword_confirm<%=user.id%>" id="changepassword_confirm<%=user.id%>" class="form-control" /><br>
+
+           
+       </div>
+       <button id="<%=user.id%>" type="button" class="changeusrpass btn btn-success">Zmeň</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+<div id="editUserModal<%=user.id%>" class="editusermodalclass modal fade editUserModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
@@ -168,7 +196,9 @@ $('.editusr').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Užívateľ bol upravený" );
+                //alert("Užívateľ bol upravený" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Užívateľ bol upravený"));
+                $(".editusermodalclass").modal('hide');
                 location.reload();
               }
               else { alert("Error");}
@@ -204,10 +234,49 @@ $('.addusr').on('click',function(event){
             success:function(data){
               if (data.status == "ok")
               {
-                alert("Užívateľ bol vytvorený" );
+                //alert("Užívateľ bol vytvorený" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Užívateľ bol vytvorený"));
+                $(".addusermodalclass").modal('hide');
                 location.reload();
               }
-              else { alert(data.status);}
+              else { 
+                $("#notice").html(flashMessageFromAjax(data.status,data.status));
+                //alert(data.status);
+              }
+
+
+            }
+          });
+          
+
+
+
+        });
+
+
+$('.changeusrpass').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $user_id = event.target.id;
+          $user_pass = $('#changepassword'+$user_id).val();
+          $user_pass_confirm = $('#changepassword_confirm'+$user_id).val();
+
+              $.ajax({
+            type: "POST",
+            url: "/modal_change_user_pass",
+            data: {user_id: $user_id,user_pass: $user_pass, user_pass_confirm: $user_pass_confirm},
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                //alert("Heslo bolo zmenené" );
+                $("#notice").html(flashMessageFromAjax(data.status,"Heslo bolo zmenené"));
+                $(".changepassmodalclass").modal('hide');
+               // location.reload();
+              }
+              else { 
+                $("#notice").html(flashMessageFromAjax(data.status,data.status));
+              }
 
 
             }

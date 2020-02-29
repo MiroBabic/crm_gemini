@@ -14,6 +14,7 @@ Rails.application.routes.draw do
     post 'modal_create_user' => 'users/registrations#modal_create_user', :as => 'modal_create_user'
     get 'users/edit' => 'users/registrations#edit', :as => 'edit_user_registration'    
     patch 'users' => 'users/registrations#update', :as => 'user_registration'
+    post 'modal_change_user_pass' => 'users/registrations#modal_change_user_pass', :as=>'modal_change_user_pass'
   end
 
  resources :oprograms
