@@ -246,8 +246,19 @@
    Po kliknutí na ikonu kalendára je možné priamo zadávať poznámky do svojho kalendára.
 
   </div>
-        <div class="form-group has-error">
-          <h3 class="center">Projekt</h3>
+        
+          <div class="ibox collapsed">
+            <div class="ibox-title"><h5 class="center">Projekt</h5>
+              <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                           
+                        </div>
+            </div>
+            <div class="ibox-content" style="display:none;">
+              <div class="form-group has-error">
+          <!--<h3 class="center">Projekt</h3>-->
          <input style="visibility:hidden" type="text" name="editimplementationID" id="editimplementationID" value="" readonly>
 
           <label>Projektový manažér:</label><%= select_tag 'edit_project_manager', options_from_collection_for_select(@users, 'id', 'name'), class: 'form-control', id: 'edit_project_manager',"data-placeholder": "Projektový manažér",prompt: "--vyber projektového manažéra--" %><br>
@@ -264,11 +275,32 @@
           <label>Kód žiadosti projektu:</label><input type="text" name="edit_project_request_code" id="edit_project_request_code" class="form-control" placeholder="Kód žiadosti projektu..." /><br>
            <label>Stav projektu:</label><%= select_tag 'edit_project_status', options_for_select(@project_status_data.map { |obj| [obj[:name], obj[:id]] }), class: 'form-control', id: 'edit_project_status', prompt: "--vyber stav projektu--" %></br><br>
 
-          
-          <h3 class="center">Verejné obstarávanie</h3>
-         <label>Verejné obstarávanie: </label><%= select_tag 'edit_procurement', options_from_collection_for_select(@procurements, 'id', 'name'), multiple: true, class: 'form-control chosen-select', id: 'edit_procurement', "data-placeholder": "Vyber obstarávanie..." %></br>
-
-           <h3 class="center">Začatie projektu</h3>
+          </div></div>
+          <!--<h3 class="center">Verejné obstarávanie</h3>-->
+          <div class="ibox collapsed">
+            <div class="ibox-title"><h5 class="center">Verejné obstarávanie</h5>
+              <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                           
+                        </div>
+            </div>
+            <div class="ibox-content" style="display:none;">
+         <label>Verejné obstarávanie:</label><%= select_tag 'edit_procurement', options_from_collection_for_select(@procurements, 'id', 'name'), multiple: true, class: 'form-control chosen-select', id: 'edit_procurement', "data-placeholder": "Vyber obstarávanie..." %></br>
+        </div>
+      </div>
+       <div class="ibox collapsed">
+            <div class="ibox-title"><h5 class="center">Začatie projektu</h5>
+              <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                           
+                        </div>
+            </div>
+            <div class="ibox-content" style="display:none;">
+           <!--<h3 class="center">Začatie projektu</h3>-->
           <label>Prístup do ITMS - Meno:</label><input type="text" name="edit_itms_access_name" id="edit_itms_access_name" class="form-control" placeholder="Prístup do ITMS - Meno..." /><br>
           <label>Prístup do ITMS - Heslo:</label><input type="text" name="edit_itms_access_pass" id="edit_itms_access_pass" class="form-control" placeholder="Prístup do ITMS - Heslo..." /><br>
           <label>Dátum podpisu zmluvy o NFP:</label><div class="input-group date">
@@ -289,7 +321,19 @@
         </label><br>
         <label>Termín na predloženie žiadostí o zmenu harmonogramu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="edit_schedule_change_need_date" id="edit_schedule_change_need_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
-         <h3 class="center">ŽOP</h3>
+         </div>
+       </div>
+       <div class="ibox collapsed">
+            <div class="ibox-title"><h5 class="center">ŽOP</h5>
+              <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                           
+                        </div>
+            </div>
+            <div class="ibox-content" style="display:none;">
+         <!--<h3 class="center">ŽOP</h3>-->
          <label>Dátum predloženia ŽOP:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="edit_zop_showdate" id="edit_zop_showdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
        <label>Posledný termín na predloženie ŽOP záverečná:</label><div class="input-group date">
@@ -318,7 +362,19 @@
        <br>
 
        <label>Nahratie podkladov do ITMS - Stav:</label><input type="text" name="edit_zop_data_to_itms_state" id="edit_zop_data_to_itms_state" class="form-control" placeholder="Nahratie podkladov do ITMS - Stav..." /><br>
-       <h3 class="center">Monitorovanie</h3>
+       </div>
+     </div>
+     <div class="ibox collapsed">
+            <div class="ibox-title"><h5 class="center">Monitorovanie</h5>
+              <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                           
+                        </div>
+            </div>
+            <div class="ibox-content" style="display:none;">
+       <!--<h3 class="center">Monitorovanie</h3>-->
         <label>Termín najbližšej monitorovačky:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="edit_next_monitor_date" id="edit_next_monitor_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
@@ -330,14 +386,36 @@
           <input type="text" name="edit_control_date" id="edit_control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
         <label>Schválenie: <input id="edit_approved" type="checkbox" class="icheckbox_square-green" /> </label>
         <br><br><label>Poznámka k monitorovačke:</label><input type="text" name="edit_monitoring_note" id="edit_monitoring_note" class="form-control" placeholder="Poznámka k monitorovačke..." /><br>
-        <h3 class="center">Žiadosť o zmenu</h3>   
+        </div></div>
+        <div class="ibox collapsed">
+            <div class="ibox-title"><h5 class="center">Žiadosť o zmenu</h5>
+              <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                           
+                        </div>
+            </div>
+            <div class="ibox-content" style="display:none;">
+        <!--<h3 class="center">Žiadosť o zmenu</h3>   -->
         <label>Predmet žiadosti:</label><input type="text" name="edit_change_request" id="edit_change_request" class="form-control" placeholder="Predmet žiadosti..." /><br>
         <label>Posledný termín na preloženie žiadosti o zmenu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="edit_change_request_last_term" id="edit_change_request_last_term" class="form-control datepick" placeholder="1990-12-31" /></div><br>
            <label>Schválenie žiadosti: <input id="edit_change_request_approval" type="checkbox" class="icheckbox_square-green" /> </label>
            <br> <br><label>Poznámka k žiadosti o zmenu:</label><input type="text" name="edit_change_request_note" id="edit_change_request_note" class="form-control" placeholder="Poznámka k žiadosti o zmenu..." /><br>
-       <h3 class="center">Povinná publicita</h3>   
+       </div></div>
+        <div class="ibox collapsed">
+            <div class="ibox-title"><h5 class="center">Povinná publicita</h5>
+              <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                           
+                        </div>
+            </div>
+            <div class="ibox-content" style="display:none;">
+       <!--<h3 class="center">Povinná publicita</h3>   -->
        <label>Predmet publicity:</label><input type="text" name="edit_publicity_subject" id="edit_publicity_subject" class="form-control" placeholder="Predmet publicity..." /><br>
       <label>Posledný termín na predloženie publicity projektu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
@@ -346,7 +424,18 @@
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="edit_publicity_showdate" id="edit_publicity_showdate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
           <br><label>Poznámka k publicite:</label><input type="text" name="edit_publicity_note" id="edit_publicity_note" class="form-control" placeholder="Poznámka k publicite..." /><br>
-        <h3 class="center">Ukončenie projektu</h3>
+        </div></div>
+        <div class="ibox collapsed">
+            <div class="ibox-title"><h5 class="center">Ukončenie projektu</h5>
+              <div class="ibox-tools">
+                            <a class="collapse-link">
+                                <i class="fa fa-chevron-up"></i>
+                            </a>
+                           
+                        </div>
+            </div>
+            <div class="ibox-content" style="display:none;">
+        <!--<h3 class="center">Ukončenie projektu</h3>-->
         <label>Dátum skutočného ukončenia projektu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
           <input type="text" name="edit_project_real_enddate" id="edit_project_real_enddate" class="form-control datepick" placeholder="1990-12-31" /></div><br>
@@ -361,6 +450,7 @@
         </label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span>
         <input type="text" name="edit_note_project_sooner_sent_date" id="edit_note_project_sooner_sent_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+      </div></div>
 
        <button id="editimplbutton" type="button" class="editimplem btn btn-success">Uprav</button>
  
