@@ -55,6 +55,7 @@
                       <th>Počet obyvateľov</th>
                       <th>VIP</th>
                       <th>ARK</th>
+                      <th>Je mesto</th>
                       <th style="visibility:hidden">Projektový zámer_arr</th>
                       <th>Projektový zámer</th>
                       <th>Vložené</th>
@@ -83,6 +84,7 @@
                      <th>Počet obyvateľov</th>
                      <th class="findtruefalse">VIP</th>
                      <th class="findtruefalse">ARK</th>
+                     <th class="findtruefalse">Je mesto</th>
                      <th style="visibility:hidden">Projektový zámer_arr</th>
                      <th>Projektový zámer</th>
                      <th>Vložené</th>
@@ -165,6 +167,7 @@
      <label>IČO:</label><input type="number" name="subjico" id="subjico" class="form-control" onkeyup="if(!this.checkValidity()){this.value=\'\';alert(\'Vložte číslo!\')};" placeholder="IČO ak má subjekt pridelené"/><br>
      <label class="">VIP <input id="isvip" type="checkbox" class="icheckbox_square-green" /></label><br>
      <label class="">ARK <input id="isark" type="checkbox" class="icheckbox_square-green" /></label><br>
+     <label class="">Je mesto <input id="iscity" type="checkbox" class="icheckbox_square-green" /></label><br>
      <label>Poznámka:</label><input type="text" name="subjnote" id="subjnote" class="form-control" placeholder="Poznámka"/><br>
      <label>Počet obyvateľov ak je obec:</label><input type="text" name="subjobyv" id="subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
 
@@ -254,6 +257,7 @@
       <label>IČO:</label><input type="number" name="edit_subjico" id="edit_subjico" class="form-control" onkeyup="if(!this.checkValidity()){this.value=\'\';alert(\'Vložte číslo!\')};" placeholder="IČO ak má subjekt pridelené"/><br>
       <label class="">VIP <input id="edit_isvip" type="checkbox" class="icheckbox_square-green" /></label><br>
       <label class="">ARK <input id="edit_isark" type="checkbox" class="icheckbox_square-green" /></label><br>
+      <label class="">Je mesto <input id="edit_iscity" type="checkbox" class="icheckbox_square-green" /></label><br>
       <label>Poznámka:</label><input type="text" name="edit_subjnote" id="edit_subjnote" class="form-control" placeholder="Poznámka"/><br>
       <label>Počet obyvateľov ak je obec:</label><input type="text" name="edit_subjobyv" id="edit_subjobyv" class="form-control" placeholder="Počet obyvateľov v prípade že ide o obec"/><br>
       <hr>
@@ -499,6 +503,13 @@ else {
       else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
         return $res;*/
       return getTrueFalseIcon(row.ark);
+    } },
+    {data: 'is_city','render' : function(data,type,row) {
+   /* $res = '';
+    if (row.vip == true) {$res='<i class="fa fa-check-square-o fa-2x" aria-hidden="true"></i>'}
+      else {$res='<i class="fa fa-window-close-o fa-2x" aria-hidden="true"></i>'}
+        return $res;*/
+      return getTrueFalseIcon(row.is_city);
     } },
     {data: 'project_targets', "visible":false},
     {data: 'project_targets_string'},
@@ -983,6 +994,7 @@ $('.createcontact').on('click',function(event){
           
           var $isvip = false;
           var $isark = false;
+          var $iscity = false;
           $subjname = $('#subjname').val();
           $subjdistrict = $('#subjdistrict').val();
           $subjtype = $('#subjtype').val();
@@ -991,6 +1003,7 @@ $('.createcontact').on('click',function(event){
           $subjnote = $('#subjnote').val(); 
           if ($('#isvip').is(":checked")) {$isvip = true;}
           if ($('#isark').is(":checked")) {$isark = true;}
+          if ($('#iscity').is(":checked")) {$iscity = true;}
 
           
           $subjobyv = $('#subjobyv').val(); 
@@ -1016,6 +1029,7 @@ $('.createcontact').on('click',function(event){
               subjnote: $subjnote,
               isvip: $isvip,
               isark: $isark,
+              iscity: $iscity,
               subjobyv: $subjobyv,
               contactname: $contactname,
               contactsurname: $contactsurname,
@@ -1058,6 +1072,7 @@ $('.editcontact').on('click',function(event){
           $edit_subjnote = $('#edit_subjnote').val(); 
           if ($('#edit_isvip').is(":checked")) {$edit_isvip = true;} else {$edit_isvip = false;}
           if ($('#edit_isark').is(":checked")) {$edit_isark = true;} else {$edit_isark = false;}
+          if ($('#edit_iscity').is(":checked")) {$edit_iscity = true;} else {$edit_iscity = false;}
           $edit_subjobyv = $('#edit_subjobyv').val(); 
           
           var $targets = 0;
@@ -1085,6 +1100,7 @@ $('.editcontact').on('click',function(event){
               edit_subjnote: $edit_subjnote,
               edit_isvip: $edit_isvip,
               edit_isark: $edit_isark,
+              edit_iscity: $edit_iscity,
               edit_subjobyv: $edit_subjobyv,
               edit_project_targets: $targets              
 

@@ -77,14 +77,19 @@
 						</div>
 						<hr>
             <div class="col-md-12">
-              <div class="col-md-6">
+              <div class="col-md-4">
             <div class="form-group">
               <label class="">Len VIP <input id="onlyvip" type="checkbox" class="icheckbox_square-green" /></label>
             </div>
           </div>
-          <div class="col-md-6">
+          <div class="col-md-4">
             <div class="form-group">
               <label class="">Len ARK <input id="onlyark" type="checkbox" class="icheckbox_square-green" /></label>
+            </div>
+          </div>
+          <div class="col-md-4">
+            <div class="form-group">
+              <label class="">Len Mestá <input id="onlycity" type="checkbox" class="icheckbox_square-green" /></label>
             </div>
           </div>
           </div>  
@@ -340,6 +345,9 @@ $("#main_box").addClass('ibox-content sk-loading');
   var $onlyark = false;
   if ($('#onlyark').is(':checked')) { $onlyark = true }
 
+  var $onlycity = false;
+  if ($('#onlycity').is(':checked')) { $onlycity = true }
+
  $email_subject = $('#email_subject').val();
  $manual_subjects = $('#subjekt_manual').val();
  $content = $('#email_content').val();
@@ -368,6 +376,7 @@ $("#main_box").addClass('ibox-content sk-loading');
               docs: $docs,
               onlyvip: $onlyvip,
               onlyark: $onlyark,
+              onlycity: $onlycity,
               email_acc: $email_acc,
               manual_emails: $all_manual_emails,
               manual_subjects: $manual_subjects,
