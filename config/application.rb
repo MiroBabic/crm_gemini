@@ -20,5 +20,6 @@ module CrmGemini
     config.active_job.queue_adapter = :delayed_job
 
     config.i18n.default_locale = :'sk'
+    config.time_zone = 'Bratislava'
   end
 end
