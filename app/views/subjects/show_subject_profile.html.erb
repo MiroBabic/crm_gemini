@@ -183,7 +183,11 @@
                                     <div class="feed-element">
                                         <div>
                                             <small class="float-right text-navy">Pred <%= time_ago_in_words(comm.created_at) %></small>
-                                            <strong><%= comm.user.name if comm.user.present? %></strong>
+                                            <span> <strong><%= comm.user.name if comm.user.present? %></strong>
+                                              <a data-toggle="modal" data-target="#editCommModal"  aria-expanded="false" class="comm_edit_button" >
+                                                  <i id="communication_<%=comm.id%>" class="fa fa-pencil-square-o"></i>
+                                              </a>
+                                            </span>
                                             <div><strong>S osobou: </strong><%= comm.person.name if comm.person.present? %></div>
                                             <div><strong>Kľúčové slovo: </strong><%= comm.keyword %></div>
                                             <div><%= comm.about %></div>
@@ -519,6 +523,39 @@
 </div>
 
 
+<!-- edit comm modal -->
+<div id="editCommModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-upload modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav Komunikáciu</h2>
+        
+      </div>
+
+     <div class="modal-body">
+        <div class="form-group has-error">
+          <form name="new_comm_form" accept-charset="utf-8">
+           <label>ID: </label><input type="text" name="comm_edit_id" id="comm_edit_id"  class="form-control" required disabled>
+         </br>
+         
+    <label>Subjekt: </label><%= select_tag 'comm_edit_subject', options_from_collection_for_select(@subjects, 'id', 'name', @subject.id), class: 'form-control', id: 'comm_edit_subject', :disabled => true %>
+         </br>
+         <label>Osoba: </label><%= select_tag 'comm_edit_person', options_from_collection_for_select(@people, 'id', 'name'), class: 'form-control', id: 'comm_edit_person', prompt: "--vyber osobu--" %>
+         </br> 
+     
+     <label>Text:</label><textarea rows="6" type="text" name="comm_edit_about" id="comm_edit_about" class="form-control" required placeholder="Obsah komunikácie"></textarea><br>
+     <label>Kľúčové slovo:</label><input type="text" name="comm_edit_keyword" id="comm_edit_keyword" class="form-control" required placeholder="Kľúčové slovo pre zatriedenie"/><br>
+     </div>
+
+
+     <input type="submit" class="updatecomm btn btn-success" value="Uprav" /> 
+
+    </div>
+  </div>
+</div>
+</div>
+
 <script>
 
 var ready = function() {
@@ -527,6 +564,21 @@ var ready = function() {
     document.getElementById("upload_media_files").style.display='';
   }
     );
+
+$('.comm_edit_button').on('click',function(event){
+  $comm_id = (event.target.id).split('_')[1]
+  $.ajax({
+            type: "GET",
+            url: "/communications/"+$comm_id+".json"
+          })
+           .done(function (data) {
+    //console.log(data)
+    $('#comm_edit_id').val(data.id)
+    $('#comm_edit_person').val(data.person_id)
+    $('#comm_edit_about').val(data.about)
+    $('#comm_edit_keyword').val(data.keyword)
+  })
+});
 
 $(".mediumshow").onclick = function (event) {
     event = event || window.event;
@@ -580,6 +632,42 @@ $("#commsubject").change(function(){
   }
   
 });
+
+$('.updatecomm').on('click',function(event){
+          //console.log(event.target.id);
+          
+          $commid = $('#comm_edit_id').val();
+          $personid = $('#comm_edit_person').val();
+          $subjectid = $('#comm_edit_subject').val();
+          $commabout = $('#comm_edit_about').val();
+          $commkeyword = $('#comm_edit_keyword').val();
+          
+          $.ajax({
+            type: "POST",
+            url: "/modal_update_comm",
+            data: {
+              commid: $commid,
+              editsubjid: $subjectid,
+              editpersonid: $personid,
+              editcommabout: $commabout,
+              editcommkeyword: $commkeyword
+            }
+          }).done(function(data){
+             if (data.status == "ok")
+              {
+                //alert("Záznam bol vytvorený" );
+                location.reload();
+              }
+              else { alert(data.status);}
+          });
+
+            
+          
+          
+
+
+
+        });
 
 $('.createcomm').on('click',function(event){
           //console.log(event.target.id);
