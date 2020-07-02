@@ -21,6 +21,28 @@ class UserprofilesController < ApplicationController
   def edit
   end
 
+  def del_profile_email
+    userId=params[:user_id]
+    profile_id = params[:profile_id].to_s
+
+    u=Userprofile.find_by_user_id(userId)
+    u.send("email_acc"+profile_id+"=",nil)
+    u.send("email_pass"+profile_id+"=",nil)
+    u.send("smtp"+profile_id+"=",nil)
+    u.send("port"+profile_id+"=",nil)
+    
+    if u.save
+       respond_to do |format|
+              format.json { render :json => {"status":"ok"}  }
+           end
+        else
+          respond_to do |format|
+              format.json { render :json => {"status":"nepodarilo sa upraviť profil"}  }
+           end
+      end
+
+  end
+
   def edit_user_profile
     begin
       @user = User.find(params[:user_id])

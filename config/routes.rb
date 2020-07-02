@@ -96,6 +96,7 @@ Rails.application.routes.draw do
   #userprofile
   get '/profil_uzivatela' => 'userprofiles#showprofile', :as=> 'showprofile'
   post '/edit_user_profile' => 'userprofiles#edit_user_profile', :as=>'edit_user_profile'
+  post '/del_profile_email' => 'userprofiles#del_profile_email', :as=>'del_profile_email'
 
   #media
   get '/download_media/:id' => 'media#download_media', :as=> 'download_media'

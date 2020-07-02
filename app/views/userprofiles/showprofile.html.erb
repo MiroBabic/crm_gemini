@@ -80,6 +80,7 @@
                             <a data-toggle="modal" data-target="#edit_profile_modal1"  aria-expanded="false">
                                 <i class="fa fa-wrench"></i>
                             </a>
+                            <a class="del_email_profile"><i id="1" class="fa fa-trash"></i></a>
                            
                            
                         </div>
@@ -115,7 +116,7 @@
                             <a  data-toggle="modal" data-target="#edit_profile_modal2"  aria-expanded="false">
                                 <i class="fa fa-wrench"></i>
                             </a>
-                            
+                            <a class="del_email_profile"><i id="2" class="fa fa-trash"></i></a>
                            
                         </div>
                     </div>
@@ -150,7 +151,7 @@
                             <a data-toggle="modal" data-target="#edit_profile_modal3"  aria-expanded="false">
                                 <i class="fa fa-wrench"></i>
                             </a>
-                           
+                           <a class="del_email_profile"><i id="3" class="fa fa-trash"></i></a>
                            
                         </div>
                     </div>
@@ -270,6 +271,29 @@
     var ready = function() {
 
       $user_id = <%= current_user.id %>;
+
+$('.del_email_profile').on('click',function(event){
+  if(confirm("Naozaj chceš zmazať tento profil?")){
+  $profile_id =  event.target.id;
+    $.ajax({
+            type: "POST",
+            url: "/del_profile_email",
+            data: {
+              user_id: $user_id,
+              profile_id: $profile_id
+            }
+          }).done(function(data){
+             if (data.status == "ok")
+              {
+                //alert("Záznam bol vytvorený" );
+                location.reload();
+              }
+              else { alert(data.status);}
+          });
+}
+
+})
+
 
 $('.editprofilebtn').on('click',function(event){
           //console.log(event.target.id);
