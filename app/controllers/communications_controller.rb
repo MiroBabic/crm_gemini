@@ -159,7 +159,9 @@ class CommunicationsController < ApplicationController
   def destroy
     @communication.destroy
     respond_to do |format|
-      format.html { redirect_to communications_url, notice: 'Záznam komunikácie bol úspešne zmazaný.' }
+      flash[:notice] = 'Záznam komunikácie bol úspešne zmazaný.'
+      #format.html { redirect_to communications_url, notice: 'Záznam komunikácie bol úspešne zmazaný.' }
+      format.html { redirect_back(fallback_location: communications_url) }
       format.json { head :no_content }
     end
   end

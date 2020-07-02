@@ -182,6 +182,7 @@
                                   <% @communications.each do |comm| %>
                                     <div class="feed-element">
                                         <div>
+                                          <%= link_to comm, method: :delete, data: { confirm: 'Naozaj chceš zmazať tento záznam?' } do %><i class="fa fa-trash-o" aria-hidden="true" ></i><% end %>
                                             <small class="float-right text-navy">Pred <%= time_ago_in_words(comm.created_at) %></small>
                                             <span> <strong><%= comm.user.name if comm.user.present? %></strong>
                                               <a data-toggle="modal" data-target="#editCommModal"  aria-expanded="false" class="comm_edit_button" >
