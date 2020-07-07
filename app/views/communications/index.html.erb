@@ -24,6 +24,7 @@
      <div class="ibox float-e-margins">
       <div class="ibox-content">
         <button type="button" class="btn btn-success" id="add_subjtype_button" data-toggle="modal" data-target="#addCommModal">Pridaj záznam</button>
+        <button type="button" class="btn btn-warning" id="clear_filter_button" >Zruš všetky filtre</button>
         
         <hr>
         <div class="table-responsive">
@@ -144,7 +145,11 @@ var commtable;
 
 var tableready = function() {
 
+ $("#clear_filter_button").on('click',function(event){
+      commtable.state.clear();
+      location.reload();
 
+    });
 
  commtable= $('#communication').DataTable({
   'order': [4, 'desc'],
