@@ -36,9 +36,9 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
          subject_name: communication.subject.name,
          subject_name_show: link_to(communication.subject.name, show_subject_profile_path(communication.subject.id)),
          subject_id: communication.subject.id,
-         person_first_name: communication.person.first_name,
-         person_last_name: communication.person.last_name,
-         person_id: communication.person.id,
+         person_first_name: communication.person_id.present? ? communication.person.first_name : '',
+         person_last_name: communication.person_id.present? ? communication.person.last_name : '',
+         person_id: communication.person_id,
          user_name: communication.user.name,
          user_id: communication.user.id,
          created_at: communication.created_at,
@@ -53,7 +53,7 @@ def_delegators :@view, :link_to, :concat, :raw, :content_tag, :show_subject_prof
 
 
 def get_raw_records
-  Communication.joins(:subject).joins(:person).joins(:user).all
+  Communication.joins(:subject).left_outer_joins(:person).joins(:user).all
 end
 
 
