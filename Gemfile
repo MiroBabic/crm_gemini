@@ -48,6 +48,12 @@ gem 'letsencrypt_plugin'
 #gem 'letsencrypt_plugin', github: 'lgromanowski/letsencrypt-plugin'
 
 gem 'rails-i18n'
+
+gem 'mechanize'
+gem 'nokogiri'
+
+#paralel http
+gem 'typhoeus'
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

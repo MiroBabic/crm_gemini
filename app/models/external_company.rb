@@ -1,0 +1,2 @@
+class ExternalCompany < ApplicationRecord
+end
