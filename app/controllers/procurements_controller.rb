@@ -48,14 +48,14 @@ class ProcurementsController < ApplicationController
     @procurement_status= params[:procurement_status]
     @procurement_note= params[:procurement_note]
     @procurement_procurer_name= params[:procurer_name]
-
+    @procurement_anounced_date = params[:procurement_anounced_date]
 
 
 
 
     begin
 
-    @proc= Procurement.new(:name=>@procurement_name, :subject=>@procurement_subject, :control_date=>@procurement_control_date, :approval_date=>@procurement_approval_date, :approval=>@procurement_approval, :note=>@procurement_note, :status=>@procurement_status, :procurer_name=>@procurement_procurer_name)
+    @proc= Procurement.new(:name=>@procurement_name, :anounced_date =>@procurement_anounced_date, :subject=>@procurement_subject, :control_date=>@procurement_control_date, :approval_date=>@procurement_approval_date, :approval=>@procurement_approval, :note=>@procurement_note, :status=>@procurement_status, :procurer_name=>@procurement_procurer_name)
 
     
     
@@ -92,6 +92,7 @@ begin
     @procurement.status= params[:procurement_status]
     @procurement.note= params[:procurement_note]
     @procurement.procurer_name= params[:procurer_name]
+    @procurement.anounced_date = params[:procurement_anounced_date]
 
 
     

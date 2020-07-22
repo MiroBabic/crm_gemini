@@ -34,6 +34,7 @@
       <th>Verejný obstarávateľ</th>
       <th>Názov verejného obstarávania</th>
       <th>Predmet zákazky</th>
+      <th>Dátum vyhlásenia</th>
       <th>Dátum predloženia na kontrolu</th>
       <th>Dátum rozhodnutia o schválení</th>
       <th>Rozhodnutie o schválení</th>
@@ -50,6 +51,7 @@
         <td><%= procurement.procurer_name %></td>
         <td><%= procurement.name %></td>
         <td><%= procurement.subject %></td>
+        <td><%= prettyDate(procurement.anounced_date) %></td>
         <td><%= prettyDate(procurement.control_date) %></td>
         <td><%= prettyDate(procurement.approval_date) %></td>
         <td><%= get_true_false_icon(procurement.approval) %></td>
@@ -86,6 +88,8 @@
            <label>Verejný obstarávateľ:</label><input type="text" name="procurer_name" id="procurer_name" class="form-control" placeholder="Verejný obstarávateľ..." /><br>
           <label>Názov verejného obstarávania:</label><input type="text" name="procurement_name" id="procurement_name" class="form-control" placeholder="Názov verejného obstarávania..." /><br>
           <label>Predmet zákazky:</label><input type="text" name="procurement_subject" id="procurement_subject" class="form-control" placeholder="Predmet zákazky..." /><br>
+          <label>Dátum vyhlásenia:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="procurement_anounced_date" id="procurement_anounced_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
           <label>Dátum predloženia na kontrolu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="procurement_control_date" id="procurement_control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
           <label>Dátum rozhodnutia o schválení:</label><div class="input-group date">
@@ -120,6 +124,8 @@
         <label>Verejný obstarávateľ:</label><input type="text" name="edit_procurer_name" id="edit_procurer_name" class="form-control" placeholder="Verejný obstarávateľ..." /><br>
           <label>Názov verejného obstarávania:</label><input type="text" name="edit_procurement_name" id="edit_procurement_name" class="form-control" placeholder="Názov verejného obstarávania..." /><br>
           <label>Predmet zákazky:</label><input type="text" name="edit_procurement_subject" id="edit_procurement_subject" class="form-control" placeholder="Predmet zákazky..." /><br>
+          <label>Dátum vyhlásenia:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_procurement_anounced_date" id="edit_procurement_anounced_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
           <label>Dátum predloženia na kontrolu:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_procurement_control_date" id="edit_procurement_control_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
           <label>Dátum rozhodnutia o schválení:</label><div class="input-group date">
@@ -321,6 +327,7 @@ $('.addproc').on('click',function(event){
           $procurement_approval = false;
           $procurement_name=$('#procurement_name').val();
           $procurement_subject=$('#procurement_subject').val();
+          $procurement_anounced_date=$('#procurement_anounced_date').val();
           $procurement_control_date=$('#procurement_control_date').val();
           $procurement_approval_date=$('#procurement_approval_date').val();
           if ($('#procurement_approval').is(":checked")) {$procurement_approval = true;} 
@@ -336,6 +343,7 @@ $('.addproc').on('click',function(event){
               procurement_name: $procurement_name,
               procurement_subject: $procurement_subject,
               procurement_control_date: $procurement_control_date,
+              procurement_anounced_date: $procurement_anounced_date,
               procurement_approval_date: $procurement_approval_date,
               procurement_approval: $procurement_approval,
               procurement_status: $procurement_status,
@@ -367,6 +375,7 @@ $('.editproc').on('click',function(event){
           $procurement_approval = false;
          $procurement_name=$('#edit_procurement_name').val();
           $procurement_subject=$('#edit_procurement_subject').val();
+          $procurement_anounced_date=$('#edit_procurement_anounced_date').val();
           $procurement_control_date=$('#edit_procurement_control_date').val();
           $procurement_approval_date=$('#edit_procurement_approval_date').val();
           if ($('#edit_procurement_approval').is(":checked")) {$procurement_approval = true;} else {$procurement_approval = false;}
@@ -383,6 +392,7 @@ $('.editproc').on('click',function(event){
               id: $id,
               procurement_name: $procurement_name,
               procurer_name: $procurer_name,
+              procurement_anounced_date: $procurement_anounced_date,
               procurement_subject: $procurement_subject,
               procurement_control_date: $procurement_control_date,
               procurement_approval_date: $procurement_approval_date,
