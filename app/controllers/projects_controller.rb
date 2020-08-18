@@ -53,6 +53,11 @@ class ProjectsController < ApplicationController
     begin
     @project = Project.find(params[:id])
     @implementation = Implementation.find_by_project_id(@project.id)
+    if @implementation.present?
+      @implnotes = Implnote.where(:implementation_id=>@implementation.id).order("created_at desc")
+    else
+      @implnotes = []
+    end
     @users=User.all.order(:name)
 
     @procurements = Procurement.all.order(:name)

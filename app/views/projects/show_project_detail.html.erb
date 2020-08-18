@@ -82,6 +82,87 @@
 
      </div>
    </div>
+   <hr>
+    <div class="ibox">
+  <div class="ibox-title">
+    <h5>Progres</h5>
+  </div>
+  <div class="ibox-content ">
+<% if @activities.present? %>
+    <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
+      <% @activities.each do |activity|%>
+
+      <div class="vertical-timeline-block">
+        <div class="vertical-timeline-icon <%=get_activity_color(activity.action_type).to_s %>">
+          <%= get_activity_icon(activity.action_type.to_s) %>
+        </div>
+
+        <div class="vertical-timeline-content">
+          <h2><%= activity.note %></h2>
+          <% if activity.action_type == "implemenation_update" %>
+          <a class="iactivity_modal_detail" data-toggle="modal" data-target="#showIactivityModal<%=activity.id%>"  aria-expanded="false">Detaily</a>
+         <% end %>
+          
+          <span class="vertical-date">
+            Pred <%= time_ago_in_words(activity.created_at) %> <br>
+            <small><%= prettyDate(activity.created_at)%></small>
+          </span>
+        </div>
+      </div>
+
+      <!-- modal details -->
+
+<% if activity.action_type == "implemenation_update" %>
+      <div id="showIactivityModal<%=activity.id%>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Zmeny </h2>
+       
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+
+
+                                            <table class="table table-striped table-hover">
+                                              <thead>
+                                                <th>Údaj</th>
+                                                <th>Pôvodná hodnota</th>
+                                                <th>Nová hodnota</th>
+                                                <th>Zmenil</th>
+                                               </thead>
+                                                <tbody>
+                                                  <% activity.action.each do |k,v| %>
+                                                  <% if (k == "updated_at" || k == "created_at") %>
+                                                    <% next %>
+                                                     <% end %>
+                                                <tr>
+                                                    <td><%= pretty_implementation_activity_field(k) %></td>
+                                                    <td><%= v.first %></td>
+                                                    <td ><%= v.second %></td>
+                                                    <td><%= activity.user.email if activity.user.present? %></td>
+                                                    
+                                                </tr>
+                                              <% end %>
+                                                </tbody>
+                                            </table>
+                                        
+
+        </div>
+      </div>
+      </div>
+      </div>
+      </div>
+      <% end %>
+        <!-- modal end-->
+      <% end %>
+
+  </div>
+  <% end %>
+</div>
+
+</div>
 
  </div>
 
@@ -470,92 +551,43 @@
 <div class="col-lg-4">
  <div class="ibox">
   <div class="ibox-title">
-    <h5>Progres</h5>
+    <h5>Poznámky 
+      <% if @implementation.present? %>
+      <a id="addimplnote" data-toggle="modal" data-target="#addImplemNoteModal"><i id="impl_id_<%= @implementation.id%>" class="fa fa-plus-circle" aria-hidden="true"></i></a>
+      <% else %>
+      <small>Poznámka sa dá pridať až keď je vytvorená implementácia</small>
+      <% end %>
+    </h5>
   </div>
   <div class="ibox-content ">
-<% if @activities.present? %>
-    <div id="vertical-timeline" class="vertical-container light-timeline no-margins">
-      <% @activities.each do |activity|%>
+<% @implnotes.each do |implnote|%>
+<p><b>Autor: </b><%= @implementation.user.name %></p>
+<p><b>Dátum vloženia: </b><%= prettyDate(implnote.created_at) %></p><p><b>Poznámka: </b><%= implnote.note%> <a class="del_implem_note"><i id="del_impl_note_<%=implnote.id%>" class="fa fa-trash-o" aria-hidden="true"></i></a></p><hr>
+<% end %>
+</div>
 
-      <div class="vertical-timeline-block">
-        <div class="vertical-timeline-icon <%=get_activity_color(activity.action_type).to_s %>">
-          <%= get_activity_icon(activity.action_type.to_s) %>
-        </div>
+</div>
 
-        <div class="vertical-timeline-content">
-          <h2><%= activity.note %></h2>
-          <% if activity.action_type == "implemenation_update" %>
-          <a class="iactivity_modal_detail" data-toggle="modal" data-target="#showIactivityModal<%=activity.id%>"  aria-expanded="false">Detaily</a>
-         <% end %>
-          
-          <span class="vertical-date">
-            Pred <%= time_ago_in_words(activity.created_at) %> <br>
-            <small><%= prettyDate(activity.created_at)%></small>
-          </span>
-        </div>
-      </div>
-
-      <!-- modal details -->
-
-<% if activity.action_type == "implemenation_update" %>
-      <div id="showIactivityModal<%=activity.id%>" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+</div>
+ <% if @implementation.present? %>
+<div id="addImplemNoteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-        <h2 class="modal-title" id="myModalLabel">Zmeny </h2>
+        <h2 class="modal-title" id="edit_myModalLabel">Vytvor poznámku </h2>
        
       </div>
       <div class="modal-body">
-        <div class="table-responsive">
+        <input style="visibility:hidden" type="text" name="new_implem_note_ID" id="new_implem_note_ID" value="<%= @implementation.id%>" readonly>
+          <input type="text" name="new_implem_note" id="new_implem_note" class="form-control" placeholder="Poznámka..." /><br>
 
-
-                                            <table class="table table-striped table-hover">
-                                              <thead>
-                                                <th>Údaj</th>
-                                                <th>Pôvodná hodnota</th>
-                                                <th>Nová hodnota</th>
-                                                <th>Zmenil</th>
-                                               </thead>
-                                                <tbody>
-                                                  <% activity.action.each do |k,v| %>
-                                                  <% if (k == "updated_at" || k == "created_at") %>
-                                                    <% next %>
-                                                     <% end %>
-                                                <tr>
-                                                    <td><%= pretty_implementation_activity_field(k) %></td>
-                                                    <td><%= v.first %></td>
-                                                    <td ><%= v.second %></td>
-                                                    <td><%= activity.user.email if activity.user.present? %></td>
-                                                    
-                                                </tr>
-                                              <% end %>
-                                                </tbody>
-                                            </table>
-                                        
-
+           <button class="add_implem_note_btn btn btn-success" type="button" class="editimplem btn btn-success">Vytvor</button>
         </div>
-      </div>
-      </div>
-      </div>
-      </div>
-      <% end %>
-        <!-- modal end-->
-      <% end %>
-
-  </div>
-  <% end %>
-</div>
-
-</div>
-
-
-
-
-
-
-</div>
-
+        </div>
+        </div>
+        </div>
+<% end %>
 
 <div id="addCalendarNoteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -608,6 +640,81 @@ var ready = function() {
 
   updateImplementationEditModalProject(<%= @implementation.to_json.html_safe %>);
   <% end %>
+
+  $('.del_implem_note').on('click',function(event){
+
+
+      $delbtnid =  event.target.id.replace("del_impl_note_", "");
+        $.ajax({
+                  type: "POST",
+                  url: "/del_implementation_note",
+                  data: {
+                      id: $delbtnid
+                     }
+            })
+           .done(function (data) {
+                
+             if (data.status == "ok")
+              {
+                $("#notice").html(flashMessageFromAjax(data.status,"Poznámka bola vymazaná"));
+                //alert("Záznam do kalendára bol pridaný" );
+              // implementationtable.ajax.reload();
+              location.reload();
+                
+              }
+              else { alert(data.status);}
+
+                               
+                            })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vymazať poznámku"));
+               
+               
+
+           })                            
+           ;
+
+})
+
+ $('.add_implem_note_btn').on('click',function(event){
+
+  $implementation_id = $("#new_implem_note_ID").val();
+  $note = $("#new_implem_note").val();
+
+
+
+   $.ajax({
+            type: "POST",
+            url: "/modal_create_implementation_note",
+            data: {
+              implementation_id: $implementation_id,
+              note: $note
+              }
+               })
+           .done(function (data) {
+                
+             if (data.status == "ok")
+              {
+                $("#notice").html(flashMessageFromAjax(data.status,"Poznámka bola vytvorená"));
+                
+               location.reload();
+
+                
+              }
+              else { alert(data.status);}
+
+                               
+                            })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vytvoriť poznámku"));
+               
+               
+
+           })                            
+           ;
+
+ });
+
 
 //console.log()
 
