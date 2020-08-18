@@ -557,7 +557,46 @@
 </div>
 
 
+<div id="addCalendarNoteModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="edit_myModalLabel">Vlož poznámku do kalendára </h2>
+       
+      </div>
+      <div class="modal-body">
+        <div class="row">
+              <div class="col-md-6">
+      <div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input type="text" name="calendar_manual_entry" id="calendar_manual_entry" class="form-control datepick" placeholder="1990-12-31" /></div>
+          </div>
+          <div class="col-md-6">
+            <div class="input-group clockpicker" data-autoclose="true">
+                                <input type="text" id="calendar_manual_entry_time" class="form-control" placeholder="09:30">
+                                <span class="input-group-addon">
+                                    <span class="fa fa-clock-o"></span>
+                                </span>
+                            </div>
+                        </div>
+                      </div>
+                      <br>
+                      <div class="row">
+             <div class="col-md-12">
+              <input type="text" name="calendar_note" id="calendar_note" class="form-control" placeholder="Poznámka" />
+             </div>
+           </div>
+           <br>
+           <div class="row">
+          <div class="col-md-3">
+            <button class="btn btn-primary" id="manul_cal_entry_submit_button">Ulož záznam</button>
+          </div>
+      </div>
 
+        </div>
+        </div>
+        </div>
+        </div>
 
 
 
@@ -896,6 +935,79 @@ $('.editimplem').on('click',function(event){
         });
 
 // end of edit implementation
+
+//calendar modals
+var $modalname;
+ $('.docs-datepicker-trigger').on('click',function(event){
+  $modalname = $(this).closest('div.modal').get(0).id;
+
+  //$(this).closest('div.modal').modal('toggle');
+  $('#'+$modalname).modal('toggle');
+  $("#addCalendarNoteModal").modal('toggle');
+ });
+
+ $('#addCalendarNoteModal').on('hidden.bs.modal', function () {
+   $('#'+$modalname).modal('toggle');
+    
+})
+
+$("#manul_cal_entry_submit_button").click(function()
+{
+
+$manual_date = $('#calendar_manual_entry').val();
+$manual_time = $('#calendar_manual_entry_time').val();
+$calnote = $('#calendar_note').val();
+
+if ($manual_date.length > 0) {
+
+  if ($manual_time.length == 0) {
+    $allday = true;
+    $custstart = $manual_date.concat(' 00:00:00')
+    $custend = $manual_date.concat(' 23:59:59')
+  }
+   else {
+    $allday = false; $custstart = $manual_date.concat(' ',$manual_time); $custend = $manual_date.concat(' ',$manual_time);
+   }
+
+
+ 
+ $.ajax({
+            type: "POST",
+            url: "/add_calendar_event",
+            data: {
+                title: $calnote,
+                start: $custstart,
+                end: $custend,
+                allDay: $allday
+            }
+        })
+           .done(function (data) {
+                
+             if (data.status == "ok")
+              {
+                $("#notice").html(flashMessageFromAjax(data.status,"Záznam v kalendári bol vytvorený"));
+                //alert("Záznam do kalendára bol pridaný" );
+                $('#addCalendarNoteModal').modal('toggle');
+                
+              }
+              else { alert(data.status);}
+
+                               
+                            })
+           .fail(function (data) {
+            $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa vložiť záznam do kalendára"));
+               
+               
+
+           })                            
+           ;
+}
+else {
+  $("#notice").html(flashMessageFromAjax("not ok","Nezadal si dátum"));
+}
+  });
+
+////
 
 
 };
