@@ -561,7 +561,7 @@
   </div>
   <div class="ibox-content ">
 <% @implnotes.each do |implnote|%>
-<p><b>Autor: </b><%= @implementation.user.name %></p>
+<p><b>Autor: </b><%= implnote.user.name %></p>
 <p><b>Dátum vloženia: </b><%= prettyDate(implnote.created_at) %></p><p><b>Poznámka: </b><%= implnote.note%> <a class="del_implem_note"><i id="del_impl_note_<%=implnote.id%>" class="fa fa-trash-o" aria-hidden="true"></i></a></p><hr>
 <% end %>
 </div>
