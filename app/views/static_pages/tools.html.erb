@@ -1,0 +1,138 @@
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+<div class="row wrapper border-bottom white-bg page-heading">
+                <div class="col-lg-10">
+                    <h2>Admin Tools</h2>
+                    <ol class="breadcrumb">
+                        <li>
+                             <%= link_to 'Home', root_path %>
+                        </li>
+                         <li class="active">
+                            <strong>Admin Tools</strong>
+                        </li>
+                    </ol>
+                </div>
+                <div class="col-lg-2">
+
+                </div>
+            </div>
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+ <div class="col-lg-6">
+ <div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <p>Zobrazí stav email servisu na pozadí </p>
+    <button class="btn btn-primary" id="statusjob" name="statusjob" type="button">Zobraz stav</button>
+     <div id="status_loader">
+        <div class="spiner-example">
+                                <div class="sk-spinner sk-spinner-wave">
+                                    <div class="sk-rect1"></div>
+                                    <div class="sk-rect2"></div>
+                                    <div class="sk-rect3"></div>
+                                    <div class="sk-rect4"></div>
+                                    <div class="sk-rect5"></div>
+                                </div>
+                            </div>
+                        </div>
+    <div id="get_status_result">
+       
+    </div>
+
+    </div>
+    </div>
+    </div>
+     <div class="col-lg-6">
+ <div class="ibox float-e-margins">
+  <div class="ibox-content">
+    <p>Reštartuje servis, ktorý na pozadí odosiela maily </p>
+    <button class="btn btn-primary" id="restartjob" name="restartjob" type="button">Reštartuj</button>
+    <div id="restart_loader">
+        <div class="spiner-example">
+                                <div class="sk-spinner sk-spinner-wave">
+                                    <div class="sk-rect1"></div>
+                                    <div class="sk-rect2"></div>
+                                    <div class="sk-rect3"></div>
+                                    <div class="sk-rect4"></div>
+                                    <div class="sk-rect5"></div>
+                                </div>
+                            </div>
+                        </div>
+    <div id="restart_result">
+    </div>
+
+    </div>
+    </div>
+    </div>
+    </div>
+    </div>
+
+<script>
+(function() {
+  var jobs = function() {
+      $('#status_loader').hide();
+      $('#restart_loader').hide();
+      //$('.summernote').summernote();
+       $("#statusjob").click(function(){
+        $('#get_status_result').html("");
+        $('#status_loader').show();
+         $('#get_status_result').html('<div class="alert alert-info">Prosím nerefreshuj stránku kým proces nezbehne </div>');
+         $.ajax({
+          type: 'GET',
+          url: "/get_delayed_job_status",
+          success:function(data){
+            if (data.status == "ok")
+            {
+                $('#status_loader').hide();
+
+            $('#get_status_result').html("");
+             $('#get_status_result').html('<div class="alert alert-info">' + data.statusText + '</div>');
+           }
+        },
+        error:function(data){
+            $('#status_loader').hide();
+            
+            $('#get_status_result').html("");
+            $('#get_status_result').html('<div class="alert alert-danger">'+data.statusText+ '</div>');
+        }
+        
+
+      });
+        });
+
+
+
+        $("#restartjob").click(function(){
+        $('#restart_result').html("");
+        $('#restart_loader').show();
+         $('#restart_result').html('<div class="alert alert-info">Prosím nerefreshuj stránku kým proces nezbehne </div>');
+         $.ajax({
+          type: 'GET',
+          url: "/get_delayed_job_reset",
+          success:function(data){
+            if (data.status == "ok")
+            {
+                $('#restart_loader').hide();
+
+            $('#restart_result').html("");
+             $('#restart_result').html('<div class="alert alert-info">' + data.statusText + '</div>');
+           }
+        },
+        error:function(data){
+            $('#restart_loader').hide();
+            
+            $('#restart_result').html("");
+            $('#restart_result').html('<div class="alert alert-danger">'+data.statusText+ '</div>');
+        }
+        
+
+      });
+        });
+
+
+     };
+
+       $(".static_pages.tools").ready(jobs);
+      $(".static_pages.tools").on('turbolinks:load', jobs); 
+
+
+}).call(this);
+</script> 

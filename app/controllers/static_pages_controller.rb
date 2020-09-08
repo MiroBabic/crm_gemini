@@ -348,6 +348,40 @@ class StaticPagesController < ApplicationController
 		end
 	end
 
+def tools
+end
 
+def get_delayed_job_status
+	require 'open3'
+	path = Rails.root.join('bin')
+	cmd = path.to_s + '/delayed_job status'
+	
+	stdout, stderr, status = Open3.capture3(cmd)
+	if stdout.present?
+		@res = stdout
+	else
+		@res = stderr
+	end
+	respond_to do |format|
+           format.json { render :json => {"status":"ok", "statusText":@res}  }
+     end
+
+end
+
+def get_delayed_job_reset
+	require 'open3'
+	path = Rails.root.join('bin')
+	cmd = path.to_s + '/delayed_job restart'
+	stdout, stderr, status = Open3.capture3(cmd)
+	if stdout.present?
+		@res = stdout
+	else
+		@res = stderr
+	end
+	respond_to do |format|
+           format.json { render :json => {"status":"ok", "statusText":@res}  }
+     end
+
+end
 
 end

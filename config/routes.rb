@@ -46,6 +46,9 @@ Rails.application.routes.draw do
   post 'delete_delayed_job'=>'static_pages#delete_delayed_job', :as=>'delete_delayed_job'
   get '/unsubscribe/:id' => 'static_pages#unsubscribe', :as=>'unsubscribe'
   get '/remove_unsubscribe/:id' => 'people#remove_unsubscribe', :as=>'remove_unsubscribe'
+  get '/tools' => 'static_pages#tools', :as=>'tools'
+  get '/get_delayed_job_status' => 'static_pages#get_delayed_job_status', :as=>'get_delayed_job_status'
+  get '/get_delayed_job_reset' => 'static_pages#get_delayed_job_reset', :as=>'get_delayed_job_reset'
   
   get '/export'=> 'static_pages#export', :as=> 'export'
 
