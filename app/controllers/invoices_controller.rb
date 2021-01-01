@@ -84,11 +84,12 @@ class InvoicesController < ApplicationController
     @invoice_create_date = params[:invoice_create_date]
     @invoice_due_date = params[:invoice_due_date]
     @delivery_date = params[:delivery_date]
+    @payment_status = params[:payment_status]
 
 
     begin
 
-    @invoice= Invoice.new(:invoice_no=>@invoice_no, :invoice_profile_id=>@invoice_profile, :status=>@status, :contracted_amount=> @contracted_amount, :corp_name=>@corp_name, :corp_address=>@corp_address, :corp_address2=>@corp_address2, :corp_ico=>@corp_ico, :corp_dic=>@corp_dic, :corp_icdph=>@corp_icdph, :invoice_create_date=>@invoice_create_date, :invoice_due_date=>@invoice_due_date, :delivery_date=>@delivery_date)
+    @invoice= Invoice.new(:invoice_no=>@invoice_no, :invoice_profile_id=>@invoice_profile, :status=>@status, :contracted_amount=> @contracted_amount, :corp_name=>@corp_name, :corp_address=>@corp_address, :corp_address2=>@corp_address2, :corp_ico=>@corp_ico, :corp_dic=>@corp_dic, :corp_icdph=>@corp_icdph, :invoice_create_date=>@invoice_create_date, :invoice_due_date=>@invoice_due_date, :delivery_date=>@delivery_date, :payment_status=>@payment_status)
 
     
     
@@ -127,6 +128,7 @@ begin
     @invoice.invoice_create_date = params[:invoice_create_date]
     @invoice.invoice_due_date = params[:invoice_due_date]
     @invoice.delivery_date = params[:delivery_date]
+    @invoice.payment_status = params[:payment_status]
     
 
     

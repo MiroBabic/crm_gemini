@@ -45,6 +45,7 @@
       <th>Dátum vystavenia</th>
       <th>Dátum dodania</th>
       <th>Dátum splatnosti</th>
+      <th>Uhradená</th>
       <th></th>
       <th></th>
     </tr>
@@ -67,6 +68,7 @@
         <td><%= prettyDate(invoice.invoice_create_date) %></td>
         <td><%= prettyDate(invoice.delivery_date) %></td>
         <td><%= prettyDate(invoice.invoice_due_date) %></td>
+        <td><%= get_true_false_icon(invoice.payment_status) %></td>
          <td><a  class="edit_invoice_btn"><i id="<%= invoice.id %>" class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
         <td><%= link_to invoice, method: :delete, data: { confirm: 'Naozaj ju chceš zmazať? ' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
                 <% end %></td>
@@ -115,7 +117,7 @@
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="delivery_date" id="delivery_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
           <label>Dátum splatnosti:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="invoice_due_date" id="invoice_due_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
-
+          <label>Uhradená: <input id="payment_status" type="checkbox" class="icheckbox_square-green" /> </label><br><br>
        <button id="addinvoicetbtn" type="button" class="addinvoice btn btn-success">Vytvor</button>
  
    </div>
@@ -150,7 +152,7 @@
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_delivery_date" id="edit_delivery_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
           <label>Dátum splatnosti:</label><div class="input-group date">
           <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_invoice_due_date" id="edit_invoice_due_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
-           
+           <label>Uhradená: <input id="edit_payment_status" type="checkbox" class="icheckbox_square-green" /> </label><br><br>
        
        <button id="editinvoicetbtnconfirm" type="button" class="editinvoice btn btn-success">Uprav</button>
  
@@ -227,6 +229,9 @@ $('.datepick').datepicker({
 
 $('.addinvoice').on('click',function(event){
           //console.log(event.target.id);
+
+          $payment_status = false;
+
           $invoice_no=$('#invoice_no').val();
           $invprofile=$('#invoiceprofile').val();
           $contracted_amount=$('#contracted_amount').val();
@@ -240,6 +245,8 @@ $('.addinvoice').on('click',function(event){
           $invoice_create_date=$('#invoice_create_date').val();
           $invoice_due_date=$('#invoice_due_date').val();
           $delivery_date=$('#delivery_date').val();
+          
+          if ($('#payment_status').is(":checked")) {$payment_status = true;}
         
         
           $.ajax({
@@ -258,7 +265,8 @@ $('.addinvoice').on('click',function(event){
               corp_icdph: $corp_icdph,
               invoice_create_date: $invoice_create_date,
               invoice_due_date: $invoice_due_date,
-              delivery_date: $delivery_date
+              delivery_date: $delivery_date,
+              payment_status: $payment_status
               },
 
             success:function(data){
@@ -281,6 +289,9 @@ $('.addinvoice').on('click',function(event){
 
 $('.editinvoice').on('click',function(event){
           //console.log(event.target.id);
+
+          $payment_status = false;
+
           $invoice_no=$('#edit_invoice_no').val();
           $invprofile=$('#edit_invoiceprofile').val();
           $contracted_amount=$('#edit_contracted_amount').val();
@@ -294,6 +305,7 @@ $('.editinvoice').on('click',function(event){
           $invoice_create_date=$('#edit_invoice_create_date').val();
           $invoice_due_date=$('#edit_invoice_due_date').val();
           $delivery_date=$('#edit_delivery_date').val();
+          if ($('#edit_payment_status').is(":checked")) {$payment_status = true;}
 
         
         
@@ -314,7 +326,8 @@ $('.editinvoice').on('click',function(event){
               corp_icdph: $corp_icdph,
               invoice_create_date: $invoice_create_date,
               invoice_due_date: $invoice_due_date,
-              delivery_date: $delivery_date
+              delivery_date: $delivery_date,
+              payment_status: $payment_status
               },
 
             success:function(data){

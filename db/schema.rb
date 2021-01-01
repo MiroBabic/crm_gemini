@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20200527133810) do
+ActiveRecord::Schema.define(version: 20210101210902) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -217,8 +217,8 @@ ActiveRecord::Schema.define(version: 20200527133810) do
     t.float    "contracted_hours"
     t.integer  "document_id"
     t.float    "done_hours"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.string   "invoice_no"
     t.text     "invoice_text"
     t.string   "corp_name"
@@ -234,6 +234,7 @@ ActiveRecord::Schema.define(version: 20200527133810) do
     t.string   "status"
     t.integer  "invoice_profile_id"
     t.string   "corp_address2"
+    t.boolean  "payment_status",      default: false
     t.index ["document_id"], name: "index_invoices_on_document_id", using: :btree
     t.index ["implementation_id"], name: "index_invoices_on_implementation_id", using: :btree
     t.index ["invoice_profile_id"], name: "index_invoices_on_invoice_profile_id", using: :btree
