@@ -1,0 +1,273 @@
+
+<% if current_user.admin? %>
+<p id="notice"><%= render 'layouts/flash_message' %></p>
+
+
+<div class="row wrapper border-bottom white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Náklady</h2>
+    <ol class="breadcrumb">
+      <li>
+        <%= link_to 'Home', root_path %>
+      </li>
+      <li class="active">
+        <strong>Náklady</strong>
+      </li>
+    </ol>
+  </div>
+  <div class="col-lg-2">
+
+  </div>
+</div>
+
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+   <div class="col-lg-12">
+     <div class="ibox float-e-margins">
+      <div class="ibox-content">
+        <button type="button" class="btn btn-success" id="add_expense_button" data-toggle="modal" data-target="#addExpenseModal">Vytvor záznam</button>
+        
+        <hr>
+        <div class="table-responsive">
+
+<table class="table table-bordered" id="expenses" style="width:100%">
+  <thead>
+    <tr>
+      <th>Predmet</th>
+      <th>Suma bez DPH</th>
+      <th>Dátum</th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% if current_user.admin? %>
+    <% @expenses.each do |expense| %>
+      <tr>
+        <td><%= expense.about %></td>
+        <td><%= expense.value_no_vat %></td>
+        <td><%= expense.expense_date %></td>
+        <td><a  class="edit_expense_btn"><i id="<%= expense.id %>" class="fa fa-pencil-square-o fa-2x" aria-hidden="true"></i></a></td>
+        <td><%= link_to expense, method: :delete, data: { confirm: 'Naozaj ho chceš zmazať? ' } do %><i class="fa fa-trash-o fa-2x" aria-hidden="true" ></i>  
+                <% end %></td>
+                
+      </tr>
+    <% end %>
+
+      <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<br>
+
+
+
+<div id="addExpenseModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Vytvor záznam</h2>
+       
+      </div>
+      <div class="modal-body">
+               
+         
+           <label>Predmet:</label><input type="text" name="expense_subject" id="expense_subject" class="form-control" placeholder="ceruzky...." /><br>
+           <label>Suma:</label><input type="text" name="expense_value" id="expense_value" class="form-control" placeholder="200" /><br>
+           <label>Dátum:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="expense_create_date" id="expense_create_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+          
+       <button id="addexpensetbtn" type="button" class="addexpense btn btn-success">Vytvor</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+<div id="editExpenseModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+        <h2 class="modal-title" id="myModalLabel">Uprav záznam</h2>
+       
+      </div>
+      <div class="modal-body">
+
+         <label>Predmet:</label><input type="text" name="edit_expense_subject" id="edit_expense_subject" class="form-control" placeholder="ceruzky..." /><br>
+         <label>Suma:</label><input type="text" name="edit_expense_value" id="edit_expense_value" class="form-control" placeholder="200" /><br>
+          <label>Dátum:</label><div class="input-group date">
+          <span id="inputcalendar" class="input-group-addon docs-datepicker-trigger"><i class="fa fa-calendar "></i></span><input name="edit_expense_create_date" id="edit_expense_create_date" class="form-control datepick" placeholder="1990-12-31" /></div><br>
+          
+       
+       <button id="editexpensetbtnconfirm" type="button" class="editexpense btn btn-success">Uprav</button>
+ 
+   </div>
+ </div>
+</div>
+</div>
+
+
+
+<script>
+var expensetable;
+
+var tableready = function() {
+
+$('.chosen-select').chosen({width: "100%"});
+
+$('.datepick').datepicker({
+       trigger: $('#inputcalendar'),
+        autoHide: true,
+        format: 'yyyy-mm-dd'
+          });
+
+ expensetable= $('#expenses').DataTable({
+  'order': [0, 'desc'],
+  'serverSide': false,
+  'stateSave' :false,
+  
+  'dom': 'lfr<"pull-right"B>tip',
+ 'buttons': [
+  {"extend" : 'copyHtml5',"text":"Copy","className": 'btn btn-default btn-xs'},
+  {"extend" : 'excelHtml5',"text": "XLS","className": 'btn btn-default btn-xs'},
+  {"extend" : 'csvHtml5',"text": "CSV","className": 'btn btn-default btn-xs'},
+  {"extend" : 'pdfHtml5',"text": "PDF","orientation" : "landscape","pageSize": "LEGAL","className": 'btn btn-default btn-xs'},
+
+  ],
+  'language': {
+        'url': '/datatables_slovak.json'
+      },
+  'lengthMenu': [
+  [10, 50,100, -1],
+  [10, 50,100, "All"]
+  ],
+  drawCallback: function(settings) {
+     
+    $('.edit_expense_btn').on('click',function(event){
+
+      $id = event.target.id
+
+       $.ajax({
+            type: "GET",
+            url: "/expenses/"+$id+".json"
+            
+        })
+           .done(function (data) {
+            updateExpenseEditModal(data);
+          $('#editExpenseModal').modal('show');
+
+           })
+           .fail(function (data) {
+              $("#notice").html(flashMessageFromAjax("not ok","Nepodarilo sa natiahnuť údaje."));
+           }
+            )
+      
+      
+});
+
+  
+
+  }
+
+});
+
+
+$('.addexpense').on('click',function(event){
+          //console.log(event.target.id);
+
+          $subject=$('#expense_subject').val();
+          $value=$('#expense_value').val().replace(',','.');
+          $expense_create_date=$('#expense_create_date').val();
+          
+            
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_create_expense",
+            data: {
+              subject: $subject,
+              value: $value,
+              expense_create_date: $expense_create_date
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                //alert("Obstarávanie bolo vytvorené" );
+                 $("#notice").html(flashMessageFromAjax(data.status,"Záznam bol vytvorený"));
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+$('.editexpense').on('click',function(event){
+          //console.log(event.target.id);
+
+          $subject=$('#edit_expense_subject').val();
+          $value=$('#edit_expense_value').val().replace(',','.');
+          $expense_create_date=$('#edit_expense_create_date').val();
+
+        
+        
+          $.ajax({
+            type: "POST",
+            url: "/modal_edit_expense",
+            data: {
+              id: $id,
+              subject: $subject,
+              value: $value,
+              expense_create_date: $expense_create_date
+              },
+
+            success:function(data){
+              if (data.status == "ok")
+              {
+                //alert("Projekt bol upravený" );
+                 $("#notice").html(flashMessageFromAjax(data.status,"Záznam bolo upravený"));
+                location.reload();
+              }
+              else { alert(data.status);}
+
+
+            }
+          });
+          
+
+
+
+        });
+
+};
+
+
+$(".expenses.index").ready(tableready);
+
+
+document.addEventListener('turbolinks:before-cache', function() {
+ if ($('#expenses_wrapper').length ==1) {expensetable.destroy() ;} 
+
+});
+
+
+$(".expenses.index").on('turbolinks:load', tableready); 
+
+</script>
+<% else %>
+<h2>Sem nemas pristup</h2>
+<% end %>

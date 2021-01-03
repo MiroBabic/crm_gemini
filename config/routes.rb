@@ -2,7 +2,7 @@ Rails.application.routes.draw do
 
     
   
-  resources :invoice_profiles
+
   mount LetsencryptPlugin::Engine, at: '/'  # It must be at root level
   
 
@@ -36,6 +36,8 @@ Rails.application.routes.draw do
   resources :mailtemplates
   resources :calendars
   resources :media
+    resources :expenses
+  resources :invoice_profiles
 
   #static pages
   get '/kontakty' => 'static_pages#contacts', :as => 'contacts'
@@ -152,6 +154,11 @@ Rails.application.routes.draw do
   post '/modal_edit_invprofile' => 'invoice_profiles#modal_edit_invprofile', :as=>'modal_edit_invprofile'
   post '/modal_edit_inv_amount' => 'invoices#modal_edit_inv_amount', :as=>'modal_edit_inv_amount'
   post '/modal_edit_inv_text' => 'invoices#modal_edit_inv_text', :as=>'modal_edit_inv_text'
+
+  #naklady
+  get '/naklady' => 'expenses#index', :as=> 'naklady'
+  post '/modal_create_expense' => 'expenses#modal_create_expense', :as=> 'modal_create_expense'
+  post '/modal_edit_expense' => 'expenses#modal_edit_expense', :as=> 'modal_edit_expense'
   
 
   root 'static_pages#home'
