@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210101215448) do
+ActiveRecord::Schema.define(version: 20210104203600) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -219,11 +219,8 @@ ActiveRecord::Schema.define(version: 20210101215448) do
   end
 
   create_table "invoices", force: :cascade do |t|
-    t.integer  "implementation_id"
-    t.datetime "processed_date"
     t.decimal  "contracted_amount"
     t.float    "contracted_hours"
-    t.integer  "document_id"
     t.float    "done_hours"
     t.datetime "created_at",                          null: false
     t.datetime "updated_at",                          null: false
@@ -243,8 +240,7 @@ ActiveRecord::Schema.define(version: 20210101215448) do
     t.integer  "invoice_profile_id"
     t.string   "corp_address2"
     t.boolean  "payment_status",      default: false
-    t.index ["document_id"], name: "index_invoices_on_document_id", using: :btree
-    t.index ["implementation_id"], name: "index_invoices_on_implementation_id", using: :btree
+    t.date     "real_payment_date"
     t.index ["invoice_profile_id"], name: "index_invoices_on_invoice_profile_id", using: :btree
   end
 
@@ -427,8 +423,6 @@ ActiveRecord::Schema.define(version: 20210101215448) do
   add_foreign_key "implementations", "users"
   add_foreign_key "implnotes", "implementations"
   add_foreign_key "implnotes", "users"
-  add_foreign_key "invoices", "documents"
-  add_foreign_key "invoices", "implementations"
   add_foreign_key "invoices", "invoice_profiles"
   add_foreign_key "media", "subjects"
   add_foreign_key "people", "subjects"

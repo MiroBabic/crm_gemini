@@ -18,7 +18,7 @@ function updateInvoiceEditModal(d) {
     $('#edit_invoice_create_date').val(prettyDateToInput(d.invoice_create_date));
     $('#edit_invoice_due_date').val(prettyDateToInput(d.invoice_due_date));
     $('#edit_delivery_date').val(prettyDateToInput(d.delivery_date));
-    
+    if (d.payment_status==true) { $('#edit_payment_status').prop('checked', true);} else {$('#edit_payment_status').prop('checked', false);}
 
 	return false;
 

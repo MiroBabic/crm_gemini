@@ -28,6 +28,10 @@ class InvoicesController < ApplicationController
 
   end
 
+  def incomes
+    @incomes = Invoice.where('invoice_text is not null and invoice_create_date is not null')
+  end
+
   def modal_edit_inv_amount
     begin
       @invoice = Invoice.find(params[:inv_id])
@@ -86,10 +90,16 @@ class InvoicesController < ApplicationController
     @delivery_date = params[:delivery_date]
     @payment_status = params[:payment_status]
 
+    if @payment_status == true
+      @real_payment_date = Date.today
+    else
+      @real_payment_date = nil
+    end
+
 
     begin
 
-    @invoice= Invoice.new(:invoice_no=>@invoice_no, :invoice_profile_id=>@invoice_profile, :status=>@status, :contracted_amount=> @contracted_amount, :corp_name=>@corp_name, :corp_address=>@corp_address, :corp_address2=>@corp_address2, :corp_ico=>@corp_ico, :corp_dic=>@corp_dic, :corp_icdph=>@corp_icdph, :invoice_create_date=>@invoice_create_date, :invoice_due_date=>@invoice_due_date, :delivery_date=>@delivery_date, :payment_status=>@payment_status)
+    @invoice= Invoice.new(:invoice_no=>@invoice_no, :invoice_profile_id=>@invoice_profile, :status=>@status, :contracted_amount=> @contracted_amount, :corp_name=>@corp_name, :corp_address=>@corp_address, :corp_address2=>@corp_address2, :corp_ico=>@corp_ico, :corp_dic=>@corp_dic, :corp_icdph=>@corp_icdph, :invoice_create_date=>@invoice_create_date, :invoice_due_date=>@invoice_due_date, :delivery_date=>@delivery_date, :payment_status=>@payment_status, :real_payment_date=>@real_payment_date)
 
     
     
@@ -130,7 +140,9 @@ begin
     @invoice.delivery_date = params[:delivery_date]
     @invoice.payment_status = params[:payment_status]
     
-
+    if params[:payment_status] == "true" || params[:payment_status] == "t"
+     @invoice.real_payment_date = Date.today
+    end
     
    if (@invoice.save)
 
@@ -199,6 +211,6 @@ begin
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def invoice_params
-      params.require(:invoice).permit(:implementation_id, :processed_date, :contracted_amount, :contracted_hours, :document_id, :done_hours)
+      params.require(:invoice).permit(:contracted_amount, :contracted_hours, :done_hours, :real_payment_date)
     end
 end
