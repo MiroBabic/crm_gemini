@@ -6,7 +6,7 @@ source 'https://rubygems.org'
 gem 'rails', '5.0.7.2'
 # Use sqlite3 as the database for Active Record
 gem 'pg','0.19.0'
-gem 'mysql2'
+#gem 'mysql2'
 gem 'unicorn'
 
 #fulltext search
