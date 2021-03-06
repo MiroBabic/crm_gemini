@@ -74,6 +74,7 @@ class SubjectsController < ApplicationController
       subjisvip = params[:isvip]
       subjisark = params[:isark]
       subjiscity = params[:iscity]
+      subjisvillage = params[:isvillage]
       subjnote= params[:subjnote]
       subjobyv= params[:subjobyv]
       contactname= params[:contactname]
@@ -85,7 +86,7 @@ class SubjectsController < ApplicationController
 
       
 
-        s=Subject.new(:name=>subjname,:site=>subjsite,:ico=>subjico,:district_id=>subjdistrict,:subjtype_id=>subjtype,:user_id=>current_user.id,:note=>subjnote, :citizen_count=>subjobyv, :vip=>subjisvip, :ark=>subjisark, :is_city=>subjiscity)
+        s=Subject.new(:name=>subjname,:site=>subjsite,:ico=>subjico,:district_id=>subjdistrict,:subjtype_id=>subjtype,:user_id=>current_user.id,:note=>subjnote, :citizen_count=>subjobyv, :vip=>subjisvip, :ark=>subjisark, :is_city=>subjiscity, :is_village=>subjisvillage)
         s.save
 
         p=Person.new(:first_name=>contactname, :last_name=>contactsurname, :email=>contactemail,:phone=>contactphone,:cellphone=>contactcell,:note=>contactnote)
@@ -128,6 +129,7 @@ class SubjectsController < ApplicationController
       @subject.vip = params[:edit_isvip]
       @subject.ark = params[:edit_isark]
       @subject.is_city = params[:edit_iscity]
+      @subject.is_village = params[:edit_isvillage]
       @subject.citizen_count = params[:edit_subjobyv]
 
       if params[:edit_project_targets ] != "0"
@@ -207,6 +209,6 @@ class SubjectsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def subject_params
-      params.require(:subject).permit(:name, :site, :ico, :district_id, :subjtype_id, :note, :web, :zaujimavost, :citizen_count)
+      params.require(:subject).permit(:name, :site, :ico, :district_id, :subjtype_id, :note, :web, :zaujimavost, :citizen_count, :is_city, :is_village,:is_vip, :is_ark)
     end
 end

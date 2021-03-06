@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210104203600) do
+ActiveRecord::Schema.define(version: 20210306214720) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -356,6 +356,7 @@ ActiveRecord::Schema.define(version: 20210104203600) do
     t.text     "project_targets_string"
     t.boolean  "ark",                    default: false
     t.boolean  "is_city",                default: false
+    t.boolean  "is_village",             default: false
     t.index ["district_id"], name: "index_subjects_on_district_id", using: :btree
     t.index ["subjtype_id"], name: "index_subjects_on_subjtype_id", using: :btree
     t.index ["user_id"], name: "index_subjects_on_user_id", using: :btree

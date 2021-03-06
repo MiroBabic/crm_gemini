@@ -66,6 +66,7 @@ function updateSubjEditModal(d) {
 	if (d.vip==true) { $('#edit_isvip').prop('checked', true);} else {$('#edit_isvip').prop('checked', false);}
 	if (d.ark==true) { $('#edit_isark').prop('checked', true);} else {$('#edit_isark').prop('checked', false);}
 	if (d.is_city==true) { $('#edit_iscity').prop('checked', true);} else {$('#edit_iscity').prop('checked', false);}
+	if (d.is_village==true) { $('#edit_isvillage').prop('checked', true);} else {$('#edit_isvillage').prop('checked', false);}
 	$('#edit_subjdistrict').val(d.district_id);
 	$('#edit_subjtype').val(d.subjtype_id);
 	$('#edit_subjobyv').val(d.citizen_count);

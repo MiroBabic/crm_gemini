@@ -141,6 +141,7 @@ class StaticPagesController < ApplicationController
 			@onlyvip = params[:onlyvip]
 			@onlyark = params[:onlyark]
 			@onlycity = params[:onlycity]
+			@onlyvillage = params[:onlyvillage]
 
 			if @onlyvip == 'true'
 				vip = [true]
@@ -158,6 +159,12 @@ class StaticPagesController < ApplicationController
 				is_city = [true]
 			else
 				is_city = [true,false,nil]
+			end
+
+			if @onlyvillage == 'true'
+				is_village = [true]
+			else
+				is_village = [true,false,nil]
 			end
 
 
@@ -295,7 +302,7 @@ class StaticPagesController < ApplicationController
 				@subjids = @total_subjects.map {|a| a.id}.flatten.uniq
 				
 				#@res_addresses = Person.where(:subject_id=>@subjids,:unsubscribe=>false).pluck(:email,:email2).flatten.uniq
-				@res_addresses = Person.includes(:subject).where(:subject_id=>@subjids,:unsubscribe=>false,:subjects=>{:vip=>vip,:ark=>ark, :is_city=>is_city}).pluck(:email,:email2).flatten.uniq
+				@res_addresses = Person.includes(:subject).where(:subject_id=>@subjids,:unsubscribe=>false,:subjects=>{:vip=>vip,:ark=>ark, :is_city=>is_city, :is_village=>is_village}).pluck(:email,:email2).flatten.uniq
 
 				@res_addresses = @res_addresses.concat(@manual_mails_parsed)
 				@res_addresses = @res_addresses.concat(@man_subj_emails).uniq
