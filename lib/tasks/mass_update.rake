@@ -7,8 +7,8 @@ namespace :mass_update do
 	desc "load edb/finstat data"
 	task load_edb_data: :environment do
 
-		data = JSON.parse(File.read('output.json'))
-		sukr_vp = Subjtype.find_by_name('Sukromny_VP')
+		data = JSON.parse(File.read('out_potraviny.json'))
+		potravin_vp = Subjtype.find_by_name('Potravinarstvo')
 		size =  data.size
 
 		psc = CSV.parse(File.read("psc.csv"), headers: false, :col_sep => ";" )
@@ -57,105 +57,107 @@ namespace :mass_update do
 
 			subject.district_id = district_id  
 
+			subject.subjtype_id = potravin_vp.id
+
 
 			
-				empl =  record["findata"]["kategoria_poctu_zamestnancov_(zo_statistickeho_uradu)_2020"]
+			#	empl =  record["findata"]["kategoria_poctu_zamestnancov_(zo_statistickeho_uradu)_2020"]
 				
-				if empl == 'nezistený'
-					empl =  record["findata"]["kategoria_poctu_zamestnancov_(zo_statistickeho_uradu)_2019"]
-				end
+			#	if empl == 'nezistený'
+			#		empl =  record["findata"]["kategoria_poctu_zamestnancov_(zo_statistickeho_uradu)_2019"]
+			#	end
 
-				if empl == 'nezistený'
-					empl =  record["findata"]["kategoria_poctu_zamestnancov_(zo_statistickeho_uradu)_2018"]
-				else
+			#	if empl == 'nezistený'
+			#		empl =  record["findata"]["kategoria_poctu_zamestnancov_(zo_statistickeho_uradu)_2018"]
+			#	else
 
-					next
-				end
+			#		next
+			#	end
 
 			
-			if (empl == '0 zamestnancov' || empl == nil)
-				next
-			end
+			#if (empl == '0 zamestnancov' || empl == nil)
+			#	next
+			#end
 
 
 
-			if empl.split(' ').first.split('-').size == 2
-				max_empl = empl.split('-').last
-			else
-				max_empl = 1
-			end
+			#if empl.split(' ').first.split('-').size == 2
+			#	max_empl = empl.split('-').last
+			#else
+			#	max_empl = 1
+			#end
 
-				if max_empl.to_i >= 250
-					subject.subjtype_id = sukr_vp unless subject.subjtype_id.present?
-				else
+				#if max_empl.to_i >= 250
+				#	subject.subjtype_id = sukr_vp unless subject.subjtype_id.present?
+				#else
 					
-					if record["sector"].strip ==  "Automobilový priemysel"
-						subject.subjtype_id = Subjtype.find_by_name("Automotive").id
-					elsif record["sector"].strip ==  "Cestovný ruch a gastro"
-						subject.subjtype_id = Subjtype.find_by_name("Cestovny_ruch_gastro").id
-					elsif record["sector"].strip ==  "Doprava a logistika"
-						subject.subjtype_id = Subjtype.find_by_name("Doprava_logistika").id
-					elsif record["sector"].strip ==  "Energie a ťažba"
-						subject.subjtype_id = Subjtype.find_by_name("Energie_tazba").id
-					elsif record["sector"].strip ==  "Financie"
-						subject.subjtype_id = Subjtype.find_by_name("Financie").id
-					elsif record["sector"].strip ==  "Informačné technológie"
-						subject.subjtype_id = Subjtype.find_by_name("IKT_telekomunikacie").id
-					elsif record["sector"].strip ==  "Chémia a plasty"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
-					elsif record["sector"].strip ==  "Drevo a papier"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
-					elsif record["sector"].strip ==  "Elektrotechnika"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
-					elsif record["sector"].strip ==  "Kovovýroba a hutníctvo"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
-					elsif record["sector"].strip ==  "Maloobchod"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
-					elsif record["sector"].strip ==  "Média, vydavateľstvá a kultúra"
-						subject.subjtype_id = Subjtype.find_by_name("Media_vydavatelstva_kultura").id
-					elsif record["sector"].strip ==  "Nehnuteľnosti"
-						subject.subjtype_id = Subjtype.find_by_name("Nehnutelnosti").id
-					elsif record["sector"].strip ==  "Odevy a obuv"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
-					elsif record["sector"].strip ==  "Poľnohospodárstvo a lesníctvo"
-						subject.subjtype_id = Subjtype.find_by_name("Polnohospodarstvo_lesnictvo").id
-					elsif record["sector"].strip ==  "Potravinárstvo"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
-					elsif record["sector"].strip ==  "Právo, poradenstvo a účtovníctvo"
-						subject.subjtype_id = Subjtype.find_by_name("Pravo_poradenstvo_uctovnictvo").id
-					elsif record["sector"].strip ==  "Predaj a údržba vozidiel"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
-					elsif record["sector"].strip ==  "Projektovanie a inžiniering"
-						subject.subjtype_id = Subjtype.find_by_name("Projektanti").id
-					elsif record["sector"].strip ==  "Reklama"
-						subject.subjtype_id = Subjtype.find_by_name("Reklama_marketing").id
-					elsif record["sector"].strip ==  "Školstvo a vzdelávanie"
-						subject.subjtype_id = Subjtype.find_by_name("Vzdelavacky_VZD").id
-					elsif record["sector"].strip ==  "Služby"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
-					elsif record["sector"].strip ==  "Spracovanie odpadov"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_OH").id
-					elsif record["sector"].strip ==  "Sprostredkovanie"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
-					elsif record["sector"].strip ==  "Stavebníctvo"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_SF").id
-					elsif record["sector"].strip ==  "Strojárstvo"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
-					elsif record["sector"].strip ==  "Telekomunikácie"
-						subject.subjtype_id = Subjtype.find_by_name("IKT_telekomunikacie").id
-					elsif record["sector"].strip ==  "Veľkoobchod"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
-					elsif record["sector"].strip ==  "Výroba - ostatné"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
-					elsif record["sector"].strip ==  "Vývoj a testovanie"
-						subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
-					elsif record["sector"].strip ==  "Zdravotníctvo"
-						subject.subjtype_id = Subjtype.find_by_name("Zdravotnictvo").id
-					else
-						puts "Subject type nenajdeny pre ICO: #{record['ico']}"
-						next
-					end
-				end
+					# if record["sector"].strip ==  "Automobilový priemysel"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Automotive").id
+					# elsif record["sector"].strip ==  "Cestovný ruch a gastro"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Cestovny_ruch_gastro").id
+					# elsif record["sector"].strip ==  "Doprava a logistika"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Doprava_logistika").id
+					# elsif record["sector"].strip ==  "Energie a ťažba"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Energie_tazba").id
+					# elsif record["sector"].strip ==  "Financie"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Financie").id
+					# elsif record["sector"].strip ==  "Informačné technológie"
+					# 	subject.subjtype_id = Subjtype.find_by_name("IKT_telekomunikacie").id
+					# elsif record["sector"].strip ==  "Chémia a plasty"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
+					# elsif record["sector"].strip ==  "Drevo a papier"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
+					# elsif record["sector"].strip ==  "Elektrotechnika"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
+					# elsif record["sector"].strip ==  "Kovovýroba a hutníctvo"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
+					# elsif record["sector"].strip ==  "Maloobchod"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
+					# elsif record["sector"].strip ==  "Média, vydavateľstvá a kultúra"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Media_vydavatelstva_kultura").id
+					# elsif record["sector"].strip ==  "Nehnuteľnosti"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Nehnutelnosti").id
+					# elsif record["sector"].strip ==  "Odevy a obuv"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
+					# elsif record["sector"].strip ==  "Poľnohospodárstvo a lesníctvo"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Polnohospodarstvo_lesnictvo").id
+					# elsif record["sector"].strip ==  "Potravinárstvo"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Potravinarstvo").id
+					# elsif record["sector"].strip ==  "Právo, poradenstvo a účtovníctvo"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Pravo_poradenstvo_uctovnictvo").id
+					# elsif record["sector"].strip ==  "Predaj a údržba vozidiel"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
+					# elsif record["sector"].strip ==  "Projektovanie a inžiniering"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Projektanti").id
+					# elsif record["sector"].strip ==  "Reklama"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Reklama_marketing").id
+					# elsif record["sector"].strip ==  "Školstvo a vzdelávanie"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Vzdelavacky_VZD").id
+					# elsif record["sector"].strip ==  "Služby"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
+					# elsif record["sector"].strip ==  "Spracovanie odpadov"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_OH").id
+					# elsif record["sector"].strip ==  "Sprostredkovanie"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
+					# elsif record["sector"].strip ==  "Stavebníctvo"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_SF").id
+					# elsif record["sector"].strip ==  "Strojárstvo"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
+					# elsif record["sector"].strip ==  "Telekomunikácie"
+					# 	subject.subjtype_id = Subjtype.find_by_name("IKT_telekomunikacie").id
+					# elsif record["sector"].strip ==  "Veľkoobchod"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP").id
+					# elsif record["sector"].strip ==  "Výroba - ostatné"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
+					# elsif record["sector"].strip ==  "Vývoj a testovanie"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Sukromny_MSP_vyroba/vyskum").id
+					# elsif record["sector"].strip ==  "Zdravotníctvo"
+					# 	subject.subjtype_id = Subjtype.find_by_name("Zdravotnictvo").id
+					# else
+					# 	puts "Subject type nenajdeny pre ICO: #{record['ico']}"
+					# 	next
+					# end
+				#end
 			
 
 			#   subject.district_id = District.where(:county=>record["findata"]["county"]).first.id unless subject.district_id.present?
