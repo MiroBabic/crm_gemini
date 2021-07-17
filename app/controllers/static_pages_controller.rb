@@ -210,34 +210,50 @@ class StaticPagesController < ApplicationController
 
 			@alldistricts_by_county = District.where(:county => @county)
 
-			@subjects_by_district = Subject.where(:district_id => @district)
-			@subjects_by_county = Subject.where(:district_id => @alldistricts_by_county.pluck(:id))
-			@subjects_by_owner = Subject.where(:user_id=>@user)
-			@subjects_by_type = Subject.where(:subjtype_id => @subjtype)
+			@subjects_by_district = Subject.where(:district_id => @district).pluck(:id)
+			@subjects_by_county = Subject.where(:district_id => @alldistricts_by_county.pluck(:id)).pluck(:id)
+			@subjects_by_owner = Subject.where(:user_id=>@user).pluck(:id)
+			@subjects_by_type = Subject.where(:subjtype_id => @subjtype).pluck(:id)
 
 			#@total_subjects = Subject.where(:district_id)
 
 
 			#@total_subjects = (@subjects_by_district + @subjects_by_county + @subjects_by_owner +@subjects_by_type).uniq
-			@total_subjects = @subjects_by_county.merge(@subjects_by_district).merge(@subjects_by_owner).merge(@subjects_by_type).to_a.flatten.uniq
+			###new edit ###@total_subjects = @subjects_by_county.merge(@subjects_by_district).merge(@subjects_by_owner).merge(@subjects_by_type).to_a.flatten.uniq
+			@total_subjects = (@subjects_by_county & @subjects_by_district & @subjects_by_type & @subjects_by_owner)
 
-			unless @total_subjects.present?
-				if (@obyv_count_from.present? || @obyv_count_to.present?)
-					@total_subjects = Subject.all.to_a
+			
+			#unless @total_subjects.present?
+			if (params[:district].empty? && params[:county].empty? && params[:subjtype].empty? && params[:user].empty?)
+			
+				if @obyv_count_from.present? 
+					@total_subjects_min = Subject.where("citizen_count is not null and citizen_count > ?", @obyv_count_from.to_i).pluck(:id)
 				else
-					redirect_to create_email_path, alert: "Nenašiel sa ani jeden subjekt pre zadané kritéria" and return
-      				throw :halt
+					@total_subjects_min = []
 				end
+
+				if @obyv_count_to.present?
+					@total_subjects_max = Subject.where("citizen_count is not null and citizen_count < ?",@obyv_count_to.to_i).pluck(:id)
+				else
+					@total_subjects_max = []
+				end
+
+				@total_subjects = (@total_subjects_min & @total_subjects_max).uniq
+					
+				#else
+				#	redirect_to create_email_path, alert: "Nenašiel sa ani jeden subjekt pre zadané kritéria" and return
+      			#	throw :halt
+				#end
 			end
 
-			if (@obyv_count_from.present?)
-				@total_subjects = (@total_subjects.select{|x| x["citizen_count"].to_i >= @obyv_count_from.to_i}).reject{|x| x["citizen_count"].nil?}
-			end
+			#if (@obyv_count_from.present?)
+			#	@total_subjects = (@total_subjects.select{|x| x["citizen_count"].to_i >= @obyv_count_from.to_i}).reject{|x| x["citizen_count"].nil?}
+			#end
 
-			if (@obyv_count_to.present?)
-				#@total_subjects = @total_subjects.where("citizen_count <= ?", @obyv_count_to)
-				@total_subjects = (@total_subjects.select{|x| x["citizen_count"].to_i <= @obyv_count_to.to_i}).reject{|x| x["citizen_count"].nil?}
-			end
+			#if (@obyv_count_to.present?)
+			#	#@total_subjects = @total_subjects.where("citizen_count <= ?", @obyv_count_to)
+			#	@total_subjects = (@total_subjects.select{|x| x["citizen_count"].to_i <= @obyv_count_to.to_i}).reject{|x| x["citizen_count"].nil?}
+			#end
 
 			
 
@@ -299,7 +315,11 @@ class StaticPagesController < ApplicationController
 			#@addresses1 = (@total_subjects.map {|a| a.people.map {|b| b.email}}).flatten.uniq
 			#@addresses2 = (@total_subjects.map {|a| a.people.map {|b| b.email2}}).flatten.uniq
 			if @total_subjects.present?
-				@subjids = @total_subjects.map {|a| a.id}.flatten.uniq
+				
+				#	@subjids = @total_subjects.map {|a| a.id}.flatten.uniq
+				#else
+					@subjids = @total_subjects.uniq
+				#end
 				
 				#@res_addresses = Person.where(:subject_id=>@subjids,:unsubscribe=>false).pluck(:email,:email2).flatten.uniq
 				@res_addresses = Person.includes(:subject).where(:subject_id=>@subjids,:unsubscribe=>false,:subjects=>{:vip=>vip,:ark=>ark, :is_city=>is_city, :is_village=>is_village}).pluck(:email,:email2).flatten.uniq
