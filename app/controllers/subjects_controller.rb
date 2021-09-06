@@ -20,6 +20,21 @@ class SubjectsController < ApplicationController
     end
   end
 
+  def autocomplete_find_subject
+  begin
+    search_term = params[:request]
+    search_term_lower_unaccent = I18n.transliterate(search_term.to_s.downcase)
+    @subjects = Subject.where("unaccent(lower(name)) like ?", '%'+ search_term_lower_unaccent + '%').pluck(:id,:name).sort.uniq
+    
+    respond_to do |format|
+      format.json { render :json => {"data":@subjects}  }
+    end
+
+    rescue=>error
+    end
+  end
+
+
   def subjectexport
     params["columns"] ||= { "0" => {"data" => "" } }
     params["length"]  ||= -1

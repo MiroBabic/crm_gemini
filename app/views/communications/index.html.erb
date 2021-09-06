@@ -84,7 +84,7 @@
       <div class="modal-body">
         <div class="form-group has-error">
           <form name="new_comm_form" accept-charset="utf-8">
-           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'commsubject', prompt: "--vyber subjekt--" %>
+           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control chosen-select', id: 'commsubject', prompt: "--vyber subjekt--" %>
          </br>
          
           <span id="addPersonToComm"></span>
@@ -120,7 +120,8 @@
         <div class="form-group has-error">
           <form name="edit_comm_form" accept-charset="utf-8">
             <input style="visibility:hidden" type="text" name="editcommID" id="editcommID" value="" readonly>
-           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'editcommsubject' %>
+            <input style="visibility:hidden" type="number" name="subject_edit_id_for_person" id="subject_edit_id_for_person" value="" readonly>
+           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control chosen-select', id: 'editcommsubject' %>
          </br>
          
           <span id="addEditPersonToComm"></span>
@@ -144,6 +145,43 @@
 var commtable;
 
 var tableready = function() {
+
+  $('.chosen-select').chosen({width: "100%"});
+
+  $('.chosen-search-input').autocomplete({
+  source: function( request, response ) {
+    //console.log(request)
+    if (request.term.length > 2) {
+    $.ajax({
+      url: "/autocomplete_find_subject/",
+      type: "POST",
+      dataType: "json",
+      data: {"request": request.term},
+      beforeSend: function(){$('ul.chosen-results').empty();},
+      success: function( data ) {
+        $('.chosen-select').empty();
+        //console.log(data)
+        //console.log("-----------------------")
+         //response( $.map( data, function( item ) {
+          $('.chosen-select').append('<option value="0" disabled>Vyber subjekt</option>'); 
+           for ( var i = 0; i < data.data.length; i++) {
+          $('.chosen-select').append('<option value="'+data.data[i][0] +'">'+data.data[i][1]+'</option>');  
+            }
+
+          
+          
+        //}));
+         $('.chosen-select').trigger("chosen:updated");
+         $("#editcommsubject").trigger('change');
+         $("#commsubject").trigger('change')
+
+
+      }
+    });
+  }
+  }
+});
+
 
  $("#clear_filter_button").on('click',function(event){
       commtable.state.clear();
@@ -251,7 +289,8 @@ drawCallback: function(settings) {
       var row = commtable.row( tr );
 
       updateCommEditModal(row.data());
-      $editsubjID = $("#editcommsubject").val();
+      $editsubjID = $("#subject_edit_id_for_person").val();
+      console.log($editsubjID)
       $.ajax({
             type: "GET",
             url: "/get_subject_contacts/"+$editsubjID,
@@ -315,6 +354,7 @@ $('.disabled').html( '<input disabled type="text" style="display:none" />' );
 
 
 $("#commsubject").change(function(){
+  
   $subjID = $("#commsubject").val();
 
   if ($subjID !== '') {
@@ -351,7 +391,10 @@ $("#commsubject").change(function(){
 });
 
 $("#editcommsubject").change(function(){
+  //$("#chosen-select").on('change', function(event,param){
   $subjID = $("#editcommsubject").val();
+  //$subjID = $("#subject_edit_id_for_person").val();
+  console.log('huhu')
 
   if ($subjID !== '') {
     $.ajax({
@@ -426,7 +469,7 @@ $('.updatecomm').on('click',function(event){
           //console.log(event.target.id);
           
           $commid = $('#editcommID').val();
-          $editsubjid = $('#editcommsubject').val();
+          $editsubjid = $('#subject_edit_id_for_person').val();
           $editpersonid = $('#editcommperson').val();
           $editcommabout = $('#editcommabout').val();
           $editcommkeyword = $('#editcommkeyword').val();

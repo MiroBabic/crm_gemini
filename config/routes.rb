@@ -68,6 +68,7 @@ Rails.application.routes.draw do
   get '/get_subject_contacts/:id' => 'people#get_subject_contacts', :as => 'get_subject_contacts'
   get '/profil_kontaktu/:id' => 'subjects#show_subject_profile', :as=>'show_subject_profile'
   get '/subjectexport' => 'subjects#subjectexport', :as=>'subjectexport'
+  post '/autocomplete_find_subject' =>'subjects#autocomplete_find_subject', :as=>'autocomplete_find_subject'
 
   
   #communication

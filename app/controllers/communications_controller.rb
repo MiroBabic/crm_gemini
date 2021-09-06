@@ -6,7 +6,7 @@ class CommunicationsController < ApplicationController
   # GET /communications.json
   def index
     #@communications = Communication.all
-    @subjects = Subject.all
+    @subjects = Subject.where(:id=>0)
      respond_to do |format|
       format.html
       format.json do
