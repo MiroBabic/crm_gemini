@@ -60,7 +60,8 @@ class SubjectsController < ApplicationController
 
     @districts = District.all.order(:name)
     @subjtypes = Subjtype.all.order(:name)
-    @subjects = Subject.all.order(:name)
+    #@subjects = Subject.all.order(:name)
+    @subjects = Subject.where(:id=>@subject.id)
     @projecttargets = Projecttarget.all.order(:name)
   end
 

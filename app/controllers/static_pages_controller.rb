@@ -7,7 +7,8 @@ class StaticPagesController < ApplicationController
 	def contacts
 		@districts = District.select(:name,:id).order(:name)
 		@subjtypes = Subjtype.select(:name,:id).order(:name)
-		@subjects = Subject.select(:name,:id).order(:name)
+		#@subjects = Subject.select(:name,:id).order(:name)
+		@subjects = Subject.where(:id=>0)
 		@projecttargets = Projecttarget.all.order(:name)
 		@users = User.all.order(:name)
 	end

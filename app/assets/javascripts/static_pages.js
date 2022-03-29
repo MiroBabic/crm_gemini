@@ -23,7 +23,11 @@ function formatSubjContactsDetail(d) {
       '</p><p><b>Email2: </b>'+d[i].email2+'</p><p><b>Telefón: </b>'+d[i].phone+'</p><p><b>Mobil: </b>'+d[i].cellphone+
       '</p><p><b>Poznámka: </b>'+d[i].note+'</p><p><b>Dátum vloženia: </b>'+prettyDate(d[i].created_at)+
       '</p><p><b>Dátum poslednej zmeny: </b>'+prettyDate(d[i].updated_at)+'</p>'+
-      '<button class="editsubjectcontactbtn btn btn-success" id="editsubjectcontactbtn'+d[i].id+'" type="button" >Uprav tento kontakt</button><hr>';
+      '<button class="editsubjectcontactbtn btn btn-success" id="editsubjectcontactbtn'+d[i].id+'" type="button" >Uprav tento kontakt</button><br>'+
+      '<a data-confirm="Naozaj chceš zmazať túto osobu?" rel="nofollow" data-method="delete" href="/people/'+d[i].id+'"><i class="fa fa-trash-o fa-2x"></i></a><hr>';
+      
+      
+      
      
 	 }
 
@@ -79,7 +83,8 @@ function updateSubjEditModal(d) {
 
 
 
-function updatePersonEditModal(d) {
+function updatePersonEditModal(d,subject_name) {
+	console.log(d)
 	$('#editpersonID').val(d.id);
 	$('#edit_personname').val(d.first_name);
 	$('#edit_personsurname').val(d.last_name);
@@ -88,6 +93,9 @@ function updatePersonEditModal(d) {
 	$('#edit_tel').val(d.phone);
 	$('#edit_cell').val(d.cellphone);
 	$('#edit_personnote').val(d.note);
-	$('#edit_personsubject').val(d.subject_id);
+	$('#edit_personsubject').append('<option value="'+d.subject_id +'">'+subject_name+'</option>')
+	$('#edit_personsubject').val(d.subject_id)
+	$('#edit_personsubject').trigger("chosen:updated");
+	//$('#edit_personsubject_chosen').val(d.subject_id);
 	
 }

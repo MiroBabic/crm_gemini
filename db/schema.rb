@@ -10,10 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20210306214720) do
+ActiveRecord::Schema.define(version: 20220329202656) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+  enable_extension "unaccent"
 
   create_table "calendars", force: :cascade do |t|
     t.string   "title"
@@ -36,8 +37,10 @@ ActiveRecord::Schema.define(version: 20210306214720) do
     t.integer  "user_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["created_at"], name: "index_communications_on_created_at", using: :btree
     t.index ["person_id"], name: "index_communications_on_person_id", using: :btree
     t.index ["subject_id"], name: "index_communications_on_subject_id", using: :btree
+    t.index ["updated_at"], name: "index_communications_on_updated_at", using: :btree
     t.index ["user_id"], name: "index_communications_on_user_id", using: :btree
   end
 
@@ -101,6 +104,20 @@ ActiveRecord::Schema.define(version: 20210306214720) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["url"], name: "index_external_companies_on_url", unique: true, using: :btree
+  end
+
+  create_table "finstats", id: :bigserial, force: :cascade do |t|
+    t.string   "ico"
+    t.string   "name"
+    t.string   "sknace"
+    t.string   "sector"
+    t.string   "county"
+    t.date     "datefrom"
+    t.date     "dateto"
+    t.jsonb    "findata"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["ico"], name: "index_finstats_on_ico", unique: true, using: :btree
   end
 
   create_table "iactivities", force: :cascade do |t|

@@ -216,7 +216,8 @@
          <label>Telefónne číslo:</label><input type="text" name="contactphone_c" id="contactphone_c" class="form-control" placeholder="Telefónne číslo"  /><br>
          <label>Mobil:</label><input type="text" name="contactcell_c" id="contactcell_c" class="form-control" placeholder="Mobil"  /><br>
          <div class="form-group has-error">
-           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'contactsubject' %>
+           
+           <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control chosen-select', id: 'contactsubject', prompt: "--vyber subjekt--"%>
          </div>
        </br>
      </br>
@@ -304,7 +305,7 @@
           <label>Tel:</label><input type="text" name="edit_tel" id="edit_tel" class="form-control" placeholder="Tel"  /><br>
           <label>Mobil:</label><input type="text" name="edit_cell" id="edit_cell" class="form-control" placeholder="Mobil"  /><br>
           <label>Poznámka:</label><input type="text" name="edit_personnote" id="edit_personnote" class="form-control" placeholder="Poznámka"/><br>
-          <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'edit_personsubject' %>
+          <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control chosen-select', id: 'edit_personsubject', prompt: "--vyber subjekt--" %>
 
 
           <input class="editperson btn btn-success" value="Uprav" /> 
@@ -369,7 +370,8 @@
       <div class="modal-body">
 
         <form name="new_comm_form" accept-charset="utf-8">
-         <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control', id: 'commsubject', prompt: "--vyber subjekt--", disabled: true %>
+         
+         <label>Subjekt: </label><%= select_tag 'subject', options_from_collection_for_select(@subjects, 'id', 'name'), class: 'form-control chosen-select', id: 'commsubject' , prompt: "--vyber subjekt--"%>
        </br>
 
        <span id="addPersonToComm"></span>
@@ -471,6 +473,41 @@ else {
 
 
     $('.chosen-select').chosen({width: "100%"});
+
+  $('.chosen-search-input').autocomplete({
+  source: function( request, response ) {
+    //console.log(request)
+    if (request.term.length > 2) {
+    $.ajax({
+      url: "/autocomplete_find_subject/",
+      type: "POST",
+      dataType: "json",
+      data: {"request": request.term},
+      beforeSend: function(){$('ul.chosen-results').empty();},
+      success: function( data ) {
+        $('.chosen-select').empty();
+        //console.log(data)
+        //console.log("-----------------------")
+         //response( $.map( data, function( item ) {
+          $('.chosen-select').append('<option value="0" disabled>Vyber subjekt</option>'); 
+           for ( var i = 0; i < data.data.length; i++) {
+          $('.chosen-select').append('<option value="'+data.data[i][0] +'">'+data.data[i][1]+'</option>');  
+            }
+
+          
+          
+        //}));
+         $('.chosen-select').trigger("chosen:updated");
+         //$("#editcommsubject").trigger('change');
+         //$("#commsubject").trigger('change');
+
+
+      }
+    });
+  }
+  }
+});
+
 
 
     $("#project_targets_edit").chosen().change(function(e, params){
@@ -696,7 +733,7 @@ $('#subjects tbody').off('click').on('click', 'td.details-control', function () 
 
           }
           else {
-            <% if current_user.user_type=='seller' %>
+            <% if current_user.user_type=='temp_remove_this_cond_for_seller' %>
             if (row.data().user_id == <%= current_user.id %> || row.data().user_name == 'admin') {
             // Open this row
             $.ajax({
@@ -722,7 +759,7 @@ $('#subjects tbody').off('click').on('click', 'td.details-control', function () 
 
                     success:function(data){
                              //console.log(data)
-                             updatePersonEditModal(data);
+                             updatePersonEditModal(data,row.data().subject_name);
 
                              $('#editPersonModal').modal('show');
                            }
@@ -741,6 +778,7 @@ $('#subjects tbody').off('click').on('click', 'td.details-control', function () 
            tr.addClass('shown');
          }
          <% else %>
+
          $.ajax({
           type: "GET",
           url: "/get_subject_contacts/"+row.data().subject_id,
@@ -764,12 +802,15 @@ $('#subjects tbody').off('click').on('click', 'td.details-control', function () 
 
                     success:function(data){
                              //console.log(data)
-                             updatePersonEditModal(data);
+                             updatePersonEditModal(data,row.data().subject_name);
 
                              $('#editPersonModal').modal('show');
                            }
                          });
                 });
+
+             
+
 
 
               }
