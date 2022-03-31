@@ -1,7 +1,7 @@
 class StaticPagesController < ApplicationController
 	before_action :authenticate_user!, :except=>[:unsubscribe]
-	before_action :can_use_seller, :except=> [:contacts, :home, :create_email, :send_mail_to_subjects]
-	before_action :can_use_project_manager, :except=> [:contacts, :home, :subory]
+	before_action :can_use_seller, :except=> [:contacts, :home, :create_email, :send_mail_to_subjects, :unsubscribe]
+	before_action :can_use_project_manager, :except=> [:contacts, :home, :subory, :unsubscribe]
 
 
 	def contacts
