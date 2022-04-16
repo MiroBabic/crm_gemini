@@ -56,6 +56,18 @@ class StaticPagesController < ApplicationController
 		end
 	end
 
+	def delete_all_delayed_jobs
+		begin
+			job = Delayed::Job.delete_all
+			
+			respond_to do |format|
+        		format.json { render :json => {"status":"ok"}  }
+      		end
+		rescue=>error
+			redirect_to job_queue_path, alert: error.message
+		end
+	end
+
 	def unsubscribe
 		begin
 			require 'base64'

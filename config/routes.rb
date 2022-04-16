@@ -46,6 +46,7 @@ Rails.application.routes.draw do
   get '/procesy' => 'static_pages#job_queue', :as=> 'job_queue'
   post '/send_mail_to_subjects' => 'static_pages#send_mail_to_subjects', :as=> 'send_mail_to_subjects'
   post 'delete_delayed_job'=>'static_pages#delete_delayed_job', :as=>'delete_delayed_job'
+  post 'delete_all_delayed_jobs'=>'static_pages#delete_all_delayed_jobs', :as=>'delete_all_delayed_jobs'
   get '/unsubscribe/:id' => 'static_pages#unsubscribe', :as=>'unsubscribe'
   get '/remove_unsubscribe/:id' => 'people#remove_unsubscribe', :as=>'remove_unsubscribe'
   get '/tools' => 'static_pages#tools', :as=>'tools'
