@@ -6,11 +6,13 @@
   <body>
    <%= raw(@text) %>
     <br>
+    <% if @allow_unsubscribe == true %>
     <hr>
     <p>Ak nechcete dostávať tieto informácie, odhlásite sa kliknutím na tento link.</p>
     <p>
     	<%= link_to "Odhlásiť", unsubscribe_url(id: @hashmail) %>
     	
     </p>
+    <% end %>
   </body>
 </html>

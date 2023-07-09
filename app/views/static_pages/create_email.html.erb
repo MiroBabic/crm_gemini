@@ -129,6 +129,9 @@
 								<%= select_tag 'email_acc', options_for_select(@emails.map { |obj| [obj['email'], obj['id']] }), class: 'chosen-select', id: 'email_acc',"data-placeholder": "Vyber email..." %>
 							</div>
 						</div>
+            <div class="m-t-xl form-group">
+               <label class="">Nechcem aby sa na koniec emailu pridala možnosť odhlásiť sa <input id="disable_unsubscribe" type="checkbox" class="icheckbox_square-green" /></label>
+            </div>
 						
 					</div>
 				</div>
@@ -356,6 +359,9 @@ $("#main_box").addClass('ibox-content sk-loading');
   var $onlyvillage = false;
   if ($('#onlyvillage').is(':checked')) { $onlyvillage = true }
 
+  var $disable_unsubscribe = false;
+  if ($('#disable_unsubscribe').is(':checked')) { $disable_unsubscribe = true }
+
  $email_subject = $('#email_subject').val();
  $manual_subjects = $('#subjekt_manual').val();
  $content = $('#email_content').val();
@@ -389,7 +395,8 @@ $("#main_box").addClass('ibox-content sk-loading');
               email_acc: $email_acc,
               manual_emails: $all_manual_emails,
               manual_subjects: $manual_subjects,
-              add_filtered_to_manual: $add_filtered_to_manual
+              add_filtered_to_manual: $add_filtered_to_manual,
+              disable_unsubscribe: $disable_unsubscribe
             },
 
             success:function(data){

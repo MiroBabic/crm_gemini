@@ -156,6 +156,8 @@ class StaticPagesController < ApplicationController
 			@onlycity = params[:onlycity]
 			@onlyvillage = params[:onlyvillage]
 
+			@disable_unsubscribe = params[:disable_unsubscribe]
+
 			if @onlyvip == 'true'
 				vip = [true]
 			else
@@ -180,6 +182,13 @@ class StaticPagesController < ApplicationController
 				is_village = [true,false,nil]
 			end
 
+			if @disable_unsubscribe == 'true'
+				@allow_unsubscribe = false
+			else
+				@allow_unsubscribe = true
+			end
+
+		
 
 			puts @filtered_to_manual
 			puts @filtered_to_manual.class
@@ -289,7 +298,9 @@ class StaticPagesController < ApplicationController
 			@pass = Userprofile.where(:user_id=>current_user.id).first.send("email_pass"+@email_acc.to_s)
 			@smtp = Userprofile.where(:user_id=>current_user.id).first.send("smtp"+@email_acc.to_s)
 			@port = Userprofile.where(:user_id=>current_user.id).first.send("port"+@email_acc.to_s)
+			@email_name = Userprofile.where(:user_id=>current_user.id).first.send("name_acc"+@email_acc.to_s)
 
+			
 
 			### process manually entered subjects##
 			@man_subj = Subject.where(:id=>@manual_subjects)
@@ -359,7 +370,7 @@ class StaticPagesController < ApplicationController
 						@hashmail = Base64.urlsafe_encode64(email_address)
 
 						#NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs,@hashmail).deliver_later
-						NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs,@hashmail).deliver_later(wait_until: act_time)
+						NotificationMailer.send_mass_email(email_address,@content,@email_from, @email_subject, @email_from,@pass,@smtp,@port,@docs,@hashmail,@allow_unsubscribe,@email_name).deliver_later(wait_until: act_time)
 
 					
 					

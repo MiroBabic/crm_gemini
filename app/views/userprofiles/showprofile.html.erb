@@ -91,6 +91,11 @@
         <div class="col-sm-4 text-sm-right"><dt>Email účet:</dt> </div>
         <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.email_acc1 if @profile.present? %></dd> </div>
       </dl>
+      <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>Email názov (nepovinné):</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.name_acc1 if @profile.present? %></dd> </div>
+
+      </dl>
         <dl class="row mb-0">
         <div class="col-sm-4 text-sm-right"><dt>Heslo:</dt> </div>
         <div class="col-sm-8 text-sm-left"><dd class="mb-1"><% if @profile.present? && @profile.email_pass1.present? %>Heslo je nastavené<% end %></dd> </div>
@@ -125,6 +130,10 @@
                        <dl class="row mb-0">
         <div class="col-sm-4 text-sm-right"><dt>Email účet:</dt> </div>
         <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.email_acc2 if @profile.present? %></dd> </div>
+      </dl>
+       <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>Email názov  (nepovinné):</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.name_acc2 if @profile.present? %></dd> </div>
       </dl>
       <dl class="row mb-0">
         <div class="col-sm-4 text-sm-right"><dt>Heslo:</dt> </div>
@@ -161,6 +170,10 @@
         <div class="col-sm-4 text-sm-right"><dt>Email účet:</dt> </div>
         <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.email_acc3 if @profile.present? %></dd> </div>
       </dl>
+       <dl class="row mb-0">
+        <div class="col-sm-4 text-sm-right"><dt>Email názov  (nepovinné):</dt> </div>
+        <div class="col-sm-8 text-sm-left"><dd class="mb-1"><%= @profile.name_acc3 if @profile.present? %></dd> </div>
+      </dl>
       <dl class="row mb-0">
         <div class="col-sm-4 text-sm-right"><dt>Heslo:</dt> </div>
         <div class="col-sm-8 text-sm-left"><dd class="mb-1"><% if @profile.present? && @profile.email_pass3.present? %>Heslo je nastavené<% end %></dd> </div>
@@ -195,6 +208,7 @@
         <div class="form-group has-error">
           <form name="edit_email_profile" accept-charset="utf-8">
             <label>Email účet:</label><input type="text" name="edit_email1" id="edit_email1" class="form-control" value="<%= @profile.email_acc1 if @profile.present? %>" required /><br>
+            <label>Email názov:</label><input type="text" name="edit_name1" id="edit_name1" class="form-control" value="<%= @profile.name_acc1 if @profile.present? %>"/><br>
            <label>Heslo:</label><input type="password" name="edit_emailpass1" id="edit_emailpass1" class="form-control" placeholder="Ak je heslo nastavené, pri editovaní ho treba znova zadať!" required /><br>
           <label>SMTP server:</label><input type="text" name="edit_smtp1" id="edit_smtp1" class="form-control" value="<%= @profile.smtp1 if @profile.present? %>" required /><br>
          
@@ -222,6 +236,7 @@
         <div class="form-group has-error">
           <form name="edit_email_profile2" accept-charset="utf-8">
             <label>Email účet:</label><input type="text" name="edit_email2" id="edit_email2" class="form-control" value="<%= @profile.email_acc2 if @profile.present? %>" required /><br>
+            <label>Email názov:</label><input type="text" name="edit_name2" id="edit_name2" class="form-control" value="<%= @profile.name_acc2 if @profile.present? %>"/><br>
            <label>Heslo:</label><input type="password" name="edit_emailpass2" id="edit_emailpass2" class="form-control" placeholder="Ak je heslo nastavené, pri editovaní ho treba znova zadať!" required /><br>
           <label>SMTP server:</label><input type="text" name="edit_smtp2" id="edit_smtp2" class="form-control" value="<%= @profile.smtp2 if @profile.present? %>" required /><br>
           
@@ -250,6 +265,7 @@
         <div class="form-group has-error">
           <form name="edit_email_profile" accept-charset="utf-8">
             <label>Email účet:</label><input type="text" name="edit_email3" id="edit_email3" class="form-control" value="<%= @profile.email_acc3 if @profile.present? %>" required /><br>
+            <label>Email názov:</label><input type="text" name="edit_name3" id="edit_name3" class="form-control" value="<%= @profile.name_acc3 if @profile.present? %>"/><br>
            <label>Heslo:</label><input type="password" name="edit_emailpass3" id="edit_emailpass3" class="form-control" placeholder="Ak je heslo nastavené, pri editovaní ho treba znova zadať!" required /><br>
           <label>SMTP server:</label><input type="text" name="edit_smtp3" id="edit_smtp3" class="form-control" value="<%= @profile.smtp3 if @profile.present? %>" required /><br>
           
@@ -305,8 +321,11 @@ $('.editprofilebtn').on('click',function(event){
             data: {
               user_id: $user_id,
               email1: $('#edit_email1').val(),
+              name1: $('#edit_name1').val(),
               email2: $('#edit_email2').val(),
+              name2: $('#edit_name2').val(),
               email3: $('#edit_email3').val(),
+              name3: $('#edit_name3').val(),
               pass1: $('#edit_emailpass1').val(),
               pass2: $('#edit_emailpass2').val(),
               pass3: $('#edit_emailpass3').val(),

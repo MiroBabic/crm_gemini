@@ -47,8 +47,11 @@ class UserprofilesController < ApplicationController
     begin
       @user = User.find(params[:user_id])
       @email1 = params[:email1]
+      @name1 = params[:name1]
       @email2 = params[:email2]
+      @name2 = params[:name2]
       @email3 = params[:email3]
+      @name3 = params[:name3]
       @pass1 = params[:pass1]
       @pass2 = params[:pass2]
       @pass3 = params[:pass3]
@@ -69,6 +72,7 @@ class UserprofilesController < ApplicationController
       if (@email1.present? && @pass1.present? && @smtp1.present? && @port1.present?)
         @profile = Userprofile.find_or_create_by(:user_id=>@user.id)
         @profile.email_acc1 = @email1
+        @profile.name_acc1 = @name1
         @profile.email_pass1 = crypt.encrypt_and_sign(@pass1)
         @profile.smtp1 = @smtp1
         @profile.port1 = @port1
@@ -80,6 +84,7 @@ class UserprofilesController < ApplicationController
        if (@email2.present? && @pass2.present? && @smtp2.present? && @port2.present?)
         @profile = Userprofile.find_or_create_by(:user_id=>@user.id)
         @profile.email_acc2 = @email2
+        @profile.name_acc2 = @name2
         @profile.email_pass2 = crypt.encrypt_and_sign(@pass2)
         @profile.smtp2 = @smtp2
         @profile.port2 = @port2
@@ -91,6 +96,7 @@ class UserprofilesController < ApplicationController
        if (@email3.present? && @pass3.present? && @smtp3.present? && @port3.present?)
         @profile = Userprofile.find_or_create_by(:user_id=>@user.id)
         @profile.email_acc3 = @email3
+        @profile.name_acc3 = @name3
         @profile.email_pass3 = crypt.encrypt_and_sign(@pass3)
         @profile.smtp3 = @smtp3
         @profile.port3 = @port3
